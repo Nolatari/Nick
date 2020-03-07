@@ -23,3 +23,6 @@ $classes = array_filter(get_declared_classes(), function ($class) {
 });
 
 //d($classes);
+
+$person = \Nick::matterTypeManager()->getStorage('person');
+d($person->getAllFields());

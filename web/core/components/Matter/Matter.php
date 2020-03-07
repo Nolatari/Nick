@@ -6,6 +6,7 @@ use Exception;
 use Nick;
 use Nick\Core;
 use Nick\Database\Database;
+use Nick\Database\Result;
 use Nick\Logger;
 use Nick\Person\Person;
 
@@ -159,6 +160,27 @@ class Matter implements MatterInterface {
         ],
       ],
     ];
+  }
+
+  /**
+   * @return bool|array
+   */
+  public function getAllFields() {
+    if (!$this->getType()) {
+      return FALSE;
+    }
+
+    $fields_storage = \Nick::Database()
+      ->select('matter_storage')
+      ->fields(NULL, ['fields'])
+      ->condition('type', $this->getType());
+    /** @var Result $fields_result */
+    if (!$fields_result = $fields_storage->execute()) {
+      return FALSE;
+    }
+
+    $fields = $fields_result->fetchAllAssoc();
+    return self::fields() + unserialize($fields[0]['fields']);
   }
 
   /**
