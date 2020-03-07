@@ -3,6 +3,7 @@
 namespace Nick;
 
 use Exception;
+use Nick\Database\Result;
 
 /**
  * Class Core
@@ -76,6 +77,22 @@ class Core {
       }
     }
     return FALSE;
+  }
+
+  /**
+   * @return array|bool
+   */
+  public static function getInstalledExtensions() {
+    $extensions_storage = \Nick::Database()->select('extensions')
+      ->fields(NULL, ['name'])
+      ->condition('installed', '1');
+
+    /** @var Result $extensions_result */
+    if (!$extensions_result = $extensions_storage->execute()) {
+      return [];
+    }
+
+    return $extensions_result->fetchAllAssoc() ?? [];
   }
 
   /**
