@@ -29,12 +29,4 @@ class Settings {
     return $this->settings[$key] ?? NULL;
   }
 
-  /**
-   * @return string|null
-   */
-  public static function getThemeFolder() {
-    global $settings;
-    return $settings['theme']['folder'] ?? NULL;
-  }
-
 }

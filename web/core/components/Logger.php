@@ -2,7 +2,7 @@
 
 namespace Nick;
 
-use Nick;
+use Nick\Database\Database;
 use Nick\Person\Person;
 
 /**
@@ -21,9 +21,6 @@ class Logger {
 
   /** @var Database $database */
   protected $database;
-
-  /** @var Renderer $renderer */
-  protected $renderer;
 
   /**
    * Logger constructor.
