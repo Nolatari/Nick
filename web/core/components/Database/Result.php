@@ -31,7 +31,6 @@ class Result {
    * @return array|bool
    */
   public function fetchAllAssoc($key = NULL) {
-    d($this->result);
     if (!$this->result instanceof mysqli_result) {
       return FALSE;
     }
