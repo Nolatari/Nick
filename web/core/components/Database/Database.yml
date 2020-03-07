@@ -1,4 +1,5 @@
 name: Database
+version: 1.0a
 type: extension
 interface: false
 required: true

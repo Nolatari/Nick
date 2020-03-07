@@ -101,7 +101,16 @@ class Core {
   protected static function getCoreExtensions() {
     return array_map(function ($item) {
       return str_replace('core/components/', '', $item);
-    }, array_filter(glob('core/components/*'), 'is_dir'));
+    }, glob('core/components/*', GLOB_ONLYDIR));
+  }
+
+  /**
+   * @return array
+   */
+  protected static function getContribExtensions() {
+    return array_map(function ($item) {
+      return str_replace('extensions/', '', $item);
+    }, glob('extensions/*', GLOB_ONLYDIR));
   }
 
   /**
@@ -110,9 +119,20 @@ class Core {
   protected static function getAllMatterClasses() {
     $matters = [];
     $extensionsChecked = [];
+    // Read Core extensions
     foreach (self::getCoreExtensions() as $extension) {
       $extensionsChecked[] = $extension;
       $extensionInfo = YamlReader::readCoreExtension($extension);
+      if ($extensionInfo['type'] !== 'matter') {
+        continue;
+      }
+
+      $matters[] = $extension;
+    }
+    // Read Contrib extensions
+    foreach (self::getContribExtensions() as $extension) {
+      $extensionsChecked[] = $extension;
+      $extensionInfo = YamlReader::readExtension($extension);
       if ($extensionInfo['type'] !== 'matter') {
         continue;
       }

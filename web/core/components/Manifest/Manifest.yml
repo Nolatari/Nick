@@ -1,3 +1,4 @@
 name: Manifest
+version: 1.0a
 type: extension
 interface: true

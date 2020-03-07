@@ -17,7 +17,7 @@ class YamlReader {
    * @return mixed
    */
   public static function readExtension($ext) {
-    return Yaml::parseFile(__DIR__ . '../extensions/' . $ext . '/' . $ext . '.yml');
+    return self::readFile(__DIR__ . '../extensions/' . $ext . '/' . $ext . '.yml');
   }
 
   /**
@@ -26,7 +26,19 @@ class YamlReader {
    * @return mixed
    */
   public static function readCoreExtension($ext) {
-    return Yaml::parseFile(__DIR__ . '/' . $ext . '/' . $ext . '.yml');
+    return self::readFile(__DIR__ . '/' . $ext . '/' . $ext . '.yml');
+  }
+
+  /**
+   * @param $file
+   *
+   * @return array|mixed
+   */
+  protected static function readFile($file) {
+    if (!is_file($file)) {
+      return ['type' => 'undefined'];
+    }
+    return Yaml::parseFile($file);
   }
 
 }
