@@ -17,15 +17,6 @@ interface ManifestInterface {
   public function result();
 
   /**
-   * Sets render mode for results
-   *
-   * @param bool $render
-   *
-   * @return $this
-   */
-  public function render($render = TRUE);
-
-  /**
    * Sets offset and limit for items in query.
    *
    * @param int $limit

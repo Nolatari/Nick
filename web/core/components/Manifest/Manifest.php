@@ -17,9 +17,6 @@ class Manifest implements ManifestInterface {
   /** @var string $type */
   protected $type;
 
-  /** @var string $render */
-  protected $render;
-
   /** @var array $limit */
   protected $limit = ['limit' => 20, 'offset' => 0];
 
@@ -40,14 +37,6 @@ class Manifest implements ManifestInterface {
    */
   public function __construct($type) {
     $this->setType($type);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function render($render = TRUE) {
-    $this->setRender($render);
-    return $this;
   }
 
   /**
@@ -93,27 +82,6 @@ class Manifest implements ManifestInterface {
     if (!$query instanceof Database) {
       return FALSE;
     }
-    if ($this->getRender()) {
-      $result = $query->fetchAllAssoc();
-      $class = Core::getMatterClassFromType($this->getType());
-      if (!$class) {
-        return FALSE;
-      }
-      if (!$matters = $class::loadMultiple($result)) {
-        return FALSE;
-      }
-      /**
-       * @var string $key
-       * @var MatterInterface $matter
-       */
-      foreach ($matters as $key => $matter) {
-        if (!$matter instanceof MatterInterface) {
-          continue;
-        }
-        $matters[$key] = $matter->render();
-      }
-      return $matters;
-    }
     return $query->fetchAllAssoc();
   }
 
@@ -133,24 +101,6 @@ class Manifest implements ManifestInterface {
    */
   protected function getType() {
     return $this->type ?? FALSE;
-  }
-
-  /**
-   * Sets render variable.
-   *
-   * @param $render
-   */
-  protected function setRender($render) {
-    $this->render = $render;
-  }
-
-  /**
-   * Gets render variable.
-   *
-   * @return string
-   */
-  protected function getRender() {
-    return $this->render ?? FALSE;
   }
 
   /**
