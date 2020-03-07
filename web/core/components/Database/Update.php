@@ -2,17 +2,17 @@
 
 namespace Nick\Database;
 
-use Nick\Matter\Matter;
+use Nick\Matter\MatterInterface;
 
 /**
- * Class Select
+ * Class Update
  *
  * @package Nick\Database
  */
-class Select extends Database {
+class Update extends Database {
 
   /**
-   * Select constructor.
+   * Update constructor.
    *
    * @param $table
    * @param null $alias
@@ -33,15 +33,14 @@ class Select extends Database {
   }
 
   /**
-   * fields method
+   * values method
    *
-   * @param string $table_alias
-   * @param array $fields
+   * @param array $data
    *
    * @return self
    */
-  public function fields($table_alias = NULL, array $fields = []) {
-    $this->fields[] = ['table_alias' => $table_alias, 'fields' => $fields];
+  public function values($data = []) {
+    $this->values = $data;
     return $this;
   }
 
@@ -64,32 +63,6 @@ class Select extends Database {
   }
 
   /**
-   * orderBy method
-   *
-   * @param string $field
-   * @param string $direction
-   *
-   * @return self
-   */
-  public function orderBy($field, $direction) {
-    $this->orderby[] = ['field' => $field, 'direction' => $direction];
-    return $this;
-  }
-
-  /**
-   * limit method
-   *
-   * @param int $start
-   * @param int $end
-   *
-   * @return self
-   */
-  public function limit(int $start = 0, int $end = Matter::CARDINALITY_DEFAULT) {
-    $this->limit = "$start, $end";
-    return $this;
-  }
-
-  /**
    * Builds and executes the query.
    *
    * @return bool
@@ -97,25 +70,20 @@ class Select extends Database {
   public function execute() {
     $tables = $this->getTables();
     $fields = '';
-    foreach ($this->fields as $field_array) {
-      foreach ($field_array['fields'] as $field) {
-        if ($fields !== '') {
-          $fields .= ', ';
-        }
-        if (!is_null($field_array['table_alias'])) {
-          $fields .= $field_array['table_alias'] . '.' . self::Cleanse($this->database, $field);
-        } else {
-          $fields .= self::Cleanse($this->database, $field);
-        }
+    foreach ($this->values as $field => $value) {
+      if ($fields !== '') {
+        $fields .= ', ';
       }
+      if ($value instanceof MatterInterface) {
+        $value = $value->id();
+      }
+      $fields .= $field . ' = ' . self::addQuotationMarks(self::Cleanse($this->database, $value));
     }
     $conditions = $this->getConditions();
-    $orderby = $this->getOrderBy();
     if ($fields === '') {
       $fields = '*';
     }
-    $limit = $this->getLimit();
-    $query = 'SELECT ' . $fields . ' FROM ' . $tables . $conditions . $orderby . $limit;
+    $query = 'UPDATE ' . $tables . ' SET ' . $fields . $conditions;
 
     return $this->executeQuery($query);
   }
@@ -156,34 +124,6 @@ class Select extends Database {
       $conditions = ' WHERE ' . $conditions;
     }
     return $conditions;
-  }
-
-  /**
-   * @return string
-   */
-  protected function getOrderBy() {
-    $orderby = '';
-    foreach ($this->orderby as $order) {
-      if ($orderby !== '') {
-        $orderby .= ', ';
-      }
-      $orderby .= $order['field'] . ' ' . $order['direction'];
-    }
-    if ($orderby !== '') {
-      $orderby = ' ORDER BY ' . $orderby;
-    }
-    return $orderby;
-  }
-
-  /**
-   * @return string
-   */
-  protected function getLimit() {
-    $limit = '';
-    if ($this->limit !== NULL) {
-      $limit = ' LIMIT ' . $this->limit;
-    }
-    return $limit;
   }
 
 }

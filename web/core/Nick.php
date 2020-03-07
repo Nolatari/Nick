@@ -79,7 +79,7 @@ class Nick {
    * @return Database
    */
   public static function Database() {
-    return self::Cache()->getData('database', '\\Nick\\Database');
+    return self::Cache()->getData('database', '\\Nick\\Database\\Database');
   }
 
   /**

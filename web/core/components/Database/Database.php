@@ -4,7 +4,6 @@ namespace Nick\Database;
 
 use mysqli;
 use mysqli_result;
-use Nick\Matter\MatterInterface;
 use Nick\Settings;
 use Nick\SqlFormatter;
 
@@ -156,6 +155,39 @@ class Database extends Settings {
   }
 
   /**
+   * @param string $table
+   * @param null $alias
+   * @param null $options
+   *
+   * @return Update
+   */
+  public function update($table, $alias = NULL, $options = NULL) {
+    return new Update($table, $alias, $options);
+  }
+
+  /**
+   * @param string $table
+   * @param null $alias
+   * @param null $options
+   *
+   * @return Insert
+   */
+  public function insert($table, $alias = NULL, $options = NULL) {
+    return new Insert($table, $alias, $options);
+  }
+
+  /**
+   * @param string $table
+   * @param null $alias
+   * @param null $options
+   *
+   * @return Delete
+   */
+  public function delete($table, $alias = NULL, $options = NULL) {
+    return new Delete($table, $alias, $options);
+  }
+
+  /**
    * @param $field_name
    * @param $options
    *
@@ -200,6 +232,31 @@ class Database extends Settings {
 
     $this->reset();
     return FALSE;
+  }
+
+  /**
+   * fetchAllAssoc method
+   *
+   * @param string|null $key
+   *
+   * @return array|bool
+   */
+  public function fetchAllAssoc($key = NULL) {
+    if (!$this->result instanceof mysqli_result) {
+      return FALSE;
+    }
+
+    $records = [];
+    while ($record = mysqli_fetch_assoc($this->result)) {
+      if ($key !== NULL) {
+        $records[$record[$key]] = $record;
+      } else {
+        $records[] = $record;
+      }
+    }
+
+    $this->result = '';
+    return $records;
   }
 
   /**

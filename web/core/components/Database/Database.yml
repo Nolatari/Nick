@@ -5,3 +5,7 @@ required: true
 classes:
   Database: '\Nick\Database\Database'
   Select: '\Nick\Database\Select'
+  Update: '\Nick\Database\Update'
+  Insert: '\Nick\Database\Insert'
+  Delete: '\Nick\Database\Delete'
+  Query: '\Nick\Database\Query'
