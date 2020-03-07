@@ -2,3 +2,4 @@
 /web/sites/*/files/
 /settings.php
 /.idea/
+.DS_Store
