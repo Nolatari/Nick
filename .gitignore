@@ -1,3 +1,4 @@
 /vendor/
 /web/sites/*/files/
 /settings.php
+/.idea/
