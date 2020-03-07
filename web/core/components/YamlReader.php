@@ -17,7 +17,7 @@ class YamlReader {
    * @return mixed
    */
   public static function readExtension($ext) {
-    return self::readFile(__DIR__ . '../extensions/' . $ext . '/' . $ext . '.yml');
+    return self::readFile(__DIR__ . '/../../extensions/' . $ext . '/' . $ext . '.yml');
   }
 
   /**

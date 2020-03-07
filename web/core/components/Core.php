@@ -4,6 +4,7 @@ namespace Nick;
 
 use Exception;
 use Nick\Database\Result;
+use Nick\Matter\MatterInterface;
 
 /**
  * Class Core
@@ -25,6 +26,9 @@ class Core {
     }
 
     foreach ($matters as $matter) {
+      if (!$matter instanceof MatterInterface) {
+        continue;
+      }
       $matter::create();
     }
   }
@@ -53,7 +57,13 @@ class Core {
   public static function getMatterClassFromType($type) {
     self::loadMatterClassFile($type);
 
-    $className = '\\Nick\\' . $type . '\\' . $type;
+    if (class_exists('\\Nick\\' . $type . '\\' . $type)) {
+      $className = '\\Nick\\' . $type . '\\' . $type;
+    } elseif (class_exists('\\Nick\\Extension\\' . $type . '\\' . $type)) {
+      $className = '\\Nick\\Extension\\' . $type . '\\' . $type;
+    } else {
+      return FALSE;
+    }
     return new $className;
   }
 

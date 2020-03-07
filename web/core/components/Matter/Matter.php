@@ -62,7 +62,7 @@ class Matter implements MatterInterface {
    * @param string $type
    *          Type of Matter
    *
-   * @return MatterInterface|bool
+   * @return array|bool
    */
   protected static function loadMultipleMatters(string $type) {
     $matterClass = Core::getMatterClassFromType($type);
@@ -91,6 +91,7 @@ class Matter implements MatterInterface {
       $query->condition($field, $value);
     }
     try {
+      /** @var Result $result */
       $result = $query->execute();
     } catch (Exception $exception) {
       throw new Exception($exception);

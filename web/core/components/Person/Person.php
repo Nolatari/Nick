@@ -129,11 +129,4 @@ class Person Extends Matter implements PersonInterface {
     $this->checkPassword($value);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public function getFingerprint() {
-    return $this->getValue('fingerprint');
-  }
-
 }
