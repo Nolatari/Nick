@@ -20,7 +20,7 @@ class Core {
     // Create tables for Matters.
     $matters = [];
     foreach (self::getAllMatterClasses() as $matter) {
-      if (!self::matterInstalled($matter)) {
+      if (!self::matterInstalled($matter) && self::extensionInstalled($matter)) {
         $matters[] = self::getMatterClassFromType($matter);
       }
     }
@@ -29,6 +29,7 @@ class Core {
       if (!$matter instanceof MatterInterface) {
         continue;
       }
+
       $matter::create();
     }
   }
@@ -103,6 +104,22 @@ class Core {
     }
 
     return $extensions_result->fetchAllAssoc() ?? [];
+  }
+
+  /**
+   * @param $extension
+   *
+   * @return bool
+   */
+  public static function extensionInstalled($extension) {
+    $extensions = self::getInstalledExtensions();
+    foreach ($extensions as $ext) {
+      if ($ext['name'] === $extension) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
   }
 
   /**
