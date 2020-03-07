@@ -1,0 +1,32 @@
+name: headless_cms
+recipe: lamp
+config:
+  webroot: web
+  php: '7.2'
+  drush: ^9
+  via: nginx
+  xdebug: true
+  config:
+    php: lando/php.ini
+proxy:
+  appserver_nginx:
+    - headless_cms.lndo.site
+services:
+  database:
+    type: mysql
+    creds:
+      user: headless_cms
+      password: headless_cms
+      database: headless_cms
+    config:
+      database: lando/mysql.cnf
+  server:
+     type: nginx
+     ssl: true
+  mailhog:
+    type: mailhog
+    portforward: true
+  phpmyadmin:
+    type: phpmyadmin
+    hosts:
+      - database

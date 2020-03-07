@@ -1,0 +1,7 @@
+name: Form
+type: extension
+interface: false
+required: true
+classes:
+  FormBuilder: '\Nick\Form\FormBuilder'
+  FormElement: '\Nick\Form\FormElement'

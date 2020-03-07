@@ -1,0 +1,7 @@
+name: Database
+type: extension
+interface: false
+required: true
+classes:
+  Database: '\Nick\Database\Database'
+  Select: '\Nick\Database\Select'

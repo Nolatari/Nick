@@ -1,0 +1,4 @@
+name: Matter
+type: extension
+interface: true
+required: true

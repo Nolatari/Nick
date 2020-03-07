@@ -1,0 +1,17 @@
+{
+    "require": {
+      "ext-mysqli": "*",
+      "ext-json": "*",
+      "symfony/symfony": "^3.4",
+      "symfony/yaml": "^3.4"
+    },
+    "autoload": {
+      "psr-4": {
+        "Nick\\":"web/core/components/",
+        "Nick\\Extension\\":"web/extensions/"
+      }
+    },
+    "require-dev": {
+      "kint-php/kint": "^3.3"
+    }
+}
