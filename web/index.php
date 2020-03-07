@@ -22,4 +22,4 @@ $classes = array_filter(get_declared_classes(), function ($class) {
   return strpos($class, 'Nick') !== FALSE ? $class : FALSE;
 });
 
-d($classes);
+//d($classes);

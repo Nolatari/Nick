@@ -2,9 +2,8 @@
 
 use Nick\Cache;
 use Nick\Core;
-use Nick\Database;
+use Nick\Database\Database;
 use Nick\Logger;
-use Nick\Renderer;
 use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
 use Nick\Form\FormBuilder;

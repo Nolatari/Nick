@@ -3,7 +3,6 @@
 namespace Nick\Database;
 
 use mysqli;
-use mysqli_result;
 use Nick\Settings;
 use Nick\SqlFormatter;
 
@@ -94,7 +93,7 @@ class Database extends Settings {
   /**
    * @param string $database
    */
-  public function setDatabaseName($database) {
+  protected function setDatabaseName($database) {
     $this->db = $database;
   }
 
@@ -187,6 +186,10 @@ class Database extends Settings {
     return new Delete($table, $alias, $options);
   }
 
+  public function query($query) {
+    return new Query($query);
+  }
+
   /**
    * @param $field_name
    * @param $options
@@ -209,7 +212,7 @@ class Database extends Settings {
   /**
    * @param string $query
    *
-   * @return bool
+   * @return Result|bool
    */
   protected function executeQuery($query) {
     if ($this->getSetting('debugging')) {
@@ -227,7 +230,7 @@ class Database extends Settings {
       $this->result = $result;
 
       $this->reset();
-      return TRUE;
+      return new Result($result);
     }
 
     $this->reset();
@@ -235,34 +238,9 @@ class Database extends Settings {
   }
 
   /**
-   * fetchAllAssoc method
-   *
-   * @param string|null $key
-   *
-   * @return array|bool
-   */
-  public function fetchAllAssoc($key = NULL) {
-    if (!$this->result instanceof mysqli_result) {
-      return FALSE;
-    }
-
-    $records = [];
-    while ($record = mysqli_fetch_assoc($this->result)) {
-      if ($key !== NULL) {
-        $records[$record[$key]] = $record;
-      } else {
-        $records[] = $record;
-      }
-    }
-
-    $this->result = '';
-    return $records;
-  }
-
-  /**
    * Resets \Nick\Database object.
    */
-  public function reset() {
+  protected function reset() {
     $this->tables = [];
     $this->fields = [];
     $this->joins = [];

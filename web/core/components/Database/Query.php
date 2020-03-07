@@ -24,9 +24,9 @@ class Query extends Database {
    *
    * @param $query
    *
-   * @return self
+   * @return Query
    */
-  public function execute($query) {
+  protected function execute($query) {
     if (isset($this->settings['debugging']) && $this->settings['debugging']) {
       d($query);
     }

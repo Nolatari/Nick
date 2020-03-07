@@ -117,15 +117,15 @@ class Core {
     $database = \Nick::Database();
     $type = strtolower($type);
     $matter = $database->select('matter__' . $type);
-    if (!$matter->execute()) {
+    if (!$matter_result = $matter->execute()) {
       return FALSE;
     }
     $matter_storage = $database->select('matter_storage')
       ->condition('type', $type);
-    if (!$matter_storage->execute()) {
+    if (!$matter_storage_result = $matter_storage->execute()) {
       return FALSE;
     }
-    if ($result = $matter_storage->fetchAllAssoc()) {
+    if ($result = $matter_storage_result->fetchAllAssoc()) {
       if (count($result) > 0) {
         return TRUE;
       }

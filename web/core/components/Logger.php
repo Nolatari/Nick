@@ -82,11 +82,11 @@ class Logger {
     $logs = $this->database->select('logs')
       ->condition('rendered', 0);
 
-    if (!$logs->execute()) {
+    if (!$logs_result = $logs->execute()) {
       return FALSE;
     }
 
-    return $logs->fetchAllAssoc();
+    return $logs_result->fetchAllAssoc();
   }
 
   /**

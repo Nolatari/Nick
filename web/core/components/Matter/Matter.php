@@ -5,7 +5,7 @@ namespace Nick\Matter;
 use Exception;
 use Nick;
 use Nick\Core;
-use Nick\Database;
+use Nick\Database\Database;
 use Nick\Logger;
 use Nick\Person\Person;
 
@@ -90,11 +90,11 @@ class Matter implements MatterInterface {
       $query->condition($field, $value);
     }
     try {
-      $query->execute();
+      $result = $query->execute();
     } catch (Exception $exception) {
       throw new Exception($exception);
     }
-    if (!$results = $query->fetchAllAssoc('id')) {
+    if (!$results = $result->fetchAllAssoc('id')) {
       return FALSE;
     }
 
@@ -279,7 +279,7 @@ class Matter implements MatterInterface {
         \Nick::Logger()->add('[Matter][save][278]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
         return FALSE;
       }
-      if (!$check->fetchAllAssoc()) {
+      if (!$result->fetchAllAssoc()) {
         $check_existing = $this->database->select($table);
         foreach ($this->getUniqueFields() as $field) {
           $check_existing->condition($field, $this->getValue($field));
@@ -288,7 +288,7 @@ class Matter implements MatterInterface {
           \Nick::Logger()->add('[Matter][save][285]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
           return FALSE;
         }
-        if ($result = $check_existing->fetchAllAssoc()) {
+        if ($result = $result_existing->fetchAllAssoc()) {
           \Nick::Logger()->add('[Matter][save][299]: Some field already exists.', Logger::TYPE_FAILURE, 'Matter');
           return FALSE;
         }
@@ -318,11 +318,11 @@ class Matter implements MatterInterface {
         ->fields(NULL, ['AUTO_INCREMENT'])
         ->condition('TABLE_SCHEMA', $this->database->getDatabaseName())
         ->condition('TABLE_NAME', 'matter');
-      if (!$id->execute()) {
+      if (!$id_result = $id->execute()) {
         \Nick::Logger()->add('[Matter][save][312]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
         return FALSE;
       }
-      $result = $id->fetchAllAssoc();
+      $result = $id_result->fetchAllAssoc();
       // Autoincrement ID (next ID) => current ID
       $id = reset($result)['AUTO_INCREMENT'] - 1;
       $values = ['id' => $id] + $this->massageValueArray();
@@ -388,17 +388,17 @@ class Matter implements MatterInterface {
     $query = $database->query('CREATE TABLE `matter__' . $type . '` (
 ' . $fields . '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
-    if (!$results[] = $query->execute()) {
+    if (!$results[] = $query) {
       \Nick::Logger()->add('[Matter][createMatter][385]: Something went wrong while querying the create', Logger::TYPE_WARNING, 'Matter');
     }
 
     if ($auto_increment !== FALSE) {
       $add_primary_key = $database->query('ALTER TABLE `matter__' . $type . '`
 ADD PRIMARY KEY (`' . $auto_increment . '`);');
-      $results[] = $add_primary_key->execute();
-      $add_primary_key = $database->query('ALTER TABLE `matter__' . $type . '`
+      $results[] = $add_primary_key;
+      $add_auto_increment = $database->query('ALTER TABLE `matter__' . $type . '`
   MODIFY ' . Database::createFieldQuery($auto_increment, $fields_storage[$auto_increment]) . ' AUTO_INCREMENT;');
-      $results[] = $add_primary_key->execute();
+      $results[] = $add_auto_increment;
     }
 
     foreach ($results as $result) {

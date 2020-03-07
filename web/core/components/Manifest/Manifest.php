@@ -2,9 +2,10 @@
 
 namespace Nick\Manifest;
 
+use Nick\Database\Result;
 use Nick\Matter\MatterInterface;
 use Nick\Core;
-use Nick\Database;
+use Nick\Database\Database;
 
 /**
  * Class Manifest
@@ -237,7 +238,7 @@ class Manifest implements ManifestInterface {
   /**
    * Builds and executes query.
    *
-   * @return Database|bool
+   * @return Result|bool
    */
   protected function query() {
     $query = \Nick::Database();
@@ -255,11 +256,11 @@ class Manifest implements ManifestInterface {
     $limit = $this->getLimit();
     $query->limit($limit['offset'], $limit['limit']);
     // Execute query
-    if (!$query->execute()) {
+    if (!$result = $query->execute()) {
       return FALSE;
     }
-    // Return Database if query was successful
-    return $query;
+    // Return Result if query was successful
+    return $result;
   }
 
 }

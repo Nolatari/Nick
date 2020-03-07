@@ -9,3 +9,4 @@ classes:
   Insert: '\Nick\Database\Insert'
   Delete: '\Nick\Database\Delete'
   Query: '\Nick\Database\Query'
+  Result: '\Nick\Database\Result'
