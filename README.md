@@ -6,6 +6,8 @@ Nick the Headless CMS is, surprisingly, a headless CMS.
 - Implement PDO database.
 - Implement CMS UI. (Most likely a heavily modified Bootstrap SB Admin template.)
 - Allow dynamic creation of Matter items.
+- Menu's
+- Clean URL paths
 - ...
 
 ## Why is Nick the Headless CMS a thing?
