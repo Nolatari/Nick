@@ -88,7 +88,7 @@ class Delete extends Database {
         $conditions .= ' ' . $this->condition_delimiter . ' ';
       }
       if (strtoupper($condition['operator']) === 'LIKE') {
-        $conditions .= $condition['field'] . ' ' . $condition['operator'] . ' ' . self::addQuotationMarks(self::Cleanse($this->database,  '%' . $condition['value'] . '%'));
+        $conditions .= $condition['field'] . ' ' . $condition['operator'] . ' ' . self::addQuotationMarks(self::Cleanse($this->database, '%' . $condition['value'] . '%'));
       } else {
         $conditions .= $condition['field'] . ' ' . $condition['operator'] . ' ' . self::addQuotationMarks(self::Cleanse($this->database, $condition['value']));
       }

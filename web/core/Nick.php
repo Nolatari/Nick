@@ -3,12 +3,14 @@
 use Nick\Cache;
 use Nick\Core;
 use Nick\Database\Database;
-use Nick\Logger;
-use Nick\Matter\Matter;
-use Nick\Matter\MatterInterface;
 use Nick\Form\FormBuilder;
 use Nick\Form\FormElement;
+use Nick\Logger;
 use Nick\Manifest\Manifest;
+use Nick\Matter\Matter;
+use Nick\Matter\MatterInterface;
+use Nick\Renderer;
+use Nick\Theme;
 
 /**
  * Nick helper class.
@@ -24,7 +26,7 @@ class Nick {
   }
 
   /**
-   * Returns Matter object
+   * Returns non-cached Matter object
    *
    * @return Matter
    */
@@ -33,7 +35,7 @@ class Nick {
   }
 
   /**
-   * Returns Manifest object
+   * Returns non-cached Manifest object
    *
    * @param string $type
    *
@@ -44,7 +46,7 @@ class Nick {
   }
 
   /**
-   * Returns FormBuilder object
+   * Returns non-cached FormBuilder object
    *
    * @param MatterInterface $matter
    *
@@ -55,7 +57,7 @@ class Nick {
   }
 
   /**
-   * Returns FormElement object
+   * Returns non-cached FormElement object
    *
    * @return FormElement
    */
@@ -70,6 +72,24 @@ class Nick {
    */
   public static function Logger() {
     return self::Cache()->getData('logger', '\\Nick\\Logger');
+  }
+
+  /**
+   * Returns non-cached Renderer object.
+   *
+   * @return Renderer
+   */
+  public static function Renderer() {
+    return new Renderer();
+  }
+
+  /**
+   * Returns cached Theme object
+   *
+   * @return Theme
+   */
+  public static function Theme() {
+    return self::Cache()->getData('theme', '\\Nick\\Theme');
   }
 
   /**

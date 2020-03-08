@@ -55,31 +55,31 @@ class File Extends Matter implements FileInterface {
    */
   public static function initialFields() {
     return [
-        'filetype' => [
-          'type' => 'varchar',
-          'length' => 255,
-          'default_value' => static::TYPE_FILE,
-          'form' => [
-            'type' => 'select',
-            'name' => 'file_type',
-            'label' => 'Type',
-            'options' => [
-              static::TYPE_FILE => 'File',
-              static::TYPE_IMAGE => 'Image',
-              static::TYPE_VIDEO => 'Video',
-            ],
+      'filetype' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'default_value' => static::TYPE_FILE,
+        'form' => [
+          'type' => 'select',
+          'name' => 'file_type',
+          'label' => 'Type',
+          'options' => [
+            static::TYPE_FILE => 'File',
+            static::TYPE_IMAGE => 'Image',
+            static::TYPE_VIDEO => 'Video',
           ],
         ],
-        'location' => [
-          'type' => 'varchar',
-          'length' => 255,
-          'form' => [
-            'type' => 'file',
-            'name' => 'file_location',
-            'label' => 'Location',
-          ],
+      ],
+      'location' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'form' => [
+          'type' => 'file',
+          'name' => 'file_location',
+          'label' => 'Location',
         ],
-      ];
+      ],
+    ];
   }
 
   /**

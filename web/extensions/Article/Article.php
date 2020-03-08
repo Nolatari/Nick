@@ -50,24 +50,24 @@ class Article Extends Matter implements ArticleInterface {
    */
   public static function initialFields() {
     return [
-        'title' => [
-          'type' => 'varchar',
-          'length' => 255,
-          'form' => [
-            'type' => 'textbox',
-            'name' => 'title',
-            'required' => TRUE,
-          ],
+      'title' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'form' => [
+          'type' => 'textbox',
+          'name' => 'title',
+          'required' => TRUE,
         ],
-        'body' => [
-          'type' => 'text',
-          'form' => [
-            'type' => 'wysiwyg',
-            'name' => 'body',
-            'required' => TRUE,
-          ],
+      ],
+      'body' => [
+        'type' => 'text',
+        'form' => [
+          'type' => 'wysiwyg',
+          'name' => 'body',
+          'required' => TRUE,
         ],
-      ];
+      ],
+    ];
   }
 
   /**

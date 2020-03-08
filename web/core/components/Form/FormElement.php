@@ -2,8 +2,6 @@
 
 namespace Nick\Form;
 
-use Nick\Matter\MatterInterface;
-
 /**
  * Class FormElement
  *

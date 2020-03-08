@@ -2,10 +2,9 @@
 
 namespace Nick\Manifest;
 
-use Nick\Database\Result;
-use Nick\Matter\MatterInterface;
-use Nick\Core;
+use Nick;
 use Nick\Database\Database;
+use Nick\Database\Result;
 
 /**
  * Class Manifest
@@ -191,7 +190,7 @@ class Manifest implements ManifestInterface {
    * @return Result|bool
    */
   protected function query() {
-    $query = \Nick::Database();
+    $query = Nick::Database();
     $query->select('matter__' . $this->getType())
       ->fields(NULL, $this->getFields());
     // Add conditions

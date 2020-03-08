@@ -73,28 +73,28 @@ class Person Extends Matter implements PersonInterface {
    */
   public static function initialFields() {
     return [
-        'name' => [
-          'type' => 'varchar',
-          'length' => 255,
-          'unique' => TRUE,
-          'form' => [
-            'type' => 'textbox',
-            'attributes' => [
-              'type' => 'username',
-            ],
+      'name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'unique' => TRUE,
+        'form' => [
+          'type' => 'textbox',
+          'attributes' => [
+            'type' => 'username',
           ],
         ],
-        'password' => [
-          'type' => 'varchar',
-          'length' => '255',
-          'form' => [
-            'type' => 'textbox',
-            'attributes' => [
-              'type' => 'password',
-            ],
+      ],
+      'password' => [
+        'type' => 'varchar',
+        'length' => '255',
+        'form' => [
+          'type' => 'textbox',
+          'attributes' => [
+            'type' => 'password',
           ],
         ],
-      ];
+      ],
+    ];
   }
 
   /**

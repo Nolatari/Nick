@@ -19,8 +19,9 @@ class Cache extends Settings {
    * Sets global variables in cache
    */
   public function initializeCache() {
-    $this->cacheableData['Nick_VERSION'] = '1';
-    $this->cacheableData['NICK_VERSION_RELEASE'] = '0 alpha';
+    $this->cacheableData['NICK_VERSION'] = '1';
+    $this->cacheableData['NICK_VERSION_RELEASE'] = '0';
+    $this->cacheableData['NICK_VERSION_STATUS'] = 'alpha';
   }
 
   /**

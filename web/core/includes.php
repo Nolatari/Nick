@@ -15,4 +15,4 @@ $cache->initializeCache();
 require_once 'Nick.php';
 
 /** Bootstrap Nick. */
-\Nick::Bootstrap();
+Nick::Bootstrap();

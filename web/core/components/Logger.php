@@ -2,6 +2,7 @@
 
 namespace Nick;
 
+use Nick;
 use Nick\Database\Database;
 use Nick\Person\Person;
 
@@ -22,11 +23,15 @@ class Logger {
   /** @var Database $database */
   protected $database;
 
+  /** @var Renderer $renderer */
+  protected $renderer;
+
   /**
    * Logger constructor.
    */
   public function __construct() {
-    $this->database = \Nick::Database();
+    $this->database = Nick::Database();
+    $this->renderer = Nick::Renderer();
   }
 
   /**
@@ -101,16 +106,30 @@ class Logger {
   /**
    * @return NULL|string
    */
-  public function results() {
+  public function render() {
+    $types = self::typesToStrings();
+
     if (!$results = $this->getUnrenderedLogs()) {
       return NULL;
     }
-
+    $renders = [];
     foreach ($results as $result) {
+      if (!$render = $this->renderer->setType('logger')->setTemplate('log_' . $types[$result['type']])) {
+        self::add('[Logger][render]: Something went wrong trying to find the log render template file.');
+        continue;
+      }
+      $variables = [
+        'message' => $result['message'],
+      ];
+      $renders[] = $render->render($variables);
       $this->setRendered($result['id']);
     }
 
-    return $results;
+    $render = '';
+    foreach ($renders as $item) {
+      $render .= $item;
+    }
+    return $render ?? NULL;
   }
 
 }
