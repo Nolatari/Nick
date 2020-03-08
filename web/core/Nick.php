@@ -1,6 +1,7 @@
 <?php
 
 use Nick\Cache;
+use Nick\Config;
 use Nick\Core;
 use Nick\Database\Database;
 use Nick\Form\FormBuilder;
@@ -81,6 +82,15 @@ class Nick {
    */
   public static function Renderer() {
     return new Renderer();
+  }
+
+  /**
+   * Returns cached Config object
+   *
+   * @return Config
+   */
+  public static function Config() {
+    return self::Cache()->getData('config', '\\Nick\\Config');
   }
 
   /**

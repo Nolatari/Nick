@@ -10,7 +10,7 @@ namespace Nick;
 class Theme {
 
   public function getTheme() {
-    return Config::get('admin_theme');
+    return \Nick::Config()->get('admin_theme');
   }
 
   /**
@@ -21,7 +21,7 @@ class Theme {
    * @return bool
    */
   public function setTheme($theme) {
-    return Config::set('admin_theme', $theme);
+    return \Nick::Config()->set('admin_theme', $theme);
   }
 
   /**

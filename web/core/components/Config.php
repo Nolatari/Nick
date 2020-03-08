@@ -12,12 +12,20 @@ use Nick\Database\Result;
  */
 class Config {
 
+  public function import() {
+    // @TODO
+  }
+
+  public function export() {
+    // @TODO
+  }
+
   /**
    * @param $key
    *
    * @return mixed
    */
-  public static function get($key) {
+  public function get($key) {
     $config_storage = Nick::Database()
       ->select('config')
       ->fields(NULL, ['value'])
@@ -38,7 +46,7 @@ class Config {
    *
    * @return bool
    */
-  public static function set($key, $value) {
+  public function set($key, $value) {
     // Serialize value for proper database storing.
     $value = serialize($value);
     $config_storage = Nick::Database()
