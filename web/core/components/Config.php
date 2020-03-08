@@ -23,7 +23,7 @@ class Config {
   /**
    * Shows difference in config.
    *
-   * @return bool
+   * @return array|bool
    */
   public function difference() {
     $config_storage = \Nick::Database()
@@ -33,11 +33,15 @@ class Config {
       return FALSE;
     }
     $results = $config_storage->fetchAllAssoc();
-    $config = [];
+    $live = [];
     foreach ($results as $result) {
-      $config[$result['field']] = YamlReader::toYaml(unserialize($result['value']));
+      $live[$result['field']] = YamlReader::toYaml(unserialize($result['value']));
     }
-    d($config);
+
+    return [
+      'live' => $live,
+      'staged' => '',
+    ];
   }
 
   /**
