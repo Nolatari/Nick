@@ -9,8 +9,18 @@ namespace Nick;
  */
 class Theme {
 
-  public function getTheme() {
-    return \Nick::Config()->get('admin_theme');
+  /**
+   * Returns theme from config.
+   *
+   * @param string $key
+   *
+   * @return mixed
+   */
+  public function getTheme($key = 'admin') {
+    if ($key !== NULL) {
+      return \Nick::Config()->get('theme')[$key];
+    }
+    return \Nick::Config()->get('theme');
   }
 
   /**
@@ -21,10 +31,12 @@ class Theme {
    * @return bool
    */
   public function setTheme($theme) {
-    return \Nick::Config()->set('admin_theme', $theme);
+    return \Nick::Config()->set('theme', $theme);
   }
 
   /**
+   * Returns folder where theme files/assets are located.
+   *
    * @return string
    */
   public function getThemeFolder() {

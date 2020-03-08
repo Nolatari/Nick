@@ -20,3 +20,5 @@ $include_file = 'pages/' . $include_file . '.php';
 if (is_file($include_file)) {
   include $include_file;
 }
+
+\Nick::Config()->difference();

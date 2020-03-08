@@ -21,6 +21,26 @@ class Config {
   }
 
   /**
+   * Shows difference in config.
+   *
+   * @return bool
+   */
+  public function difference() {
+    $config_storage = \Nick::Database()
+      ->select('config')
+      ->execute();
+    if (!$config_storage instanceof Result) {
+      return FALSE;
+    }
+    $results = $config_storage->fetchAllAssoc();
+    $config = [];
+    foreach ($results as $result) {
+      $config[$result['field']] = YamlReader::toYaml(unserialize($result['value']));
+    }
+    d($config);
+  }
+
+  /**
    * @param $key
    *
    * @return mixed
