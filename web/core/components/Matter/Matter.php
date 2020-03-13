@@ -283,6 +283,13 @@ class Matter implements MatterInterface {
   /**
    * {@inheritDoc}
    */
+  public function validate() {
+    // @TODO!!!
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function save() {
     // Fire presave event
     $presaveEvent = new Event('MatterPresave');

@@ -155,7 +155,7 @@ class Renderer extends Settings {
       $people = array_map(function (PersonInterface $person) {
         return $person->render();
       }, $people);
-      $logger = new Logger();
+      $logger = \Nick::Logger();
       $variables = $variables + [
           'header' => $this->setType()->setTemplate('header')->render([
             'people' => $people,

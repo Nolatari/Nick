@@ -23,6 +23,7 @@ interface EventInterface {
    *
    * @param mixed $variables
    * @param mixed $otherArgs
+   *
    * @return mixed
    */
   public function fireEvent(&$variables = [], $otherArgs = []);

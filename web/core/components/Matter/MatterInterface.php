@@ -62,6 +62,13 @@ interface MatterInterface {
   public function setValue(string $key, $value);
 
   /**
+   * Validates node before saving.
+   *
+   * @return bool
+   */
+  public function validate();
+
+  /**
    * @return bool
    */
   public function save();
