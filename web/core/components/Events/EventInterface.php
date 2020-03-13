@@ -22,9 +22,9 @@ interface EventInterface {
    * Fires event to trigger listeners/subscribers.
    *
    * @param mixed $variables
-   *
+   * @param mixed $otherArgs
    * @return mixed
    */
-  public function fireEvent(&$variables = []);
+  public function fireEvent(&$variables = [], $otherArgs = []);
 
 }

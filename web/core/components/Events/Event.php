@@ -39,8 +39,8 @@ class Event extends FireEvent implements EventInterface {
   /**
    * {@inheritDoc}
    */
-  public function fireEvent(&$variables = []) {
-    $this->fire($this, $variables);
+  public function fireEvent(&$variables = [], $otherArgs = []) {
+    $this->fire($this, $variables, $otherArgs);
   }
 
 }

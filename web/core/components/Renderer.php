@@ -4,6 +4,7 @@ namespace Nick;
 
 use Exception;
 use Nick;
+use Nick\Events\Event;
 use Nick\Person\Person;
 use Nick\Person\PersonInterface;
 use Twig\Environment;
@@ -127,6 +128,7 @@ class Renderer extends Settings {
 
   /**
    * @param array $variables
+   * @param string|NULL $view_mode
    *
    * @return string|NULL
    */
@@ -142,6 +144,10 @@ class Renderer extends Settings {
         'active_user' => Person::getCurrentUser()
       ];
     if ($this->template === 'page') {
+      // Fire PreprocessPage event
+      $preprocessPageEvent = new Event('PreprocessPage');
+      $preprocessPageEvent->fireEvent($variables, $view_mode);
+
       if (!$people = Person::loadMultiple()) {
         \Nick::Logger()->add('No people yet.', 'Renderer', Logger::TYPE_FAILURE);
         return FALSE;

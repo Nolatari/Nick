@@ -2,6 +2,8 @@
 
 namespace Nick\Matter;
 
+use Exception;
+
 /**
  * Interface MatterInterface
  *
@@ -13,6 +15,31 @@ interface MatterInterface {
    * @return array
    */
   public static function fields();
+
+  /**
+   * @param string $type
+   * @param array $values
+   *
+   * @return MatterInterface|bool
+   */
+  public function getStorage($type, $values = []);
+
+  /**
+   * @return bool|array
+   */
+  public function getAllFields();
+
+  /**
+   * @param array $properties
+   *          An array of properties your Matter should have
+   * @param bool $multiple
+   *          If you expect multiple results, set this to TRUE
+   *
+   * @return bool|array
+   *
+   * @throws Exception
+   */
+  public function loadByProperties($properties = [], $multiple = FALSE);
 
   /**
    * @return string|NULL

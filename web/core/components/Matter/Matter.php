@@ -72,14 +72,7 @@ class Matter implements MatterInterface {
   }
 
   /**
-   * @param array $properties
-   *          An array of properties your Matter should have
-   * @param bool $multiple
-   *          If you expect multiple results, set this to TRUE
-   *
-   * @return bool|array
-   *
-   * @throws Exception
+   * {@inheritDoc}
    */
   public function loadByProperties($properties = [], $multiple = FALSE) {
     if (!$this->getType()) {
@@ -165,7 +158,7 @@ class Matter implements MatterInterface {
   }
 
   /**
-   * @return bool|array
+   * {@inheritDoc}
    */
   public function getAllFields() {
     if (!$this->getType()) {
@@ -186,10 +179,7 @@ class Matter implements MatterInterface {
   }
 
   /**
-   * @param string $type
-   * @param array $values
-   *
-   * @return MatterInterface|bool
+   * {@inheritDoc}
    */
   public function getStorage($type, $values = []) {
     $matterClass = Core::getMatterClassFromType($type);

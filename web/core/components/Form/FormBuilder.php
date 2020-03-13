@@ -32,7 +32,7 @@ class FormBuilder {
   public function result() {
     $build = $this->build();
     $event = new Event('FormAlter');
-    $event->fireEvent($build);
+    $event->fireEvent($build, 'form-' . $this->getMatter()->getType());
     return $build;
   }
 

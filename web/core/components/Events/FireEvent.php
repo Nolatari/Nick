@@ -13,15 +13,18 @@ use Nick\Logger;
 class FireEvent {
 
   /**
+   * Fires the event and runs through all listeners/subscribers.
+   *
    * @param EventInterface $event
    * @param array $variables
+   * @param array $otherArgs
    */
-  protected function fire(EventInterface $event, &$variables = []) {
+  protected function fire(EventInterface $event, &$variables = [], $otherArgs = []) {
     foreach ($this->getListeners($event->getEventName()) as $listener) {
       $class = new $listener['class']();
       try {
         // Call the listener class' method
-        $class->{$listener['method']}($variables);
+        $class->{$listener['method']}($variables, ...$otherArgs);
       } catch (\Exception $e) {
         \Nick::Logger()->add($e->getMessage(), Logger::TYPE_ERROR, 'EventListener');
       }
