@@ -7,6 +7,7 @@ use Nick;
 use Nick\Core;
 use Nick\Database\Database;
 use Nick\Database\Result;
+use Nick\Events\Event;
 use Nick\Logger;
 use Nick\Person\Person;
 
@@ -293,6 +294,10 @@ class Matter implements MatterInterface {
    * {@inheritDoc}
    */
   public function save() {
+    // Fire presave event
+    $presaveEvent = new Event('MatterPresave');
+    $presaveEvent->fireEvent($this);
+
     $table = 'matter__' . $this->type;
     // Check if item exists, update existing item or insert new item.
     if ($this->id() !== NULL) {
@@ -353,7 +358,14 @@ class Matter implements MatterInterface {
         ->values($values);
     }
 
-    return $query->execute();
+    if (!$query->execute()) {
+      return FALSE;
+    }
+
+    // Fire postsave event
+    $presaveEvent = new Event('MatterPostsave');
+    $presaveEvent->fireEvent($this);
+    return TRUE;
   }
 
   /**

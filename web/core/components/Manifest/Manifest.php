@@ -207,7 +207,7 @@ class Manifest implements ManifestInterface {
     $query->limit($limit['offset'], $limit['limit']);
 
     // Fire alter event
-    $event = new Event('ManifestAlter');
+    $event = new Event('ManifestQueryAlter');
     $event->fireEvent($query);
 
     // Execute query

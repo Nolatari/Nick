@@ -6,7 +6,3 @@ required: true
 classes:
   FormBuilder: '\Nick\Form\FormBuilder'
   FormElement: '\Nick\Form\FormElement'
-event_listeners:
-  FormAlter:
-    class: '\Nick\Form\FormBuilder'
-    method: 'EventSubscriber'

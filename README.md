@@ -5,7 +5,7 @@ Nick the Headless CMS is, surprisingly, a headless CMS.
 ## Todo's (a lot)
 - Implement PDO database.
 - Implement CMS UI. (Most likely a heavily modified Bootstrap SB Admin template.)
-- Allow dynamic creation of Matter items.
+- Allow dynamic creating/editing of Matter items.
 - Menu's
 - Clean URL paths
 - ...
