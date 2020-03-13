@@ -187,6 +187,11 @@ class Database extends Settings {
     return new Delete($table, $alias, $options);
   }
 
+  /**
+   * @param string query
+   * 
+   * @return Query
+   */
   public function query($query) {
     return new Query($query);
   }
