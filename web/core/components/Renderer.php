@@ -146,7 +146,7 @@ class Renderer extends Settings {
     if ($this->template === 'page') {
       // Fire PreprocessPage event
       $preprocessPageEvent = new Event('PreprocessPage');
-      $preprocessPageEvent->fireEvent($variables, $view_mode);
+      $preprocessPageEvent->fireEvent($variables, [$view_mode]);
 
       if (!$people = Person::loadMultiple()) {
         \Nick::Logger()->add('No people yet.', 'Renderer', Logger::TYPE_FAILURE);

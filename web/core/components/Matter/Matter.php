@@ -360,8 +360,8 @@ class Matter implements MatterInterface {
     }
 
     // Fire postsave event
-    $presaveEvent = new Event('MatterPostsave');
-    $presaveEvent->fireEvent($this);
+    $postsaveEvent = new Event('MatterPostsave');
+    $postsaveEvent->fireEvent($this);
     return TRUE;
   }
 
