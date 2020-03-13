@@ -80,7 +80,7 @@ class Database extends Settings {
       $this->getDatabaseName(),
     ];
 
-    $this->database = Nick::Cache()->getData('connection', '\\mysqli', NULL, [], $mysqliData);
+    $this->database = \Nick::Cache()->getData('connection', '\\mysqli', NULL, [], $mysqliData);
     return $this;
   }
 

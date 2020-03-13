@@ -30,8 +30,8 @@ class Logger {
    * Logger constructor.
    */
   public function __construct() {
-    $this->database = Nick::Database();
-    $this->renderer = Nick::Renderer();
+    $this->database = \Nick::Database();
+    $this->renderer = \Nick::Renderer();
   }
 
   /**

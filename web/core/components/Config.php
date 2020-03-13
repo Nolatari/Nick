@@ -62,7 +62,7 @@ class Config extends Settings {
    * @return mixed
    */
   public function get($key) {
-    $config_storage = Nick::Database()
+    $config_storage = \Nick::Database()
       ->select('config')
       ->fields(NULL, ['value'])
       ->condition('field', $key);
@@ -85,7 +85,7 @@ class Config extends Settings {
   public function set($key, $value) {
     // Serialize value for proper database storing.
     $value = serialize($value);
-    $config_storage = Nick::Database()
+    $config_storage = \Nick::Database()
       ->select('config')
       ->fields(NULL, ['value'])
       ->condition('field', $key);
@@ -95,13 +95,13 @@ class Config extends Settings {
     }
     $result = $config_result->fetchAllAssoc();
     if (count($result) > 0) {
-      $config_query = Nick::Database()
+      $config_query = \Nick::Database()
         ->update('config')
         ->values(['value' => $value])
         ->condition('field', $key)
         ->execute();
     } else {
-      $config_query = Nick::Database()
+      $config_query = \Nick::Database()
         ->insert('config')
         ->values([$key, $value])
         ->execute();

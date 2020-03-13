@@ -48,7 +48,7 @@ class Core {
    * @param Exception $exception
    */
   public function Exception($exception) {
-    Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'Exception');
+    \Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'Exception');
   }
 
   /**
@@ -95,7 +95,7 @@ class Core {
    * @return array|bool
    */
   public static function getInstalledExtensions() {
-    $extensions_storage = Nick::Database()->select('extensions')
+    $extensions_storage = \Nick::Database()->select('extensions')
       ->fields(NULL, ['name', 'type'])
       ->condition('installed', '1');
 
@@ -179,7 +179,7 @@ class Core {
    * @return bool
    */
   public static function matterInstalled($type) {
-    $database = Nick::Database();
+    $database = \Nick::Database();
     $type = strtolower($type);
     $matter = $database->select('matter__' . $type);
     if (!$matter_result = $matter->execute()) {

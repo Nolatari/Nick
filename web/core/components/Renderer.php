@@ -81,7 +81,7 @@ class Renderer extends Settings {
     $this->type = $type;
 
     if (!is_dir($this->getThemeFolder() . $type)) {
-      Nick::Logger()->add('[Renderer][setType]: Folder not found.', Logger::TYPE_WARNING, 'Renderer');
+      \Nick::Logger()->add('[Renderer][setType]: Folder not found.', Logger::TYPE_WARNING, 'Renderer');
       return NULL;
     }
 
@@ -143,7 +143,7 @@ class Renderer extends Settings {
       ];
     if ($this->template === 'page') {
       if (!$people = Person::loadMultiple()) {
-        Nick::Logger()->add('No people yet.', 'Renderer', Logger::TYPE_FAILURE);
+        \Nick::Logger()->add('No people yet.', 'Renderer', Logger::TYPE_FAILURE);
         return FALSE;
       }
       $people = array_map(function (PersonInterface $person) {

@@ -39,7 +39,7 @@ class Matter implements MatterInterface {
    * @param array|NULL $values
    */
   public function __construct($values = NULL) {
-    $this->database = Nick::Database();
+    $this->database = \Nick::Database();
     $this->values = $values;
   }
 
@@ -171,7 +171,7 @@ class Matter implements MatterInterface {
       return FALSE;
     }
 
-    $fields_storage = Nick::Database()
+    $fields_storage = \Nick::Database()
       ->select('matter_storage')
       ->fields(NULL, ['fields'])
       ->condition('type', $this->getType());
@@ -299,7 +299,7 @@ class Matter implements MatterInterface {
       $check = $this->database->select($table)
         ->condition('id', $this->id());
       if (!$result = $check->execute()) {
-        Nick::Logger()->add('[Matter][save][278]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
+        \Nick::Logger()->add('[Matter][save][278]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
         return FALSE;
       }
       if (!$result->fetchAllAssoc()) {
@@ -308,11 +308,11 @@ class Matter implements MatterInterface {
           $check_existing->condition($field, $this->getValue($field));
         }
         if (!$result_existing = $check_existing->execute()) {
-          Nick::Logger()->add('[Matter][save][285]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
+          \Nick::Logger()->add('[Matter][save][285]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
           return FALSE;
         }
         if ($result = $result_existing->fetchAllAssoc()) {
-          Nick::Logger()->add('[Matter][save][299]: Some field already exists.', Logger::TYPE_FAILURE, 'Matter');
+          \Nick::Logger()->add('[Matter][save][299]: Some field already exists.', Logger::TYPE_FAILURE, 'Matter');
           return FALSE;
         }
 
@@ -334,7 +334,7 @@ class Matter implements MatterInterface {
       }
     } else {
       if (!$this->addMatter($this->getType())) {
-        Nick::Logger()->add('[Matter][save][308]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
+        \Nick::Logger()->add('[Matter][save][308]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
         return FALSE;
       }
       $id = $this->database->select('INFORMATION_SCHEMA.TABLES')
@@ -342,7 +342,7 @@ class Matter implements MatterInterface {
         ->condition('TABLE_SCHEMA', $this->database->getDatabaseName())
         ->condition('TABLE_NAME', 'matter');
       if (!$id_result = $id->execute()) {
-        Nick::Logger()->add('[Matter][save][312]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
+        \Nick::Logger()->add('[Matter][save][312]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
         return FALSE;
       }
       $result = $id_result->fetchAllAssoc();
@@ -379,14 +379,14 @@ class Matter implements MatterInterface {
     if (Core::matterInstalled($type)) {
       return FALSE;
     }
-    $database = Nick::Database();
+    $database = \Nick::Database();
     $results = [];
     $auto_increment = FALSE;
     $fields_storage = Matter::fields() + static::initialFields();
     $fields = '';
     foreach ($fields_storage as $field => $options) {
       if (!in_array(strtoupper($options['type']), Database::getFieldTypes())) {
-        Nick::Logger()->add('[Matter][createMatter]: Field type /' . $options['type'] . '/ does not comply to possible field types.', Logger::TYPE_WARNING, 'Matter');
+        \Nick::Logger()->add('[Matter][createMatter]: Field type /' . $options['type'] . '/ does not comply to possible field types.', Logger::TYPE_WARNING, 'Matter');
       }
       if ($fields !== '') {
         $fields .= ',' . PHP_EOL;
@@ -412,7 +412,7 @@ class Matter implements MatterInterface {
 ' . $fields . '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
     if (!$results[] = $query) {
-      Nick::Logger()->add('[Matter][createMatter][385]: Something went wrong while querying the create', Logger::TYPE_WARNING, 'Matter');
+      \Nick::Logger()->add('[Matter][createMatter][385]: Something went wrong while querying the create', Logger::TYPE_WARNING, 'Matter');
     }
 
     if ($auto_increment !== FALSE) {
