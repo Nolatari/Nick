@@ -2,6 +2,7 @@
 
 namespace Nick\Form;
 
+use Nick\Events\Event;
 use Nick\Matter\MatterInterface;
 
 /**
@@ -24,12 +25,15 @@ class FormBuilder {
   }
 
   /**
-   * Returns form elements in array format.
+   * Returns form elements in array format and fires an event.
    *
    * @return array
    */
   public function result() {
-    return $this->build();
+    $build = $this->build();
+    $event = new Event('FormAlter');
+    $event->fireEvent($build);
+    return $build;
   }
 
   /**

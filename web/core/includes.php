@@ -1,6 +1,6 @@
 <?php
 
-use Nick\Cache;
+use Nick\Cache\Cache;
 
 /**
  * Include Settings

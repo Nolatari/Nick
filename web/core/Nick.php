@@ -1,6 +1,6 @@
 <?php
 
-use Nick\Cache;
+use Nick\Cache\Cache;
 use Nick\Config;
 use Nick\Core;
 use Nick\Database\Database;

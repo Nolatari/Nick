@@ -21,7 +21,7 @@ interface EventInterface {
   /**
    * Fires event to trigger listeners/subscribers.
    *
-   * @param array $variables
+   * @param mixed $variables
    *
    * @return mixed
    */

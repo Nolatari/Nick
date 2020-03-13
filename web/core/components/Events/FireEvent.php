@@ -20,6 +20,7 @@ class FireEvent {
     foreach ($this->getListeners($event->getEventName()) as $listener) {
       $class = new $listener['class']();
       try {
+        // Call the listener class' method
         $class->{$listener['method']}($variables);
       } catch (\Exception $e) {
         \Nick::Logger()->add($e->getMessage(), Logger::TYPE_ERROR, 'EventListener');

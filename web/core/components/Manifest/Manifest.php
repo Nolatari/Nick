@@ -5,6 +5,7 @@ namespace Nick\Manifest;
 use Nick;
 use Nick\Database\Database;
 use Nick\Database\Result;
+use Nick\Events\Event;
 
 /**
  * Class Manifest
@@ -204,6 +205,11 @@ class Manifest implements ManifestInterface {
     // Add limits
     $limit = $this->getLimit();
     $query->limit($limit['offset'], $limit['limit']);
+
+    // Fire alter event
+    $event = new Event('ManifestAlter');
+    $event->fireEvent($query);
+
     // Execute query
     if (!$result = $query->execute()) {
       return FALSE;

@@ -1,13 +1,15 @@
 <?php
 
-namespace Nick;
+namespace Nick\Cache;
+
+use Nick\Settings;
 
 /**
  * Class Cache
  *
- * @package FileManager
+ * @package Nick\Cache
  */
-class Cache extends Settings {
+class Cache extends Settings implements CacheInterface {
 
   /** @var array $cacheableData */
   protected $cacheableData;
@@ -16,7 +18,7 @@ class Cache extends Settings {
   protected $cacheStats;
 
   /**
-   * Sets global variables in cache
+   * {@inheritDoc}
    */
   public function initializeCache() {
     $this->cacheableData['NICK_VERSION'] = '1';
@@ -25,16 +27,7 @@ class Cache extends Settings {
   }
 
   /**
-   * Checks if data is in cache, if so read it from cache.
-   * If data not in cache, use fallback and add it to cache.
-   *
-   * @param string $cacheKey
-   * @param string $fallbackClass
-   * @param string $fallbackMethod
-   * @param array $methodData
-   * @param array $classData
-   *
-   * @return mixed
+   * {@inheritDoc}
    */
   public function getData($cacheKey, $fallbackClass = '', $fallbackMethod = '', $methodData = [], $classData = []) {
     if (!isset($this->cacheableData[$cacheKey])) {
@@ -54,23 +47,22 @@ class Cache extends Settings {
     return $this->cacheableData[$cacheKey];
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public function getContentData($cacheKey, $fallbackClass = '', $fallbackMethod = '', $methodData = [], $classData = []) {
-
+    // @TODO!
   }
 
   /**
-   * Returns the whole cache array.
-   *
-   * @return array
+   * {@inheritDoc}
    */
   public function returnCache() {
     return $this->cacheableData;
   }
 
   /**
-   * Returns the whole cache array.
-   *
-   * @return array
+   * {@inheritDoc}
    */
   public function returnCacheStats() {
     return $this->cacheStats;

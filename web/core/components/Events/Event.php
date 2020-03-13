@@ -2,6 +2,11 @@
 
 namespace Nick\Events;
 
+/**
+ * Class Event
+ *
+ * @package Nick\Events
+ */
 class Event extends FireEvent implements EventInterface {
 
   /** @var string $eventName */
@@ -10,7 +15,7 @@ class Event extends FireEvent implements EventInterface {
   /**
    * Event constructor.
    *
-   * @param $eventName
+   * @param string $eventName
    */
   public function __construct($eventName) {
     $this->setEventName($eventName);

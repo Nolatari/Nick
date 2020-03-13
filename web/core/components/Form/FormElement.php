@@ -2,6 +2,8 @@
 
 namespace Nick\Form;
 
+use Nick\Events\Event;
+
 /**
  * Class FormElement
  *
@@ -20,6 +22,9 @@ class FormElement {
       //return self::render($type, $variables);
       // @todo: fix this :-(
     }
+
+    $event = new Event('FormElementAlter');
+    $event->fireEvent($variables);
 
     return self::$type($variables);
   }
