@@ -31,16 +31,16 @@ class Cache extends Settings {
    * @param string $cacheKey
    * @param string $fallbackClass
    * @param string $fallbackMethod
-   * @param array $fallbackData
+   * @param array $methodData
    * @param array $classData
    *
    * @return mixed
    */
-  public function getData($cacheKey, $fallbackClass = '', $fallbackMethod = '', $fallbackData = [], $classData = []) {
+  public function getData($cacheKey, $fallbackClass = '', $fallbackMethod = '', $methodData = [], $classData = []) {
     if (!isset($this->cacheableData[$cacheKey])) {
       $class = new $fallbackClass(...$classData);
       if (!empty($fallbackMethod)) {
-        $this->cacheableData[$cacheKey] = $class->{$fallbackMethod}(...$fallbackData);
+        $this->cacheableData[$cacheKey] = $class->{$fallbackMethod}(...$methodData);
       } else {
         $this->cacheableData[$cacheKey] = $class;
       }
@@ -52,6 +52,10 @@ class Cache extends Settings {
     }
     $this->cacheStats[$cacheKey]['called']++;
     return $this->cacheableData[$cacheKey];
+  }
+
+  public function getContentData($cacheKey, $fallbackClass = '', $fallbackMethod = '', $methodData = [], $classData = []) {
+
   }
 
   /**

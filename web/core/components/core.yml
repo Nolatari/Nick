@@ -1,0 +1,16 @@
+name: core
+required: true
+type: extension
+classes:
+  Cache: '\Nick\Cache'
+  Config: '\Nick\Config'
+  Logger: '\Nick\Logger'
+  Renderer: '\Nick\Renderer'
+  Settings: '\Nick\Settings'
+  SqlFormatter: '\Nick\SqlFormatter'
+  Theme: '\Nick\Theme'
+  YamlReader: '\Nick\YamlReader'
+event_listeners:
+  CacheAlter:
+    class: '\Nick\Cache'
+    method: 'EventSubscriber'

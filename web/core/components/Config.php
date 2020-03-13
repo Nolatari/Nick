@@ -10,7 +10,7 @@ use Nick\Database\Result;
  *
  * @package Nick
  */
-class Config {
+class Config extends Settings {
 
   public function import() {
     // @TODO
@@ -40,8 +40,20 @@ class Config {
 
     return [
       'live' => $live,
-      'staged' => '',
+      'staged' => $this->difference(),
     ];
+  }
+
+  /**
+   * @param string|NULL $name
+   */
+  public function getConfigFile($name = NULL) {
+    if ($name !== NULL) {
+      $file = YamlReader::fromYamlFile($this->getSetting('config')['folder'] . '/' . $name . '.yml');
+      d($file);
+    } else {
+      $folder = $this->getSetting('config')['folder'];
+    }
   }
 
   /**

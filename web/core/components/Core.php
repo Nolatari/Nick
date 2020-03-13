@@ -96,7 +96,7 @@ class Core {
    */
   public static function getInstalledExtensions() {
     $extensions_storage = Nick::Database()->select('extensions')
-      ->fields(NULL, ['name'])
+      ->fields(NULL, ['name', 'type'])
       ->condition('installed', '1');
 
     /** @var Result $extensions_result */
@@ -196,6 +196,25 @@ class Core {
       }
     }
     return FALSE;
+  }
+
+  /**
+   * @param $extension
+   * @param string $type
+   *
+   * @return bool|mixed
+   */
+  public static function getExtensionInfo($extension, $type = 'core') {
+    switch (strtolower($type)) {
+      case 'core':
+        return YamlReader::readCoreExtension($extension);
+        break;
+      case 'contrib':
+        return YamlReader::readExtension($extension);
+        break;
+      default:
+        return FALSE;
+    }
   }
 
 }

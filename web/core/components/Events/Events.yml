@@ -1,0 +1,7 @@
+name: Events
+version: 1.0a
+type: extension
+classes:
+  Event: '\Nick\Events\Event'
+  FireEvent: '\Nick\Events\FireEvent'
+  ExecuteSubscribers: '\Nick\Events\ExecuteSubscribers'

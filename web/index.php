@@ -6,6 +6,8 @@
  * Year: 2020
  */
 
+use Nick\Core;
+
 session_start();
 
 error_reporting(E_ALL);
@@ -20,5 +22,3 @@ $include_file = 'pages/' . $include_file . '.php';
 if (is_file($include_file)) {
   include $include_file;
 }
-
-\Nick::Config()->difference();
