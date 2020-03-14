@@ -197,12 +197,12 @@ class Database extends Settings {
   }
 
   /**
-   * @param $field_name
-   * @param $options
+   * @param string $field_name
+   * @param array $options
    *
    * @return string
    */
-  public static function createFieldQuery($field_name, $options) {
+  public static function createFieldQuery($field_name, array $options) {
     if (isset($options['type']) && strpos($options['type'], 'text') !== FALSE && !isset($options['length'])) {
       $field = '`' . $field_name . '` ' . $options['type'] . ' ';
     } else {

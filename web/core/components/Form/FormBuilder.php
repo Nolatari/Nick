@@ -53,6 +53,17 @@ class FormBuilder {
   }
 
   /**
+   * @param array $form
+   * @param string $formId
+   * @param FormStateInterface $formState
+   */
+  public function submit(&$form, $formId, FormStateInterface $formState) {
+    $preSubmitEvent = new Event('FormPreSubmitAlter');
+    $preSubmitEvent->fireEvent($form, [$formId, $formState]);
+
+  }
+
+  /**
    * Returns array of fields.
    *
    * @return array
