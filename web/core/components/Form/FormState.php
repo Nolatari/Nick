@@ -3,6 +3,7 @@
 namespace Nick\Form;
 
 use Nick\Core;
+use Nick\Database\Result;
 
 /**
  * Class FormState
@@ -14,11 +15,14 @@ class FormState {
   /** @var string $uuid */
   protected $uuid;
 
+  /** @var array $values */
+  protected $values = [];
+
   /**
    * FormState constructor.
    */
   public function __construct() {
-    // Create a unique UUID for this form state!
+    // Create a unique UUID for this form state.
     $this->setUUID(Core::createUUID());
   }
 
@@ -42,6 +46,62 @@ class FormState {
     $this->uuid = $uuid;
 
     return $this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function populateValueArray($return = FALSE) {
+    $state_storage = \Nick::Database()
+      ->select('form_state')
+      ->condition('uuid', $this->getUUID())
+      ->execute();
+    if (!$state_storage instanceof Result) {
+      return FALSE;
+    }
+
+    $this->values = $state_storage->fetchAllAssoc();
+    if ($return) {
+      return count($this->getValues());
+    }
+    return TRUE;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function getValues() {
+    return $this->values;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function setValues($values) {
+    $this->values = $values;
+    return $this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function save() {
+    if (!$this->populateValueArray(TRUE)) {
+      $query = \Nick::Database()
+        ->insert('form_state')
+        ->values([
+          $this->getUUID(),
+          $this->getValues(),
+        ]);
+    } else {
+      $query = \Nick::Database()
+        ->update('form_state')
+        ->condition('uuid', $this->getUUID())
+        ->values([
+          'values' => $this->getValues(),
+        ]);
+    }
+    return $query->execute();
   }
 
 }
