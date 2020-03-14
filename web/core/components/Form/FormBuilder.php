@@ -15,6 +15,9 @@ class FormBuilder {
   /** @var MatterInterface $matter */
   protected $matter;
 
+  /** @var array $values */
+  protected $values;
+
   /**
    * FormBuilder constructor.
    *
@@ -55,12 +58,22 @@ class FormBuilder {
   /**
    * @param array $form
    * @param string $formId
-   * @param FormStateInterface $formState
    */
-  public function submit(&$form, $formId, FormStateInterface $formState) {
+  public function submit(&$form, $formId) {
+    /** @var FormStateInterface $formState */
+    $formState = new FormState();
+    $formState->setValues($this->values);
+
+    // Fire FormPreSubmitAlter event
     $preSubmitEvent = new Event('FormPreSubmitAlter');
     $preSubmitEvent->fireEvent($form, [$formId, $formState]);
 
+    // Submit form
+    // @TODO
+
+    // Fire FormPostSubmitAlter event
+    $postSubmitEvent = new Event('FormPostSubmitAlter');
+    $postSubmitEvent->fireEvent($form, [$formId, $formState]);
   }
 
   /**
