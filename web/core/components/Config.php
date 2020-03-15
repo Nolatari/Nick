@@ -40,7 +40,7 @@ class Config extends Settings {
 
     return [
       'live' => $live,
-      'staged' => $this->difference(),
+      'staged' => '',
     ];
   }
 
