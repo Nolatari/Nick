@@ -72,6 +72,10 @@ class Config extends Settings {
       $config[] = YamlReader::fromYamlFile($this->getSetting('config')['folder'] . '/' . $name . '.yml');
     } else {
       $folder = $this->getSetting('config')['folder'];
+      if (!is_dir($folder)) {
+        \Nick::Logger()->add('Config directory does not exist.', Logger::TYPE_FAILURE, 'Config');
+        return $config;
+      }
       $files = scandir($folder);
       foreach ($files as $file) {
         if ($file == '.' || $file == '..') {

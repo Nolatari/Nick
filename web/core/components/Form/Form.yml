@@ -6,3 +6,4 @@ required: true
 classes:
   FormBuilder: '\Nick\Form\FormBuilder'
   FormElement: '\Nick\Form\FormElement'
+  FormState: '\Nick\Form\FormState'
