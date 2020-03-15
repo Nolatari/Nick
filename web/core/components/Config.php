@@ -2,7 +2,6 @@
 
 namespace Nick;
 
-use Nick;
 use Nick\Database\Result;
 
 /**
@@ -12,12 +11,30 @@ use Nick\Database\Result;
  */
 class Config extends Settings {
 
+  /**
+   * @return bool
+   */
   public function import() {
-    // @TODO
+    $staged = $this->getStagedConfig();
+    foreach ($staged as $key => $value) {
+      if (!$this->set($key, $value)) {
+        \Nick::Logger()->add('Something went wrong trying to import the following config: ' . $key, Logger::TYPE_FAILURE, 'Config');
+        return FALSE;
+      }
+    }
+
+    return TRUE;
   }
 
+  /**
+   * @return bool
+   */
   public function export() {
-    // @TODO
+    foreach ($this->getConfig() as $key => $value) {
+      // @TODO
+    }
+
+    return TRUE;
   }
 
   /**
@@ -65,10 +82,26 @@ class Config extends Settings {
           continue;
         }
 
-        $config[] = file_get_contents($folder . '/' . $file);
+        // Add to config array.
+        $key = str_replace('.yml', '', $file);
+        $config[$key] = file_get_contents($folder . '/' . $file);
       }
     }
     return $config;
+  }
+
+  /**
+   * @return array|bool
+   */
+  public function getConfig() {
+    $config_storage = \Nick::Database()
+      ->select('config')
+      ->execute();
+    if (!$config_storage instanceof Result) {
+      return [];
+    }
+
+    return $config_storage->fetchAllAssoc();
   }
 
   /**
