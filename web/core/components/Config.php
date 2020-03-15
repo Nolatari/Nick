@@ -40,20 +40,35 @@ class Config extends Settings {
 
     return [
       'live' => $live,
-      'staged' => '',
+      'staged' => $this->getStagedConfig(),
     ];
   }
 
   /**
    * @param string|NULL $name
+   *
+   * @return array
    */
-  public function getConfigFile($name = NULL) {
+  public function getStagedConfig($name = NULL) {
+    $config = [];
     if ($name !== NULL) {
-      $file = YamlReader::fromYamlFile($this->getSetting('config')['folder'] . '/' . $name . '.yml');
-      d($file);
+      $config[] = YamlReader::fromYamlFile($this->getSetting('config')['folder'] . '/' . $name . '.yml');
     } else {
       $folder = $this->getSetting('config')['folder'];
+      $files = scandir($folder);
+      foreach ($files as $file) {
+        if ($file == '.' || $file == '..') {
+          continue;
+        }
+
+        if (!is_file($folder . '/' . $file)) {
+          continue;
+        }
+
+        $config[] = file_get_contents($folder . '/' . $file);
+      }
     }
+    return $config;
   }
 
   /**
