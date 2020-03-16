@@ -2,8 +2,10 @@
 
 namespace Nick;
 
+use FilesystemIterator;
 use Nick\Database\Result;
-use Symfony\Component\Yaml\Yaml;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
  * Class Config
@@ -31,6 +33,16 @@ class Config extends Settings {
    * @return bool
    */
   public function export() {
+    $config_folder = $this->getSetting('config')['folder'];
+    $di = new RecursiveDirectoryIterator($config_folder, FilesystemIterator::SKIP_DOTS);
+    $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
+    foreach ( $ri as $file ) {
+      if ($file->isDir()) {
+        continue;
+      }
+      unlink($file);
+    }
+
     foreach ($this->getConfig() as $item) {
       $config = YamlReader::toYaml(unserialize($item['value']));
       try {
@@ -61,7 +73,7 @@ class Config extends Settings {
     $results = $config_storage->fetchAllAssoc();
     $live = [];
     foreach ($results as $result) {
-      $live[$result['field']] = YamlReader::toYaml(unserialize($result['value']));
+      $live[$result['field']] = unserialize($result['value']);
     }
 
     return [
@@ -97,7 +109,7 @@ class Config extends Settings {
 
         // Add to config array.
         $key = str_replace('.yml', '', $file);
-        $config[$key] = file_get_contents($folder . '/' . $file);
+        $config[$key] = YamlReader::fromYamlFile($folder . '/' . $file);
       }
     }
     return $config;

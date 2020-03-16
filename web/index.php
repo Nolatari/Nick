@@ -21,5 +21,4 @@ if (is_file($include_file)) {
   include $include_file;
 }
 
-\Nick::Config()->export();
 d(\Nick::Config()->difference());
