@@ -3,6 +3,7 @@
 namespace Nick;
 
 use Nick\Database\Result;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Config
@@ -30,8 +31,16 @@ class Config extends Settings {
    * @return bool
    */
   public function export() {
-    foreach ($this->getConfig() as $key => $value) {
-      // @TODO
+    foreach ($this->getConfig() as $item) {
+      $config = YamlReader::toYaml(unserialize($item['value']));
+      try {
+        $config_file = fopen($this->getSetting('config')['folder'] . '/' . $item['field'] . '.yml', 'w');
+        fwrite($config_file, $config);
+        fclose($config_file);
+      } catch (\Exception $e) {
+        \Nick::Logger()->add('Something went wrong trying to write config to file. [' . $item['field'] . '.yml]');
+        return FALSE;
+      }
     }
 
     return TRUE;
