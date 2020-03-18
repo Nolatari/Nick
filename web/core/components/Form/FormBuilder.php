@@ -16,7 +16,10 @@ class FormBuilder {
   protected $matter;
 
   /** @var array $values */
-  protected $values;
+  protected $values = [];
+
+  /** @var FormStateInterface $formState */
+  protected $formState;
 
   /**
    * FormBuilder constructor.
@@ -25,6 +28,11 @@ class FormBuilder {
    */
   public function __construct(MatterInterface $matter) {
     $this->matter = $matter;
+
+    /** @var FormStateInterface $formState */
+    $this->formState = new FormState();
+    $this->formState->setValues($this->values);
+    $this->formState->save();
   }
 
   /**
@@ -35,7 +43,7 @@ class FormBuilder {
   public function result() {
     $build = $this->build();
     $event = new Event('FormAlter');
-    $event->fireEvent($build, ['form-' . $this->getMatter()->getType()]);
+    $event->fireEvent($build, ['form-' . $this->getMatter()->getType(), $this->formState]);
     return $build;
   }
 
@@ -60,20 +68,20 @@ class FormBuilder {
    * @param string $formId
    */
   public function submit(&$form, $formId) {
-    /** @var FormStateInterface $formState */
-    $formState = new FormState();
-    $formState->setValues($this->values);
+    // Set FormState values
+    $this->formState->setValues($this->values);
+    $this->formState->save();
 
     // Fire FormPreSubmitAlter event
     $preSubmitEvent = new Event('FormPreSubmitAlter');
-    $preSubmitEvent->fireEvent($form, [$formId, $formState]);
+    $preSubmitEvent->fireEvent($form, [$formId, $this->formState]);
 
     // Submit form
     // @TODO
 
     // Fire FormPostSubmitAlter event
     $postSubmitEvent = new Event('FormPostSubmitAlter');
-    $postSubmitEvent->fireEvent($form, [$formId, $formState]);
+    $postSubmitEvent->fireEvent($form, [$formId, $this->formState]);
   }
 
   /**

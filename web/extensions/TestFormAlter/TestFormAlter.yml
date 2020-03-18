@@ -1,0 +1,8 @@
+name: Test Form Alter
+version: 1.0a
+type: extension
+interface: false
+event_listeners:
+  FormAlter:
+    class: '\Nick\extension\TestFormAlter\TestFormAlter'
+    method: 'FormAlter'
