@@ -7,7 +7,7 @@ use Nick\Logger;
 use Nick\Settings;
 
 /**
- * Class Cache
+ * Class Cache => used to store cache in database.
  *
  * @package Nick\Cache
  */
@@ -53,7 +53,6 @@ class Cache extends Settings implements CacheInterface {
    * {@inheritDoc}
    */
   public function getContentData(array $cacheOptions, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
-    // @TODO!
     $query = \Nick::Database()
       ->select('cache_content')
       ->condition('field', $cacheOptions['key'])
@@ -62,7 +61,6 @@ class Cache extends Settings implements CacheInterface {
       return FALSE;
     }
 
-    $data = [];
     $items = $query->fetchAllAssoc();
     if (count($items) == 0) {
       $class = new $fallbackClass(...$classData);
@@ -89,6 +87,13 @@ class Cache extends Settings implements CacheInterface {
         $data = $cache['value'];
       }
     }
+
+    // Add to cache stats.
+    if (!isset($this->cacheStats['content'][$cacheOptions['key']])) {
+      $this->cacheStats['content'][$cacheOptions['key']]['created'] = 1;
+      $this->cacheStats['content'][$cacheOptions['key']]['called'] = 0;
+    }
+    $this->cacheStats['content'][$cacheOptions['key']]['called']++;
 
     return $data;
   }
