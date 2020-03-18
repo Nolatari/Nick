@@ -15,10 +15,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../settings.php';
 require_once __DIR__ . '/core/includes.php';
 
-$include_file = $_GET['p'] ?? 'dashboard';
-$include_file = 'pages/' . $include_file . '.php';
-if (is_file($include_file)) {
-  include $include_file;
+$page = $_GET['p'] ?? 'dashboard';
+$page = 'pages/' . $page . '.php';
+if (is_file($page)) {
+  include $page;
 }
 
 d(\Nick::Config()->difference());
