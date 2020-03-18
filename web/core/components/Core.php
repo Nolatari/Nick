@@ -147,18 +147,8 @@ class Core {
   protected static function getAllMatterClasses() {
     $matters = [];
     $extensionsChecked = [];
-    // Read Core extensions
-    foreach (self::getCoreExtensions() as $extension) {
-      $extensionsChecked[] = $extension;
-      $extensionInfo = YamlReader::readCoreExtension($extension);
-      if ($extensionInfo['type'] !== 'matter') {
-        continue;
-      }
-
-      $matters[] = $extension;
-    }
-    // Read Contrib extensions
-    foreach (self::getContribExtensions() as $extension) {
+    $extensions = self::getCoreExtensions() + self::getContribExtensions();
+    foreach ($extensions as $extension) {
       $extensionsChecked[] = $extension;
       $extensionInfo = YamlReader::readExtension($extension);
       if ($extensionInfo['type'] !== 'matter') {
@@ -201,22 +191,12 @@ class Core {
   /**
    * Returns the information in the extension.yml file.
    *
-   * @param $extension
-   * @param string $type
+   * @param string $extension
    *
    * @return bool|mixed
    */
-  public static function getExtensionInfo($extension, $type = 'core') {
-    switch (strtolower($type)) {
-      case 'core':
-        return YamlReader::readCoreExtension($extension);
-        break;
-      case 'contrib':
-        return YamlReader::readExtension($extension);
-        break;
-      default:
-        return FALSE;
-    }
+  public static function getExtensionInfo($extension) {
+    return YamlReader::readExtension($extension);
   }
 
   /**

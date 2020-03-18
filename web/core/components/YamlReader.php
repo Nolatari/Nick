@@ -17,16 +17,14 @@ class YamlReader {
    * @return mixed
    */
   public static function readExtension($ext) {
-    return self::fromYamlFile(__DIR__ . '/../../extensions/' . $ext . '/' . $ext . '.yml');
-  }
-
-  /**
-   * @param string $ext
-   *
-   * @return mixed
-   */
-  public static function readCoreExtension($ext) {
-    return self::fromYamlFile(__DIR__ . '/' . $ext . '/' . $ext . '.yml');
+    if (is_file(__DIR__ . '/../../extensions/' . $ext . '/' . $ext . '.yml')) {
+      $file = __DIR__ . '/../../extensions/' . $ext . '/' . $ext . '.yml';
+    } elseif (is_file(__DIR__ . '/' . $ext . '/' . $ext . '.yml')) {
+      $file = __DIR__ . '/' . $ext . '/' . $ext . '.yml';
+    } else {
+      return FALSE;
+    }
+    return self::fromYamlFile($file);
   }
 
   /**

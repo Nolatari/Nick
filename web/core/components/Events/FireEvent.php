@@ -48,7 +48,7 @@ class FireEvent {
     $listeners = [];
     foreach ($extensions as $extension) {
       // Skip if this extension has no info file.
-      if (!$extInfo = Core::getExtensionInfo($extension['name'], $extension['type'])) {
+      if (!$extInfo = Core::getExtensionInfo($extension['name'])) {
         continue;
       }
 
