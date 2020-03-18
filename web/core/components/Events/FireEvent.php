@@ -18,6 +18,8 @@ class FireEvent {
    * @param EventInterface $event
    * @param array $variables
    * @param array $otherArgs
+   *
+   * @return bool
    */
   protected function fire(EventInterface $event, &$variables = [], $otherArgs = []) {
     foreach ($this->getListeners($event->getEventName()) as $listener) {
@@ -27,8 +29,11 @@ class FireEvent {
         $class->{$listener['method']}($variables, ...$otherArgs);
       } catch (\Exception $e) {
         \Nick::Logger()->add($e->getMessage(), Logger::TYPE_ERROR, 'EventListener');
+        return FALSE;
       }
     }
+
+    return TRUE;
   }
 
   /**
