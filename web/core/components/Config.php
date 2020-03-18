@@ -34,6 +34,9 @@ class Config extends Settings {
    */
   public function export() {
     $config_folder = $this->getSetting('config')['folder'];
+    if (!is_dir($this->getSetting('config')['folder'])) {
+      \Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
+    }
     $di = new RecursiveDirectoryIterator($config_folder, FilesystemIterator::SKIP_DOTS);
     $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
     foreach ( $ri as $file ) {
@@ -46,11 +49,11 @@ class Config extends Settings {
     foreach ($this->getConfig() as $item) {
       $config = YamlReader::toYaml(unserialize($item['value']));
       try {
-        $config_file = fopen($this->getSetting('config')['folder'] . '/' . $item['field'] . '.yml', 'w');
+        $config_file = fopen($this->getSetting('config')['folder'] . '/' . $item['field'] . '.yml', 'w', Logger::TYPE_ERROR, 'Config');
         fwrite($config_file, $config);
         fclose($config_file);
       } catch (\Exception $e) {
-        \Nick::Logger()->add('Something went wrong trying to write config to file. [' . $item['field'] . '.yml]');
+        \Nick::Logger()->add('Something went wrong trying to write config to file. [' . $item['field'] . '.yml]', Logger::TYPE_ERROR, 'Config');
         return FALSE;
       }
     }
@@ -94,7 +97,7 @@ class Config extends Settings {
     } else {
       $folder = $this->getSetting('config')['folder'];
       if (!is_dir($folder)) {
-        \Nick::Logger()->add('Config directory does not exist.', Logger::TYPE_FAILURE, 'Config');
+        \Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
         return $config;
       }
       $files = scandir($folder);
