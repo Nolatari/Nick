@@ -2,6 +2,8 @@
 
 namespace Nick\Cache;
 
+use Nick\Database\Result;
+use Nick\Logger;
 use Nick\Settings;
 
 /**
@@ -29,7 +31,7 @@ class Cache extends Settings implements CacheInterface {
   /**
    * {@inheritDoc}
    */
-  public function getData($cacheKey, $fallbackClass = '', $fallbackMethod = '', $methodData = [], $classData = []) {
+  public function getData($cacheKey, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
     if (!isset($this->cacheableData[$cacheKey])) {
       $class = new $fallbackClass(...$classData);
       if (!empty($fallbackMethod)) {
@@ -50,8 +52,97 @@ class Cache extends Settings implements CacheInterface {
   /**
    * {@inheritDoc}
    */
-  public function getContentData($cacheKey, $fallbackClass = '', $fallbackMethod = '', $methodData = [], $classData = []) {
+  public function getContentData(array $cacheOptions, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
     // @TODO!
+    $query = \Nick::Database()
+      ->select('cache_content')
+      ->condition('field', $cacheOptions['key'])
+      ->execute();
+    if (!$query instanceof Result) {
+      return FALSE;
+    }
+
+    $data = [];
+    $items = $query->fetchAllAssoc();
+    if (count($items) == 0) {
+      $class = new $fallbackClass(...$classData);
+      if (empty($fallbackMethod)) {
+        return FALSE;
+      }
+      $data = $class->{$fallbackMethod}(...$methodData);
+      if (!$this->insertContentData($cacheOptions, $data)) {
+        return FALSE;
+      }
+    } else {
+      $cache = $items;
+      $cache = reset($cache);
+      $class = new $fallbackClass(...$classData);
+      if (empty($fallbackMethod)) {
+        return FALSE;
+      }
+      if ((time() - (time() - $cache['maxage'])) > 0) {
+        $data = $class->{$fallbackMethod}(...$methodData);
+        if (!$this->updateContentData($cacheOptions, $data)) {
+          return FALSE;
+        }
+      } else {
+        $data = $cache['value'];
+      }
+    }
+
+    return $data;
+  }
+
+  /**
+   * @param array $cacheOptions
+   * @param mixed $value
+   *
+   * @return bool
+   */
+  protected function insertContentData(array $cacheOptions, $value = []) {
+    $query = \Nick::Database()
+      ->insert('cache_content')
+      ->values([
+        'field' => $cacheOptions['key'],
+        'value' => serialize($value),
+        'tags' => $cacheOptions['tags'],
+        'context' => $cacheOptions['context'],
+        'maxage' => $cacheOptions['max-age'],
+        'created' => time(),
+      ])
+      ->execute();
+    if (!$query) {
+      \Nick::Logger()->add('Something went wrong trying to insert cache item [' . $cacheOptions['key'] . ']', Logger::TYPE_FAILURE, 'Cache');
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * @param array $cacheOptions
+   * @param mixed $value
+   *
+   * @return bool
+   */
+  protected function updateContentData(array $cacheOptions, $value = []) {
+    $query = \Nick::Database()
+      ->update('cache_content')
+      ->condition('field', $cacheOptions['key'])
+      ->values([
+        'value' => serialize($value),
+        'tags' => $cacheOptions['tags'],
+        'context' => $cacheOptions['context'],
+        'maxage' => $cacheOptions['max-age'],
+        'created' => time(),
+      ])
+      ->execute();
+    if (!$query) {
+      \Nick::Logger()->add('Something went wrong trying to update cache item [' . $cacheOptions['key'] . ']', Logger::TYPE_FAILURE, 'Cache');
+      return FALSE;
+    }
+
+    return TRUE;
   }
 
   /**
