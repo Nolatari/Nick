@@ -1,6 +1,7 @@
 <?php
 
 use Nick\Cache\Cache;
+use Nick\Cache\CacheInterface;
 use Nick\Config;
 use Nick\Core;
 use Nick\Database\Database;
@@ -19,11 +20,11 @@ use Nick\Theme;
 class Nick {
 
   /**
-   * @return Cache
+   * @return CacheInterface
    */
   public static function Cache() {
     global $cache;
-    return $cache ?? new Cache();
+    return $cache ?? Core::getCacheClass();
   }
 
   /**

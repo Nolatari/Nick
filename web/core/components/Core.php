@@ -3,7 +3,7 @@
 namespace Nick;
 
 use Exception;
-use Nick;
+use Nick\Cache\CacheInterface;
 use Nick\Database\Result;
 use Nick\Matter\MatterInterface;
 
@@ -171,16 +171,20 @@ class Core {
   public static function matterInstalled($type) {
     $database = \Nick::Database();
     $type = strtolower($type);
-    $matter = $database->select('matter__' . $type);
-    if (!$matter_result = $matter->execute()) {
+    $matter = $database
+      ->select('matter__' . $type)
+      ->execute();
+    if (!$matter instanceof Result) {
       return FALSE;
     }
-    $matter_storage = $database->select('matter_storage')
-      ->condition('type', $type);
-    if (!$matter_storage_result = $matter_storage->execute()) {
+    $matter_storage = $database
+      ->select('matter_storage')
+      ->condition('type', $type)
+      ->execute();
+    if (!$matter_storage instanceof Result) {
       return FALSE;
     }
-    if ($result = $matter_storage_result->fetchAllAssoc()) {
+    if ($result = $matter_storage->fetchAllAssoc()) {
       if (count($result) > 0) {
         return TRUE;
       }
@@ -212,6 +216,17 @@ class Core {
       mt_rand(0, 0x3fff) | 0x8000,
       mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
     );
+  }
+
+  /**
+   * Returns the active cache class.
+   *
+   * @return CacheInterface
+   */
+  public static function getCacheClass() {
+    $cacheClass = '\\Nick\\Cache\\Cache';
+    // @TODO: dynamically return the currently active cache class without nesting too many functions!
+    return new $cacheClass();
   }
 
 }
