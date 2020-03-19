@@ -5,9 +5,9 @@ namespace Nick\Person;
 use Nick\Matter\MatterInterface;
 
 /**
- * Interface UserInterface
+ * Interface PersonInterface
  *
- * @package Nick\User
+ * @package Nick\Person
  */
 interface PersonInterface extends MatterInterface {
 

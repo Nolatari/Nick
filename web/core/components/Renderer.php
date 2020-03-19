@@ -141,7 +141,7 @@ class Renderer extends Settings {
     unset($render_settings['database']);
     $variables = $variables + [
         'settings' => $this->settings,
-        'active_user' => Person::getCurrentUser()
+        'active_user' => Person::getCurrentPerson()
       ];
     if ($this->template === 'page') {
       // Fire PreprocessPage event
@@ -159,7 +159,7 @@ class Renderer extends Settings {
       $variables = $variables + [
           'header' => $this->setType()->setTemplate('header')->render([
             'people' => $people,
-            'active_user' => Person::getCurrentUser(),
+            'active_user' => Person::getCurrentPerson(),
             'logs' => $logger->render()
           ]),
           'footer' => $this->setType()->setTemplate('footer')->render(),

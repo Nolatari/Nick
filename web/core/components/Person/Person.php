@@ -6,9 +6,9 @@ use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
 
 /**
- * Class User
+ * Class Person
  *
- * @package Nick\User
+ * @package Nick\Person
  */
 class Person Extends Matter implements PersonInterface {
 
@@ -41,7 +41,7 @@ class Person Extends Matter implements PersonInterface {
   /**
    * @return int
    */
-  public static function getCurrentUser() {
+  public static function getCurrentPerson() {
     return $_SESSION['uid'] ?? 0;
   }
 
@@ -125,7 +125,7 @@ class Person Extends Matter implements PersonInterface {
   /**
    * {@inheritDoc}
    */
-  public function checkUser($field, $value) {
+  public function checkPerson($field, $value) {
     $this->checkPassword($value);
   }
 

@@ -137,8 +137,8 @@ class Matter implements MatterInterface {
       'owner' => [
         'type' => 'int',
         'length' => 25,
-        'default_value' => Person::getCurrentUser(),
-        'class' => '\\Nick\\User\\User',
+        'default_value' => Person::getCurrentPerson(),
+        'class' => '\\Nick\\Person\\Person',
       ],
       'status' => [
         'type' => 'tinyint',

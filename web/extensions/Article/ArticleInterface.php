@@ -5,7 +5,7 @@ namespace Nick\Extension\Article;
 use Nick\Matter\MatterInterface;
 
 /**
- * Interface UserInterface
+ * Interface ArticleInterface
  *
  * @package Nick\Extension\Article
  */

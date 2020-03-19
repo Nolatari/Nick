@@ -49,7 +49,7 @@ class Logger {
       'id' => 0,
       'type' => $type,
       'page' => $_SERVER['REQUEST_URI'],
-      'owner' => Person::getCurrentUser(),
+      'owner' => Person::getCurrentPerson(),
       'backtrace' => serialize(debug_backtrace()),
       'category' => $category,
       'message' => $message,

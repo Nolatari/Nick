@@ -221,7 +221,7 @@ class SqlFormatter {
       );
       return $return;
     }
-    // User-defined Variable
+    // Person-defined Variable
     if (($string[0] === '@' || $string[0] === ':') && isset($string[1])) {
       $ret = array(
         self::TOKEN_VALUE => null,
