@@ -4,5 +4,5 @@ type: extension
 interface: false
 event_listeners:
   FormAlter:
-    class: '\Nick\extension\TestFormAlter\TestFormAlter'
+    class: '\Nick\Extension\TestFormAlter\TestFormAlter'
     method: 'FormAlter'

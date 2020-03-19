@@ -27,8 +27,8 @@ class FireEvent {
       try {
         // Call the listener class' method
         $class->{$listener['method']}($variables, ...$otherArgs);
-      } catch (\Exception $e) {
-        \Nick::Logger()->add($e->getMessage(), Logger::TYPE_ERROR, 'EventListener');
+      } catch (\Exception $exception) {
+        \Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'EventListener');
         return FALSE;
       }
     }

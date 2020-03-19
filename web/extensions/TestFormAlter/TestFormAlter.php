@@ -1,16 +1,20 @@
 <?php
 
-namespace Nick\extension\TestFormAlter;
+namespace Nick\Extension\TestFormAlter;
 
 use Nick\Form\FormStateInterface;
 
 /**
  * Class TestFormAlter
- * @package Nick\extension\TestFormAlter
+ *
+ * @package Nick\Extension\TestFormAlter
  */
 class TestFormAlter {
 
   /**
+   * Tests the FormAlter event.
+   * Defined in the TestFormAlter.yml file!
+   *
    * @param array $form
    * @param string $form_id
    * @param FormStateInterface $formState
