@@ -86,7 +86,7 @@ class Language implements LanguageInterface {
    */
   protected function setValues($langcode) {
     $this->langcode = $langcode;
-    if (!$properties = $this->getPropertiesByLangcode()) {
+    if (!$properties = $this->getProperties()) {
       return FALSE;
     }
     $this->language = $properties['language'];
@@ -104,7 +104,7 @@ class Language implements LanguageInterface {
    *
    * @return array|bool
    */
-  protected function getPropertiesByLangcode() {
+  protected function getProperties() {
     $query = \Nick::Database()
       ->select('languages')
       ->fields(['language', 'country', 'default'])
