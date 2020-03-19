@@ -191,8 +191,8 @@ class Manifest implements ManifestInterface {
    * @return Result|bool
    */
   protected function query() {
-    $query = \Nick::Database();
-    $query->select('matter__' . $this->getType())
+    $query = \Nick::Database()
+      ->select('matter__' . $this->getType())
       ->fields(NULL, $this->getFields());
     // Add conditions
     foreach ($this->getConditions() as $condition) {
