@@ -10,19 +10,29 @@ namespace Nick\Translation;
 interface TranslationInterface {
 
   /**
-   * Translation service, correct usage would be to enter a literal string, for example:
-   *       $animal = 'fox'; $color = 'brown';
-   *       Translation::translate('The :animal jumps over the :color fence', [':animal' => $animal, ':color' => $color]);
-   * This ensures the proper handling of variables in string translations.
-   * This method can also be used to stack translations, for example:
-   *       $companyName = Translation::translate('myCompany');
-   *       Translation::translate('Welcome to :company', [':company' => $companyName]);
+   * Gets translation of string if it exists.
+   * If fallback is TRUE and there is no translation, it will return
+   *   the original string.
    *
    * @param string $string
-   * @param array $args
+   * @param bool $fallback
+   * @param null $langcode
    *
-   * @return mixed
+   * @return string
    */
-  public function translate($string, array $args = []);
+  public function get($string, $fallback = TRUE, $langcode = NULL);
+
+  /**
+   * Sets string translation
+   *
+   * @param string $string
+   * @param string $translation
+   * @param array $args
+   * @param string $from_langcode
+   * @param string $to_langcode
+   *
+   * @return bool
+   */
+  public function set($string, $translation, array $args = [], $from_langcode = NULL, $to_langcode = NULL);
 
 }

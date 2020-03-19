@@ -7,6 +7,7 @@ use Nick\Core;
 use Nick\Database\Database;
 use Nick\Form\FormBuilder;
 use Nick\Form\FormElement;
+use Nick\Language\LanguageManager;
 use Nick\Logger;
 use Nick\Manifest\Manifest;
 use Nick\Matter\Matter;
@@ -104,6 +105,15 @@ class Nick {
   public static function Translation() {
     // @Todo: allow dynamic entities.
     return self::Cache()->getData('translation', '\\Nick\\Translation\\Translation');
+  }
+
+  /**
+   * Returns cached LanguageManager object
+   *
+   * @return LanguageManager
+   */
+  public static function LanguageManager() {
+    return self::Cache()->getData('language.manager', '\\Nick\\Language\\LanguageManager');
   }
 
   /**

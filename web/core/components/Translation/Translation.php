@@ -3,7 +3,7 @@
 namespace Nick\Translation;
 
 use Nick\Database\Result;
-use Nick\Logger;
+use Nick\Language\LanguageManager;
 
 /**
  * Class Translation
@@ -12,38 +12,26 @@ use Nick\Logger;
  */
 class Translation implements TranslationInterface {
 
-  /**
-   * @inheritDoc
-   */
-  public function translate($string, array $args = []) {
-    if (!is_string($string)) {
-      \Nick::Logger()->add('Only strings should be entered.');
-      return FALSE;
-    }
+  /** @var LanguageManager $languageManager */
+  protected $languageManager;
 
-    if ($string === $this->get($string, TRUE)) {
-      if (!$this->set($string, $string, $args)) {
-        \Nick::Logger()->add('Something went wrong trying to set a translation.', Logger::TYPE_FAILURE, 'Translation');
-      }
-    }
-    return $this->get($string, TRUE);
+  /**
+   * Translation constructor.
+   */
+  public function __construct() {
+    $this->languageManager = \Nick::LanguageManager();
   }
 
   /**
-   * Gets translation of string if it exists.
-   * If fallback is TRUE and there is no translation, it will return
-   *   the original string.
-   *
-   * @param string $string
-   * @param bool $fallback
-   *
-   * @return string
+   * {@inheritDoc}
    */
-  protected function get($string, $fallback = TRUE) {
+  public function get($string, $fallback = TRUE, $langcode = NULL) {
+    $to_langcode = !is_null($langcode) ? $langcode : $this->languageManager->getCurrentLanguage();
     $query = \Nick::Database()
       ->select('translations')
       ->fields(['translation', 'args'])
       ->condition('string', $string)
+      ->condition('to_langcode', $langcode)
       ->execute();
     if ($query instanceof Result) {
       $result = $query->fetchAllAssoc();
@@ -72,29 +60,30 @@ class Translation implements TranslationInterface {
     }
   }
 
+
   /**
-   * Sets string translation
-   *
-   * @param string $string
-   * @param string $translation
-   * @param array $args
-   *
-   * @return bool
+   * {@inheritDoc}
    */
-  protected function set($string, $translation, array $args = []) {
+  public function set($string, $translation, array $args = [], $from_langcode = NULL, $to_langcode = NULL) {
+    $from_langcode = !is_null($from_langcode) ? $from_langcode : $this->languageManager->getDefaultLanguage();
+    $to_langcode = !is_null($to_langcode) ? $to_langcode : $this->languageManager->getCurrentLanguage();
     if ($string === $this->get($string, TRUE)) {
       $query = \Nick::Database()
-        ->insert('translations')
+        ->insert('translatable_strings')
         ->values([
           'string' => $string,
           'translation' => $translation,
           'args' => serialize($args),
+          'langcode_from' => $from_langcode,
+          'langcode_to' => $to_langcode,
         ])
         ->execute();
     } else {
       $query = \Nick::Database()
-        ->update('translations')
+        ->update('translatable_strings')
         ->condition('string', $string)
+        ->condition('langcode_from', $from_langcode)
+        ->condition('langcode_to', $to_langcode)
         ->values([
           'translation' => $translation,
           'args' => serialize($args),
