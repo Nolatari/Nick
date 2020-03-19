@@ -26,7 +26,7 @@ class Translation implements TranslationInterface {
    * {@inheritDoc}
    */
   public function get($string, $fallback = TRUE, $langcode = NULL) {
-    $to_langcode = !is_null($langcode) ? $langcode : $this->languageManager->getCurrentLanguage();
+    $langcode = !is_null($langcode) ? $langcode : $this->languageManager->getCurrentLanguage();
     $query = \Nick::Database()
       ->select('translations')
       ->fields(['translation', 'args'])
