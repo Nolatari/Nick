@@ -34,6 +34,8 @@ class LanguageManager {
   }
 
   /**
+   * Returns language object from given langcode.
+   *
    * @param string $langcode
    *
    * @return LanguageInterface
