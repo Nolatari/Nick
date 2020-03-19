@@ -55,6 +55,14 @@ class Language implements LanguageInterface {
   /**
    * {@inheritDoc}
    */
+  public function getCountry() {
+    // Return translated string of language label.
+    return $this->translate(':country', [':country' => $this->country]);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function isDefault() {
     return $this->default;
   }

@@ -17,11 +17,18 @@ interface LanguageInterface {
   public function getLangcode();
 
   /**
-   * Returns the language label.
+   * Returns the translated language label.
    *
    * @return string
    */
   public function getLanguage();
+
+  /**
+   * Returns the translated country label.
+   *
+   * @return string
+   */
+  public function getCountry();
 
   /**
    * Returns TRUE or FALSE whether current langcode is default language
