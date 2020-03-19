@@ -165,7 +165,7 @@ class Matter implements MatterInterface {
       return FALSE;
     }
 
-    $fields_storage = \Nick::Database()
+    $fields_storage = $this->database
       ->select('matter_storage')
       ->fields(NULL, ['fields'])
       ->condition('type', $this->getType());
