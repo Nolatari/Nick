@@ -13,6 +13,7 @@ use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
 use Nick\Renderer;
 use Nick\Theme;
+use Nick\Translation\TranslationInterface;
 
 /**
  * Nick helper class.
@@ -92,6 +93,16 @@ class Nick {
    */
   public static function Config() {
     return self::Cache()->getData('config', '\\Nick\\Config');
+  }
+
+  /**
+   * Returns cached Translation object
+   *
+   * @return TranslationInterface
+   */
+  public static function Translation() {
+    // @Todo: allow dynamic entities.
+    return self::Cache()->getData('translation', '\\Nick\\Translation\\Translation');
   }
 
   /**
