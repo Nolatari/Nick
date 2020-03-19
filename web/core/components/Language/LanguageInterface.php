@@ -24,6 +24,14 @@ interface LanguageInterface {
   public function getLanguage();
 
   /**
+   * Returns either the fallback language, or the default one if
+   * no fallback has been set up.
+   *
+   * @return LanguageInterface
+   */
+  public function getFallbackLanguage();
+
+  /**
    * Returns the translated country label.
    *
    * @return string

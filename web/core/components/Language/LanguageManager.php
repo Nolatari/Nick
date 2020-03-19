@@ -33,4 +33,13 @@ class LanguageManager {
     return $this->defaultLanguage;
   }
 
+  /**
+   * @param string $langcode
+   *
+   * @return LanguageInterface
+   */
+  public function getLanguageByLangcode($langcode = 'en') {
+    return new Language($langcode);
+  }
+
 }

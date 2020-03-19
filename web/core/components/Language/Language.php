@@ -20,6 +20,9 @@ class Language implements LanguageInterface {
   /** @var string $language */
   protected $language;
 
+  /** @var LanguageInterface $fallbackLanguage */
+  protected $fallbackLanguage;
+
   /** @var string $country */
   protected $country;
 
@@ -55,6 +58,13 @@ class Language implements LanguageInterface {
   /**
    * {@inheritDoc}
    */
+  public function getFallbackLanguage() {
+    return $this->fallbackLanguage;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function getCountry() {
     // Return translated string of language label.
     return $this->translate(':country', [':country' => $this->country]);
@@ -80,6 +90,9 @@ class Language implements LanguageInterface {
       return FALSE;
     }
     $this->language = $properties['language'];
+    $this->fallbackLanguage = !empty($properties['fallback'])
+      ? \Nick::LanguageManager()->getLanguageByLangcode($properties['fallback'])
+      : \Nick::LanguageManager()->getDefaultLanguage();
     $this->country = $properties['country'];
     $this->default = $properties['default'] == '1' ? TRUE : FALSE;
 
