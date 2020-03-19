@@ -3,6 +3,7 @@
 namespace Nick\Translation;
 
 use Nick\Database\Result;
+use Nick\Events\Event;
 use Nick\Language\LanguageManager;
 
 /**
@@ -67,6 +68,11 @@ class Translation implements TranslationInterface {
   public function set($string, $translation, array $args = [], $from_langcode = NULL, $to_langcode = NULL) {
     $from_langcode = !is_null($from_langcode) ? $from_langcode : $this->languageManager->getDefaultLanguage();
     $to_langcode = !is_null($to_langcode) ? $to_langcode : $this->languageManager->getCurrentLanguage();
+
+    // Fire an event before adding/saving the translation
+    $preSaveEvent = new Event('stringTranslationPresave');
+    $preSaveEvent->fireEvent($translation, [$string, $args, $from_langcode, $to_langcode]);
+
     if ($string === $this->get($string, TRUE)) {
       $query = \Nick::Database()
         ->insert('translatable_strings')
@@ -94,6 +100,10 @@ class Translation implements TranslationInterface {
     if (!$query) {
       return FALSE;
     }
+
+    // Fire an event after adding/saving the translation
+    $postSaveEvent = new Event('stringTranslationPostsave');
+    $postSaveEvent->fireEvent($translation, [$string, $args, $from_langcode, $to_langcode]);
 
     return TRUE;
   }
