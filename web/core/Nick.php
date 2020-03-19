@@ -25,7 +25,8 @@ class Nick {
    */
   public static function Cache() {
     global $cache;
-    return $cache ?? Core::getCacheClass();
+    // @TODO: dynamically return the currently active cache class!
+    return $cache ?? new Cache();
   }
 
   /**
@@ -33,7 +34,7 @@ class Nick {
    *
    * @return Matter
    */
-  public static function matterTypeManager() {
+  public static function Matter() {
     return new Matter();
   }
 

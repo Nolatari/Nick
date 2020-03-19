@@ -218,15 +218,4 @@ class Core {
     );
   }
 
-  /**
-   * Returns the active cache class.
-   *
-   * @return CacheInterface
-   */
-  public static function getCacheClass() {
-    $cacheClass = '\\Nick\\Cache\\Cache';
-    // @TODO: dynamically return the currently active cache class without nesting too many functions!
-    return new $cacheClass();
-  }
-
 }
