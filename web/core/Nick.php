@@ -13,6 +13,7 @@ use Nick\Manifest\Manifest;
 use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
 use Nick\Renderer;
+use Nick\Settings;
 use Nick\Theme;
 use Nick\Translation\TranslationInterface;
 
@@ -26,8 +27,7 @@ class Nick {
    */
   public static function Cache() {
     global $cache;
-    // @TODO: dynamically return the currently active cache class!
-    return $cache ?? new Cache();
+    return $cache ?? Core::getCacheClass();
   }
 
   /**

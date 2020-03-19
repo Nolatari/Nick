@@ -3,6 +3,7 @@
 namespace Nick;
 
 use Exception;
+use Nick\Cache\Cache;
 use Nick\Cache\CacheInterface;
 use Nick\Database\Result;
 use Nick\Matter\MatterInterface;
@@ -216,6 +217,16 @@ class Core {
       mt_rand(0, 0x3fff) | 0x8000,
       mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
     );
+  }
+
+  /**
+   * Returns currently active Cache class.
+   *
+   * @return CacheInterface
+   */
+  public static function getCacheClass() {
+    // @TODO: dynamically return the currently active cache class!
+    return new Cache;
   }
 
 }
