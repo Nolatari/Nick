@@ -34,31 +34,31 @@ class Translation implements TranslationInterface {
       ->condition('string', $string)
       ->condition('to_langcode', $langcode)
       ->execute();
-    if ($query instanceof Result) {
-      $result = $query->fetchAllAssoc();
-      if (count($result) == 0) {
-        if ($fallback) {
-          return $string;
-        } else {
-          return '';
-        }
+    if (!$query instanceof Result) {
+      if ($fallback) {
+        return $string;
+      } else {
+        return '';
       }
-
-      // There should be only one result considering the string field is unique in DB.
-      $result = reset($result);
-      $args = unserialize($result['args']);
-      foreach ($args as $arg => $replacement) {
-        $result['translation'] = str_replace($arg, $replacement, $result['translation']);
-      }
-
-      return $result['translation'];
     }
 
-    if ($fallback) {
-      return $string;
-    } else {
-      return '';
+    $result = $query->fetchAllAssoc();
+    if (count($result) == 0) {
+      if ($fallback) {
+        return $string;
+      } else {
+        return '';
+      }
     }
+
+    // There should be only one result considering the string field is unique in DB.
+    $result = reset($result);
+    $args = unserialize($result['args']);
+    foreach ($args as $arg => $replacement) {
+      $result['translation'] = str_replace($arg, $replacement, $result['translation']);
+    }
+
+    return $result['translation'];
   }
 
 
