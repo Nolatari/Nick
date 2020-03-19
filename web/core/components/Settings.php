@@ -21,7 +21,7 @@ class Settings {
   }
 
   /**
-   * @param $key
+   * @param string $key
    *
    * @return mixed|NULL
    */

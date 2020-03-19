@@ -20,6 +20,9 @@ class Language implements LanguageInterface {
   /** @var string $language */
   protected $language;
 
+  /** @var string $country */
+  protected $country;
+
   /** @var bool $default */
   protected $default = FALSE;
 
@@ -46,7 +49,7 @@ class Language implements LanguageInterface {
    */
   public function getLanguage() {
     // Return translated string of language label.
-    return $this->translate($this->language);
+    return $this->translate(':language', [':language' => $this->language]);
   }
 
   /**
@@ -69,7 +72,8 @@ class Language implements LanguageInterface {
       return FALSE;
     }
     $this->language = $properties['language'];
-    $this->default = $properties['default'] == 1 ? TRUE : FALSE;
+    $this->country = $properties['country'];
+    $this->default = $properties['default'] == '1' ? TRUE : FALSE;
 
     return TRUE;
   }
@@ -82,7 +86,7 @@ class Language implements LanguageInterface {
   protected function getPropertiesByLangcode() {
     $query = \Nick::Database()
       ->select('languages')
-      ->fields(['language', 'default'])
+      ->fields(['language', 'country', 'default'])
       ->condition('langcode', $this->getLangcode())
       ->execute();
     if (!$query instanceof Result) {

@@ -35,7 +35,7 @@ trait StringTranslation {
 
     if ($string === $translation->get($string, TRUE)) {
       if (!$translation->set($string, $string, $args)) {
-        \Nick::Logger()->add('Something went wrong trying to set a translation.', Logger::TYPE_FAILURE, 'Translation');
+        \Nick::Logger()->add('Something went wrong trying to set a translation.', Logger::TYPE_FAILURE, 'StringTranslation');
       }
     }
     return $translation->get($string, TRUE);
