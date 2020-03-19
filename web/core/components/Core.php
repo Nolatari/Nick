@@ -37,7 +37,7 @@ class Core {
   }
 
   /**
-   * Sets exception handler.
+   * Sets Nick's exception handler.
    */
   public function setSystemSpecifics() {
     @set_exception_handler([$this, 'Exception']);
