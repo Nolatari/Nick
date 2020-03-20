@@ -1,6 +1,6 @@
 <?php
 
-namespace Nick\Extension\Article;
+namespace Nick\Article;
 
 use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
@@ -8,7 +8,7 @@ use Nick\Matter\MatterInterface;
 /**
  * Class Article
  *
- * @package Nick\Extension\Article
+ * @package Nick\Article
  */
 class Article Extends Matter implements ArticleInterface {
 

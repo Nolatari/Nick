@@ -1,13 +1,13 @@
 <?php
 
-namespace Nick\Extension\TestFormAlter;
+namespace Nick\TestFormAlter;
 
 use Nick\Form\FormStateInterface;
 
 /**
  * Class TestFormAlter
  *
- * @package Nick\Extension\TestFormAlter
+ * @package Nick\TestFormAlter
  */
 class TestFormAlter {
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Nick\Extension\Article;
+namespace Nick\Article;
 
 use Nick\Matter\MatterInterface;
 
 /**
  * Interface ArticleInterface
  *
- * @package Nick\Extension\Article
+ * @package Nick\Article
  */
 interface ArticleInterface extends MatterInterface {
 

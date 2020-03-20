@@ -1,6 +1,7 @@
 <?php
 
 use Nick\Cache\Cache;
+use Nick\ExtensionManager;
 use Nick\Cache\CacheInterface;
 use Nick\Config;
 use Nick\Core;
@@ -113,8 +114,11 @@ class Nick {
    * @return TranslationInterface
    */
   public static function Translation() {
-    // @Todo: allow dynamic entities.
-    return self::Cache()->getData('translation', '\\Nick\\Translation\\Translation');
+    $translationExtension = self::Config()->get('translation')['extension'];
+    if (!ExtensionManager::extensionInstalled($translationExtension)) {
+      $translationExtension = 'Translation';
+    }
+    return self::Cache()->getData('translation', '\\Nick\\' . $translationExtension . '\\' . $translationExtension);
   }
 
   /**

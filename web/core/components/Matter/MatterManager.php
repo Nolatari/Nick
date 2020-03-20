@@ -42,8 +42,6 @@ class MatterManager {
 
     if (class_exists('\\Nick\\' . $type . '\\' . $type)) {
       $className = '\\Nick\\' . $type . '\\' . $type;
-    } elseif (class_exists('\\Nick\\Extension\\' . $type . '\\' . $type)) {
-      $className = '\\Nick\\Extension\\' . $type . '\\' . $type;
     } else {
       return FALSE;
     }
