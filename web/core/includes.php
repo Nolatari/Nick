@@ -14,6 +14,3 @@ require_once 'Nick.php';
 /** @var CacheInterface $cache */
 $cache = Core::getCacheClass();
 $cache->initializeCache();
-
-/** Bootstrap Nick. */
-\Nick::Bootstrap();

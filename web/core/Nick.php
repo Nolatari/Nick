@@ -141,6 +141,18 @@ class Nick {
     $core = new Core();
     $core->createMatters();
     $core->setSystemSpecifics();
+
+    try {
+      include 'pages/header.php';
+      $page = $_GET['p'] ?? 'dashboard';
+      $page = 'pages/' . $page . '.php';
+      if (is_file($page)) {
+        include $page;
+      }
+      include 'pages/footer.php';
+    } catch (Exception $exception) {
+      self::Logger()->add('Could not bootstrap Nick!' . PHP_EOL . $exception, Logger::TYPE_FAILURE, 'Bootstrap');
+    }
   }
 
 }
