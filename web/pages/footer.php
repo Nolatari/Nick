@@ -1,5 +1,6 @@
 <?php
 
-$renderer = \Nick::Renderer();
-echo $renderer->setType()->setTemplate('footer')
+$footer = \Nick::Renderer()
+  ->setType()
+  ->setTemplate('footer')
   ->render();

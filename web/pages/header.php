@@ -1,5 +1,6 @@
 <?php
 
-$renderer = \Nick::Renderer();
-echo $renderer->setType()->setTemplate('header')
-  ->render();
+$header = \Nick::Renderer()
+  ->setType()
+  ->setTemplate('header')
+  ->render($variables ?? NULL);

@@ -140,31 +140,17 @@ class Renderer extends Settings {
     $render_settings = $this->settings;
     unset($render_settings['database']);
     $variables = $variables + [
-        'settings' => $this->settings,
-        'active_user' => Person::getCurrentPerson()
-      ];
-    if ($this->template === 'page') {
-      // Fire PreprocessPage event
-      $preprocessPageEvent = new Event('PreprocessPage');
-      $preprocessPageEvent->fireEvent($variables, [$view_mode]);
-
-      if (!$people = Person::loadMultiple()) {
-        \Nick::Logger()->add('No people yet.', 'Renderer', Logger::TYPE_FAILURE);
-        return FALSE;
-      }
-      $people = array_map(function (PersonInterface $person) {
-        return $person->render();
-      }, $people);
-      $logger = \Nick::Logger();
-      $variables = $variables + [
-          'header' => $this->setType()->setTemplate('header')->render([
-            'people' => $people,
-            'active_user' => Person::getCurrentPerson(),
-            'logs' => $logger->render()
-          ]),
-          'footer' => $this->setType()->setTemplate('footer')->render(),
-        ];
-    }
+      'settings' => $this->settings,
+      'active_user' => Person::getCurrentPerson()
+    ];
+    $variables = $variables + [
+      'site' => [
+        'name' => \Nick::Config()->get('site')['name'] ?? 'Nick',
+      ],
+      'theme' => [
+        'location' => 'themes/' . \Nick::Theme()->getTheme('admin'),
+      ],
+    ];
     return $template->render($variables) ?? NULL;
   }
 

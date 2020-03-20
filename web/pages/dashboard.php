@@ -1,5 +1,9 @@
 <?php
 
-$renderer = \Nick::Renderer();
-echo $renderer->setType()->setTemplate('dashboard')
+$variables['page'] = [
+  'title' => 'Dashboard',
+];
+$page = \Nick::Renderer()
+  ->setType()
+  ->setTemplate('dashboard')
   ->render();
