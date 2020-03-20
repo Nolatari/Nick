@@ -54,7 +54,7 @@ class Matter implements MatterInterface {
     if ($id === 0) {
       return FALSE;
     }
-    $matterClass = Core::getMatterClassFromType($type);
+    $matterClass = MatterManager::getMatterClassFromType($type);
     $matterClass = new $matterClass;
     return $matterClass->loadByProperties(['id' => $id]);
   }
@@ -66,7 +66,7 @@ class Matter implements MatterInterface {
    * @return array|bool
    */
   protected static function loadMultipleMatters(string $type) {
-    $matterClass = Core::getMatterClassFromType($type);
+    $matterClass = MatterManager::getMatterClassFromType($type);
     $matterClass = new $matterClass;
     return $matterClass->loadByProperties([], TRUE);
   }
@@ -120,7 +120,7 @@ class Matter implements MatterInterface {
       $class = new $className;
       $matter[$ci_key] = $class::load($ci_value);
     }
-    $matterClass = Core::getMatterClassFromType($this->type);
+    $matterClass = MatterManager::getMatterClassFromType($this->type);
     return new $matterClass($matter);
   }
 
@@ -182,7 +182,7 @@ class Matter implements MatterInterface {
    * {@inheritDoc}
    */
   public function getStorage($type, $values = []) {
-    $matterClass = Core::getMatterClassFromType($type);
+    $matterClass = MatterManager::getMatterClassFromType($type);
     if (!$matterClass) {
       return FALSE;
     }
@@ -385,7 +385,7 @@ class Matter implements MatterInterface {
    * @return bool
    */
   protected static function createMatter($type) {
-    if (Core::matterInstalled($type)) {
+    if (MatterManager::matterInstalled($type)) {
       return FALSE;
     }
     $database = \Nick::Database();

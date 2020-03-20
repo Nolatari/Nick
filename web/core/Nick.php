@@ -7,6 +7,7 @@ use Nick\Core;
 use Nick\Database\Database;
 use Nick\Form\FormBuilder;
 use Nick\Form\FormElement;
+use Nick\Matter\MatterManager;
 use Nick\Language\LanguageManager;
 use Nick\Logger;
 use Nick\Manifest\Manifest;
@@ -37,6 +38,15 @@ class Nick {
    */
   public static function Matter() {
     return new Matter();
+  }
+
+  /**
+   * Returns uncached MatterManager object.
+   *
+   * @return MatterManager
+   */
+  public static function MatterManager() {
+    return new MatterManager();
   }
 
   /**
@@ -139,8 +149,8 @@ class Nick {
    */
   public static function Bootstrap() {
     $core = new Core();
-    $core->createMatters();
     $core->setSystemSpecifics();
+    self::MatterManager()->createMatters();
 
     try {
       $page = $_GET['p'] ?? 'dashboard';
@@ -151,7 +161,9 @@ class Nick {
       include 'pages/header.php';
       include 'pages/footer.php';
 
-      echo $header . $page . $footer;
+      echo $header ?? NULL;
+      echo $page ?? NULL;
+      echo $footer ?? NULL;
     } catch (Exception $exception) {
       self::Logger()->add('Could not bootstrap Nick!' . PHP_EOL . $exception, Logger::TYPE_FAILURE, 'Bootstrap');
     }
