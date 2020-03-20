@@ -18,6 +18,12 @@ class Config extends Settings {
    * @return bool
    */
   public function import() {
+    if (!$truncate_query = \Nick::Database()
+      ->query('TRUNCATE TABLE config')) {
+      \Nick::Logger()->add('Something went wrong trying to truncate the config table.', Logger::TYPE_FAILURE, 'Config');
+      return FALSE;
+    }
+
     $staged = $this->getStagedConfig();
     foreach ($staged as $key => $value) {
       if (!$this->set($key, $value)) {
