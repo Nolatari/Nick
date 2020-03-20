@@ -32,16 +32,16 @@ class Cache extends Settings implements CacheInterface {
    * {@inheritDoc}
    */
   public function getData($cacheKey, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
+    if (!isset($this->cacheStats[$cacheKey])) {
+      $this->cacheStats[$cacheKey]['created'] = 0;
+      $this->cacheStats[$cacheKey]['called'] = 0;
+    }
     if (!isset($this->cacheableData[$cacheKey])) {
       $class = new $fallbackClass(...$classData);
       if (!empty($fallbackMethod)) {
         $this->cacheableData[$cacheKey] = $class->{$fallbackMethod}(...$methodData);
       } else {
         $this->cacheableData[$cacheKey] = $class;
-      }
-      if (!isset($this->cacheStats[$cacheKey])) {
-        $this->cacheStats[$cacheKey]['created'] = 0;
-        $this->cacheStats[$cacheKey]['called'] = 0;
       }
       $this->cacheStats[$cacheKey]['created']++;
     }

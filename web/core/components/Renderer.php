@@ -141,11 +141,12 @@ class Renderer extends Settings {
     unset($render_settings['database']);
     $variables = $variables + [
       'settings' => $this->settings,
-      'active_user' => Person::getCurrentPerson()
-    ];
-    $variables = $variables + [
+      'active_user' => Person::getCurrentPerson(),
       'site' => [
         'name' => \Nick::Config()->get('site')['name'] ?? 'Nick',
+        'version' => \Nick::Cache()->getData('NICK_VERSION') . '.'
+        . \Nick::Cache()->getData('NICK_VERSION_RELEASE') . ' '
+        . \Nick::Cache()->getData('NICK_VERSION_STATUS'),
       ],
       'theme' => [
         'location' => 'themes/' . \Nick::Theme()->getTheme('admin'),
