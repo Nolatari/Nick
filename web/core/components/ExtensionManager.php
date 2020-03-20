@@ -4,6 +4,11 @@ namespace Nick;
 
 use Nick\Database\Result;
 
+/**
+ * Class ExtensionManager
+ *
+ * @package Nick
+ */
 class ExtensionManager {
 
   /**

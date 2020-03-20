@@ -2,7 +2,6 @@
 
 namespace Nick\Matter;
 
-use Nick\Core;
 use Nick\YamlReader;
 use Nick\Database\Result;
 use Nick\ExtensionManager;
@@ -12,7 +11,7 @@ use Nick\ExtensionManager;
  *
  * @package Nick\Matter
  */
-class MatterManager extends Core {
+class MatterManager {
 
   /**
    * @return array
