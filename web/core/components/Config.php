@@ -144,6 +144,11 @@ class Config extends Settings {
    * @return mixed
    */
   public function get($key) {
+    if (strpos($key, '.') !== FALSE) {
+      $items = explode('.', $key);
+      $key = $items[0];
+      $item = $items[1];
+    }
     $config_storage = \Nick::Database()
       ->select('config')
       ->fields(NULL, ['value'])
@@ -155,7 +160,13 @@ class Config extends Settings {
     $result = $config_result->fetchAllAssoc();
     $result = reset($result);
 
-    return unserialize($result['value']);
+    if (isset($item)) {
+      $config = unserialize($result['value'])[$item];
+    } else {
+      $config = unserialize($result['value']);
+    }
+
+    return $config;
   }
 
   /**

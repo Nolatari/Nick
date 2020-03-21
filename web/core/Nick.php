@@ -1,6 +1,5 @@
 <?php
 
-use Nick\Cache\Cache;
 use Nick\ExtensionManager;
 use Nick\Cache\CacheInterface;
 use Nick\Config;
@@ -15,7 +14,6 @@ use Nick\Manifest\Manifest;
 use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
 use Nick\Renderer;
-use Nick\Settings;
 use Nick\Theme;
 use Nick\Translation\TranslationInterface;
 
