@@ -3,20 +3,20 @@
 namespace Nick\Pages;
 
 /**
- * Class Error
+ * Class Cache
  *
- * @package Nick\Login
+ * @package Nick\Pages
  */
-class Login extends Pages {
+class Cache extends Pages {
 
   /**
    * {@inheritDoc}
    */
   protected function setCacheOptions() {
     $this->caching = [
-      'key' => 'page.login',
+      'key' => 'page.cache',
       'context' => 'page',
-      'max-age' => 3600,
+      'max-age' => 0,
     ];
 
     return $this;
@@ -27,11 +27,11 @@ class Login extends Pages {
    */
   public function render($parameters = []) {
     parent::render();
-
-    return \Nick::Renderer()
-      ->setType()
-      ->setTemplate('login')
-      ->render();
+    if (in_array('clear_all', $parameters)) {
+      \Nick::Cache()->clearAllCaches();
+    } else {
+      // @TODO
+    }
   }
 
 }

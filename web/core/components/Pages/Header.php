@@ -25,7 +25,7 @@ class Header extends Pages {
   /**
    * {@inheritDoc}
    */
-  public function render() {
+  public function render($parameters = []) {
     parent::render();
     $variables = $variables ?? [];
     $variables['page']['p'] = $_GET['p'] ?? 'dashboard';

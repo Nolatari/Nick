@@ -165,7 +165,7 @@ class Nick {
     self::MatterManager()->createMatters();
 
     try {
-      $page = self::PageManager()->getPage($_GET['page'] ?? 'dashboard');
+      $page = self::PageManager()->getPage($_GET['p'] ?? 'dashboard', $_GET);
       $header = self::PageManager()->getPage('header');
       $footer = self::PageManager()->getPage('footer');
 

@@ -59,4 +59,11 @@ interface CacheInterface {
    * @return array
    */
   public function returnCacheStats();
+
+  /**
+   * Truncates caching tables
+   *
+   * @return bool
+   */
+  public function clearAllCaches();
 }

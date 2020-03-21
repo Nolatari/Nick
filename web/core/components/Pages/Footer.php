@@ -25,7 +25,7 @@ class Footer extends Pages {
   /**
    * {@inheritDoc}
    */
-  public function render() {
+  public function render($parameters = []) {
     parent::render();
 
     return \Nick::Renderer()

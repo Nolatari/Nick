@@ -25,7 +25,7 @@ class Config extends Pages {
   /**
    * {@inheritDoc}
    */
-  public function render() {
+  public function render($parameters = []) {
     parent::render();
     if (isset($_GET['export'])) {
       \Nick::Config()->export();

@@ -44,7 +44,7 @@ class Pages implements PagesInterface {
   /**
    * {@inheritDoc}
    */
-  public function render() {
+  public function render($parameters = []) {
     global $variables;
   }
 

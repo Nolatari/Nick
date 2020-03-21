@@ -25,9 +25,9 @@ class Error extends Pages {
   /**
    * {@inheritDoc}
    */
-  public function render() {
+  public function render($parameters = []) {
     parent::render();
-    switch ($_GET['e']) {
+    switch ($parameters['e']) {
       case '404':
         $title = 'Page not found';
         break;
@@ -45,7 +45,7 @@ class Error extends Pages {
 
     $variables = $variables ?? [];
     $variables['page']['title'] = $title;
-    return \Nick::Renderer()->setType('error')->setTemplate($_GET['e'])->render();
+    return \Nick::Renderer()->setType('error')->setTemplate($parameters['e'])->render();
   }
 
 }
