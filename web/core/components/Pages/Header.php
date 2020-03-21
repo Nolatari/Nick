@@ -26,14 +26,10 @@ class Header extends Pages {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
-    parent::render();
-    $variables = $variables ?? [];
-    $variables['page']['p'] = $_GET['p'] ?? 'dashboard';
-
     return \Nick::Renderer()
       ->setType()
       ->setTemplate('header')
-      ->render($variables ?? NULL);
+      ->render($parameters ?? NULL);
   }
 
 }

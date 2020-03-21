@@ -26,7 +26,6 @@ class Dashboard extends Pages {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
-    parent::render();
     return \Nick::Renderer()
       ->setType()
       ->setTemplate('dashboard')

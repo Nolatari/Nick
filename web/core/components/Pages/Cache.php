@@ -2,6 +2,8 @@
 
 namespace Nick\Pages;
 
+use Nick\Logger;
+
 /**
  * Class Cache
  *
@@ -26,9 +28,13 @@ class Cache extends Pages {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
-    parent::render();
     if (in_array('clear_all', $parameters)) {
-      \Nick::Cache()->clearAllCaches();
+      if (\Nick::Cache()->clearAllCaches() !== FALSE) {
+        \Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');
+      } else {
+        \Nick::Logger()->add('Could not clear caches.', Logger::TYPE_FAILURE, 'Cache');
+      }
+      header ('Location: ./');
     } else {
       // @TODO
     }
