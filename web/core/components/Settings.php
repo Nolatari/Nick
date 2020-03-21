@@ -26,7 +26,7 @@ class Settings {
    * @return mixed|NULL
    */
   protected function getSetting($key) {
-    return $this->settings[$key] ?? NULL;
+    return $this->settings[$key] ?? FALSE;
   }
 
 }

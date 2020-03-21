@@ -13,6 +13,7 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 use Twig\TemplateWrapper;
+use Twig\Extension\DebugExtension;
 
 /**
  * Class Renderer
@@ -89,7 +90,10 @@ class Renderer extends Settings {
     $path = is_null($type) ? $this->getThemeFolder() :
       $this->getThemeFolder() . $type;
     $this->loader = new FilesystemLoader($path);
-    $this->twig = new Environment($this->getLoader());
+    $this->twig = new Environment($this->getLoader(), ['debug' => $this->getSetting('twig_debugging')]);
+    if ($this->getSetting('twig_debugging')) {
+      $this->twig->addExtension(new DebugExtension());
+    }
 
     return $this;
   }
@@ -150,6 +154,9 @@ class Renderer extends Settings {
       ],
       'theme' => [
         'location' => 'themes/' . \Nick::Theme()->getTheme('admin'),
+      ],
+      'page' => [
+        'p' => $_GET['p'] ?? 'dashboard',
       ],
     ];
     return $template->render($variables) ?? NULL;

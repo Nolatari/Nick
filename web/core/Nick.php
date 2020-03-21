@@ -161,6 +161,10 @@ class Nick {
       $page = 'pages/' . $page . '.php';
       if (is_file($page)) {
         include $page;
+      } else {
+        self::Logger()->add('Page not found [' . $_GET['p'] . ']', Logger::TYPE_FAILURE, 'Bootstrap');
+        $_GET['e'] = '404';
+        include 'pages/error.php';
       }
       include 'pages/header.php';
       include 'pages/footer.php';

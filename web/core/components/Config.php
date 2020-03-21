@@ -165,24 +165,41 @@ class Config extends Settings {
    * @return bool
    */
   public function set($key, $value) {
-    // Serialize value for proper database storing.
-    $value = serialize($value);
+    if (strpos($key, '.') !== FALSE) {
+      $items = explode('.', $key);
+      $key = $items[0];
+      $item = $items[1];
+    }
+
     $config_storage = \Nick::Database()
       ->select('config')
       ->fields(NULL, ['value'])
-      ->condition('field', $key);
-    /** @var Result $config_result */
-    if (!$config_result = $config_storage->execute()) {
+      ->condition('field', $key)
+      ->execute();
+    if (!$config_storage instanceof Result) {
       return FALSE;
     }
-    $result = $config_result->fetchAllAssoc();
+    $result = $config_storage->fetchAllAssoc();
     if (count($result) > 0) {
+      $result = reset($result);
+      if (isset($item)) {
+        $result[$item] = $value;
+        $value = $result;
+      }
+
+      $value = serialize($value);
       $config_query = \Nick::Database()
         ->update('config')
         ->values(['value' => $value])
         ->condition('field', $key)
         ->execute();
     } else {
+      if (isset($item)) {
+        $result = [$item => $value];
+        $value = $result;
+      }
+
+      $value = serialize($value);
       $config_query = \Nick::Database()
         ->insert('config')
         ->values([$key, $value])
