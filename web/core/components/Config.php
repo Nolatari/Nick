@@ -55,7 +55,7 @@ class Config extends Settings {
     foreach ($this->getConfig() as $item) {
       $config = YamlReader::toYaml(unserialize($item['value']));
       try {
-        $config_file = fopen($this->getSetting('config')['folder'] . '/' . $item['field'] . '.yml', 'w', Logger::TYPE_ERROR, 'Config');
+        $config_file = fopen($this->getSetting('config')['folder'] . '/' . $item['field'] . '.yml', 'w');
         fwrite($config_file, $config);
         fclose($config_file);
       } catch (\Exception $e) {
