@@ -84,7 +84,7 @@ class Cache extends Settings implements CacheInterface {
           return FALSE;
         }
       } else {
-        $data = $cache['value'];
+        $data = unserialize($cache['value']);
       }
     }
 
@@ -110,9 +110,9 @@ class Cache extends Settings implements CacheInterface {
       ->values([
         'field' => $cacheOptions['key'],
         'value' => serialize($value),
-        'tags' => $cacheOptions['tags'],
-        'context' => $cacheOptions['context'],
-        'maxage' => $cacheOptions['max-age'],
+        'tags' => $cacheOptions['tags'] ?? '',
+        'context' => $cacheOptions['context'] ?? '',
+        'maxage' => $cacheOptions['max-age'] ?? 0,
         'created' => time(),
       ])
       ->execute();

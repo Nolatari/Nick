@@ -107,7 +107,7 @@ class Language implements LanguageInterface {
   protected function getProperties() {
     $query = \Nick::Database()
       ->select('languages')
-      ->fields(['language', 'country'])
+      ->fields(NULL, ['language', 'country'])
       ->condition('langcode', $this->getLangcode())
       ->execute();
     if (!$query instanceof Result) {

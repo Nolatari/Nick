@@ -30,7 +30,7 @@ class Translation implements TranslationInterface {
     $langcode = !is_null($langcode) ? $langcode : $this->languageManager->getCurrentLanguage();
     $query = \Nick::Database()
       ->select('translations')
-      ->fields(['translation', 'args'])
+      ->fields(NULL, ['translation', 'args'])
       ->condition('string', $string)
       ->condition('to_langcode', $langcode)
       ->orderBy('string', 'ASC')

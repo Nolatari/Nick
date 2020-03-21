@@ -13,6 +13,7 @@ use Nick\Logger;
 use Nick\Manifest\Manifest;
 use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
+use Nick\Pages\PageManager;
 use Nick\Renderer;
 use Nick\Theme;
 use Nick\Translation\TranslationInterface;
@@ -129,6 +130,15 @@ class Nick {
   }
 
   /**
+   * Returns uncached PageManager object
+   *
+   * @return PageManager
+   */
+  public static function PageManager() {
+    return new PageManager();
+  }
+
+  /**
    * Returns cached Theme object
    *
    * @return Theme
@@ -155,17 +165,9 @@ class Nick {
     self::MatterManager()->createMatters();
 
     try {
-      $page = $_GET['p'] ?? 'dashboard';
-      $page = 'pages/' . $page . '.php';
-      if (is_file($page)) {
-        include $page;
-      } else {
-        self::Logger()->add('Page not found [' . $_GET['p'] . ']', Logger::TYPE_FAILURE, 'Bootstrap');
-        $_GET['e'] = '404';
-        include 'pages/error.php';
-      }
-      include 'pages/header.php';
-      include 'pages/footer.php';
+      $page = self::PageManager()->getPage($_GET['page'] ?? 'dashboard');
+      $header = self::PageManager()->getPage('header');
+      $footer = self::PageManager()->getPage('footer');
 
       echo $header ?? NULL;
       echo $page ?? NULL;

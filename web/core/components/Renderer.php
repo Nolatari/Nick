@@ -155,9 +155,6 @@ class Renderer extends Settings {
       'theme' => [
         'location' => 'themes/' . \Nick::Theme()->getTheme('admin'),
       ],
-      'page' => [
-        'p' => $_GET['p'] ?? 'dashboard',
-      ],
     ];
     return $template->render($variables) ?? NULL;
   }

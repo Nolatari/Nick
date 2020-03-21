@@ -21,7 +21,6 @@
             <div class="sidebar-brand-text mx-3">Nick <sup>{{ site.version }}</sup></div>
         </a>
         <hr class="sidebar-divider my-0">
-        {{ dump(page) }}
         <li class="nav-item{% if page.p == 'dashboard' %} active{% endif %}">
             <a class="nav-link" href="/">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -32,7 +31,7 @@
             Interface
         </div>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <a class="nav-link collapsed{% if page.p == 'config' %} active{% endif %}" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Configuration</span>
             </a>
