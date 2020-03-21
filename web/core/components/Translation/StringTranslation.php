@@ -15,7 +15,7 @@ trait StringTranslation {
    * Translation service, correct usage would be to enter a literal string, for example:
    *       $animal = 'fox'; $color = 'brown';
    *       StringTranslation::translate('The :animal jumps over the :color fence', [':animal' => $animal, ':color' => $color]);
-   * This ensures the proper handling of variables in string translations.
+   * This ensures the proper handling of variables in string translations for dynamic reusage of the string.
    * This method can also be used to stack translations, for example:
    *       $companyName = StringTranslation::translate('myCompany');
    *       StringTranslation::translate('Welcome to :company', [':company' => $companyName]);
