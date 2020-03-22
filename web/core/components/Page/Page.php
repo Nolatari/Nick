@@ -70,4 +70,12 @@ class Page implements PageInterface {
     $this->parameters = $parameters;
   }
 
+  /**
+   * @param string $key
+   * @param string $value
+   */
+  protected function setParameter($key, $value) {
+    $this->parameters[$key] = $value;
+  }
+
 }

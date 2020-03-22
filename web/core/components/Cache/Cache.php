@@ -83,7 +83,7 @@ class Cache extends Settings implements CacheInterface {
       if (empty($fallbackMethod)) {
         return FALSE;
       }
-      if ((time() - $cache['created']) > $cache['maxage']) {
+      if ((time() - $cache['created']) > $cache['maxage'] && $cache['maxage'] != '-1') {
         $data = $class->{$fallbackMethod}(...$methodData);
         if (!$this->updateContentData($cacheOptions, $data)) {
           return FALSE;

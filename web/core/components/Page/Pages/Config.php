@@ -12,6 +12,17 @@ use Nick\Page\Page;
 class Config extends Page {
 
   /**
+   * Config constructor.
+   */
+  public function __construct() {
+    parent::__construct();
+    $this->setParameters([
+      'title' => $this->translate('Config'),
+      'summary' => $this->translate('Configuration options'),
+    ]);
+  }
+
+  /**
    * {@inheritDoc}
    */
   protected function setCacheOptions() {
@@ -28,11 +39,12 @@ class Config extends Page {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
-    if (isset($_GET['export'])) {
+    $this->setParameter('type', $parameters['t'] ?? '');
+    if (isset($parameters['export'])) {
       \Nick::Config()->export();
-    } elseif (isset($_GET['import'])) {
+    } elseif (isset($parameters['import'])) {
       \Nick::Config()->import();
-    } elseif (isset($_GET['difference'])) {
+    } elseif (isset($parameters['difference'])) {
       // @TODO
     } else {
       switch ($_GET['t']) {

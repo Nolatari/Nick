@@ -6,7 +6,6 @@ use Exception;
 use Nick;
 use Nick\Events\Event;
 use Nick\Person\Person;
-use Nick\Person\PersonInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -116,18 +115,19 @@ class Renderer extends Settings {
   }
 
   /**
-   * @return TemplateWrapper|Exception
+   * @return bool|TemplateWrapper
    */
   protected function getTemplate() {
     try {
       return $this->getTwig()->load($this->template . '.html.twig');
     } catch (LoaderError $e) {
-      return new Exception('Something went wrong loading the template [' . $this->template . '.html.twig]');
+      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     } catch (RuntimeError $e) {
-      return new Exception('Something went wrong running the template [' . $this->template . '.html.twig]');
+      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     } catch (SyntaxError $e) {
-      return new Exception('Syntax error when loading the template [' . $this->template . '.html.twig]');
+      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     }
+    return FALSE;
   }
 
   /**
@@ -137,6 +137,9 @@ class Renderer extends Settings {
    * @return string|NULL
    */
   public function render(array $variables = [], $view_mode = NULL) {
+    $event = new Event('preRender');
+    $event->fireEvent($variables, [$view_mode]);
+
     $template = $this->getTemplate();
     if (!$template instanceof TemplateWrapper) {
       return FALSE;

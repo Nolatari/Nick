@@ -173,6 +173,7 @@ class Nick {
         $headerVariables = [
           'page' => [
             'id' => $_GET['p'] ?? 'dashboard',
+            'type' => $pageObject->get('type'),
             'title' => $pageObject->get('title'),
             'summary' => $pageObject->get('summary'),
           ],
