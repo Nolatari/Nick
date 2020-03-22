@@ -79,8 +79,7 @@ class Url extends Settings {
    * @result string
    */
   public function getUrl() {
-    $current_url = $this->getBaseUrl() . $_SERVER['REQUEST_URI'];
-    return $current_url;
+    return $this->getBaseUrl() . $_SERVER['REQUEST_URI'];
   }
 
   /**
@@ -89,8 +88,7 @@ class Url extends Settings {
    * @result string
    */
   public function getUrlWithoutParameters() {
-    $current_url = $this->getBaseUrl() . $_SERVER['SCRIPT_NAME'];
-    return $current_url;
+    return $this->getBaseUrl() . $_SERVER['SCRIPT_NAME'];
   }
 
   /**
