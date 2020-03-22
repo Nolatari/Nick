@@ -166,7 +166,7 @@ class Nick {
     self::MatterManager()->createMatters();
 
     try {
-      $page = self::PageManager()->getPage($_GET['p'] ?? 'dashboard', $_GET);
+      $page = self::PageManager()->getPageRender($_GET['p'] ?? 'dashboard', $_GET);
       $pageObject = self::PageManager()->getPageObject($_GET['p'] ?? 'dashboard', $_GET);
       $headerVariables = [];
       if ($pageObject instanceof PageInterface) {
@@ -178,8 +178,8 @@ class Nick {
           ],
         ];
       }
-      $header = self::PageManager()->getPage('header', $headerVariables);
-      $footer = self::PageManager()->getPage('footer');
+      $header = self::PageManager()->getPageRender('header', $headerVariables);
+      $footer = self::PageManager()->getPageRender('footer');
 
       echo $header ?? NULL;
       echo $page ?? NULL;
