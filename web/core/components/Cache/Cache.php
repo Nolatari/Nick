@@ -2,6 +2,7 @@
 
 namespace Nick\Cache;
 
+use Nick\Events\Event;
 use Nick\Database\Result;
 use Nick\Logger;
 use Nick\Settings;
@@ -53,6 +54,10 @@ class Cache extends Settings implements CacheInterface {
    * {@inheritDoc}
    */
   public function getContentData(array $cacheOptions, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
+    // Fires an event to alter cache options before being sent to DB.
+    $event = new Event('cacheContentAlter');
+    $event->fireEvent($cacheOptions);
+
     $query = \Nick::Database()
       ->select('cache_content')
       ->condition('field', $cacheOptions['key'])
