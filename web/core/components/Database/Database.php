@@ -51,7 +51,7 @@ class Database extends Settings {
   protected $conditions;
 
   /** @var string $condition_delimiter */
-  protected $condition_delimiter;
+  protected $condition_delimiter = 'AND';
 
   /**
    * Database constructor
@@ -231,7 +231,9 @@ class Database extends Settings {
       return FALSE;
     }
     $result = $this->database->query($query);
-    //d($this->database->error);
+    if ($this->getSetting('debugging')) {
+      d($this->database->error);
+    }
     if ($result !== FALSE) {
       $this->result = $result;
 

@@ -69,11 +69,15 @@ class Translation implements TranslationInterface {
     $from_langcode = !is_null($from_langcode) ? $from_langcode : $this->languageManager->getDefaultLanguage();
     $to_langcode = !is_null($to_langcode) ? $to_langcode : $this->languageManager->getCurrentLanguage();
 
+    if ($from_langcode === $to_langcode) {
+      return TRUE;
+    }
+
     // Fire an event before adding/saving the translation
     $preSaveEvent = new Event('stringTranslationPresave');
     $preSaveEvent->fireEvent($translation, [$string, $args, $from_langcode, $to_langcode]);
 
-    if ($string === $this->get($string, TRUE)) {
+    if ($this->get($string) == '') {
       $query = \Nick::Database()
         ->insert('translations')
         ->values([
