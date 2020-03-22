@@ -3,6 +3,7 @@
 namespace Nick\Page\Pages;
 
 use Nick\Page\Page;
+use Nick\ExtensionManager;
 
 /**
  * Class Dashboard
@@ -42,7 +43,11 @@ class Dashboard extends Page {
     return \Nick::Renderer()
       ->setType()
       ->setTemplate('dashboard')
-      ->render();
+      ->render([
+        'dashboard' => [
+          'installedExtensions' => count(ExtensionManager::getInstalledExtensions()),
+        ],
+      ]);
   }
 
 }
