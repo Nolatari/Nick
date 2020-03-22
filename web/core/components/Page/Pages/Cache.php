@@ -1,15 +1,16 @@
 <?php
 
-namespace Nick\Pages;
+namespace Nick\Page\Pages;
 
 use Nick\Logger;
+use Nick\Page\Page;
 
 /**
  * Class Cache
  *
- * @package Nick\Pages
+ * @package Nick\Page
  */
-class Cache extends Pages {
+class Cache extends Page {
 
   /**
    * {@inheritDoc}

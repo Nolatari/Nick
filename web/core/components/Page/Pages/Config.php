@@ -1,13 +1,15 @@
 <?php
 
-namespace Nick\Pages;
+namespace Nick\Page\Pages;
+
+use Nick\Page\Page;
 
 /**
  * Class Config
  *
- * @package Nick\Pages
+ * @package Nick\Page
  */
-class Config extends Pages {
+class Config extends Page {
 
   /**
    * {@inheritDoc}

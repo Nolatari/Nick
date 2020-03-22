@@ -136,9 +136,9 @@ class Cache extends Settings implements CacheInterface {
       ->condition('field', $cacheOptions['key'])
       ->values([
         'value' => serialize($value),
-        'tags' => $cacheOptions['tags'],
-        'context' => $cacheOptions['context'],
-        'maxage' => $cacheOptions['max-age'],
+        'tags' => $cacheOptions['tags'] ?? '',
+        'context' => $cacheOptions['context'] ?? '',
+        'maxage' => $cacheOptions['max-age'] ?? 0,
         'created' => time(),
       ])
       ->execute();

@@ -1,13 +1,26 @@
 <?php
 
-namespace Nick\Pages;
+namespace Nick\Page\Pages;
+
+use Nick\Page\Page;
 
 /**
  * Class Error
  *
- * @package Nick\Pages
+ * @package Nick\Page
  */
-class Error extends Pages {
+class Error extends Page {
+
+  /**
+   * Error constructor.
+   */
+  public function __construct() {
+    parent::__construct();
+    $this->setParameters([
+      'title' => $this->translate('Error'),
+      'summary' => $this->translate('There was an error trying to reach a certain page.'),
+    ]);
+  }
 
   /**
    * {@inheritDoc}

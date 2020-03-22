@@ -1,22 +1,24 @@
 <?php
 
-namespace Nick\Pages;
+namespace Nick\Page\Pages;
+
+use Nick\Page\Page;
 
 /**
- * Class Dashboard
+ * Class Footer
  *
- * @package Nick\Pages
+ * @package Nick\Page
  */
-class Dashboard extends Pages {
+class Footer extends Page {
 
   /**
    * {@inheritDoc}
    */
   protected function setCacheOptions() {
     $this->caching = [
-      'key' => 'page.dashboard',
+      'key' => 'page.footer',
       'context' => 'page',
-      'max-age' => 1800,
+      'max-age' => 3600,
     ];
 
     return $this;
@@ -28,7 +30,7 @@ class Dashboard extends Pages {
   public function render($parameters = []) {
     return \Nick::Renderer()
       ->setType()
-      ->setTemplate('dashboard')
+      ->setTemplate('footer')
       ->render();
   }
 

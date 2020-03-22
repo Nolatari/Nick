@@ -1,6 +1,6 @@
 <?php
 
-namespace Nick\Pages;
+namespace Nick\Page;
 
 use Nick\Database\Result;
 use Nick\Logger;
@@ -8,7 +8,7 @@ use Nick\Logger;
 /**
  * Class PageManager
  *
- * @package Nick\Pages
+ * @package Nick\Page
  */
 class PageManager {
 
@@ -46,7 +46,7 @@ class PageManager {
     $page = \Nick::Database()
       ->select('pages')
       ->condition('id', $page_id)
-      ->fields(NULL, ['controller', 'cache_type', 'cache_options'])
+      ->fields(NULL, ['controller'])
       ->execute();
 
     if (!$page instanceof Result) {
@@ -60,8 +60,40 @@ class PageManager {
       return $this->get404($page_id);
     }
     $page_result = reset($page_result);
+    $page = new $page_result['controller'];
+    if (!$page instanceof PageInterface) {
+      return FALSE;
+    }
 
-    return \Nick::Cache()->getContentData(unserialize($page_result['cache_options']), $page_result['controller'], 'render', [$parameters]);
+    return \Nick::Cache()->getContentData($page->getCacheOptions(), $page_result['controller'], 'render', [$parameters]);
+  }
+
+  /**
+   * @param       $page_id
+   * @param array $parameters
+   *
+   * @return bool|PageInterface
+   */
+  public function getPageObject($page_id, $parameters = []) {
+    $page = \Nick::Database()
+      ->select('pages')
+      ->condition('id', $page_id)
+      ->fields(NULL, ['controller', 'cache_type', 'cache_options'])
+      ->execute();
+
+    if (!$page instanceof Result) {
+      \Nick::Logger()->add('Couldn\'t load the page [' . $page_id . ']', Logger::TYPE_ERROR, 'PageManager');
+      return FALSE;
+    }
+
+    $page_result = $page->fetchAllAssoc();
+    $page_result = reset($page_result);
+    $page = new $page_result['controller'];
+
+    if (!$page instanceof PageInterface) {
+      return FALSE;
+    }
+    return $page;
   }
 
 }

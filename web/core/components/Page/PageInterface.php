@@ -1,8 +1,13 @@
 <?php
 
-namespace Nick\Pages;
+namespace Nick\Page;
 
-interface PagesInterface {
+/**
+ * Interface PageInterface
+ *
+ * @package Nick\Page
+ */
+interface PageInterface {
 
   /**
    * Returns caching options for this page.
@@ -10,6 +15,15 @@ interface PagesInterface {
    * @return array
    */
   public function getCacheOptions();
+
+  /**
+   * Returns page parameter
+   *
+   * @param $parameter
+   *
+   * @return string
+   */
+  public function get($parameter);
 
   /**
    * Returns the twig render of the current page.

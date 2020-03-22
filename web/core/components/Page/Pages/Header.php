@@ -1,13 +1,15 @@
 <?php
 
-namespace Nick\Pages;
+namespace Nick\Page\Pages;
+
+use Nick\Page\Page;
 
 /**
  * Class Header
  *
- * @package Nick\Pages
+ * @package Nick\Page
  */
-class Header extends Pages {
+class Header extends Page {
 
   /**
    * {@inheritDoc}
@@ -16,7 +18,7 @@ class Header extends Pages {
     $this->caching = [
       'key' => 'page.header',
       'context' => 'page',
-      'max-age' => 900,
+      'max-age' => 0,
     ];
 
     return $this;

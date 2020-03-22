@@ -1,6 +1,7 @@
 <?php
 
 use Nick\ExtensionManager;
+use Nick\Page\PageInterface;
 use Nick\Cache\CacheInterface;
 use Nick\Config;
 use Nick\Core;
@@ -13,7 +14,7 @@ use Nick\Logger;
 use Nick\Manifest\Manifest;
 use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
-use Nick\Pages\PageManager;
+use Nick\Page\PageManager;
 use Nick\Renderer;
 use Nick\Theme;
 use Nick\Translation\TranslationInterface;
@@ -166,7 +167,18 @@ class Nick {
 
     try {
       $page = self::PageManager()->getPage($_GET['p'] ?? 'dashboard', $_GET);
-      $header = self::PageManager()->getPage('header');
+      $pageObject = self::PageManager()->getPageObject($_GET['p'] ?? 'dashboard', $_GET);
+      $headerVariables = [];
+      if ($pageObject instanceof PageInterface) {
+        $headerVariables = [
+          'page' => [
+            'id' => $_GET['p'] ?? 'dashboard',
+            'title' => $pageObject->get('title'),
+            'summary' => $pageObject->get('summary'),
+          ],
+        ];
+      }
+      $header = self::PageManager()->getPage('header', $headerVariables);
       $footer = self::PageManager()->getPage('footer');
 
       echo $header ?? NULL;
