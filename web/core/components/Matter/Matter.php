@@ -75,10 +75,13 @@ class Matter implements MatterInterface {
    * {@inheritDoc}
    */
   public function loadByProperties($properties = [], $multiple = FALSE) {
-    if (!$this->getType()) {
+    $type = $this->getType() ?: $properties['type'];
+    if (!$type) {
       return FALSE;
     }
-    $query = $this->database->select('matter__' . $this->getType())
+    $this->setType($type);
+    unset($properties['type']);
+    $query = $this->database->select('matter__' . $type)
       ->condition('status', 1)
       ->orderBy('id', 'ASC');
     foreach ($properties as $field => $value) {
@@ -88,7 +91,8 @@ class Matter implements MatterInterface {
       /** @var Result $result */
       $result = $query->execute();
     } catch (Exception $exception) {
-      throw new Exception($exception);
+      \Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'Matter');
+      return FALSE;
     }
     if (!$results = $result->fetchAllAssoc('id')) {
       return FALSE;
@@ -120,8 +124,12 @@ class Matter implements MatterInterface {
       $class = new $className;
       $matter[$ci_key] = $class::load($ci_value);
     }
-    $matterClass = MatterManager::getMatterClassFromType($this->type);
-    return new $matterClass($matter);
+    $matterClass = MatterManager::getMatterClassFromType($this->getType());
+    if ($matterClass !== FALSE) {
+      return new $matterClass($matter);
+    }
+
+    return FALSE;
   }
 
   /**

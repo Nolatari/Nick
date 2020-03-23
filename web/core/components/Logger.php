@@ -5,6 +5,7 @@ namespace Nick;
 use Nick;
 use Nick\Database\Database;
 use Nick\Person\Person;
+use Nick\Translation\StringTranslation;
 
 /**
  * Class Logger
@@ -12,6 +13,8 @@ use Nick\Person\Person;
  * @package Nick
  */
 class Logger {
+
+  use StringTranslation;
 
   /** Logging type constants */
   const TYPE_WARNING = 1;
@@ -52,7 +55,7 @@ class Logger {
       'owner' => Person::getCurrentPerson(),
       'backtrace' => serialize(debug_backtrace()),
       'category' => $category,
-      'message' => $message,
+      'message' => $this->translate(':logmessage', [':logmessage' => $message]),
       'rendered' => 0,
     ];
 

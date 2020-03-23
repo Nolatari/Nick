@@ -5,6 +5,7 @@ namespace Nick\Matter;
 use Nick\YamlReader;
 use Nick\Database\Result;
 use Nick\ExtensionManager;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 
 /**
  * Class MatterManager
@@ -54,13 +55,15 @@ class MatterManager {
    * @return bool
    */
   public static function loadMatterClassFile($type) {
-    $dirs = ExtensionManager::getCoreExtensions();
+    $dirs = ExtensionManager::getCoreExtensions() + ExtensionManager::getContribExtensions();
 
     foreach ($dirs as $dir) {
       if (strtolower($dir) === $type) {
+        // Include interface first
         if (is_file(__DIR__ . '/' . $dir . '/' . $dir . 'Interface.php')) {
           require_once __DIR__ . '/' . $dir . '/' . $dir . 'Interface.php';
         }
+        // Include the matter's class file
         if (is_file(__DIR__ . '/' . $dir . '/' . $dir . '.php')) {
           require_once __DIR__ . '/' . $dir . '/' . $dir . '.php';
         }
