@@ -17,8 +17,8 @@ interface CacheInterface {
   /**
    * Checks if data is in cache, if so read it from cache.
    * If data not in cache, use fallback and add it to cache.
-   * This is mainly for reusing classes/methods!
-   * For storing content => self::getContentData().
+   * This is mainly for reuse of classes/methods!
+   * For storing content => CacheInterface::getContentData().
    *
    * @param string $cacheKey
    * @param string $fallbackClass

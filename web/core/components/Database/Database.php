@@ -73,14 +73,13 @@ class Database extends Settings {
    * @return Database
    */
   protected function connect() {
-    $mysqliData = [
+    $this->database = \Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
       $this->getSetting('database')['hostname'],
       $this->getSetting('database')['username'],
       $this->getSetting('database')['password'],
       $this->getDatabaseName(),
-    ];
-
-    $this->database = \Nick::Cache()->getData('connection', '\\mysqli', NULL, [], $mysqliData);
+      $this->getSetting('database')['port'] ?? 3306,
+    ]);
     return $this;
   }
 
