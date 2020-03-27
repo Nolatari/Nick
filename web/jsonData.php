@@ -6,7 +6,7 @@ if (!isset($_GET['type'])
   die;
 }
 
-$items = Nick::Manifest($_GET['type'])
+$items = \Nick::Manifest($_GET['type'])
   ->fields(['id', $_GET['field']])
   ->condition($_GET['field'], $_GET['keyword'], 'LIKE')
   ->result();

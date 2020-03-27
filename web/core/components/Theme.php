@@ -16,7 +16,7 @@ class Theme {
    *
    * @return mixed
    */
-  public function getTheme($key = 'admin') {
+  public function getTheme($key = NULL) {
     if ($key !== NULL) {
       return \Nick::Config()->get('theme')[$key];
     }
@@ -40,7 +40,7 @@ class Theme {
    * @return string
    */
   public function getThemeFolder() {
-    return 'themes/' . $this->getTheme() . '/';
+    return 'themes/' . $this->getTheme('admin') . '/';
   }
 
 }
