@@ -26,6 +26,10 @@ class FireEvent {
     foreach ($this->getListeners($event->getEventName()) as $listener) {
       $class = new $listener['class']();
       try {
+        if (!is_array($otherArgs)) {
+          \Nick::Logger()->add('The other arguments have to be of the array format.', Logger::TYPE_ERROR, 'EventListener');
+          return FALSE;
+        }
         // Call the listener class' method
         $class->{$listener['method']}($variables, ...$otherArgs);
       } catch (\Exception $exception) {
