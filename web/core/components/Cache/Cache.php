@@ -2,6 +2,7 @@
 
 namespace Nick\Cache;
 
+use Nick\Events\Event;
 use Nick\Database\Result;
 use Nick\Logger;
 use Nick\Settings;
@@ -32,16 +33,16 @@ class Cache extends Settings implements CacheInterface {
    * {@inheritDoc}
    */
   public function getData($cacheKey, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
+    if (!isset($this->cacheStats[$cacheKey])) {
+      $this->cacheStats[$cacheKey]['created'] = 0;
+      $this->cacheStats[$cacheKey]['called'] = 0;
+    }
     if (!isset($this->cacheableData[$cacheKey])) {
       $class = new $fallbackClass(...$classData);
       if (!empty($fallbackMethod)) {
         $this->cacheableData[$cacheKey] = $class->{$fallbackMethod}(...$methodData);
       } else {
         $this->cacheableData[$cacheKey] = $class;
-      }
-      if (!isset($this->cacheStats[$cacheKey])) {
-        $this->cacheStats[$cacheKey]['created'] = 0;
-        $this->cacheStats[$cacheKey]['called'] = 0;
       }
       $this->cacheStats[$cacheKey]['created']++;
     }
@@ -53,6 +54,10 @@ class Cache extends Settings implements CacheInterface {
    * {@inheritDoc}
    */
   public function getContentData(array $cacheOptions, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
+    // Fires an event to alter cache options before being sent to DB.
+    $event = new Event('cacheContentAlter');
+    $event->fireEvent($cacheOptions);
+
     $query = \Nick::Database()
       ->select('cache_content')
       ->condition('field', $cacheOptions['key'])
@@ -78,13 +83,13 @@ class Cache extends Settings implements CacheInterface {
       if (empty($fallbackMethod)) {
         return FALSE;
       }
-      if ((time() - $cache['created']) > $cache['maxage']) {
+      if ((time() - $cache['created']) > $cache['maxage'] && $cache['maxage'] != '-1') {
         $data = $class->{$fallbackMethod}(...$methodData);
         if (!$this->updateContentData($cacheOptions, $data)) {
           return FALSE;
         }
       } else {
-        $data = $cache['value'];
+        $data = unserialize($cache['value']);
       }
     }
 
@@ -110,9 +115,9 @@ class Cache extends Settings implements CacheInterface {
       ->values([
         'field' => $cacheOptions['key'],
         'value' => serialize($value),
-        'tags' => $cacheOptions['tags'],
-        'context' => $cacheOptions['context'],
-        'maxage' => $cacheOptions['max-age'],
+        'tags' => $cacheOptions['tags'] ?? '',
+        'context' => $cacheOptions['context'] ?? '',
+        'maxage' => $cacheOptions['max-age'] ?? 0,
         'created' => time(),
       ])
       ->execute();
@@ -136,9 +141,9 @@ class Cache extends Settings implements CacheInterface {
       ->condition('field', $cacheOptions['key'])
       ->values([
         'value' => serialize($value),
-        'tags' => $cacheOptions['tags'],
-        'context' => $cacheOptions['context'],
-        'maxage' => $cacheOptions['max-age'],
+        'tags' => $cacheOptions['tags'] ?? '',
+        'context' => $cacheOptions['context'] ?? '',
+        'maxage' => $cacheOptions['max-age'] ?? 0,
         'created' => time(),
       ])
       ->execute();
@@ -162,6 +167,13 @@ class Cache extends Settings implements CacheInterface {
    */
   public function returnCacheStats() {
     return $this->cacheStats;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function clearAllCaches() {
+    return \Nick::Database()->query('TRUNCATE TABLE cache_content');
   }
 
 }

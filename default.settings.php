@@ -4,21 +4,21 @@ $settings = [];
 
 $settings['database'] = [
   'type' => 'mysql',
-  'hostname' => 'database',
-  'username' => 'homedash',
-  'database' => 'homedash',
-  'password' => '309dJkdwNKen0',
-];
-
-$settings['theme'] = [
-  'name' => 'dark',
-  'folder' => __DIR__ . '/themes/dark',
-  'relative' => '/themes/dark',
+  'hostname' => 'hostname',
+  'username' => 'username',
+  'database' => 'database',
+  'password' => 'password',
+  'port' => 'port',
 ];
 
 $settings['root'] = [
   'folder' => __DIR__,
-  'url' => 'http://homedash.lndo.site',
+  'url' => 'http://headless_cms.lndo.site',
+];
+
+$settings['config'] = [
+  'folder' => __DIR__ . '/config',
 ];
 
 //$settings['debugging'] = TRUE;
+//$settings['twig_debugging'] = TRUE;

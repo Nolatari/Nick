@@ -51,7 +51,7 @@ class Database extends Settings {
   protected $conditions;
 
   /** @var string $condition_delimiter */
-  protected $condition_delimiter;
+  protected $condition_delimiter = 'AND';
 
   /**
    * Database constructor
@@ -73,14 +73,13 @@ class Database extends Settings {
    * @return Database
    */
   protected function connect() {
-    $mysqliData = [
+    $this->database = \Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
       $this->getSetting('database')['hostname'],
       $this->getSetting('database')['username'],
       $this->getSetting('database')['password'],
       $this->getDatabaseName(),
-    ];
-
-    $this->database = \Nick::Cache()->getData('connection', '\\mysqli', NULL, [], $mysqliData);
+      $this->getSetting('database')['port'] ?? 3306,
+    ]);
     return $this;
   }
 
@@ -231,7 +230,9 @@ class Database extends Settings {
       return FALSE;
     }
     $result = $this->database->query($query);
-    //d($this->database->error);
+    if ($this->getSetting('debugging')) {
+      d($this->database->error);
+    }
     if ($result !== FALSE) {
       $this->result = $result;
 

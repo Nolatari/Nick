@@ -64,24 +64,33 @@ class FormBuilder {
   }
 
   /**
+   * Default submit handler
+   *
    * @param array $form
    * @param string $formId
    */
   public function submit(&$form, $formId) {
     // Set FormState values
-    $this->formState->setValues($this->values);
-    $this->formState->save();
+    $this->getFormState()->setValues($this->values);
+    $this->getFormState()->save();
 
     // Fire FormPreSubmitAlter event
     $preSubmitEvent = new Event('FormPreSubmitAlter');
-    $preSubmitEvent->fireEvent($form, [$formId, $this->formState]);
+    $preSubmitEvent->fireEvent($form, [$formId, $this->getFormState()]);
 
     // Submit form
     // @TODO
 
     // Fire FormPostSubmitAlter event
     $postSubmitEvent = new Event('FormPostSubmitAlter');
-    $postSubmitEvent->fireEvent($form, [$formId, $this->formState]);
+    $postSubmitEvent->fireEvent($form, [$formId, $this->getFormState()]);
+  }
+
+  /**
+   * @return FormState|FormStateInterface
+   */
+  public function getFormState() {
+    return $this->formState;
   }
 
   /**

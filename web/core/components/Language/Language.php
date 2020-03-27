@@ -94,7 +94,7 @@ class Language implements LanguageInterface {
       ? \Nick::LanguageManager()->getLanguageByLangcode($properties['fallback'])
       : \Nick::LanguageManager()->getDefaultLanguage();
     $this->country = $properties['country'];
-    $this->default = $properties['default'] == '1' ? TRUE : FALSE;
+    $this->default = \Nick::Config()->get('site.default_langcode') == $langcode ? TRUE : FALSE;
 
     return TRUE;
   }
@@ -107,7 +107,7 @@ class Language implements LanguageInterface {
   protected function getProperties() {
     $query = \Nick::Database()
       ->select('languages')
-      ->fields(['language', 'country', 'default'])
+      ->fields(NULL, ['language', 'country'])
       ->condition('langcode', $this->getLangcode())
       ->execute();
     if (!$query instanceof Result) {

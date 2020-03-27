@@ -4,6 +4,7 @@ namespace Nick\Events;
 
 use Nick\Core;
 use Nick\Logger;
+use Nick\ExtensionManager;
 
 /**
  * Class FireEvent
@@ -44,11 +45,11 @@ class FireEvent {
    * @return array
    */
   protected function getListeners($eventName) {
-    $extensions = Core::getInstalledExtensions();
+    $extensions = ExtensionManager::getInstalledExtensions();
     $listeners = [];
     foreach ($extensions as $extension) {
       // Skip if this extension has no info file.
-      if (!$extInfo = Core::getExtensionInfo($extension['name'])) {
+      if (!$extInfo = ExtensionManager::getExtensionInfo($extension['name'])) {
         continue;
       }
 

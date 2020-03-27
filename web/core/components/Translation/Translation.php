@@ -30,9 +30,10 @@ class Translation implements TranslationInterface {
     $langcode = !is_null($langcode) ? $langcode : $this->languageManager->getCurrentLanguage();
     $query = \Nick::Database()
       ->select('translations')
-      ->fields(['translation', 'args'])
+      ->fields(NULL, ['translation', 'args'])
       ->condition('string', $string)
       ->condition('to_langcode', $langcode)
+      ->orderBy('string', 'ASC')
       ->execute();
     if (!$query instanceof Result) {
       if ($fallback) {
@@ -51,7 +52,6 @@ class Translation implements TranslationInterface {
       }
     }
 
-    // There should be only one result considering the string field is unique in DB.
     $result = reset($result);
     $args = unserialize($result['args']);
     foreach ($args as $arg => $replacement) {
@@ -69,27 +69,32 @@ class Translation implements TranslationInterface {
     $from_langcode = !is_null($from_langcode) ? $from_langcode : $this->languageManager->getDefaultLanguage();
     $to_langcode = !is_null($to_langcode) ? $to_langcode : $this->languageManager->getCurrentLanguage();
 
+    if ($from_langcode === $to_langcode) {
+      return TRUE;
+    }
+
     // Fire an event before adding/saving the translation
     $preSaveEvent = new Event('stringTranslationPresave');
     $preSaveEvent->fireEvent($translation, [$string, $args, $from_langcode, $to_langcode]);
 
-    if ($string === $this->get($string, TRUE)) {
+    if ($this->get($string) == '') {
       $query = \Nick::Database()
-        ->insert('translatable_strings')
+        ->insert('translations')
         ->values([
+          'id' => 0,
           'string' => $string,
           'translation' => $translation,
           'args' => serialize($args),
-          'langcode_from' => $from_langcode,
-          'langcode_to' => $to_langcode,
+          'from_langcode' => $from_langcode,
+          'to_langcode' => $to_langcode,
         ])
         ->execute();
     } else {
       $query = \Nick::Database()
-        ->update('translatable_strings')
+        ->update('translations')
         ->condition('string', $string)
-        ->condition('langcode_from', $from_langcode)
-        ->condition('langcode_to', $to_langcode)
+        ->condition('from_langcode', $from_langcode)
+        ->condition('to_langcode', $to_langcode)
         ->values([
           'translation' => $translation,
           'args' => serialize($args),

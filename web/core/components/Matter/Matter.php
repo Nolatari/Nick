@@ -54,7 +54,7 @@ class Matter implements MatterInterface {
     if ($id === 0) {
       return FALSE;
     }
-    $matterClass = Core::getMatterClassFromType($type);
+    $matterClass = MatterManager::getMatterClassFromType($type);
     $matterClass = new $matterClass;
     return $matterClass->loadByProperties(['id' => $id]);
   }
@@ -66,7 +66,7 @@ class Matter implements MatterInterface {
    * @return array|bool
    */
   protected static function loadMultipleMatters(string $type) {
-    $matterClass = Core::getMatterClassFromType($type);
+    $matterClass = MatterManager::getMatterClassFromType($type);
     $matterClass = new $matterClass;
     return $matterClass->loadByProperties([], TRUE);
   }
@@ -75,10 +75,13 @@ class Matter implements MatterInterface {
    * {@inheritDoc}
    */
   public function loadByProperties($properties = [], $multiple = FALSE) {
-    if (!$this->getType()) {
+    $type = $this->getType() ?: $properties['type'];
+    if (!$type) {
       return FALSE;
     }
-    $query = $this->database->select('matter__' . $this->getType())
+    $this->setType($type);
+    unset($properties['type']);
+    $query = $this->database->select('matter__' . $type)
       ->condition('status', 1)
       ->orderBy('id', 'ASC');
     foreach ($properties as $field => $value) {
@@ -88,7 +91,8 @@ class Matter implements MatterInterface {
       /** @var Result $result */
       $result = $query->execute();
     } catch (Exception $exception) {
-      throw new Exception($exception);
+      \Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'Matter');
+      return FALSE;
     }
     if (!$results = $result->fetchAllAssoc('id')) {
       return FALSE;
@@ -120,8 +124,12 @@ class Matter implements MatterInterface {
       $class = new $className;
       $matter[$ci_key] = $class::load($ci_value);
     }
-    $matterClass = Core::getMatterClassFromType($this->type);
-    return new $matterClass($matter);
+    $matterClass = MatterManager::getMatterClassFromType($this->getType());
+    if ($matterClass !== FALSE) {
+      return new $matterClass($matter);
+    }
+
+    return FALSE;
   }
 
   /**
@@ -182,7 +190,7 @@ class Matter implements MatterInterface {
    * {@inheritDoc}
    */
   public function getStorage($type, $values = []) {
-    $matterClass = Core::getMatterClassFromType($type);
+    $matterClass = MatterManager::getMatterClassFromType($type);
     if (!$matterClass) {
       return FALSE;
     }
@@ -385,7 +393,7 @@ class Matter implements MatterInterface {
    * @return bool
    */
   protected static function createMatter($type) {
-    if (Core::matterInstalled($type)) {
+    if (MatterManager::matterInstalled($type)) {
       return FALSE;
     }
     $database = \Nick::Database();

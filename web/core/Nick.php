@@ -1,17 +1,20 @@
 <?php
 
-use Nick\Cache\Cache;
+use Nick\ExtensionManager;
+use Nick\Page\PageInterface;
 use Nick\Cache\CacheInterface;
 use Nick\Config;
 use Nick\Core;
 use Nick\Database\Database;
 use Nick\Form\FormBuilder;
 use Nick\Form\FormElement;
+use Nick\Matter\MatterManager;
 use Nick\Language\LanguageManager;
 use Nick\Logger;
 use Nick\Manifest\Manifest;
 use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
+use Nick\Page\PageManager;
 use Nick\Renderer;
 use Nick\Theme;
 use Nick\Translation\TranslationInterface;
@@ -26,8 +29,7 @@ class Nick {
    */
   public static function Cache() {
     global $cache;
-    // @TODO: dynamically return the currently active cache class!
-    return $cache ?? new Cache();
+    return $cache ?? Core::getCacheClass();
   }
 
   /**
@@ -37,6 +39,15 @@ class Nick {
    */
   public static function Matter() {
     return new Matter();
+  }
+
+  /**
+   * Returns uncached MatterManager object.
+   *
+   * @return MatterManager
+   */
+  public static function MatterManager() {
+    return new MatterManager();
   }
 
   /**
@@ -103,8 +114,11 @@ class Nick {
    * @return TranslationInterface
    */
   public static function Translation() {
-    // @Todo: allow dynamic entities.
-    return self::Cache()->getData('translation', '\\Nick\\Translation\\Translation');
+    $translationExtension = self::Config()->get('translation')['extension'];
+    if (!ExtensionManager::extensionInstalled($translationExtension)) {
+      $translationExtension = 'Translation';
+    }
+    return self::Cache()->getData('translation', '\\Nick\\' . $translationExtension . '\\' . $translationExtension);
   }
 
   /**
@@ -114,6 +128,15 @@ class Nick {
    */
   public static function LanguageManager() {
     return self::Cache()->getData('language.manager', '\\Nick\\Language\\LanguageManager');
+  }
+
+  /**
+   * Returns uncached PageManager object
+   *
+   * @return PageManager
+   */
+  public static function PageManager() {
+    return new PageManager();
   }
 
   /**
@@ -139,8 +162,32 @@ class Nick {
    */
   public static function Bootstrap() {
     $core = new Core();
-    $core->createMatters();
     $core->setSystemSpecifics();
+    self::MatterManager()->createMatters();
+
+    try {
+      $page = self::PageManager()->getPageRender($_GET['p'] ?? 'dashboard', $_GET);
+      $pageObject = self::PageManager()->getPageObject($_GET['p'] ?? 'dashboard', $_GET);
+      $headerVariables = [];
+      if ($pageObject instanceof PageInterface) {
+        $headerVariables = [
+          'page' => [
+            'id' => $_GET['p'] ?? 'dashboard',
+            'type' => $pageObject->get('type'),
+            'title' => $pageObject->get('title'),
+            'summary' => $pageObject->get('summary'),
+          ],
+        ];
+      }
+      $header = self::PageManager()->getPageRender('header', $headerVariables);
+      $footer = self::PageManager()->getPageRender('footer');
+
+      echo $header ?? NULL;
+      echo $page ?? NULL;
+      echo $footer ?? NULL;
+    } catch (Exception $exception) {
+      self::Logger()->add('Could not bootstrap Nick!' . PHP_EOL . $exception, Logger::TYPE_FAILURE, 'Bootstrap');
+    }
   }
 
 }

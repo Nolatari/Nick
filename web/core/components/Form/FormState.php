@@ -10,7 +10,7 @@ use Nick\Database\Result;
  *
  * @package Nick\Form
  */
-class FormState {
+class FormState implements FormStateInterface {
 
   /** @var string $uuid */
   protected $uuid;

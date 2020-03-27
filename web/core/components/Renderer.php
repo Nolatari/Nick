@@ -6,13 +6,13 @@ use Exception;
 use Nick;
 use Nick\Events\Event;
 use Nick\Person\Person;
-use Nick\Person\PersonInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 use Twig\TemplateWrapper;
+use Twig\Extension\DebugExtension;
 
 /**
  * Class Renderer
@@ -89,7 +89,10 @@ class Renderer extends Settings {
     $path = is_null($type) ? $this->getThemeFolder() :
       $this->getThemeFolder() . $type;
     $this->loader = new FilesystemLoader($path);
-    $this->twig = new Environment($this->getLoader());
+    $this->twig = new Environment($this->getLoader(), ['debug' => $this->getSetting('twig_debugging')]);
+    if ($this->getSetting('twig_debugging')) {
+      $this->twig->addExtension(new DebugExtension());
+    }
 
     return $this;
   }
@@ -112,18 +115,19 @@ class Renderer extends Settings {
   }
 
   /**
-   * @return TemplateWrapper|Exception
+   * @return bool|TemplateWrapper
    */
   protected function getTemplate() {
     try {
       return $this->getTwig()->load($this->template . '.html.twig');
     } catch (LoaderError $e) {
-      return new Exception('Something went wrong loading the template [' . $this->template . '.html.twig]');
+      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     } catch (RuntimeError $e) {
-      return new Exception('Something went wrong running the template [' . $this->template . '.html.twig]');
+      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     } catch (SyntaxError $e) {
-      return new Exception('Syntax error when loading the template [' . $this->template . '.html.twig]');
+      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     }
+    return FALSE;
   }
 
   /**
@@ -133,6 +137,9 @@ class Renderer extends Settings {
    * @return string|NULL
    */
   public function render(array $variables = [], $view_mode = NULL) {
+    $event = new Event('preRender');
+    $event->fireEvent($variables, [$view_mode]);
+
     $template = $this->getTemplate();
     if (!$template instanceof TemplateWrapper) {
       return FALSE;
@@ -140,31 +147,18 @@ class Renderer extends Settings {
     $render_settings = $this->settings;
     unset($render_settings['database']);
     $variables = $variables + [
-        'settings' => $this->settings,
-        'active_user' => Person::getCurrentPerson()
-      ];
-    if ($this->template === 'page') {
-      // Fire PreprocessPage event
-      $preprocessPageEvent = new Event('PreprocessPage');
-      $preprocessPageEvent->fireEvent($variables, [$view_mode]);
-
-      if (!$people = Person::loadMultiple()) {
-        \Nick::Logger()->add('No people yet.', 'Renderer', Logger::TYPE_FAILURE);
-        return FALSE;
-      }
-      $people = array_map(function (PersonInterface $person) {
-        return $person->render();
-      }, $people);
-      $logger = \Nick::Logger();
-      $variables = $variables + [
-          'header' => $this->setType()->setTemplate('header')->render([
-            'people' => $people,
-            'active_user' => Person::getCurrentPerson(),
-            'logs' => $logger->render()
-          ]),
-          'footer' => $this->setType()->setTemplate('footer')->render(),
-        ];
-    }
+      'settings' => $this->settings,
+      'active_user' => Person::getCurrentPerson(),
+      'site' => [
+        'name' => \Nick::Config()->get('site')['name'] ?? 'Nick',
+        'version' => \Nick::Cache()->getData('NICK_VERSION') . '.'
+        . \Nick::Cache()->getData('NICK_VERSION_RELEASE') . ' '
+        . \Nick::Cache()->getData('NICK_VERSION_STATUS'),
+      ],
+      'theme' => [
+        'location' => 'themes/' . \Nick::Theme()->getTheme('admin'),
+      ],
+    ];
     return $template->render($variables) ?? NULL;
   }
 

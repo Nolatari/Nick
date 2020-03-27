@@ -18,6 +18,12 @@ class Config extends Settings {
    * @return bool
    */
   public function import() {
+    if (!$truncate_query = \Nick::Database()
+      ->query('TRUNCATE TABLE config')) {
+      \Nick::Logger()->add('Something went wrong trying to truncate the config table.', Logger::TYPE_FAILURE, 'Config');
+      return FALSE;
+    }
+
     $staged = $this->getStagedConfig();
     foreach ($staged as $key => $value) {
       if (!$this->set($key, $value)) {
@@ -49,7 +55,7 @@ class Config extends Settings {
     foreach ($this->getConfig() as $item) {
       $config = YamlReader::toYaml(unserialize($item['value']));
       try {
-        $config_file = fopen($this->getSetting('config')['folder'] . '/' . $item['field'] . '.yml', 'w', Logger::TYPE_ERROR, 'Config');
+        $config_file = fopen($this->getSetting('config')['folder'] . '/' . $item['field'] . '.yml', 'w');
         fwrite($config_file, $config);
         fclose($config_file);
       } catch (\Exception $e) {
@@ -138,6 +144,11 @@ class Config extends Settings {
    * @return mixed
    */
   public function get($key) {
+    if (strpos($key, '.') !== FALSE) {
+      $items = explode('.', $key);
+      $key = $items[0];
+      $item = $items[1];
+    }
     $config_storage = \Nick::Database()
       ->select('config')
       ->fields(NULL, ['value'])
@@ -149,7 +160,13 @@ class Config extends Settings {
     $result = $config_result->fetchAllAssoc();
     $result = reset($result);
 
-    return unserialize($result['value']);
+    if (isset($item)) {
+      $config = unserialize($result['value'])[$item];
+    } else {
+      $config = unserialize($result['value']);
+    }
+
+    return $config;
   }
 
   /**
@@ -159,24 +176,41 @@ class Config extends Settings {
    * @return bool
    */
   public function set($key, $value) {
-    // Serialize value for proper database storing.
-    $value = serialize($value);
+    if (strpos($key, '.') !== FALSE) {
+      $items = explode('.', $key);
+      $key = $items[0];
+      $item = $items[1];
+    }
+
     $config_storage = \Nick::Database()
       ->select('config')
       ->fields(NULL, ['value'])
-      ->condition('field', $key);
-    /** @var Result $config_result */
-    if (!$config_result = $config_storage->execute()) {
+      ->condition('field', $key)
+      ->execute();
+    if (!$config_storage instanceof Result) {
       return FALSE;
     }
-    $result = $config_result->fetchAllAssoc();
+    $result = $config_storage->fetchAllAssoc();
     if (count($result) > 0) {
+      $result = reset($result);
+      if (isset($item)) {
+        $result[$item] = $value;
+        $value = $result;
+      }
+
+      $value = serialize($value);
       $config_query = \Nick::Database()
         ->update('config')
         ->values(['value' => $value])
         ->condition('field', $key)
         ->execute();
     } else {
+      if (isset($item)) {
+        $result = [$item => $value];
+        $value = $result;
+      }
+
+      $value = serialize($value);
       $config_query = \Nick::Database()
         ->insert('config')
         ->values([$key, $value])
