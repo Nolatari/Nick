@@ -24,6 +24,13 @@ class Event extends FireEvent implements EventInterface {
   /**
    * {@inheritDoc}
    */
+  public function fireEvent(&$variables = [], $otherArgs = []) {
+    return $this->fire($this, $variables, $otherArgs);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function getEventName() {
     return $this->eventName;
   }
@@ -31,16 +38,9 @@ class Event extends FireEvent implements EventInterface {
   /**
    * {@inheritDoc}
    */
-  public function setEventName($eventName) {
+  protected function setEventName($eventName) {
     $this->eventName = $eventName;
     return $this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function fireEvent(&$variables = [], $otherArgs = []) {
-    return $this->fire($this, $variables, $otherArgs);
   }
 
 }

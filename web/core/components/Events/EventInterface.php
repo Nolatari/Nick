@@ -10,15 +10,6 @@ interface EventInterface {
   public function getEventName();
 
   /**
-   * Sets event name
-   *
-   * @param string $eventName
-   *
-   * @return self
-   */
-  public function setEventName($eventName);
-
-  /**
    * Fires event to trigger listeners/subscribers.
    *
    * @param mixed $variables
