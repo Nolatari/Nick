@@ -2,7 +2,7 @@
 
 namespace Nick\Form;
 
-use Nick\Events\Event;
+use Nick\Event\Event;
 
 /**
  * Class FormElement

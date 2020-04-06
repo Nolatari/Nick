@@ -5,7 +5,7 @@ namespace Nick\Manifest;
 use Nick;
 use Nick\Database\Database;
 use Nick\Database\Result;
-use Nick\Events\Event;
+use Nick\Event\Event;
 
 /**
  * Class Manifest

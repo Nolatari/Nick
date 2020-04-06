@@ -2,7 +2,7 @@
 
 namespace Nick\Cache;
 
-use Nick\Events\Event;
+use Nick\Event\Event;
 use Nick\Database\Result;
 use Nick\Logger;
 use Nick\Settings;

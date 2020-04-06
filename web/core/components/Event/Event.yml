@@ -1,0 +1,5 @@
+name: Event
+version: 1.0a
+type: extension
+classes:
+  Event: '\Nick\Event\Event'

@@ -1,6 +1,6 @@
 <?php
 
-namespace Nick\Events;
+namespace Nick\Event;
 
 interface EventInterface {
 

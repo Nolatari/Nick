@@ -7,7 +7,7 @@ use Nick;
 use Nick\Core;
 use Nick\Database\Database;
 use Nick\Database\Result;
-use Nick\Events\Event;
+use Nick\Event\Event;
 use Nick\Logger;
 use Nick\Person\Person;
 

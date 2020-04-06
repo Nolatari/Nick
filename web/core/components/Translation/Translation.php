@@ -3,7 +3,7 @@
 namespace Nick\Translation;
 
 use Nick\Database\Result;
-use Nick\Events\Event;
+use Nick\Event\Event;
 use Nick\Language\LanguageManager;
 
 /**

@@ -4,7 +4,7 @@ namespace Nick;
 
 use Exception;
 use Nick;
-use Nick\Events\Event;
+use Nick\Event\Event;
 use Nick\Person\Person;
 use Twig\Environment;
 use Twig\Error\LoaderError;

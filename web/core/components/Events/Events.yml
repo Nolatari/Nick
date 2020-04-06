@@ -1,6 +1,0 @@
-name: Events
-version: 1.0a
-type: extension
-classes:
-  Event: '\Nick\Events\Event'
-  ExecuteSubscribers: '\Nick\Events\ExecuteSubscribers'
