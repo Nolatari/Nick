@@ -42,12 +42,12 @@ class Event implements EventInterface {
   /**
    * Fires the event and runs through all listeners/subscribers.
    *
-   * @param array $variables
+   * @param mixed $variables
    * @param array $otherArgs
    *
    * @return bool
    */
-  public function fire(&$variables = [], $otherArgs = []) {
+  public function fire(&$variables, $otherArgs = []) {
     foreach ($this->getListeners() as $listener) {
       $class = new $listener['class']();
       try {
