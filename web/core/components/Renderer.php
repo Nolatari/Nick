@@ -138,7 +138,7 @@ class Renderer extends Settings {
    */
   public function render(array $variables = [], $view_mode = NULL) {
     $event = new Event('preRender');
-    $event->fireEvent($variables, [$view_mode]);
+    $event->fire($variables, [$view_mode]);
 
     $template = $this->getTemplate();
     if (!$template instanceof TemplateWrapper) {

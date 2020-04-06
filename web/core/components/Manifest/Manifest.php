@@ -208,7 +208,7 @@ class Manifest implements ManifestInterface {
 
     // Fire alter event
     $event = new Event('ManifestQueryAlter');
-    $event->fireEvent($query);
+    $event->fire($query);
 
     // Execute query
     if (!$result = $query->execute()) {

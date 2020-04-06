@@ -43,7 +43,7 @@ class FormBuilder {
   public function result() {
     $build = $this->build();
     $event = new Event('FormAlter');
-    $event->fireEvent($build, ['form-' . $this->getMatter()->getType(), $this->formState]);
+    $event->fire($build, ['form-' . $this->getMatter()->getType(), $this->formState]);
     return $build;
   }
 
@@ -76,14 +76,14 @@ class FormBuilder {
 
     // Fire FormPreSubmitAlter event
     $preSubmitEvent = new Event('FormPreSubmitAlter');
-    $preSubmitEvent->fireEvent($form, [$formId, $this->getFormState()]);
+    $preSubmitEvent->fire($form, [$formId, $this->getFormState()]);
 
     // Submit form
     // @TODO
 
     // Fire FormPostSubmitAlter event
     $postSubmitEvent = new Event('FormPostSubmitAlter');
-    $postSubmitEvent->fireEvent($form, [$formId, $this->getFormState()]);
+    $postSubmitEvent->fire($form, [$formId, $this->getFormState()]);
   }
 
   /**

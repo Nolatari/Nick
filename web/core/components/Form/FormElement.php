@@ -20,7 +20,7 @@ class FormElement {
   public function get($type, $variables = []) {
     // Fire an event so this can be altered
     $event = new Event('FormElementAlter');
-    $event->fireEvent($variables);
+    $event->fire($variables);
 
     if (method_exists(new static(), $type)) {
       //return self::$type($variables);

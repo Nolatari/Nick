@@ -56,7 +56,7 @@ class Cache extends Settings implements CacheInterface {
   public function getContentData(array $cacheOptions, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
     // Fires an event to alter cache options before being sent to DB.
     $event = new Event('cacheContentAlter');
-    $event->fireEvent($cacheOptions);
+    $event->fire($cacheOptions);
 
     $query = \Nick::Database()
       ->select('cache_content')

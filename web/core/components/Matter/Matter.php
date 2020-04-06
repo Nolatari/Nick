@@ -301,7 +301,7 @@ class Matter implements MatterInterface {
   public function save() {
     // Fire presave event
     $presaveEvent = new Event('MatterPresave');
-    $presaveEvent->fireEvent($this);
+    $presaveEvent->fire($this);
 
     $table = 'matter__' . $this->type;
     // Check if item exists, update existing item or insert new item.
@@ -369,7 +369,7 @@ class Matter implements MatterInterface {
 
     // Fire postsave event
     $postsaveEvent = new Event('MatterPostsave');
-    $postsaveEvent->fireEvent($this);
+    $postsaveEvent->fire($this);
     return TRUE;
   }
 
