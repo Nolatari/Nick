@@ -2,6 +2,7 @@
 
 namespace Nick\Cache;
 
+use Nick;
 use Nick\Events\Event;
 use Nick\Database\Result;
 use Nick\Logger;
@@ -32,7 +33,7 @@ class Cache extends Settings implements CacheInterface {
   /**
    * {@inheritDoc}
    */
-  public function getData($cacheKey, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
+  public function getData(string $cacheKey, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
     if (!isset($this->cacheStats[$cacheKey])) {
       $this->cacheStats[$cacheKey]['created'] = 0;
       $this->cacheStats[$cacheKey]['called'] = 0;
@@ -58,7 +59,7 @@ class Cache extends Settings implements CacheInterface {
     $event = new Event('cacheContentAlter');
     $event->fire($cacheOptions);
 
-    $query = \Nick::Database()
+    $query = Nick::Database()
       ->select('cache_content')
       ->condition('field', $cacheOptions['key'])
       ->execute();
@@ -110,7 +111,7 @@ class Cache extends Settings implements CacheInterface {
    * @return bool
    */
   protected function insertContentData(array $cacheOptions, $value = []) {
-    $query = \Nick::Database()
+    $query = Nick::Database()
       ->insert('cache_content')
       ->values([
         'field' => $cacheOptions['key'],
@@ -122,7 +123,7 @@ class Cache extends Settings implements CacheInterface {
       ])
       ->execute();
     if (!$query) {
-      \Nick::Logger()->add('Something went wrong trying to insert cache item [' . $cacheOptions['key'] . ']', Logger::TYPE_FAILURE, 'Cache');
+      Nick::Logger()->add('Something went wrong trying to insert cache item [' . $cacheOptions['key'] . ']', Logger::TYPE_FAILURE, 'Cache');
       return FALSE;
     }
 
@@ -136,7 +137,7 @@ class Cache extends Settings implements CacheInterface {
    * @return bool
    */
   protected function updateContentData(array $cacheOptions, $value = []) {
-    $query = \Nick::Database()
+    $query = Nick::Database()
       ->update('cache_content')
       ->condition('field', $cacheOptions['key'])
       ->values([
@@ -148,7 +149,7 @@ class Cache extends Settings implements CacheInterface {
       ])
       ->execute();
     if (!$query) {
-      \Nick::Logger()->add('Something went wrong trying to update cache item [' . $cacheOptions['key'] . ']', Logger::TYPE_FAILURE, 'Cache');
+      Nick::Logger()->add('Something went wrong trying to update cache item [' . $cacheOptions['key'] . ']', Logger::TYPE_FAILURE, 'Cache');
       return FALSE;
     }
 
@@ -173,7 +174,7 @@ class Cache extends Settings implements CacheInterface {
    * {@inheritDoc}
    */
   public function clearAllCaches() {
-    return \Nick::Database()->query('TRUNCATE TABLE cache_content');
+    return Nick::Database()->query('TRUNCATE TABLE cache_content');
   }
 
 }

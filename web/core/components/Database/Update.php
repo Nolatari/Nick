@@ -14,7 +14,7 @@ class Update extends Database {
   /**
    * Update constructor.
    *
-   * @param $table
+   * @param      $table
    * @param null $alias
    * @param null $options
    */
@@ -24,9 +24,9 @@ class Update extends Database {
   }
 
   /**
-   * @param $table
+   * @param      $table
    * @param null $alias
-   * @param $options
+   * @param      $options
    */
   public function addTable($table, $alias = NULL, $options = NULL) {
     $this->tables[] = ['table' => $table, 'alias' => $alias, 'options' => $options];

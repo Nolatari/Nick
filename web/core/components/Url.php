@@ -11,7 +11,7 @@ class Url extends Settings {
    * Adds a GET parameter to the current url
    *
    * @param string|array $key
-   * @param string|NULL $value
+   * @param string|NULL  $value
    *
    * @return string
    */
@@ -28,8 +28,11 @@ class Url extends Settings {
     }
 
     foreach ($current_params as $param_key => $param_value) {
-      if ($url == $this->getUrlWithoutParameters()) { $url .= '?'; }
-      else { $url .= '&'; }
+      if ($url == $this->getUrlWithoutParameters()) {
+        $url .= '?';
+      } else {
+        $url .= '&';
+      }
       $url .= $param_key . '=' . $param_value;
     }
 
@@ -58,8 +61,11 @@ class Url extends Settings {
     }
 
     foreach ($current_params as $param_key => $param_value) {
-      if ($url == $this->getUrlWithoutParameters()) { $url .= '?'; }
-      else { $url .= '&'; }
+      if ($url == $this->getUrlWithoutParameters()) {
+        $url .= '?';
+      } else {
+        $url .= '&';
+      }
       $url .= $param_key . '=' . $param_value;
     }
 

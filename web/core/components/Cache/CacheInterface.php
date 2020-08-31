@@ -23,12 +23,12 @@ interface CacheInterface {
    * @param string $cacheKey
    * @param string $fallbackClass
    * @param string $fallbackMethod
-   * @param array $methodData
-   * @param array $classData
+   * @param array  $methodData
+   * @param array  $classData
    *
    * @return mixed
    */
-  public function getData($cacheKey, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []);
+  public function getData(string $cacheKey, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []);
 
   /**
    * Checks if data is in cache, if so read it from cache.
@@ -36,11 +36,11 @@ interface CacheInterface {
    * This is mainly for (nearly) permanently storing data.
    * E.g.: content, user data, ..
    *
-   * @param array $cacheOptions
+   * @param array  $cacheOptions
    * @param string $fallbackClass
    * @param string $fallbackMethod
-   * @param array $methodData
-   * @param array $classData
+   * @param array  $methodData
+   * @param array  $classData
    *
    * @return mixed
    */

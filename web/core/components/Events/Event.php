@@ -2,6 +2,8 @@
 
 namespace Nick\Events;
 
+use Exception;
+use Nick;
 use Nick\ExtensionManager;
 use Nick\Logger;
 
@@ -52,13 +54,13 @@ class Event implements EventInterface {
       $class = new $listener['class']();
       try {
         if (!is_array($otherArgs)) {
-          \Nick::Logger()->add('The other arguments have to be of the array format.', Logger::TYPE_ERROR, 'EventListener');
+          Nick::Logger()->add('The other arguments have to be of the array format.', Logger::TYPE_ERROR, 'EventListener');
           return FALSE;
         }
         // Call the listener class' method
         $class->{$listener['method']}($variables, ...$otherArgs);
-      } catch (\Exception $exception) {
-        \Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'EventListener');
+      } catch (Exception $exception) {
+        Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'EventListener');
         return FALSE;
       }
     }

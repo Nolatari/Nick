@@ -2,7 +2,9 @@
 
 namespace Nick;
 
+use Exception;
 use FilesystemIterator;
+use Nick;
 use Nick\Database\Result;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -18,16 +20,16 @@ class Config extends Settings {
    * @return bool
    */
   public function import() {
-    if (!$truncate_query = \Nick::Database()
+    if (!$truncate_query = Nick::Database()
       ->query('TRUNCATE TABLE config')) {
-      \Nick::Logger()->add('Something went wrong trying to truncate the config table.', Logger::TYPE_FAILURE, 'Config');
+      Nick::Logger()->add('Something went wrong trying to truncate the config table.', Logger::TYPE_FAILURE, 'Config');
       return FALSE;
     }
 
     $staged = $this->getStagedConfig();
     foreach ($staged as $key => $value) {
       if (!$this->set($key, $value)) {
-        \Nick::Logger()->add('Something went wrong trying to import the following config: ' . $key, Logger::TYPE_FAILURE, 'Config');
+        Nick::Logger()->add('Something went wrong trying to import the following config: ' . $key, Logger::TYPE_FAILURE, 'Config');
         return FALSE;
       }
     }
@@ -41,11 +43,11 @@ class Config extends Settings {
   public function export() {
     $config_folder = $this->getSetting('config')['folder'];
     if (!is_dir($this->getSetting('config')['folder'])) {
-      \Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
+      Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
     }
     $di = new RecursiveDirectoryIterator($config_folder, FilesystemIterator::SKIP_DOTS);
     $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
-    foreach ( $ri as $file ) {
+    foreach ($ri as $file) {
       if ($file->isDir()) {
         continue;
       }
@@ -58,8 +60,8 @@ class Config extends Settings {
         $config_file = fopen($this->getSetting('config')['folder'] . '/' . $item['field'] . '.yml', 'w');
         fwrite($config_file, $config);
         fclose($config_file);
-      } catch (\Exception $e) {
-        \Nick::Logger()->add('Something went wrong trying to write config to file. [' . $item['field'] . '.yml]', Logger::TYPE_ERROR, 'Config');
+      } catch (Exception $e) {
+        Nick::Logger()->add('Something went wrong trying to write config to file. [' . $item['field'] . '.yml]', Logger::TYPE_ERROR, 'Config');
         return FALSE;
       }
     }
@@ -73,7 +75,7 @@ class Config extends Settings {
    * @return array|bool
    */
   public function difference() {
-    $config_storage = \Nick::Database()
+    $config_storage = Nick::Database()
       ->select('config')
       ->execute();
     if (!$config_storage instanceof Result) {
@@ -103,7 +105,7 @@ class Config extends Settings {
     } else {
       $folder = $this->getSetting('config')['folder'];
       if (!is_dir($folder)) {
-        \Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
+        Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
         return $config;
       }
       $files = scandir($folder);
@@ -128,7 +130,7 @@ class Config extends Settings {
    * @return array|bool
    */
   public function getConfig() {
-    $config_storage = \Nick::Database()
+    $config_storage = Nick::Database()
       ->select('config')
       ->execute();
     if (!$config_storage instanceof Result) {
@@ -149,7 +151,7 @@ class Config extends Settings {
       $key = $items[0];
       $item = $items[1];
     }
-    $config_storage = \Nick::Database()
+    $config_storage = Nick::Database()
       ->select('config')
       ->fields(NULL, ['value'])
       ->condition('field', $key);
@@ -182,7 +184,7 @@ class Config extends Settings {
       $item = $items[1];
     }
 
-    $config_storage = \Nick::Database()
+    $config_storage = Nick::Database()
       ->select('config')
       ->fields(NULL, ['value'])
       ->condition('field', $key)
@@ -199,7 +201,7 @@ class Config extends Settings {
       }
 
       $value = serialize($value);
-      $config_query = \Nick::Database()
+      $config_query = Nick::Database()
         ->update('config')
         ->values(['value' => $value])
         ->condition('field', $key)
@@ -211,7 +213,7 @@ class Config extends Settings {
       }
 
       $value = serialize($value);
-      $config_query = \Nick::Database()
+      $config_query = Nick::Database()
         ->insert('config')
         ->values([$key, $value])
         ->execute();

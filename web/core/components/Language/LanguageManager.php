@@ -2,6 +2,8 @@
 
 namespace Nick\Language;
 
+use Exception;
+use Nick;
 use Nick\Logger;
 
 /**
@@ -21,7 +23,7 @@ class LanguageManager {
    * LanguageManager constructor.
    */
   public function __construct() {
-    $this->defaultLanguage = \Nick::Config()->get('site')['default_langcode'] ?? 'en';
+    $this->defaultLanguage = Nick::Config()->get('site')['default_langcode'] ?? 'en';
     $this->currentLanguage = $this->defaultLanguage;
   }
 
@@ -60,9 +62,9 @@ class LanguageManager {
   public function setDefaultLanguage($langcode) {
     $this->defaultLanguage = $langcode;
     try {
-      \Nick::Config()->set('site.default_langcode', $langcode);
-    } catch (\Exception $exception) {
-      \Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'LanguageManager');
+      Nick::Config()->set('site.default_langcode', $langcode);
+    } catch (Exception $exception) {
+      Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'LanguageManager');
     }
   }
 

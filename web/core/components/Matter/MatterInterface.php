@@ -18,7 +18,7 @@ interface MatterInterface {
 
   /**
    * @param string $type
-   * @param array $values
+   * @param array  $values
    *
    * @return MatterInterface|bool
    */
@@ -32,7 +32,7 @@ interface MatterInterface {
   /**
    * @param array $properties
    *          An array of properties your Matter should have
-   * @param bool $multiple
+   * @param bool  $multiple
    *          If you expect multiple results, set this to TRUE
    *
    * @return bool|array
@@ -55,7 +55,7 @@ interface MatterInterface {
 
   /**
    * @param string $key
-   * @param mixed $value
+   * @param mixed  $value
    *
    * @return self|NULL
    */

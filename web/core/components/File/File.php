@@ -10,7 +10,7 @@ use Nick\Matter\MatterInterface;
  *
  * @package Nick\File
  */
-class File Extends Matter implements FileInterface {
+class File extends Matter implements FileInterface {
 
   /** File type constants */
   const TYPE_VIDEO = 'video';

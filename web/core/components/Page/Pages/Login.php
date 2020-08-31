@@ -2,6 +2,7 @@
 
 namespace Nick\Page\Pages;
 
+use Nick;
 use Nick\Page\Page;
 
 /**
@@ -19,7 +20,7 @@ class Login extends Page {
     $this->setParameters([
       'title' => $this->translate('Login'),
       'summary' => $this->translate('Login to :sitename.', [
-        ':sitename' => \Nick::Config()->get('site.name'),
+        ':sitename' => Nick::Config()->get('site.name'),
       ]),
     ]);
   }
@@ -41,7 +42,7 @@ class Login extends Page {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
-    return \Nick::Renderer()
+    return Nick::Renderer()
       ->setType()
       ->setTemplate('login')
       ->render();

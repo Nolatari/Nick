@@ -10,7 +10,7 @@ use Nick\Matter\MatterInterface;
  *
  * @package Nick\Person
  */
-class Person Extends Matter implements PersonInterface {
+class Person extends Matter implements PersonInterface {
 
   /**
    * Card constructor.

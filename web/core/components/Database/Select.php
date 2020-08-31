@@ -14,7 +14,7 @@ class Select extends Database {
   /**
    * Select constructor.
    *
-   * @param $table
+   * @param      $table
    * @param null $alias
    * @param null $options
    */
@@ -24,9 +24,9 @@ class Select extends Database {
   }
 
   /**
-   * @param $table
+   * @param      $table
    * @param null $alias
-   * @param $options
+   * @param      $options
    */
   public function addTable($table, $alias = NULL, $options = NULL) {
     $this->tables[] = ['table' => $table, 'alias' => $alias, 'options' => $options];
@@ -36,7 +36,7 @@ class Select extends Database {
    * fields method
    *
    * @param string $table_alias
-   * @param array $fields
+   * @param array  $fields
    *
    * @return self
    */

@@ -82,7 +82,7 @@ class Renderer extends Settings {
     $this->type = $type;
 
     if (!is_dir($this->getThemeFolder() . $type)) {
-      \Nick::Logger()->add('[Renderer][setType]: Folder not found.', Logger::TYPE_WARNING, 'Renderer');
+      Nick::Logger()->add('[Renderer][setType]: Folder not found.', Logger::TYPE_WARNING, 'Renderer');
       return NULL;
     }
 
@@ -121,17 +121,17 @@ class Renderer extends Settings {
     try {
       return $this->getTwig()->load($this->template . '.html.twig');
     } catch (LoaderError $e) {
-      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
+      Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     } catch (RuntimeError $e) {
-      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
+      Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     } catch (SyntaxError $e) {
-      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
+      Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     }
     return FALSE;
   }
 
   /**
-   * @param array $variables
+   * @param array       $variables
    * @param string|NULL $view_mode
    *
    * @return string|NULL
@@ -147,18 +147,18 @@ class Renderer extends Settings {
     $render_settings = $this->settings;
     unset($render_settings['database']);
     $variables = $variables + [
-      'settings' => $this->settings,
-      'active_user' => Person::getCurrentPerson(),
-      'site' => [
-        'name' => \Nick::Config()->get('site')['name'] ?? 'Nick',
-        'version' => \Nick::Cache()->getData('NICK_VERSION') . '.'
-        . \Nick::Cache()->getData('NICK_VERSION_RELEASE') . ' '
-        . \Nick::Cache()->getData('NICK_VERSION_STATUS'),
-      ],
-      'theme' => [
-        'location' => 'themes/' . \Nick::Theme()->getTheme('admin'),
-      ],
-    ];
+        'settings' => $this->settings,
+        'active_user' => Person::getCurrentPerson(),
+        'site' => [
+          'name' => Nick::Config()->get('site')['name'] ?? 'Nick',
+          'version' => Nick::Cache()->getData('NICK_VERSION') . '.'
+            . Nick::Cache()->getData('NICK_VERSION_RELEASE') . ' '
+            . Nick::Cache()->getData('NICK_VERSION_STATUS'),
+        ],
+        'theme' => [
+          'location' => 'themes/' . Nick::Theme()->getTheme('admin'),
+        ],
+      ];
     return $template->render($variables) ?? NULL;
   }
 
