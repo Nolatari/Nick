@@ -15,8 +15,8 @@ interface TranslationInterface {
    *   the original string.
    *
    * @param string $string
-   * @param bool $fallback
-   * @param null $langcode
+   * @param bool   $fallback
+   * @param null   $langcode
    *
    * @return string
    */
@@ -27,7 +27,7 @@ interface TranslationInterface {
    *
    * @param string $string
    * @param string $translation
-   * @param array $args
+   * @param array  $args
    * @param string $from_langcode
    * @param string $to_langcode
    *

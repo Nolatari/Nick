@@ -66,7 +66,7 @@ class FormBuilder {
   /**
    * Default submit handler
    *
-   * @param array $form
+   * @param array  $form
    * @param string $formId
    */
   public function submit(&$form, $formId) {

@@ -2,6 +2,7 @@
 
 namespace Nick\Language;
 
+use Nick;
 use Nick\Database\Result;
 use Nick\Logger;
 use Nick\Translation\StringTranslation;
@@ -36,7 +37,7 @@ class Language implements LanguageInterface {
    */
   public function __construct($langcode = 'en') {
     if (!$this->setValues($langcode)) {
-      \Nick::Logger()->add('Something went wrong trying to set language object.', Logger::TYPE_ERROR, 'Language');
+      Nick::Logger()->add('Something went wrong trying to set language object.', Logger::TYPE_ERROR, 'Language');
     }
   }
 
@@ -91,10 +92,10 @@ class Language implements LanguageInterface {
     }
     $this->language = $properties['language'];
     $this->fallbackLanguage = !empty($properties['fallback'])
-      ? \Nick::LanguageManager()->getLanguageByLangcode($properties['fallback'])
-      : \Nick::LanguageManager()->getDefaultLanguage();
+      ? Nick::LanguageManager()->getLanguageByLangcode($properties['fallback'])
+      : Nick::LanguageManager()->getDefaultLanguage();
     $this->country = $properties['country'];
-    $this->default = \Nick::Config()->get('site.default_langcode') == $langcode ? TRUE : FALSE;
+    $this->default = Nick::Config()->get('site.default_langcode') == $langcode ? TRUE : FALSE;
 
     return TRUE;
   }
@@ -105,7 +106,7 @@ class Language implements LanguageInterface {
    * @return array|bool
    */
   protected function getProperties() {
-    $query = \Nick::Database()
+    $query = Nick::Database()
       ->select('languages')
       ->fields(NULL, ['language', 'country'])
       ->condition('langcode', $this->getLangcode())

@@ -13,7 +13,7 @@ class FormElement {
 
   /**
    * @param string $type
-   * @param array $variables
+   * @param array  $variables
    *
    * @return mixed
    */

@@ -57,7 +57,7 @@ class Database extends Settings {
    * Database constructor
    *
    * @param string $condition_delimiter
-   * @param null $database
+   * @param null   $database
    */
   public function __construct($condition_delimiter = 'AND', $database = NULL) {
     parent::__construct();
@@ -73,7 +73,7 @@ class Database extends Settings {
    * @return Database
    */
   protected function connect() {
-    $this->database = \Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
+    $this->database = Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
       $this->getSetting('database')['hostname'],
       $this->getSetting('database')['username'],
       $this->getSetting('database')['password'],
@@ -144,8 +144,8 @@ class Database extends Settings {
 
   /**
    * @param string $table
-   * @param null $alias
-   * @param null $options
+   * @param null   $alias
+   * @param null   $options
    *
    * @return Select
    */
@@ -155,8 +155,8 @@ class Database extends Settings {
 
   /**
    * @param string $table
-   * @param null $alias
-   * @param null $options
+   * @param null   $alias
+   * @param null   $options
    *
    * @return Update
    */
@@ -166,8 +166,8 @@ class Database extends Settings {
 
   /**
    * @param string $table
-   * @param null $alias
-   * @param null $options
+   * @param null   $alias
+   * @param null   $options
    *
    * @return Insert
    */
@@ -177,8 +177,8 @@ class Database extends Settings {
 
   /**
    * @param string $table
-   * @param null $alias
-   * @param null $options
+   * @param null   $alias
+   * @param null   $options
    *
    * @return Delete
    */
@@ -188,7 +188,7 @@ class Database extends Settings {
 
   /**
    * @param string query
-   * 
+   *
    * @return Query
    */
   public function query($query) {
@@ -197,7 +197,7 @@ class Database extends Settings {
 
   /**
    * @param string $field_name
-   * @param array $options
+   * @param array  $options
    *
    * @return string
    */

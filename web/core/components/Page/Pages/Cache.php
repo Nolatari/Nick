@@ -2,6 +2,7 @@
 
 namespace Nick\Page\Pages;
 
+use Nick;
 use Nick\Logger;
 use Nick\Page\Page;
 
@@ -30,12 +31,12 @@ class Cache extends Page {
    */
   public function render($parameters = []) {
     if (in_array('clear_all', $parameters)) {
-      if (\Nick::Cache()->clearAllCaches() !== FALSE) {
-        \Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');
+      if (Nick::Cache()->clearAllCaches() !== FALSE) {
+        Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');
       } else {
-        \Nick::Logger()->add('Could not clear caches.', Logger::TYPE_FAILURE, 'Cache');
+        Nick::Logger()->add('Could not clear caches.', Logger::TYPE_FAILURE, 'Cache');
       }
-      header ('Location: ./');
+      header('Location: ./');
     } else {
       // @TODO
     }

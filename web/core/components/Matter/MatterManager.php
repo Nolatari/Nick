@@ -2,6 +2,7 @@
 
 namespace Nick\Matter;
 
+use Nick;
 use Nick\YamlReader;
 use Nick\Database\Result;
 use Nick\ExtensionManager;
@@ -82,7 +83,7 @@ class MatterManager {
    * @return bool
    */
   public static function matterInstalled($type) {
-    $database = \Nick::Database();
+    $database = Nick::Database();
     $type = strtolower($type);
     $matter = $database
       ->select('matter__' . $type)

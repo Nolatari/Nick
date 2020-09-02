@@ -17,6 +17,6 @@ interface EventInterface {
    *
    * @return bool
    */
-  public function fireEvent(&$variables = [], $otherArgs = []);
+  public function fire(&$variables = [], $otherArgs = []);
 
 }

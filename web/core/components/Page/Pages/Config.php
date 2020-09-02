@@ -2,6 +2,7 @@
 
 namespace Nick\Page\Pages;
 
+use Nick;
 use Nick\Page\Page;
 
 /**
@@ -41,9 +42,9 @@ class Config extends Page {
   public function render($parameters = []) {
     $this->setParameter('type', $parameters['t'] ?? '');
     if (isset($parameters['export'])) {
-      \Nick::Config()->export();
+      Nick::Config()->export();
     } elseif (isset($parameters['import'])) {
-      \Nick::Config()->import();
+      Nick::Config()->import();
     } elseif (isset($parameters['difference'])) {
       // @TODO
     } else {

@@ -2,6 +2,7 @@
 
 namespace Nick\Page\Pages;
 
+use Nick;
 use Nick\Page\Page;
 
 /**
@@ -57,7 +58,7 @@ class Error extends Page {
 
     $variables = $variables ?? [];
     $variables['page']['title'] = $title;
-    return \Nick::Renderer()->setType('error')->setTemplate($parameters['e'])->render();
+    return Nick::Renderer()->setType('error')->setTemplate($parameters['e'])->render();
   }
 
 }

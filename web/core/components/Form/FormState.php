@@ -2,6 +2,7 @@
 
 namespace Nick\Form;
 
+use Nick;
 use Nick\Core;
 use Nick\Database\Result;
 
@@ -52,7 +53,7 @@ class FormState implements FormStateInterface {
    * {@inheritDoc}
    */
   public function populateValueArray($return = FALSE) {
-    $state_storage = \Nick::Database()
+    $state_storage = Nick::Database()
       ->select('form_state')
       ->condition('uuid', $this->getUUID())
       ->execute();
@@ -87,14 +88,14 @@ class FormState implements FormStateInterface {
    */
   public function save() {
     if (!$this->populateValueArray(TRUE)) {
-      $query = \Nick::Database()
+      $query = Nick::Database()
         ->insert('form_state')
         ->values([
           $this->getUUID(),
           $this->getValues(),
         ]);
     } else {
-      $query = \Nick::Database()
+      $query = Nick::Database()
         ->update('form_state')
         ->condition('uuid', $this->getUUID())
         ->values([

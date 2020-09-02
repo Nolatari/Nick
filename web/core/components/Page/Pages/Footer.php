@@ -2,6 +2,7 @@
 
 namespace Nick\Page\Pages;
 
+use Nick;
 use Nick\Page\Page;
 
 /**
@@ -28,7 +29,7 @@ class Footer extends Page {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
-    return \Nick::Renderer()
+    return Nick::Renderer()
       ->setType()
       ->setTemplate('footer')
       ->render();

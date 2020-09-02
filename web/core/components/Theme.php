@@ -2,6 +2,8 @@
 
 namespace Nick;
 
+use Nick;
+
 /**
  * Class Theme
  *
@@ -19,9 +21,9 @@ class Theme {
    */
   public function getTheme($key = NULL) {
     if ($key !== NULL) {
-      return \Nick::Config()->get('theme.' . $key);
+      return Nick::Config()->get('theme.' . $key);
     }
-    return \Nick::Config()->get('theme');
+    return Nick::Config()->get('theme');
   }
 
   /**
@@ -35,7 +37,7 @@ class Theme {
    * @return bool
    */
   public function setTheme($key, $theme) {
-    return \Nick::Config()->set('theme.' . $key, $theme);
+    return Nick::Config()->set('theme.' . $key, $theme);
   }
 
   /**

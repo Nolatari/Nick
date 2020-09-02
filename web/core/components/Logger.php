@@ -33,14 +33,14 @@ class Logger {
    * Logger constructor.
    */
   public function __construct() {
-    $this->database = \Nick::Database();
-    $this->renderer = \Nick::Renderer();
+    $this->database = Nick::Database();
+    $this->renderer = Nick::Renderer();
   }
 
   /**
-   * @param $message
+   * @param        $message
    *    The message the log should include
-   * @param int $type
+   * @param int    $type
    *    The type of this log (constants in Logger class)
    * @param string $category
    *    The category this log belongs to

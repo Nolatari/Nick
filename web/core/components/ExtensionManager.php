@@ -2,6 +2,7 @@
 
 namespace Nick;
 
+use Nick;
 use Nick\Database\Result;
 
 /**
@@ -15,7 +16,7 @@ class ExtensionManager {
    * @return array|bool
    */
   public static function getInstalledExtensions() {
-    $extensions_storage = \Nick::Database()->select('extensions')
+    $extensions_storage = Nick::Database()->select('extensions')
       ->fields(NULL, ['name', 'type'])
       ->condition('installed', '1');
 
@@ -68,7 +69,7 @@ class ExtensionManager {
    *
    * @return bool|mixed
    */
-  public static function getExtensionInfo($extension) {
+  public static function getExtensionInfo(string $extension) {
     return YamlReader::readExtension($extension);
   }
 

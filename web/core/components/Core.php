@@ -3,6 +3,7 @@
 namespace Nick;
 
 use Exception;
+use Nick;
 use Nick\Cache\Cache;
 use Nick\Cache\CacheInterface;
 use Nick\Database\Result;
@@ -28,7 +29,7 @@ class Core {
    * @param Exception $exception
    */
   public function Exception($exception) {
-    \Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'Exception');
+    Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'Exception');
   }
 
   /**
@@ -53,7 +54,12 @@ class Core {
    */
   public static function getCacheClass() {
     // @TODO: dynamically return the currently active cache class!
-    return new Cache;
+    $cacheClass = new Cache;
+    if (!$cacheClass instanceof CacheInterface) {
+      // Return default Cache class in case the custom one is not an instance of Cacheinterface.
+      return new Cache;
+    }
+    return $cacheClass;
   }
 
 }
