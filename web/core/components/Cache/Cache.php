@@ -25,8 +25,9 @@ class Cache extends Settings implements CacheInterface {
    * {@inheritDoc}
    */
   public function initializeCache() {
-    $this->cacheableData['NICK_VERSION'] = '1';
-    $this->cacheableData['NICK_VERSION_RELEASE'] = '0';
+    $this->cacheableData['NICK_VERSION'] = '0';
+    $this->cacheableData['NICK_VERSION_RELEASE'] = '8';
+    $this->cacheableData['NICK_VERSION_RELEASE_MINOR'] = '1';
     $this->cacheableData['NICK_VERSION_STATUS'] = 'alpha';
   }
 
