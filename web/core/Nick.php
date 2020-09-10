@@ -186,7 +186,7 @@ class Nick {
       echo $page ?? NULL;
       echo $footer ?? NULL;
     } catch (Exception $exception) {
-      self::Logger()->add('Could not bootstrap Nick!' . PHP_EOL . $exception, Logger::TYPE_FAILURE, 'Bootstrap');
+      self::Logger()->add('Could not render Nick!' . PHP_EOL . $exception, Logger::TYPE_FAILURE, 'Bootstrap');
     }
   }
 

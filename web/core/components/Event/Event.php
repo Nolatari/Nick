@@ -49,7 +49,7 @@ class Event implements EventInterface {
    *
    * @return bool
    */
-  public function fire(&$variables, $otherArgs = []) {
+  public function fire(&$variables = [], $otherArgs = []) {
     foreach ($this->getListeners() as $listener) {
       $class = new $listener['class']();
       try {

@@ -50,8 +50,10 @@ class Config extends Page {
     } else {
       switch ($_GET['t']) {
         case 'site':
+          // @TODO
           break;
         case 'appearance':
+          // @TODO
           break;
         default:
           break;
