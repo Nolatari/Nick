@@ -166,6 +166,7 @@ class Nick {
     self::MatterManager()->createMatters();
 
     try {
+      $logger = new Logger();
       $page = self::PageManager()->getPageRender($_GET['p'] ?? 'dashboard', $_GET);
       $pageObject = self::PageManager()->getPageObject($_GET['p'] ?? 'dashboard', $_GET);
       $headerVariables = [];
@@ -176,6 +177,9 @@ class Nick {
             'type' => $pageObject->get('type'),
             'title' => $pageObject->get('title'),
             'summary' => $pageObject->get('summary'),
+          ],
+          'logs' => [
+            'render' => $logger->render(),
           ],
         ];
       }
