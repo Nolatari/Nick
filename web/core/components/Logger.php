@@ -55,7 +55,7 @@ class Logger {
       'owner' => Person::getCurrentPerson(),
       'backtrace' => serialize(debug_backtrace()),
       'category' => $category,
-      'message' => $this->translate(':logmessage', [':logmessage' => $message]),
+      'message' => $message,
       'rendered' => 0,
     ];
 
@@ -117,7 +117,7 @@ class Logger {
     }
     $renders = [];
     foreach ($results as $result) {
-      if (!$render = $this->renderer->setType('logger')->setTemplate('log_' . $types[$result['type']])) {
+      if (!$render = $this->renderer->setType('logger')->setTemplate($types[$result['type']])) {
         self::add('[Logger][render]: Something went wrong trying to find the log render template file.');
         continue;
       }

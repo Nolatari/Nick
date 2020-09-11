@@ -46,7 +46,6 @@ class Page implements PageInterface {
   public function render($parameters = []) {
     $event = new Event('pagePreRender');
     $event->fire($parameters);
-    return '';
   }
 
   /**

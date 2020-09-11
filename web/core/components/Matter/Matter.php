@@ -429,7 +429,7 @@ class Matter implements MatterInterface {
 ' . $fields . '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
     if (!$results[] = $query) {
-      Nick::Logger()->add('[Matter][createMatter][385]: Something went wrong while querying the create', Logger::TYPE_WARNING, 'Matter');
+      Nick::Logger()->add('[Matter][createMatter][385]: Something went wrong while querying the create function.', Logger::TYPE_WARNING, 'Matter');
     }
 
     if ($auto_increment !== FALSE) {

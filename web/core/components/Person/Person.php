@@ -13,7 +13,7 @@ use Nick\Matter\MatterInterface;
 class Person extends Matter implements PersonInterface {
 
   /**
-   * Card constructor.
+   * Person constructor.
    *
    * @param null|array $values
    */

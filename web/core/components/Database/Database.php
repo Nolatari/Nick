@@ -53,6 +53,9 @@ class Database extends Settings {
   /** @var string $condition_delimiter */
   protected $condition_delimiter = 'AND';
 
+  /** @var bool $use_cache */
+  protected $use_cache;
+
   /**
    * Database constructor
    *
@@ -63,23 +66,34 @@ class Database extends Settings {
     parent::__construct();
     $this->condition_delimiter = $condition_delimiter;
     $this->setDatabaseName($database ?? $this->getSetting('database')['database']);
+    $this->use_cache = $database == NULL ? FALSE : TRUE;
     $this->connect();
     $this->reset();
   }
 
   /**
    * connect function
+   *     Will use caching if no custom database name was given, if a custom database was given then it will initiate
+   *     a new mysqli instance.
    *
    * @return Database
    */
   protected function connect() {
-    $this->database = Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
-      $this->getSetting('database')['hostname'],
+    if ($this->use_cache) {
+      $this->database = Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
+        $this->getSetting('database')['hostname'],
+        $this->getSetting('database')['username'],
+        $this->getSetting('database')['password'],
+        $this->getDatabaseName(),
+        $this->getSetting('database')['port'] ?? 3306,
+      ]);
+      return $this;
+    }
+    $this->database = new mysqli($this->getSetting('database')['hostname'],
       $this->getSetting('database')['username'],
       $this->getSetting('database')['password'],
       $this->getDatabaseName(),
-      $this->getSetting('database')['port'] ?? 3306,
-    ]);
+      $this->getSetting('database')['port'] ?? 3306);
     return $this;
   }
 

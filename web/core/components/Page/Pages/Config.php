@@ -30,7 +30,7 @@ class Config extends Page {
     $this->caching = [
       'key' => 'page.config',
       'context' => 'page',
-      'max-age' => 3600,
+      'max-age' => 0,
     ];
 
     return $this;
