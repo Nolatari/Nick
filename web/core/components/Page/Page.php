@@ -2,6 +2,7 @@
 
 namespace Nick\Page;
 
+use Nick\Event\Event;
 use Nick\Translation\StringTranslation;
 
 /**
@@ -43,6 +44,8 @@ class Page implements PageInterface {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
+    $event = new Event('pagePreRender');
+    $event->fire($parameters);
     return '';
   }
 
