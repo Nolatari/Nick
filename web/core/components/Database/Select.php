@@ -92,7 +92,7 @@ class Select extends Database {
   /**
    * Builds and executes the query.
    *
-   * @return bool
+   * @return Result|bool
    */
   public function execute() {
     $tables = $this->getTables();
