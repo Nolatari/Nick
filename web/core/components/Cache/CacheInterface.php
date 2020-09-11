@@ -17,7 +17,7 @@ interface CacheInterface {
   /**
    * Checks if data is in cache, if so read it from cache.
    * If data not in cache, use fallback and add it to cache.
-   * This is mainly for reuse of classes/methods!
+   * This is mainly for the reuse of classes/methods!
    * For storing content => CacheInterface::getContentData().
    *
    * @param string $cacheKey
@@ -33,7 +33,7 @@ interface CacheInterface {
   /**
    * Checks if data is in cache, if so read it from cache.
    * If data not in cache, use fallback and add it to cache.
-   * This is mainly for (nearly) permanently storing data.
+   * This is mainly for (nearly) permanently storing content data.
    * E.g.: content, user data, ..
    *
    * @param array  $cacheOptions
@@ -47,14 +47,14 @@ interface CacheInterface {
   public function getContentData(array $cacheOptions, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []);
 
   /**
-   * Returns the whole cache array.
+   * Returns the whole cache array for debugging measures.
    *
    * @return array
    */
   public function returnCache();
 
   /**
-   * Returns the whole cache array.
+   * Returns the cache stats for debugging measures.
    *
    * @return array
    */
