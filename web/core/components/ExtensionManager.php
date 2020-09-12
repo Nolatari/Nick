@@ -20,12 +20,12 @@ class ExtensionManager {
       ->fields(NULL, ['name', 'type'])
       ->condition('installed', '1');
 
-    /** @var Result $extensions_result */
-    if (!$extensions_result = $extensions_storage->execute()) {
+    /** @var Result $extensions */
+    if (!$extensions = $extensions_storage->execute()) {
       return [];
     }
 
-    return $extensions_result->fetchAllAssoc() ?? [];
+    return $extensions->fetchAllAssoc() ?? [];
   }
 
   /**

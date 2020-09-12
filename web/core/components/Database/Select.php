@@ -54,7 +54,7 @@ class Select extends Database {
    *
    * @return self
    */
-  public function condition($field, $value = NULL, $operator = '=') {
+  public function condition(string $field, $value = NULL, $operator = '=') {
     $this->conditions[] = [
       'field' => $field,
       'operator' => $operator,
@@ -71,7 +71,7 @@ class Select extends Database {
    *
    * @return self
    */
-  public function orderBy($field, $direction) {
+  public function orderBy(string $field, string $direction) {
     $this->orderby[] = ['field' => $field, 'direction' => $direction];
     return $this;
   }

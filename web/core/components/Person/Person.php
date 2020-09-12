@@ -23,14 +23,16 @@ class Person extends Matter implements PersonInterface {
   }
 
   /**
-   * {@inheritDoc}
+   * Changes UID to the given ID
+   *
+   * @param int $id
    */
-  public static function changeTo($id) {
+  public static function changeTo(int $id) {
     $_SESSION['uid'] = $id;
   }
 
   /**
-   * {@inheritDoc}
+   * Destroys a person's session
    */
   public static function logout() {
     session_destroy();
