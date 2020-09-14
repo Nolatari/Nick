@@ -82,7 +82,7 @@ class Event implements EventInterface {
         continue;
       }
 
-      // Skip if this extension does not listen to this (or any) events
+      // Skip if this extension does not listen to this (or any) event
       if (!isset($extInfo['event_listeners'][$this->getEventName()])) {
         continue;
       }

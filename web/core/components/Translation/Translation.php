@@ -27,11 +27,11 @@ class Translation implements TranslationInterface {
   /**
    * {@inheritDoc}
    */
-  public function get($string, $fallback = TRUE, $langcode = NULL) {
+  public function get(string $string, $args = [], $fallback = TRUE, $langcode = NULL) {
     $langcode = !is_null($langcode) ? $langcode : $this->languageManager->getCurrentLanguage();
     $query = Nick::Database()
       ->select('translations')
-      ->fields(NULL, ['translation', 'args'])
+      ->fields(NULL, ['translation'])
       ->condition('string', $string)
       ->condition('to_langcode', $langcode)
       ->orderBy('string', 'ASC')
@@ -54,7 +54,6 @@ class Translation implements TranslationInterface {
     }
 
     $result = reset($result);
-    $args = unserialize($result['args']);
     foreach ($args as $arg => $replacement) {
       $result['translation'] = str_replace($arg, $replacement, $result['translation']);
     }
@@ -65,7 +64,7 @@ class Translation implements TranslationInterface {
   /**
    * {@inheritDoc}
    */
-  public function set($string, $translation, array $args = [], $from_langcode = NULL, $to_langcode = NULL) {
+  public function set(string $string, string $translation, array $args = [], $from_langcode = NULL, $to_langcode = NULL) {
     $from_langcode = !is_null($from_langcode) ? $from_langcode : $this->languageManager->getDefaultLanguage();
     $to_langcode = !is_null($to_langcode) ? $to_langcode : $this->languageManager->getCurrentLanguage();
 

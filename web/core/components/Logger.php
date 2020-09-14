@@ -55,7 +55,7 @@ class Logger {
       'owner' => Person::getCurrentPerson(),
       'backtrace' => serialize(debug_backtrace()),
       'category' => $category,
-      'message' => $message,
+      'message' => $this->translate(':message', [':message' => $message]),
       'rendered' => 0,
     ];
 

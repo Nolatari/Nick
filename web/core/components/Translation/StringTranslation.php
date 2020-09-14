@@ -27,7 +27,7 @@ trait StringTranslation {
    *
    * @return mixed
    */
-  public function translate($string, array $args = []) {
+  public function translate(string $string, array $args = []) {
     $translation = Nick::Translation();
 
     if (!is_string($string)) {
@@ -36,11 +36,11 @@ trait StringTranslation {
     }
 
     if ($string === $translation->get($string, TRUE)) {
-      if (!$translation->set($string, $string, $args)) {
+      if (!$translation->set($string, $string)) {
         Nick::Logger()->add('Something went wrong trying to set a translation.', Logger::TYPE_FAILURE, 'StringTranslation');
       }
     }
-    return $translation->get($string, TRUE);
+    return $translation->get($string, $args, TRUE);
   }
 
 }
