@@ -85,7 +85,7 @@ class Language implements LanguageInterface {
    *
    * @return bool
    */
-  protected function setValues($langcode) {
+  protected function setValues(string $langcode) {
     $this->langcode = $langcode;
     if (!$properties = $this->getProperties()) {
       return FALSE;
@@ -95,7 +95,7 @@ class Language implements LanguageInterface {
       ? Nick::LanguageManager()->getLanguageByLangcode($properties['fallback'])
       : Nick::LanguageManager()->getDefaultLanguage();
     $this->country = $properties['country'];
-    $this->default = Nick::Config()->get('site.default_langcode') == $langcode ? TRUE : FALSE;
+    $this->default = Nick::Config()->get('site.default_langcode') == $langcode;
 
     return TRUE;
   }

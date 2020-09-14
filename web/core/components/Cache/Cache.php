@@ -175,6 +175,7 @@ class Cache extends Settings implements CacheInterface {
    * {@inheritDoc}
    */
   public function clearAllCaches() {
+    $this->cacheableData = [];
     return Nick::Database()->query('TRUNCATE TABLE cache_content');
   }
 

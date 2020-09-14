@@ -41,11 +41,11 @@ class Config extends Page {
    */
   public function render($parameters = []) {
     $this->setParameter('type', $parameters['t'] ?? '');
-    if (isset($parameters['export'])) {
+    if ($this->get('export') !== NULL) {
       Nick::Config()->export();
-    } elseif (isset($parameters['import'])) {
+    } elseif ($this->get('import') !== NULL) {
       Nick::Config()->import();
-    } elseif (isset($parameters['difference'])) {
+    } elseif ($this->get('difference') !== NULL) {
       // @TODO
     } else {
       switch ($_GET['t']) {

@@ -64,12 +64,12 @@ class FormBuilder {
   }
 
   /**
-   * Default submit handler
+   * Fire events and submit handler
    *
    * @param array  $form
    * @param string $formId
    */
-  public function submit(&$form, $formId) {
+  public function submit(array &$form, string $formId) {
     // Set FormState values
     $this->getFormState()->setValues($this->values);
     $this->getFormState()->save();
@@ -78,12 +78,19 @@ class FormBuilder {
     $preSubmitEvent = new Event('FormPreSubmitAlter');
     $preSubmitEvent->fire($form, [$formId, $this->getFormState()]);
 
-    // Submit form
-    // @TODO
+    // Fire submit handler
+    $this->submitForm();
 
     // Fire FormPostSubmitAlter event
     $postSubmitEvent = new Event('FormPostSubmitAlter');
     $postSubmitEvent->fire($form, [$formId, $this->getFormState()]);
+  }
+
+  /**
+   * Default submit handler does nothing because there is nothing to handle!
+   */
+  public function submitForm() {
+
   }
 
   /**
