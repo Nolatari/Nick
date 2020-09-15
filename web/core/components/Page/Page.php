@@ -80,4 +80,14 @@ class Page implements PageInterface {
     $this->parameters[$key] = $value;
   }
 
+  /**
+   * Clones a parameter to a different key.
+   *
+   * @param string $originalKey
+   * @param string $cloneKey
+   */
+  protected function cloneParameter(string $originalKey, string $cloneKey) {
+    $this->setParameter($cloneKey, $this->get($originalKey));
+  }
+
 }

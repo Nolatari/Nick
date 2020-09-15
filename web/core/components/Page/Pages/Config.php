@@ -40,7 +40,7 @@ class Config extends Page {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
-    $this->setParameter('type', $parameters['t'] ?? '');
+    $this->cloneParameter('t', 'type');
     if ($this->get('export') !== NULL) {
       Nick::Config()->export();
     } elseif ($this->get('import') !== NULL) {
