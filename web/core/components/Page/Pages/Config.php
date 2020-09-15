@@ -48,7 +48,7 @@ class Config extends Page {
     } elseif ($this->get('difference') !== NULL) {
       // @TODO
     } else {
-      switch ($_GET['t']) {
+      switch ($this->get('type')) {
         case 'site':
           // @TODO
           break;
