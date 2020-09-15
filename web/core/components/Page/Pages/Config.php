@@ -46,7 +46,11 @@ class Config extends Page {
     } elseif ($this->get('import') !== NULL) {
       Nick::Config()->import();
     } elseif ($this->get('difference') !== NULL) {
-      // @TODO
+      $difference = Nick::Config()->difference();
+      if (!isset($difference['live']) || !isset($difference['staged'])) {
+        Nick::Logger()->add('Something went wrong trying to retrieve the config differences.', 'info', 'Config');
+        return NULL;
+      }
     } else {
       switch ($this->get('type')) {
         case 'site':
