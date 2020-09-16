@@ -41,11 +41,11 @@ class Config extends Page {
    */
   public function render($parameters = []) {
     $this->cloneParameter('t', 'type');
-    if ($this->get('export') !== NULL) {
+    if ($this->hasParameter('export')) {
       Nick::Config()->export();
-    } elseif ($this->get('import') !== NULL) {
+    } elseif ($this->hasParameter('import')) {
       Nick::Config()->import();
-    } elseif ($this->get('difference') !== NULL) {
+    } elseif ($this->hasParameter('difference')) {
       $difference = Nick::Config()->difference();
       if (!isset($difference['live']) || !isset($difference['staged'])) {
         Nick::Logger()->add('Something went wrong trying to retrieve the config differences.', 'info', 'Config');

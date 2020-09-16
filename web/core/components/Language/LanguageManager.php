@@ -23,7 +23,7 @@ class LanguageManager {
    * LanguageManager constructor.
    */
   public function __construct() {
-    $this->defaultLanguage = Nick::Config()->get('site')['default_langcode'] ?? 'en';
+    $this->defaultLanguage = Nick::Config()->get('site.default_langcode') ?? 'en';
     $this->currentLanguage = $this->defaultLanguage;
   }
 
@@ -41,7 +41,7 @@ class LanguageManager {
    *
    * @param string $langcode
    */
-  public function setCurrentLanguage($langcode) {
+  public function setCurrentLanguage(string $langcode) {
     $this->currentLanguage = $langcode;
   }
 
@@ -57,9 +57,9 @@ class LanguageManager {
   /**
    * Sets the default language
    *
-   * @param $langcode
+   * @param string $langcode
    */
-  public function setDefaultLanguage($langcode) {
+  public function setDefaultLanguage(string $langcode) {
     $this->defaultLanguage = $langcode;
     try {
       Nick::Config()->set('site.default_langcode', $langcode);
@@ -75,7 +75,7 @@ class LanguageManager {
    *
    * @return LanguageInterface
    */
-  public function getLanguageByLangcode($langcode = 'en') {
+  public function getLanguageByLangcode(string $langcode = 'en') {
     return new Language($langcode);
   }
 

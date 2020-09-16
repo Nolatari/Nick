@@ -35,12 +35,12 @@ trait StringTranslation {
       return FALSE;
     }
 
-    if ($string === $translation->get($string, TRUE)) {
+    if ($string === $translation->get($string)) {
       if (!$translation->set($string, $string)) {
         Nick::Logger()->add('Something went wrong trying to set a translation.', Logger::TYPE_FAILURE, 'StringTranslation');
       }
     }
-    return $translation->get($string, $args, TRUE);
+    return $translation->get($string, $args);
   }
 
 }

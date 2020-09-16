@@ -64,6 +64,17 @@ class Page implements PageInterface {
   }
 
   /**
+   * Checks if parameter exists.
+   *
+   * @param string $parameter
+   *
+   * @return bool
+   */
+  protected function hasParameter(string $parameter) {
+    return $this->get($parameter) !== NULL;
+  }
+
+  /**
    * Sets page parameters
    *
    * @param array $parameters
@@ -76,7 +87,7 @@ class Page implements PageInterface {
    * @param string $key
    * @param string $value
    */
-  protected function setParameter($key, $value) {
+  protected function setParameter(string $key, string $value) {
     $this->parameters[$key] = $value;
   }
 
