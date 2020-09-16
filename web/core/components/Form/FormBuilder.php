@@ -13,13 +13,13 @@ use Nick\Matter\MatterInterface;
 class FormBuilder {
 
   /** @var MatterInterface $matter */
-  protected $matter;
+  protected MatterInterface $matter;
 
   /** @var array $values */
-  protected $values = [];
+  protected array $values = [];
 
   /** @var FormStateInterface $formState */
-  protected $formState;
+  protected FormStateInterface $formState;
 
   /**
    * FormBuilder constructor.
@@ -40,7 +40,7 @@ class FormBuilder {
    *
    * @return array
    */
-  public function result() {
+  public function result(): array {
     $build = $this->build();
     $event = new Event('FormAlter');
     $event->fire($build, ['form-' . $this->getMatter()->getType(), $this->formState]);
@@ -52,7 +52,7 @@ class FormBuilder {
    *
    * @return array
    */
-  protected function build() {
+  protected function build(): array {
     $elements = [];
     foreach ($this->getFields() as $field => $values) {
       if (!isset($values['form'])) {
@@ -94,9 +94,9 @@ class FormBuilder {
   }
 
   /**
-   * @return FormState|FormStateInterface
+   * @return FormStateInterface
    */
-  public function getFormState() {
+  public function getFormState(): FormStateInterface {
     return $this->formState;
   }
 
@@ -105,7 +105,7 @@ class FormBuilder {
    *
    * @return array
    */
-  protected function getFields() {
+  protected function getFields(): array {
     return $this->getMatter()::fields();
   }
 
@@ -114,7 +114,7 @@ class FormBuilder {
    *
    * @return MatterInterface
    */
-  protected function getMatter() {
+  protected function getMatter(): MatterInterface {
     return $this->matter;
   }
 

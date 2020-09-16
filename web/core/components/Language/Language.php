@@ -44,14 +44,14 @@ class Language implements LanguageInterface {
   /**
    * {@inheritDoc}
    */
-  public function getLangcode() {
+  public function getLangcode(): string {
     return $this->langcode;
   }
 
   /**
    * {@inheritDoc}
    */
-  public function getLanguage() {
+  public function getLanguage(): string {
     // Return translated string of language label.
     return $this->translate(':language', [':language' => $this->language]);
   }
@@ -59,14 +59,14 @@ class Language implements LanguageInterface {
   /**
    * {@inheritDoc}
    */
-  public function getFallbackLanguage() {
+  public function getFallbackLanguage(): string {
     return $this->fallbackLanguage;
   }
 
   /**
    * {@inheritDoc}
    */
-  public function getCountry() {
+  public function getCountry(): string {
     // Return translated string of language label.
     return $this->translate(':country', [':country' => $this->country]);
   }
@@ -74,7 +74,7 @@ class Language implements LanguageInterface {
   /**
    * {@inheritDoc}
    */
-  public function isDefault() {
+  public function isDefault(): bool {
     return $this->default;
   }
 
@@ -85,7 +85,7 @@ class Language implements LanguageInterface {
    *
    * @return bool
    */
-  protected function setValues(string $langcode) {
+  protected function setValues(string $langcode): bool {
     $this->langcode = $langcode;
     if (!$properties = $this->getProperties()) {
       return FALSE;
@@ -105,14 +105,14 @@ class Language implements LanguageInterface {
    *
    * @return array|bool
    */
-  protected function getProperties() {
+  protected function getProperties(): array {
     $query = Nick::Database()
       ->select('languages')
       ->fields(NULL, ['language', 'country'])
       ->condition('langcode', $this->getLangcode())
       ->execute();
     if (!$query instanceof Result) {
-      return FALSE;
+      return [];
     }
 
     return $query->fetchAllAssoc();

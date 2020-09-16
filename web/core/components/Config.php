@@ -143,7 +143,7 @@ class Config extends Settings {
   /**
    * @param $key
    *
-   * @return mixed
+   * @return string
    */
   public function get($key) {
     if (strpos($key, '.') !== FALSE) {

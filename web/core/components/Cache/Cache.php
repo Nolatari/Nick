@@ -16,10 +16,10 @@ use Nick\Settings;
 class Cache extends Settings implements CacheInterface {
 
   /** @var array $cacheableData */
-  protected $cacheableData;
+  protected array $cacheableData;
 
   /** @var array $cacheStats */
-  protected $cacheStats;
+  protected array $cacheStats;
 
   /**
    * {@inheritDoc}

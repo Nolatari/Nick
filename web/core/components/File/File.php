@@ -53,7 +53,7 @@ class File extends Matter implements FileInterface {
   /**
    * @return array
    */
-  public static function initialFields() {
+  public static function initialFields(): array {
     return [
       'filetype' => [
         'type' => 'varchar',
@@ -85,14 +85,14 @@ class File extends Matter implements FileInterface {
   /**
    * {@inheritDoc}
    */
-  public function getFileType() {
+  public function getFileType(): string {
     return $this->getValue('filetype');
   }
 
   /**
    * {@inheritDoc}
    */
-  public function getLocation() {
+  public function getLocation(): string {
     return $this->getValue('location');
   }
 

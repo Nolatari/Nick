@@ -16,7 +16,7 @@ class YamlReader {
    *
    * @return mixed
    */
-  public static function readExtension($ext) {
+  public static function readExtension(string $ext) {
     if (is_file(__DIR__ . '/../../extensions/' . $ext . '/' . $ext . '.yml')) {
       $file = __DIR__ . '/../../extensions/' . $ext . '/' . $ext . '.yml';
     } elseif (is_file(__DIR__ . '/' . $ext . '/' . $ext . '.yml')) {
@@ -30,11 +30,11 @@ class YamlReader {
   /**
    * Yaml file => PHP
    *
-   * @param $file
+   * @param string $file
    *
    * @return array|mixed
    */
-  public static function fromYamlFile($file) {
+  public static function fromYamlFile(string $file) {
     if (!is_file($file)) {
       return ['type' => 'undefined'];
     }
@@ -48,7 +48,7 @@ class YamlReader {
    *
    * @return array|mixed
    */
-  public static function fromYaml($content) {
+  public static function fromYaml(string $content) {
     return Yaml::parse($content);
   }
 

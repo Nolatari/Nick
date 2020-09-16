@@ -15,27 +15,29 @@ use Nick\Event\Event;
 class Manifest implements ManifestInterface {
 
   /** @var string $type */
-  protected $type;
+  protected string $type;
 
   /** @var array $limit */
-  protected $limit = ['limit' => 20, 'offset' => 0];
+  protected array $limit = ['limit' => 20, 'offset' => 0];
 
   /** @var array $condition */
-  protected $condition = [];
+  protected array $condition = [];
 
   /** @var array $orderBy */
-  protected $orderBy = [];
+  protected array $orderBy = [];
 
   /** @var array $fields */
-  protected $fields = ['id'];
+  protected array $fields = ['id'];
 
   /** @var Database $query */
-  protected $query;
+  protected Database $query;
 
   /**
-   * {@inheritDoc}
+   * Manifest constructor
+   *
+   * @param string $type
    */
-  public function __construct($type) {
+  public function __construct(string $type) {
     $this->setType($type);
   }
 

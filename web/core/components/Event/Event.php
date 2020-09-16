@@ -22,21 +22,25 @@ class Event implements EventInterface {
    *
    * @param string $eventName
    */
-  public function __construct($eventName) {
+  public function __construct(string $eventName) {
     $this->setEventName($eventName);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function getEventName() {
+  public function getEventName(): string {
     return $this->eventName;
   }
 
   /**
-   * {@inheritDoc}
+   * Sets the name of the event to be fired.
+   *
+   * @param string $eventName
+   *
+   * @return self
    */
-  protected function setEventName($eventName) {
+  protected function setEventName(string $eventName): self {
     $this->eventName = $eventName;
     return $this;
   }
@@ -49,7 +53,7 @@ class Event implements EventInterface {
    *
    * @return bool
    */
-  public function fire(&$variables = [], $otherArgs = []) {
+  public function fire(&$variables = [], $otherArgs = []): bool {
     foreach ($this->getListeners() as $listener) {
       $class = new $listener['class']();
       try {
@@ -73,7 +77,7 @@ class Event implements EventInterface {
    *
    * @return array
    */
-  protected function getListeners() {
+  protected function getListeners(): array {
     $extensions = ExtensionManager::getInstalledExtensions();
     $listeners = [];
     foreach ($extensions as $extension) {

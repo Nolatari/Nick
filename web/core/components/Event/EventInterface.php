@@ -5,6 +5,8 @@ namespace Nick\Event;
 interface EventInterface {
 
   /**
+   * Returns the event's name.
+   *
    * @return string
    */
   public function getEventName();

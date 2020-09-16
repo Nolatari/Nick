@@ -16,16 +16,16 @@ class PageManager {
   /**
    * @param string $page_id
    *
-   * @return bool
+   * @return mixed
    */
-  protected function get404($page_id) {
+  protected function get404(string $page_id) {
     $page = $this->getPage('error');
     $pageObject = new $page['controller'];
     if (!$pageObject instanceof PageInterface) {
       return FALSE;
     }
 
-    return Nick::Cache()->getContentData($pageObject->getCacheOptions(), $page['controller'], 'render', [['e' => '404']]);
+    return Nick::Cache()->getContentData($pageObject->getCacheOptions(), $page['controller'], 'render', [['e' => '404', 'page' => $page_id]]);
   }
 
   /**
@@ -34,7 +34,7 @@ class PageManager {
    * @param string $page_id
    * @param array  $parameters
    *
-   * @return bool|mixed
+   * @return mixed
    */
   public function getPageRender($page_id, $parameters = []) {
     $page = $this->getPage($page_id);

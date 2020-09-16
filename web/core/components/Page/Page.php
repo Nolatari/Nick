@@ -29,14 +29,14 @@ class Page implements PageInterface {
   /**
    * {@inheritDoc}
    */
-  public function getCacheOptions() {
+  public function getCacheOptions(): array {
     return $this->caching;
   }
 
   /**
    * @inheritDoc
    */
-  public function get($parameter) {
+  public function get($parameter): ?string {
     return $this->parameters[$parameter] ?? NULL;
   }
 
@@ -70,7 +70,7 @@ class Page implements PageInterface {
    *
    * @return bool
    */
-  protected function hasParameter(string $parameter) {
+  protected function hasParameter(string $parameter): bool {
     return $this->get($parameter) !== NULL;
   }
 

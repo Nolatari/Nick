@@ -136,7 +136,7 @@ class Renderer extends Settings {
    *
    * @return string|NULL
    */
-  public function render(array $variables = [], $view_mode = NULL) {
+  public function render(array $variables = [], $view_mode = NULL): ?string {
     $event = new Event('preRender');
     $event->fire($variables, [$view_mode]);
 

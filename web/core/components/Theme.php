@@ -14,12 +14,12 @@ class Theme {
   /**
    * Returns theme from config.
    *
-   * @param string $key
+   * @param null|string $key
    *          The type of theme (admin/front).
    *
    * @return mixed
    */
-  public function getTheme($key = NULL) {
+  public function getTheme($key = NULL): string {
     if ($key !== NULL) {
       return Nick::Config()->get('theme.' . $key);
     }
@@ -36,7 +36,7 @@ class Theme {
    *
    * @return bool
    */
-  public function setTheme($key, $theme) {
+  public function setTheme(string $key, string $theme): bool {
     return Nick::Config()->set('theme.' . $key, $theme);
   }
 
@@ -45,7 +45,7 @@ class Theme {
    *
    * @return string
    */
-  public function getThemeFolder() {
+  public function getThemeFolder(): string {
     return 'themes/' . $this->getTheme('admin') . '/';
   }
 

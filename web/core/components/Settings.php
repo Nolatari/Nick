@@ -10,7 +10,7 @@ namespace Nick;
 class Settings {
 
   /** @var array $settings */
-  protected $settings;
+  protected array $settings;
 
   /**
    * Settings constructor.
@@ -25,7 +25,7 @@ class Settings {
    *
    * @return mixed|NULL
    */
-  protected function getSetting($key) {
+  protected function getSetting(string $key) {
     return $this->settings[$key] ?? FALSE;
   }
 

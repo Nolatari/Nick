@@ -73,7 +73,7 @@ class Person extends Matter implements PersonInterface {
   /**
    * @return array
    */
-  public static function initialFields() {
+  public static function initialFields(): array {
     return [
       'name' => [
         'type' => 'varchar',
@@ -104,7 +104,7 @@ class Person extends Matter implements PersonInterface {
    *
    * @return array|NULL
    */
-  public function getValues() {
+  public function getValues(): ?array {
     $values = parent::getValues();
     unset($values['password']);
     return $values;
@@ -113,14 +113,14 @@ class Person extends Matter implements PersonInterface {
   /**
    * {@inheritDoc}
    */
-  public function getName() {
+  public function getName(): string {
     return $this->getValue('name');
   }
 
   /**
    * {@inheritDoc}
    */
-  public function checkPassword($password) {
+  public function checkPassword($password): bool {
     return password_verify($password, $this->getValue('password'));
   }
 

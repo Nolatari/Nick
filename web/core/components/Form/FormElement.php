@@ -14,10 +14,8 @@ class FormElement {
   /**
    * @param string $type
    * @param array  $variables
-   *
-   * @return mixed
    */
-  public function get($type, $variables = []) {
+  public function get(string $type, $variables = []) {
     // Fire an event so this can be altered
     $event = new Event('FormElementAlter');
     $event->fire($variables);

@@ -52,7 +52,7 @@ class FormState implements FormStateInterface {
   /**
    * {@inheritDoc}
    */
-  public function populateValueArray($return = FALSE) {
+  public function populateValueArray($return = FALSE): bool {
     $state_storage = Nick::Database()
       ->select('form_state')
       ->condition('uuid', $this->getUUID())
@@ -71,7 +71,7 @@ class FormState implements FormStateInterface {
   /**
    * {@inheritDoc}
    */
-  public function getValues() {
+  public function getValues(): array {
     return $this->values;
   }
 

@@ -15,7 +15,7 @@ class Url extends Settings {
    *
    * @return string
    */
-  public function addParamsToCurrentUrl($key, $value = NULL) {
+  public function addParamsToCurrentUrl($key, $value = NULL): string {
     $current_params = $_GET;
     $url = $this->getUrlWithoutParameters();
 
@@ -46,7 +46,7 @@ class Url extends Settings {
    *
    * @return string
    */
-  public function removeParamsFromCurrentUrl($key) {
+  public function removeParamsFromCurrentUrl($key): string {
     $current_params = $_GET;
     $url = $this->getUrlWithoutParameters();
 
@@ -75,32 +75,34 @@ class Url extends Settings {
   /**
    * Returns the site's base url (no filename, no parameters)
    */
-  public function getBaseUrl() {
+  public function getBaseUrl(): string {
     return $this->getSetting('uri') ?? 'http://localhost';
   }
 
   /**
    * Returns current url with parameters
    *
-   * @result string
+   * @return string
    */
-  public function getUrl() {
+  public function getUrl(): string {
     return $this->getBaseUrl() . $_SERVER['REQUEST_URI'];
   }
 
   /**
    * Returns current url without parameters
    *
-   * @result string
+   * @return string
    */
-  public function getUrlWithoutParameters() {
+  public function getUrlWithoutParameters(): string {
     return $this->getBaseUrl() . $_SERVER['SCRIPT_NAME'];
   }
 
   /**
    * Returns the current path with parameters
+   *
+   * @return string
    */
-  public static function getCurrentPath() {
+  public static function getCurrentPath(): string {
     return $_SERVER['REQUEST_URI'];
   }
 
