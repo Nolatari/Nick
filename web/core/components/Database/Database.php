@@ -79,21 +79,13 @@ class Database extends Settings {
    * @return Database
    */
   protected function connect() {
-    if ($this->use_cache) {
-      $this->database = Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
-        $this->getSetting('database')['hostname'],
-        $this->getSetting('database')['username'],
-        $this->getSetting('database')['password'],
-        $this->getDatabaseName(),
-        $this->getSetting('database')['port'] ?? 3306,
-      ]);
-      return $this;
-    }
-    $this->database = new mysqli($this->getSetting('database')['hostname'],
+    $this->database = Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
+      $this->getSetting('database')['hostname'],
       $this->getSetting('database')['username'],
       $this->getSetting('database')['password'],
       $this->getDatabaseName(),
-      $this->getSetting('database')['port'] ?? 3306);
+      $this->getSetting('database')['port'] ?? 3306,
+    ]);
     return $this;
   }
 
@@ -107,7 +99,7 @@ class Database extends Settings {
   /**
    * @param string $database
    */
-  protected function setDatabaseName($database) {
+  protected function setDatabaseName(string $database) {
     $this->db = $database;
   }
 
@@ -119,7 +111,7 @@ class Database extends Settings {
    *
    * @return string
    */
-  public static function Cleanse(mysqli $connection, $value) {
+  public static function Cleanse(mysqli $connection, string $value) {
     if (!$escaped_string = mysqli_real_escape_string($connection, $value)) {
       return $value;
     }

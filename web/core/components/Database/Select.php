@@ -48,9 +48,9 @@ class Select extends Database {
   /**
    * condition method
    *
-   * @param string $field
-   * @param string $value
-   * @param string $operator
+   * @param string        $field
+   * @param null|string   $value
+   * @param string        $operator
    *
    * @return self
    */
