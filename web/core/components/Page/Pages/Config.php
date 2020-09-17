@@ -40,6 +40,7 @@ class Config extends Page {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
+    parent::render($parameters);
     if (isset($parameters['export'])) {
       Nick::Config()->export();
     } elseif (isset($parameters['import'])) {

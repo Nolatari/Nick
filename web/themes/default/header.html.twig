@@ -22,7 +22,7 @@
             </a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item{% if page.id== 'dashboard' %} active{% endif %}">
-                <a class="nav-link" href="/">
+                <a class="nav-link" href="./">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
@@ -39,8 +39,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Configuration:</h6>
-                        <a class="collapse-item{% if page.id == 'config' and page.type == 'site' %} active{% endif %}" href="/?p=config&t=site">Site settings</a>
-                        <a class="collapse-item{% if page.id == 'config' and page.type == 'site' %} active{% endif %}" href="/?p=config&t=appearance">Appearance</a>
+                        <a class="collapse-item{% if page.id == 'config' and page.type == 'site' %} active{% endif %}" href="./?p=config&t=site">Site settings</a>
+                        <a class="collapse-item{% if page.id == 'config' and page.type == 'site' %} active{% endif %}" href="./?p=config&t=appearance">Appearance</a>
                     </div>
                 </div>
             </li>
@@ -52,8 +52,8 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Extensions:</h6>
-                        <a class="collapse-item" href="/?p=extensions&t=install">Install a new extension</a>
-                        <a class="collapse-item" href="/?p=extensions&t=uninstall">Uninstall extension</a>
+                        <a class="collapse-item" href="./?p=extensions&t=install">Install a new extension</a>
+                        <a class="collapse-item" href="./?p=extensions&t=uninstall">Uninstall extension</a>
                     </div>
                 </div>
             </li>
@@ -260,4 +260,4 @@
                         </li>
                     </ul>
                 </nav>
-                {{ logs.render }}
+                {{ logs.render|raw }}

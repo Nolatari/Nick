@@ -167,7 +167,6 @@ class Nick {
 
     try {
       $logger = new Logger();
-      $page = self::PageManager()->getPageRender($_GET['p'] ?? 'dashboard', $_GET);
       $pageObject = self::PageManager()->getPageObject($_GET['p'] ?? 'dashboard', $_GET);
       $headerVariables = [];
       if ($pageObject instanceof PageInterface) {
@@ -184,13 +183,14 @@ class Nick {
         ];
       }
       $header = self::PageManager()->getPageRender('header', $headerVariables);
+      $page = self::PageManager()->getPageRender($_GET['p'] ?? 'dashboard', $_GET);
       $footer = self::PageManager()->getPageRender('footer');
 
       echo $header ?? NULL;
       echo $page ?? NULL;
       echo $footer ?? NULL;
     } catch (Exception $exception) {
-      self::Logger()->add('Could not render Nick!' . PHP_EOL . $exception, Logger::TYPE_FAILURE, 'Bootstrap');
+      self::Logger()->add('Could not render Nick!' . PHP_EOL . $exception->getMessage(), Logger::TYPE_FAILURE, 'Bootstrap');
     }
   }
 

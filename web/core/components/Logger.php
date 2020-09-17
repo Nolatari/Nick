@@ -44,10 +44,12 @@ class Logger {
    *    The type of this log (constants in Logger class)
    * @param string $category
    *    The category this log belongs to
+   * @param string|null $trace
+   *    The backtrace in string format.
    *
    * @return bool
    */
-  public function add($message, $type = self::TYPE_INFO, $category = 'php') {
+  public function add($message, $type = self::TYPE_INFO, $category = 'php', $trace = NULL) {
     $data = [
       'id' => 0,
       'type' => $type,

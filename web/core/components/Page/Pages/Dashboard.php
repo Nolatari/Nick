@@ -19,6 +19,7 @@ class Dashboard extends Page {
   public function __construct() {
     parent::__construct();
     $this->setParameters([
+      'id' => 'dashboard',
       'title' => $this->translate('Dashboard'),
       'summary' => $this->translate('Welcome to your Nick Dashboard!'),
     ]);
@@ -41,10 +42,16 @@ class Dashboard extends Page {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
+    parent::render($parameters);
     return Nick::Renderer()
       ->setType()
       ->setTemplate('dashboard')
       ->render([
+        'page' => [
+          'id' => $this->get('id'),
+          'title' => $this->get('title'),
+          'summary' => $this->get('summary'),
+        ],
         'dashboard' => [
           'installedExtensions' => count(ExtensionManager::getInstalledExtensions()),
         ],

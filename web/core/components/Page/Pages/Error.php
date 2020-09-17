@@ -40,6 +40,7 @@ class Error extends Page {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
+    parent::render($parameters);
     switch ($parameters['e']) {
       case '404':
         $title = 'Page not found';

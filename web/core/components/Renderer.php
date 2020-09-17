@@ -147,7 +147,7 @@ class Renderer extends Settings {
     $render_settings = $this->settings;
     unset($render_settings['database']);
     $variables = $variables + [
-        'settings' => $this->settings,
+        'settings' => $render_settings,
         'active_user' => Person::getCurrentPerson(),
         'site' => [
           'name' => Nick::Config()->get('site')['name'] ?? 'Nick',
@@ -159,6 +159,7 @@ class Renderer extends Settings {
           'location' => 'themes/' . Nick::Theme()->getTheme('admin'),
         ],
       ];
+
     return $template->render($variables) ?? NULL;
   }
 
