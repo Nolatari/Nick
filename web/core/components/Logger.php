@@ -123,7 +123,7 @@ class Logger {
         continue;
       }
       $variables = [
-        'message' => $result['message'],
+        'message' => $result['message'] . PHP_EOL,
       ];
       $renders[] = $render->render($variables);
       $this->setRendered($result['id']);

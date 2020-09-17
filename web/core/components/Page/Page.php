@@ -14,10 +14,10 @@ class Page implements PageInterface {
   use StringTranslation;
 
   /** @var array $caching */
-  protected $caching;
+  protected array $caching;
 
   /** @var array $parameters */
-  protected $parameters;
+  protected array $parameters = [];
 
   /**
    * Dashboard constructor.
@@ -80,7 +80,7 @@ class Page implements PageInterface {
    * @param array $parameters
    */
   protected function setParameters($parameters = []) {
-    $this->parameters = $parameters;
+    $this->parameters = $this->parameters + $parameters;
   }
 
   /**
@@ -98,7 +98,7 @@ class Page implements PageInterface {
    * @param string $cloneKey
    */
   protected function cloneParameter(string $originalKey, string $cloneKey) {
-    $this->setParameter($cloneKey, $this->get($originalKey));
+    $this->setParameter($cloneKey, $this->get($originalKey) ?? '');
   }
 
 }

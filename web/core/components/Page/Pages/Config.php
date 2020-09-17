@@ -40,19 +40,14 @@ class Config extends Page {
    * {@inheritDoc}
    */
   public function render($parameters = []) {
-    $this->cloneParameter('t', 'type');
-    if ($this->hasParameter('export')) {
+    if (isset($parameters['export'])) {
       Nick::Config()->export();
-    } elseif ($this->hasParameter('import')) {
+    } elseif (isset($parameters['import'])) {
       Nick::Config()->import();
-    } elseif ($this->hasParameter('difference')) {
-      $difference = Nick::Config()->difference();
-      if (!isset($difference['live']) || !isset($difference['staged'])) {
-        Nick::Logger()->add('Something went wrong trying to retrieve the config differences.', 'info', 'Config');
-        return NULL;
-      }
+    } elseif (isset($parameters['difference'])) {
+      // @TODO
     } else {
-      switch ($this->get('type')) {
+      switch ($parameters['t']) {
         case 'site':
           // @TODO
           break;
