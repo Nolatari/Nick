@@ -48,7 +48,6 @@ class Logger {
    * @return bool
    */
   public function add($message, $type = self::TYPE_INFO, $category = 'php') {
-    d($message);
     $data = [
       'id' => 0,
       'type' => $type,

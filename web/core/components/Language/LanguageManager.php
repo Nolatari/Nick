@@ -13,18 +13,18 @@ use Nick\Logger;
  */
 class LanguageManager {
 
-  /** @var LanguageInterface $currentLanguage */
-  protected LanguageInterface $currentLanguage;
+  /** @var string $defaultLangcode */
+  protected string $defaultLangcode;
 
-  /** @var LanguageInterface $defaultLanguage */
-  protected LanguageInterface $defaultLanguage;
+  /** @var string currentLangcode */
+  protected string $currentLangcode;
 
   /**
    * LanguageManager constructor.
    */
   public function __construct() {
-    $this->defaultLanguage = $this->getLanguageByLangcode(Nick::Config()->get('site.default_langcode') ?? 'en');
-    $this->currentLanguage = $this->defaultLanguage;
+    $this->defaultLangcode = Nick::Config()->get('site.default_langcode') ?: 'en';
+    $this->currentLangcode = $this->defaultLangcode;
   }
 
   /**
@@ -33,7 +33,7 @@ class LanguageManager {
    * @return LanguageInterface
    */
   public function getCurrentLanguage(): LanguageInterface {
-    return $this->currentLanguage;
+    return new Language($this->currentLangcode);
   }
 
   /**
@@ -42,7 +42,7 @@ class LanguageManager {
    * @param string $langcode
    */
   public function setCurrentLanguage(string $langcode) {
-    $this->currentLanguage = $this->getLanguageByLangcode($langcode);
+    $this->currentLangcode = $langcode;
   }
 
   /**
@@ -51,7 +51,7 @@ class LanguageManager {
    * @return LanguageInterface
    */
   public function getDefaultLanguage(): LanguageInterface {
-    return $this->defaultLanguage;
+    return new Language($this->defaultLangcode);
   }
 
   /**
@@ -60,7 +60,7 @@ class LanguageManager {
    * @param string $langcode
    */
   public function setDefaultLanguage(string $langcode) {
-    $this->defaultLanguage = $this->getLanguageByLangcode($langcode);
+    $this->defaultLangcode = $langcode;
     try {
       Nick::Config()->set('site.default_langcode', $langcode);
     } catch (Exception $exception) {

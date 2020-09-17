@@ -92,7 +92,7 @@ class Database extends Settings {
   /**
    * @return string|null
    */
-  public function getDatabaseName() {
+  public function getDatabaseName(): ?string {
     return $this->db;
   }
 

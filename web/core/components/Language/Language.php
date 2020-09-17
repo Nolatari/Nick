@@ -21,8 +21,8 @@ class Language implements LanguageInterface {
   /** @var string $language */
   protected string $language;
 
-  /** @var LanguageInterface $fallbackLanguage */
-  protected LanguageInterface $fallbackLanguage;
+  /** @var string $fallbackLanguage */
+  protected string $fallbackLanguage;
 
   /** @var string $country */
   protected string $country;
@@ -91,9 +91,7 @@ class Language implements LanguageInterface {
       return FALSE;
     }
     $this->language = $properties['language'];
-    $this->fallbackLanguage = !empty($properties['fallback'])
-      ? Nick::LanguageManager()->getLanguageByLangcode($properties['fallback'])
-      : Nick::LanguageManager()->getDefaultLanguage();
+    $this->fallbackLanguage = $properties['fallback'] ?? 'en';
     $this->country = $properties['country'];
     $this->default = Nick::Config()->get('site.default_langcode') == $langcode;
 

@@ -29,6 +29,8 @@ class Core {
    * @param Exception $exception
    */
   public function Exception($exception) {
+    d($exception);
+    d($exception->getTraceAsString());
     Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'Exception');
   }
 
