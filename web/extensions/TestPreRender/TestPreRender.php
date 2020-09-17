@@ -1,6 +1,6 @@
 <?php
 
-namespace Nick\TestFormAlter;
+namespace Nick\TestPreRender;
 
 use Nick\Form\FormStateInterface;
 
@@ -9,7 +9,7 @@ use Nick\Form\FormStateInterface;
  *
  * @package Nick\TestFormAlter
  */
-class TestFormAlter {
+class TestPreRender {
 
   /**
    * Tests the FormAlter event.
@@ -19,7 +19,7 @@ class TestFormAlter {
    * @param string             $form_id
    * @param FormStateInterface $formState
    */
-  public function FormAlter(array &$form, string $form_id, FormStateInterface $formState) {
+  public function preRender(array &$form, string $form_id, FormStateInterface $formState) {
     d($form);
     d($form_id);
     d($formState);

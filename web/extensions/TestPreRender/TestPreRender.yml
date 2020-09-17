@@ -1,0 +1,8 @@
+name: Test Pre Render
+version: 1.0a
+type: extension
+interface: false
+event_listeners:
+  preRender:
+    class: '\Nick\TestPreRender\TestPreRender'
+    method: 'preRender'

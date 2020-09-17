@@ -15,7 +15,7 @@ use Nick\Language\LanguageManager;
 class Translation implements TranslationInterface {
 
   /** @var LanguageManager $languageManager */
-  protected $languageManager;
+  protected LanguageManager $languageManager;
 
   /**
    * Translation constructor.

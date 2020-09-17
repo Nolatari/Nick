@@ -28,6 +28,7 @@ trait StringTranslation {
    * @return mixed
    */
   public function translate(string $string, array $args = []) {
+    d(Nick::Translation());
     $translation = Nick::Translation();
 
     if (!is_string($string)) {

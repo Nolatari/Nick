@@ -114,7 +114,7 @@ class Nick {
    * @return TranslationInterface
    */
   public static function Translation() {
-    $translationExtension = self::Config()->get('translation')['extension'];
+    $translationExtension = self::Config()->get('translation.extension') or 'Translation';
     if (!ExtensionManager::extensionInstalled($translationExtension)) {
       $translationExtension = 'Translation';
     }

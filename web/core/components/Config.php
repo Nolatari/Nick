@@ -160,12 +160,15 @@ class Config extends Settings {
       return FALSE;
     }
     $result = $config_result->fetchAllAssoc();
+    if (!$result) {
+      return FALSE;
+    }
     $result = reset($result);
 
+    $config = unserialize($result['value']);
+
     if (isset($item)) {
-      $config = unserialize($result['value'])[$item];
-    } else {
-      $config = unserialize($result['value']);
+      $config = $config[$item];
     }
 
     return $config;

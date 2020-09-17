@@ -25,7 +25,7 @@ class Article Extends Matter implements ArticleInterface {
   /**
    * @param int $id
    *
-   * @return Matter|MatterInterface|NULL
+   * @return MatterInterface|NULL
    */
   public static function load(int $id) {
     return parent::loadMatter($id, 'article');
@@ -48,7 +48,7 @@ class Article Extends Matter implements ArticleInterface {
   /**
    * @return array
    */
-  public static function initialFields() {
+  public static function initialFields(): array {
     return [
       'title' => [
         'type' => 'varchar',
@@ -73,7 +73,7 @@ class Article Extends Matter implements ArticleInterface {
   /**
    * @inheritDoc
    */
-  public function getTitle() {
+  public function getTitle(): string {
     return $this->getValue('title');
   }
 
@@ -87,7 +87,7 @@ class Article Extends Matter implements ArticleInterface {
   /**
    * @inheritDoc
    */
-  public function getBody() {
+  public function getBody(): string {
     return $this->getValue('body');
   }
 

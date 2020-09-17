@@ -29,11 +29,11 @@ class ExtensionManager {
   }
 
   /**
-   * @param $extension
+   * @param string $extension
    *
    * @return bool
    */
-  public static function extensionInstalled($extension) {
+  public static function extensionInstalled(string $extension) {
     $extensions = self::getInstalledExtensions();
     foreach ($extensions as $ext) {
       if ($ext['name'] === $extension) {

@@ -16,19 +16,19 @@ class Language implements LanguageInterface {
   use StringTranslation;
 
   /** @var string $langcode */
-  protected $langcode;
+  protected string $langcode;
 
   /** @var string $language */
-  protected $language;
+  protected string $language;
 
   /** @var LanguageInterface $fallbackLanguage */
-  protected $fallbackLanguage;
+  protected LanguageInterface $fallbackLanguage;
 
   /** @var string $country */
-  protected $country;
+  protected string $country;
 
   /** @var bool $default */
-  protected $default = FALSE;
+  protected bool $default = FALSE;
 
   /**
    * Language constructor.
@@ -105,17 +105,18 @@ class Language implements LanguageInterface {
    *
    * @return array|bool
    */
-  protected function getProperties(): array {
+  protected function getProperties() {
     $query = Nick::Database()
       ->select('languages')
       ->fields(NULL, ['language', 'country'])
       ->condition('langcode', $this->getLangcode())
       ->execute();
     if (!$query instanceof Result) {
-      return [];
+      return FALSE;
     }
+    $result = $query->fetchAllAssoc();
 
-    return $query->fetchAllAssoc();
+    return reset($result);
   }
 
 }

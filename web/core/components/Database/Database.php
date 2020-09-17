@@ -233,7 +233,7 @@ class Database extends Settings {
    *
    * @return Result|bool
    */
-  protected function executeQuery($query) {
+  protected function executeQuery(string $query) {
     if ($this->getSetting('debugging')) {
       echo '<pre style="color:#fff;">';
       echo SqlFormatter::format($query);
@@ -245,7 +245,9 @@ class Database extends Settings {
     }
     $result = $this->database->query($query);
     if ($this->getSetting('debugging')) {
-      d($this->database->error);
+      if ($this->database->error !== '') {
+        d($this->database->error);
+      }
     }
     if ($result !== FALSE) {
       $this->result = $result;
