@@ -2,7 +2,7 @@ name: headless_cms
 recipe: lamp
 config:
   webroot: web
-  php: '7.2'
+  php: '7.4'
   drush: ^9
   via: nginx
   xdebug: true

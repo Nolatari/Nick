@@ -14,10 +14,10 @@ use Nick\Logger;
 class LanguageManager {
 
   /** @var LanguageInterface $currentLanguage */
-  protected $currentLanguage;
+  protected LanguageInterface $currentLanguage;
 
   /** @var LanguageInterface $defaultLanguage */
-  protected $defaultLanguage;
+  protected LanguageInterface $defaultLanguage;
 
   /**
    * LanguageManager constructor.

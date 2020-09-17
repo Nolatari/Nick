@@ -28,7 +28,7 @@ class Translation implements TranslationInterface {
    * {@inheritDoc}
    */
   public function get(string $string, $args = [], $fallback = TRUE, $langcode = NULL): string {
-    $langcode = $langcode ?: $this->languageManager->getCurrentLanguage();
+    $langcode = $langcode ?: $this->languageManager->getCurrentLanguage()->getLangcode();
     $query = Nick::Database()
       ->select('translations')
       ->fields(NULL, ['translation'])
@@ -65,8 +65,8 @@ class Translation implements TranslationInterface {
    * {@inheritDoc}
    */
   public function set(string $string, string $translation, array $args = [], $from_langcode = NULL, $to_langcode = NULL): bool {
-    $from_langcode = !is_null($from_langcode) ? $from_langcode : $this->languageManager->getDefaultLanguage();
-    $to_langcode = !is_null($to_langcode) ? $to_langcode : $this->languageManager->getCurrentLanguage();
+    $from_langcode = !is_null($from_langcode) ? $from_langcode : $this->languageManager->getDefaultLanguage()->getLangcode();
+    $to_langcode = !is_null($to_langcode) ? $to_langcode : $this->languageManager->getCurrentLanguage()->getLangcode();
 
     if ($from_langcode === $to_langcode) {
       return TRUE;
