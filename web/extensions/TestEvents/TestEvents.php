@@ -13,7 +13,7 @@ class TestEvents {
 
   /**
    * Tests the stringTranslationPresave event.
-   * Defined in the TestStringTranslationPresave.yml file!
+   * Defined in the TestEvents.yml file!
    *
    * @param array $variables
    */
@@ -23,7 +23,7 @@ class TestEvents {
 
   /**
    * Tests the FormAlter event.
-   * Defined in the TestFormAlter.yml file!
+   * Defined in the TestEvents.yml file!
    *
    * @param array              $form
    * @param string             $form_id
@@ -36,20 +36,24 @@ class TestEvents {
   }
 
   /**
-   * Tests the FormAlter event.
-   * Defined in the TestFormAlter.yml file!
+   * Tests the preRender event.
+   * Defined in the TestEvents.yml file!
    *
    * @param array       $variables
    * @param string|null $view_mode
    */
   public function preRender(array &$variables, $view_mode) {
+    // Check whether page has an id (some don't!)
     if (!isset($variables['page']['id'])) {
       return;
     }
+
+    // Check whether page ID matches the one we wish to alter
     if ($variables['page']['id'] != 'dashboard') {
       return;
     }
 
+    // Change the page title to add a test message
     $variables['page']['title'] = $variables['page']['title'] . " - TEST!! Turn off the TestEvents module to remove this example.";
   }
 

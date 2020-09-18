@@ -150,7 +150,7 @@ class Renderer extends Settings {
         'settings' => $render_settings,
         'active_user' => Person::getCurrentPerson(),
         'site' => [
-          'name' => Nick::Config()->get('site')['name'] ?? 'Nick',
+          'name' => Nick::Config()->get('site.name') ?? 'Nick',
           'version' => Nick::Cache()->getData('NICK_VERSION') . '.'
             . Nick::Cache()->getData('NICK_VERSION_RELEASE') . ' '
             . Nick::Cache()->getData('NICK_VERSION_STATUS'),
