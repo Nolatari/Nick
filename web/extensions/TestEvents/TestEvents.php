@@ -5,9 +5,9 @@ namespace Nick\TestEvents;
 use Nick\Form\FormStateInterface;
 
 /**
- * Class TestStringTranslationPresave
+ * Class TestEvents
  *
- * @package Nick\TestStringTranslationPresave
+ * @package Nick\TestEvents
  */
 class TestEvents {
 
@@ -50,7 +50,7 @@ class TestEvents {
       return;
     }
 
-    $variables['page']['title'] = $variables['page']['title'] . " - TEST!! Turn off the TestPreRender module to remove this example.";
+    $variables['page']['title'] = $variables['page']['title'] . " - TEST!! Turn off the TestEvents module to remove this example.";
   }
 
 }
