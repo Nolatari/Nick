@@ -2,3 +2,4 @@ name: File
 version: 1.0a
 type: matter
 interface: true
+required: true

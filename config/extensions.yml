@@ -1,0 +1,42 @@
+-
+    name: Cache
+    type: core
+-
+    name: Database
+    type: core
+-
+    name: DummyContent
+    type: contrib
+-
+    name: Events
+    type: core
+-
+    name: ExtensionManager
+    type: core
+-
+    name: File
+    type: core
+-
+    name: Form
+    type: core
+-
+    name: Language
+    type: core
+-
+    name: Manifest
+    type: core
+-
+    name: Matter
+    type: core
+-
+    name: Page
+    type: core
+-
+    name: Person
+    type: core
+-
+    name: TestEvents
+    type: contrib
+-
+    name: Translation
+    type: core

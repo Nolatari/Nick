@@ -73,6 +73,7 @@ class Extensions extends Page {
           'summary' => $this->get('summary'),
         ],
         'extensions' => $extensions,
+        'active' => $parameters['id'] ?? FALSE,
       ]);
   }
 

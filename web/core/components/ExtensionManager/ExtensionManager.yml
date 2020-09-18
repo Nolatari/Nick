@@ -1,5 +1,6 @@
 name: Extension Manager
 version: 1.0a
 type: extension
+required: true
 classes:
   ExtensionManager: '\Nick\ExtensionManager\ExtensionManager'
