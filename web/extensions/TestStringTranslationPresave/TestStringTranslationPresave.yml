@@ -1,8 +1,0 @@
-name: Test Stringtranslation Presave
-version: 1.0a
-type: extension
-interface: false
-event_listeners:
-  stringTranslationPresave:
-    class: '\Nick\TestStringTranslationPresave\TestStringTranslationPresave'
-    method: 'TranslationPresave'

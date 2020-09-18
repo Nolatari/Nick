@@ -1,0 +1,14 @@
+name: Test Events
+version: 1.0a
+type: extension
+interface: false
+event_listeners:
+  stringTranslationPresave:
+    class: '\Nick\TestEvents\TestEvents'
+    method: 'TranslationPresave'
+  FormAlter:
+    class: '\Nick\TestEvents\TestEvents'
+    method: 'FormAlter'
+  preRender:
+    class: '\Nick\TestEvents\TestEvents'
+    method: 'preRender'
