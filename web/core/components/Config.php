@@ -28,6 +28,12 @@ class Config extends Settings {
 
     $staged = $this->getStagedConfig();
     foreach ($staged as $key => $value) {
+      if ($key === 'extensions') {
+        foreach ($value as $extension) {
+          Nick::ExtensionManager()::installExtension($extension['name'], $extension['type']);
+        }
+        continue;
+      }
       if (!$this->set($key, $value)) {
         Nick::Logger()->add('Something went wrong trying to import the following config: ' . $key, Logger::TYPE_FAILURE, 'Config');
         return FALSE;
@@ -134,10 +140,14 @@ class Config extends Settings {
       ->select('config')
       ->execute();
     if (!$config_storage instanceof Result) {
-      return [];
+      $returnArray = [];
+    } else {
+      $returnArray = $config_storage->fetchAllAssoc();
     }
 
-    return $config_storage->fetchAllAssoc();
+    $returnArray[] = ['field' => 'extensions', 'value' => serialize(Nick::ExtensionManager()::getInstalledExtensions())];
+
+    return $returnArray;
   }
 
   /**

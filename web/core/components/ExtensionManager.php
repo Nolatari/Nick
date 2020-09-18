@@ -29,6 +29,25 @@ class ExtensionManager {
   }
 
   /**
+   * Install an extension.
+   *
+   * @param string $extension
+   * @param string $type
+   *
+   * @return bool
+   */
+  public static function installExtension(string $extension, string $type): bool {
+    // @TODO: Validate extension
+    $extension_storage = Nick::Database()->insert('extensions')
+      ->values(['installed' => 1, 'name' => $extension, 'type' => $type]);
+    if (!$extension_storage->execute()) {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  /**
    * @param string $extension
    *
    * @return bool

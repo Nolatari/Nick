@@ -115,10 +115,19 @@ class Nick {
    */
   public static function Translation() {
     $translationExtension = self::Config()->get('translation.extension') or 'Translation';
-    if (!ExtensionManager::extensionInstalled($translationExtension)) {
+    if (!self::ExtensionManager()::extensionInstalled($translationExtension)) {
       $translationExtension = 'Translation';
     }
     return self::Cache()->getData('translation', '\\Nick\\' . $translationExtension . '\\' . $translationExtension);
+  }
+
+  /**
+   * Returns cached ExtensionManager object
+   *
+   * @return ExtensionManager
+   */
+  public static function ExtensionManager() {
+    return self::Cache()->getData('extension.manager', '\\Nick\\ExtensionManager');
   }
 
   /**
