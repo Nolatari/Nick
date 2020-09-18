@@ -47,6 +47,7 @@ class ExtensionManager {
 
     $installObjectName = '\\Nick\\' . $extension . '\\Install';
     if (class_exists($installObjectName)) {
+      /** @var InstallInterface $installObject */
       $installObject = new $installObjectName();
 
       if (!$installObject->condition()) {
