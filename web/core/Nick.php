@@ -1,6 +1,6 @@
 <?php
 
-use Nick\ExtensionManager;
+use Nick\ExtensionManager\ExtensionManager;
 use Nick\Page\PageInterface;
 use Nick\Cache\CacheInterface;
 use Nick\Config;
@@ -127,7 +127,7 @@ class Nick {
    * @return ExtensionManager
    */
   public static function ExtensionManager() {
-    return self::Cache()->getData('extension.manager', '\\Nick\\ExtensionManager');
+    return self::Cache()->getData('extension.manager', '\\Nick\\ExtensionManager\\ExtensionManager');
   }
 
   /**
@@ -173,6 +173,7 @@ class Nick {
     $core = new Core();
     $core->setSystemSpecifics();
     self::MatterManager()->createMatters();
+    self::ExtensionManager()->installExtensions();
 
     try {
       $logger = new Logger();

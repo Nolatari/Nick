@@ -178,7 +178,7 @@ class Config extends Settings {
    *
    * @return bool
    */
-  public function set($key, $value) {
+  public function set(string $key, string $value) {
     if (strpos($key, '.') !== FALSE) {
       $items = explode('.', $key);
       $key = $items[0];

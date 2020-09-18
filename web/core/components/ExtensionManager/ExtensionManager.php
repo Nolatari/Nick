@@ -1,9 +1,10 @@
 <?php
 
-namespace Nick;
+namespace Nick\ExtensionManager;
 
 use Nick;
 use Nick\Database\Result;
+use Nick\YamlReader;
 
 /**
  * Class ExtensionManager
@@ -44,7 +45,40 @@ class ExtensionManager {
       return FALSE;
     }
 
+    $installObjectName = '\\Nick\\' . $extension . '\\Install';
+    if (class_exists($installObjectName)) {
+      $installObject = new $installObjectName();
+
+      if (!$installObject->condition()) {
+        try {
+          $installObject->doInstall();
+        } catch(\Exception $e) {
+          Nick::Logger()->add($e->getMessage());
+        }
+      }
+    }
+
     return TRUE;
+  }
+
+  public static function installExtensions() {
+    $extensions = self::getInstalledExtensions();
+    foreach ($extensions as $extension) {
+      $installObjectName = '\\Nick\\' . $extension['name'] . '\\Install';
+      if (!class_exists($installObjectName)) {
+        continue;
+      }
+      /** @var InstallInterface $installObject */
+      $installObject = new $installObjectName();
+
+      if (!$installObject->condition()) {
+        try {
+          $installObject->doInstall();
+        } catch(\Exception $e) {
+          Nick::Logger()->add($e->getMessage());
+        }
+      }
+    }
   }
 
   /**

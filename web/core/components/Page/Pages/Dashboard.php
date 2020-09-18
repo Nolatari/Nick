@@ -53,7 +53,7 @@ class Dashboard extends Page {
           'summary' => $this->get('summary'),
         ],
         'dashboard' => [
-          'installedExtensions' => count(ExtensionManager::getInstalledExtensions()),
+          'installedExtensions' => count(Nick::ExtensionManager()::getInstalledExtensions()),
         ],
       ]);
   }

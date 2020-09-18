@@ -4,7 +4,6 @@ namespace Nick\Event;
 
 use Exception;
 use Nick;
-use Nick\ExtensionManager;
 use Nick\Logger;
 
 /**
@@ -15,7 +14,7 @@ use Nick\Logger;
 class Event implements EventInterface {
 
   /** @var string $eventName */
-  protected $eventName;
+  protected string $eventName;
 
   /**
    * Event constructor.
@@ -78,11 +77,11 @@ class Event implements EventInterface {
    * @return array
    */
   protected function getListeners(): array {
-    $extensions = ExtensionManager::getInstalledExtensions();
+    $extensions = Nick::ExtensionManager()::getInstalledExtensions();
     $listeners = [];
     foreach ($extensions as $extension) {
       // Skip if this extension has no info file.
-      if (!$extInfo = ExtensionManager::getExtensionInfo($extension['name'])) {
+      if (!$extInfo = Nick::ExtensionManager()::getExtensionInfo($extension['name'])) {
         continue;
       }
 

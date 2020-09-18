@@ -107,11 +107,11 @@ class Database extends Settings {
    * Static escape function
    *
    * @param mysqli $connection
-   * @param string $value
+   * @param mixed $value
    *
    * @return string
    */
-  public static function Cleanse(mysqli $connection, string $value) {
+  public static function Cleanse(mysqli $connection, $value) {
     if (!$escaped_string = mysqli_real_escape_string($connection, $value)) {
       return $value;
     }

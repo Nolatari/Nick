@@ -16,9 +16,17 @@ class TestEvents {
    * Defined in the TestEvents.yml file!
    *
    * @param array $variables
+   * @param       $string
+   * @param       $args
+   * @param       $from_langcode
+   * @param       $to_langcode
    */
   public function TranslationPresave(array &$variables, $string, $args, $from_langcode, $to_langcode) {
     d($variables);
+    d($string);
+    d($args);
+    d($from_langcode);
+    d($to_langcode);
   }
 
   /**

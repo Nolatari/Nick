@@ -1,0 +1,5 @@
+name: ExtensionManager
+version: 1.0a
+type: extension
+classes:
+  ExtensionManager: '\Nick\ExtensionManager\ExtensionManager'

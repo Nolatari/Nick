@@ -55,7 +55,7 @@ class PageManager {
    *
    * @return bool|PageInterface
    */
-  public function getPageObject($page_id, $parameters = []) {
+  public function getPageObject(string $page_id, $parameters = []) {
     $page = $this->getPage($page_id);
     if (!is_array($page)) {
       return $this->getPageObject('error');
@@ -92,6 +92,24 @@ class PageManager {
     }
     $page_result = reset($page_result);
     return $page_result;
+  }
+
+  /**
+   * Creates page in database.
+   *
+   * @param array $values
+   *
+   * @return bool
+   */
+  public function createPage($values = []): bool {
+    $page = Nick::Database()
+      ->insert('pages')
+      ->values($values);
+    if (!$page->execute()) {
+      return FALSE;
+    }
+
+    return TRUE;
   }
 
 }

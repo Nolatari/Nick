@@ -5,8 +5,6 @@ namespace Nick\Matter;
 use Nick;
 use Nick\YamlReader;
 use Nick\Database\Result;
-use Nick\ExtensionManager;
-use Symfony\Component\DependencyInjection\Extension\Extension;
 
 /**
  * Class MatterManager
@@ -20,10 +18,8 @@ class MatterManager {
    */
   protected static function getAllMatterClasses() {
     $matters = [];
-    $extensionsChecked = [];
-    $extensions = ExtensionManager::getCoreExtensions() + ExtensionManager::getContribExtensions();
+    $extensions = Nick::ExtensionManager()::getCoreExtensions() + Nick::ExtensionManager()::getContribExtensions();
     foreach ($extensions as $extension) {
-      $extensionsChecked[] = $extension;
       $extensionInfo = YamlReader::readExtension($extension);
       if ($extensionInfo['type'] !== 'matter') {
         continue;
@@ -56,7 +52,7 @@ class MatterManager {
    * @return bool
    */
   public static function loadMatterClassFile($type) {
-    $dirs = ExtensionManager::getCoreExtensions() + ExtensionManager::getContribExtensions();
+    $dirs = Nick::ExtensionManager()::getCoreExtensions() + Nick::ExtensionManager()::getContribExtensions();
 
     foreach ($dirs as $dir) {
       if (strtolower($dir) === $type) {
@@ -113,7 +109,7 @@ class MatterManager {
     // Create tables for Matters.
     $matters = [];
     foreach (self::getAllMatterClasses() as $matter) {
-      if (!self::matterInstalled($matter) && ExtensionManager::extensionInstalled($matter)) {
+      if (!self::matterInstalled($matter) && Nick::ExtensionManager()::extensionInstalled($matter)) {
         $matters[] = self::getMatterClassFromType($matter);
       }
     }

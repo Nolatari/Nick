@@ -80,14 +80,18 @@ class Renderer extends Settings {
    */
   public function setType($type = NULL) {
     $this->type = $type;
-
-    if (!is_dir($this->getThemeFolder() . $type)) {
-      Nick::Logger()->add('[Renderer][setType]: Folder not found.', Logger::TYPE_WARNING, 'Renderer');
-      return NULL;
-    }
-
     $path = is_null($type) ? $this->getThemeFolder() :
       $this->getThemeFolder() . $type;
+
+    if (!is_dir($path)) {
+      if (StringManipulation::contains($type, 'extension')) {
+        $path = 'extensions/' . StringManipulation::replace($type, 'extension.', '') . '/templates';
+      } else {
+        Nick::Logger()->add('[setType]: Folder not found.', Logger::TYPE_WARNING, 'Renderer');
+        return NULL;
+      }
+    }
+
     $this->loader = new FilesystemLoader($path);
     $this->twig = new Environment($this->getLoader(), ['debug' => $this->getSetting('twig_debugging')]);
     if ($this->getSetting('twig_debugging')) {
