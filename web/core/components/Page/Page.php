@@ -49,6 +49,13 @@ class Page implements PageInterface {
   }
 
   /**
+   * {@inheritDoc}
+   */
+  public function install() {
+    // Empty function, has to be overwritten in child class.
+  }
+
+  /**
    * Sets caching for page.
    *
    * @return $this

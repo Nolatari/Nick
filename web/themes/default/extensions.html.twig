@@ -1,0 +1,37 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">{{ page.title }}</h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    </div>
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-3">
+            <div class="list-group" id="list-tab" role="tablist">
+                {% for extension, info in extensions %}
+                <a class="list-group-item list-group-item-action" id="list-{{ extension }}-list" data-toggle="list" href="#list-{{ extension }}" role="tab" aria-controls="{{ extension }}">
+                    {{ info.name }}
+                    <span class="badge badge-{% if info.latest %}success{% else %}danger{% endif %} badge-pill">{{ info.version }}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="tab-content" id="nav-tabContent">
+                {% for extension, info in extensions %}
+                <div class="tab-pane fade" id="list-{{ extension }}" role="tabpanel" aria-labelledby="list-{{ extension }}-list">
+                    <p>Type: {{ info.type }}</p>
+                    <p>Machine name: {{ extension }}</p>
+                    <p>Version: {{ info.version }}  {% if info.latest == 'security' %}<sup>(Security update available)</sup>{% endif %}{% if not info.latest %}<sup>(Update available)</sup>{% endif %}</p>
+                    <p>Installed: {% if info.installed %}Yes{% else %}No{% endif %}</p>
+                    {% if info.description %}
+                        <p>{{ info.description }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->

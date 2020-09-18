@@ -33,4 +33,12 @@ interface PageInterface {
    */
   public function render();
 
+  /**
+   * Installs the page in the database in case it does not exist yet.
+   * To be overwritten in the page's class.
+   *
+   * @return bool
+   */
+  public function install();
+
 }
