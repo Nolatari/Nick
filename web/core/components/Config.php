@@ -81,20 +81,8 @@ class Config extends Settings {
    * @return array|bool
    */
   public function difference() {
-    $config_storage = Nick::Database()
-      ->select('config')
-      ->execute();
-    if (!$config_storage instanceof Result) {
-      return FALSE;
-    }
-    $results = $config_storage->fetchAllAssoc();
-    $live = [];
-    foreach ($results as $result) {
-      $live[$result['field']] = unserialize($result['value']);
-    }
-
     return [
-      'live' => $live,
+      'live' => $this->getConfig(),
       'staged' => $this->getStagedConfig(),
     ];
   }
