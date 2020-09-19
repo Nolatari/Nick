@@ -35,7 +35,7 @@ class ExtensionManager {
    * @return bool
    */
   public static function uninstallExtension(string $extension): bool {
-    // @TODO: Validate extension
+    // @TODO: Validate extension, skip required extensions
     $extension_storage = Nick::Database()->update('extensions')
       ->condition('installed', '1')
       ->condition('name', $extension)
@@ -81,11 +81,11 @@ class ExtensionManager {
         ->values(['installed' => 1])
         ->condition('name', $extension);
     } else {
-      $ext = Nick::Database()->update('extensions')
+      $ext = Nick::Database()->insert('extensions')
         ->values([
-          'installed' => 1,
-          'name' => $extension,
           'type' => $type,
+          'name' => $extension,
+          'installed' => 1,
         ]);
     }
     if (!$ext->execute()) {

@@ -5,9 +5,6 @@
     name: Database
     type: core
 -
-    name: DummyContent
-    type: contrib
--
     name: Events
     type: core
 -
@@ -34,9 +31,6 @@
 -
     name: Person
     type: core
--
-    name: TestEvents
-    type: contrib
 -
     name: Translation
     type: core

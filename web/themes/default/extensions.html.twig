@@ -20,7 +20,7 @@
         <div class="col-9">
             <div class="tab-content" id="nav-tabContent">
                 {% for extension, info in extensions %}
-                    {% if action != null and active == extension %}
+                    {% if action is not null and active == extension %}
                         <div class="tab-pane fade{% if active == extension %} show active{% endif %}" id="list-{{ extension }}" role="tabpanel" aria-labelledby="list-{{ extension }}-list">
                             <p>Are you sure you wish to {{ action }} {{ extension }}</p>
                             <p><a class="btn btn-success" href="?p=extensions&t={{ action }}&id={{ extension }}&confirm" role="button">I'm sure!</a>
@@ -30,7 +30,7 @@
                         <div class="tab-pane fade{% if active == extension %} show active{% endif %}" id="list-{{ extension }}" role="tabpanel" aria-labelledby="list-{{ extension }}-list">
                             <p>Type: {{ info.type }}</p>
                             <p>Machine name: {{ extension }}</p>
-                            <p>Version: {{ info.version }}  {% if info.latest == 'security' %}<sup>(Security update available)</sup>{% endif %}{% if not info.latest %}<sup>(Update available)</sup>{% endif %}</p>
+                            <p>Version: {{ info.version }}  {% if not info.latest %}<sup>(Update available)</sup>{% endif %}</p>
                             <p>Installed: {% if info.installed %}Yes{% else %}No{% endif %}</p>
                             {% if info.description %}
                                 <p>{{ info.description }}</p>

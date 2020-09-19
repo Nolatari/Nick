@@ -62,6 +62,7 @@ class Extensions extends Page {
       $extensions[$extension]['installed'] = $extensionManager::extensionInstalled($extension);
       $extensions[$extension]['latest'] = $extensionManager::isLatestVersion($extension); // TODO!
     }
+    ksort($extensions);
 
     $action = NULL;
     if (isset($parameters['id'])) {
