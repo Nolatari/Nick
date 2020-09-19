@@ -92,14 +92,14 @@ class FormState implements FormStateInterface {
         ->insert('form_state')
         ->values([
           $this->getUUID(),
-          $this->getValues(),
+          serialize($this->getValues()),
         ]);
     } else {
       $query = Nick::Database()
         ->update('form_state')
         ->condition('uuid', $this->getUUID())
         ->values([
-          'values' => $this->getValues(),
+          'values' => serialize($this->getValues()),
         ]);
     }
     return $query->execute();

@@ -12,11 +12,17 @@ use Nick\Matter\MatterInterface;
  */
 class FormBuilder {
 
-  /** @var MatterInterface $matter */
-  protected MatterInterface $matter;
+  /** @var string $id */
+  protected string $id;
+
+  /** @var MatterInterface|null $matter */
+  protected $matter = NULL;
 
   /** @var array $values */
   protected array $values = [];
+
+  /** @var array $fields */
+  protected array $fields = [];
 
   /** @var FormStateInterface $formState */
   protected FormStateInterface $formState;
@@ -24,10 +30,13 @@ class FormBuilder {
   /**
    * FormBuilder constructor.
    *
-   * @param MatterInterface $matter
+   * @param MatterInterface|null $matter
    */
-  public function __construct(MatterInterface $matter) {
-    $this->matter = $matter;
+  public function __construct(MatterInterface $matter = NULL) {
+    if (!is_null($matter)) {
+      $this->matter = $matter;
+      $this->setFields($matter::fields());
+    }
 
     /** @var FormStateInterface $formState */
     $this->formState = new FormState();
@@ -43,7 +52,7 @@ class FormBuilder {
   public function result(): array {
     $build = $this->build();
     $event = new Event('FormAlter');
-    $event->fire($build, ['form-' . $this->getMatter()->getType(), $this->formState]);
+    $event->fire($build, ['form-' . $this->getId(), $this->formState]);
     return $build;
   }
 
@@ -106,15 +115,50 @@ class FormBuilder {
    * @return array
    */
   protected function getFields(): array {
-    return $this->getMatter()::fields();
+    return $this->fields;
+  }
+
+  /**
+   * Sets fields array.
+   *
+   * @param array $values
+   *
+   * @return self
+   */
+  public function setFields(array $values): self {
+    $this->fields = $values;
+
+    return $this;
+  }
+
+  /**
+   * Returns form ID.
+   *
+   * @return string
+   */
+  protected function getId(): string {
+    return $this->id;
+  }
+
+  /**
+   * Sets form ID.
+   *
+   * @param string $id
+   *
+   * @return self
+   */
+  public function setId(string $id): self {
+    $this->id = $id;
+
+    return $this;
   }
 
   /**
    * Returns content item object.
    *
-   * @return MatterInterface
+   * @return MatterInterface|null
    */
-  protected function getMatter(): MatterInterface {
+  protected function getMatter(): ?MatterInterface {
     return $this->matter;
   }
 

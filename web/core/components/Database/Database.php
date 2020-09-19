@@ -126,7 +126,7 @@ class Database extends Settings {
    *
    * @return string
    */
-  public static function addQuotationMarks($value) {
+  public static function addQuotationMarks(string $value): string {
     if (!is_null($value)) {
       if (substr($value, 0, 1) !== "'" && substr($value, -1, 1) !== "'") {
         return "'" . $value . "'";
