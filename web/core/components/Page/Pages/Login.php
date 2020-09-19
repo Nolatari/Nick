@@ -41,6 +41,17 @@ class Login extends Page {
   /**
    * {@inheritDoc}
    */
+  public function install() {
+    $pageManager = Nick::PageManager();
+    return $pageManager->createPage([
+      'id' => $this->get('id'),
+      'controller' => '\\Nick\\Page\\Pages\\Login',
+    ]);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function render($parameters = []) {
     parent::render($parameters);
     return Nick::Renderer()

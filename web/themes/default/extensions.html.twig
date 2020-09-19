@@ -20,20 +20,30 @@
         <div class="col-9">
             <div class="tab-content" id="nav-tabContent">
                 {% for extension, info in extensions %}
-                <div class="tab-pane fade{% if active == extension %} show active{% endif %}" id="list-{{ extension }}" role="tabpanel" aria-labelledby="list-{{ extension }}-list">
-                    <p>Type: {{ info.type }}</p>
-                    <p>Machine name: {{ extension }}</p>
-                    <p>Version: {{ info.version }}  {% if info.latest == 'security' %}<sup>(Security update available)</sup>{% endif %}{% if not info.latest %}<sup>(Update available)</sup>{% endif %}</p>
-                    <p>Installed: {% if info.installed %}Yes{% else %}No{% endif %}</p>
-                    {% if info.description %}
-                        <p>{{ info.description }}</p>
+                    {% if action != null and active == extension %}
+                        <div class="tab-pane fade{% if active == extension %} show active{% endif %}" id="list-{{ extension }}" role="tabpanel" aria-labelledby="list-{{ extension }}-list">
+                            <p>Are you sure you wish to {{ action }} {{ extension }}</p>
+                            <p><a class="btn btn-success" href="?p=extensions&t={{ action }}&id={{ extension }}&confirm" role="button">I'm sure!</a>
+                            <a class="btn btn-danger" href="?p=extensions&id={{ extension }}" role="button">No, take me back!</a></p>
+                        </div>
+                    {% else %}
+                        <div class="tab-pane fade{% if active == extension %} show active{% endif %}" id="list-{{ extension }}" role="tabpanel" aria-labelledby="list-{{ extension }}-list">
+                            <p>Type: {{ info.type }}</p>
+                            <p>Machine name: {{ extension }}</p>
+                            <p>Version: {{ info.version }}  {% if info.latest == 'security' %}<sup>(Security update available)</sup>{% endif %}{% if not info.latest %}<sup>(Update available)</sup>{% endif %}</p>
+                            <p>Installed: {% if info.installed %}Yes{% else %}No{% endif %}</p>
+                            {% if info.description %}
+                                <p>{{ info.description }}</p>
+                            {% endif %}
+                            {% if info.installed and not info.required %}
+                                <p><a class="btn btn-danger" href="?p=extensions&t=uninstall&id={{ extension }}" role="button">Uninstall</a></p>
+                            {% elseif not info.installed %}
+                                <p><a class="btn btn-primary" href="?p=extensions&t=install&id={{ extension }}" role="button">Install</a></p>
+                            {% elseif info.required %}
+                                <p>This extension is required and cannot be uninstalled.</p>
+                            {% endif %}
+                        </div>
                     {% endif %}
-                    {% if info.installed and not info.required %}
-                        <p><a class="btn btn-danger" href="?p=extensions&t=uninstall&id={{ extension }}" role="button">Uninstall</a></p>
-                    {% elseif not info.installed %}
-                        <p><a class="btn btn-primary" href="?p=extensions&t=install&id={{ extension }}" role="button">Install</a></p>
-                    {% endif %}
-                </div>
                 {% endfor %}
             </div>
         </div>

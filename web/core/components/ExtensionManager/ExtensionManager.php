@@ -30,6 +30,36 @@ class ExtensionManager {
   }
 
   /**
+   * @param string $extension
+   *
+   * @return bool
+   */
+  public static function uninstallExtension(string $extension): bool {
+    // @TODO: Validate extension
+    $extension_storage = Nick::Database()->update('extensions')
+      ->condition('installed', '1')
+      ->condition('name', $extension)
+      ->values(['installed' => 0]);
+    if (!$extension_storage->execute()) {
+      return FALSE;
+    }
+
+    $uninstallObjectName = '\\Nick\\' . $extension . '\\Uninstall';
+    if (class_exists($uninstallObjectName)) {
+      /** @var UninstallInterface $uninstallObject */
+      $uninstallObject = new $uninstallObjectName();
+
+      try {
+        $uninstallObject->doUninstall();
+      } catch(\Exception $e) {
+        Nick::Logger()->add($e->getMessage());
+      }
+    }
+
+    return TRUE;
+  }
+
+  /**
    * Install an extension.
    *
    * @param string $extension
@@ -39,9 +69,26 @@ class ExtensionManager {
    */
   public static function installExtension(string $extension, string $type): bool {
     // @TODO: Validate extension
-    $extension_storage = Nick::Database()->insert('extensions')
-      ->values(['installed' => 1, 'name' => $extension, 'type' => $type]);
-    if (!$extension_storage->execute()) {
+    $extension_storage = Nick::Database()->select('extensions')
+      ->condition('name', $extension);
+    $result = $extension_storage->execute();
+    if (!$result instanceof Result) {
+      return FALSE;
+    }
+
+    if ($result->getCount() == 1) {
+      $ext = Nick::Database()->update('extensions')
+        ->values(['installed' => 1])
+        ->condition('name', $extension);
+    } else {
+      $ext = Nick::Database()->update('extensions')
+        ->values([
+          'installed' => 1,
+          'name' => $extension,
+          'type' => $type,
+        ]);
+    }
+    if (!$ext->execute()) {
       return FALSE;
     }
 
@@ -125,6 +172,18 @@ class ExtensionManager {
    */
   public static function getExtensionInfo(string $extension) {
     return YamlReader::readExtension($extension);
+  }
+
+  /**
+   * Checks whether extension is latest version
+   *
+   * @param string $extension
+   *
+   * @return bool
+   */
+  public static function isLatestVersion(string $extension) {
+    // TODO
+    return TRUE;
   }
 
 }

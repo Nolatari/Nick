@@ -48,4 +48,13 @@ class Result {
     return $records;
   }
 
+  /**
+   * Returns the number of rows in this result.
+   *
+   * @return int
+   */
+  public function getCount() {
+    return count($this->fetchAllAssoc());
+  }
+
 }

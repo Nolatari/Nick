@@ -21,20 +21,20 @@ use Twig\Extension\DebugExtension;
  */
 class Renderer extends Settings {
 
-  /** @var string $type */
+  /** @var string|null $type */
   protected $type;
 
   /** @var string $template */
-  protected $template;
+  protected string $template;
 
   /** @var FilesystemLoader $loader */
-  protected $loader;
+  protected FilesystemLoader $loader;
 
   /** @var Environment $twig */
-  protected $twig;
+  protected Environment $twig;
 
   /** @var string $theme_folder */
-  protected $theme_folder;
+  protected string $theme_folder;
 
   /**
    * Renderer constructor.

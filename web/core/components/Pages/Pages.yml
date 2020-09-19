@@ -1,0 +1,7 @@
+name: Pages
+version: 1.0a
+type: matter
+required: true
+interface: true
+classes:
+  Pages: '\Nick\Pages\Pages'

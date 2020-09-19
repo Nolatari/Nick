@@ -1,6 +1,6 @@
 <?php
 
-namespace Nick\Page\Pages;
+namespace Nick\Cache\Pages;
 
 use Nick;
 use Nick\Logger;
@@ -9,7 +9,7 @@ use Nick\Page\Page;
 /**
  * Class Cache
  *
- * @package Nick\Page
+ * @package Nick\Cache\Pages
  */
 class Cache extends Page {
 
@@ -24,6 +24,17 @@ class Cache extends Page {
     ];
 
     return $this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function install() {
+    $pageManager = Nick::PageManager();
+    return $pageManager->createPage([
+      'id' => $this->get('id'),
+      'controller' => '\\Nick\\Cache\\Pages\\Cache',
+    ]);
   }
 
   /**

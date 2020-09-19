@@ -1,6 +1,6 @@
 <?php
 
-namespace Nick\Page\Pages;
+namespace Nick\ExtensionManager\Pages;
 
 use Nick;
 use Nick\Page\Page;
@@ -9,7 +9,7 @@ use Nick\ExtensionManager;
 /**
  * Class Dashboard
  *
- * @package Nick\Page\Pages
+ * @package Nick\ExtensionManager\Pages
  */
 class Extensions extends Page {
 
@@ -32,7 +32,7 @@ class Extensions extends Page {
     $pageManager = Nick::PageManager();
     return $pageManager->createPage([
       'id' => $this->get('id'),
-      'controller' => '\\Nick\\Page\\Pages\\Extensions',
+      'controller' => '\\Nick\\ExtensionManager\\Pages\\Extensions',
     ]);
   }
 
@@ -60,7 +60,26 @@ class Extensions extends Page {
     foreach ($extensionList as $extension) {
       $extensions[$extension] = $extensionManager::getExtensionInfo($extension);
       $extensions[$extension]['installed'] = $extensionManager::extensionInstalled($extension);
-      $extensions[$extension]['latest'] = FALSE; // TODO!
+      $extensions[$extension]['latest'] = $extensionManager::isLatestVersion($extension); // TODO!
+    }
+
+    $action = NULL;
+    if (isset($parameters['id'])) {
+      $extension = $extensionManager::getExtensionInfo($parameters['id']);
+      if (isset($parameters['t'])) {
+        $action = $parameters['t'];
+        if ($parameters['t'] == 'uninstall') {
+          if (isset($parameters['confirm'])) { // @TODO: Change this to POST parameters.
+            $extensionManager::uninstallExtension($parameters['id']);
+            header('Location: ./?p=' . $this->get('id') . '&id=' . $parameters['id']);
+          }
+        } elseif ($parameters['t'] == 'install') {
+          if (isset($parameters['confirm'])) { // @TODO: Change this to POST parameters.
+            $extensionManager::installExtension($parameters['id'], $extension['type']);
+            header('Location: ./?p=' . $this->get('id') . '&id=' . $parameters['id']);
+          }
+        }
+      }
     }
 
     return Nick::Renderer()
@@ -74,6 +93,7 @@ class Extensions extends Page {
         ],
         'extensions' => $extensions,
         'active' => $parameters['id'] ?? FALSE,
+        'action' => $action,
       ]);
   }
 

@@ -3,3 +3,5 @@ version: 1.0a
 type: extension
 interface: false
 description: 'This extension intends to showcase some functionality regarding creating dummy content.'
+pages:
+  dummycontent: 'Will create some dummy content'

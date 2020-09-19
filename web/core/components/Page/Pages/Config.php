@@ -39,6 +39,17 @@ class Config extends Page {
   /**
    * {@inheritDoc}
    */
+  public function install() {
+    $pageManager = Nick::PageManager();
+    return $pageManager->createPage([
+      'id' => $this->get('id'),
+      'controller' => '\\Nick\\Page\\Pages\\Config',
+    ]);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function render($parameters = []) {
     parent::render($parameters);
     if (isset($parameters['export'])) {
