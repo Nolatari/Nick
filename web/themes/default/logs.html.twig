@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Recent logs</h1>
+    <h1 class="h3 mb-2 text-gray-800">Recent logs{% if count > 0 %} <a class="btn btn-primary" href="./?p=logs&t=clear">Clear logs</a>{% endif %}</h1>
 
     <!-- Logs table -->
     <div class="card shadow mb-4">

@@ -6,6 +6,7 @@ use Nick;
 use Nick\Database\Result;
 use Nick\Event\Event;
 use Nick\Language\LanguageManager;
+use Nick\StringManipulation;
 
 /**
  * Class Translation
@@ -38,7 +39,7 @@ class Translation implements TranslationInterface {
       ->execute();
     if (!$query instanceof Result) {
       if ($fallback) {
-        return $string;
+        return $this->replaceArgs($string, $args);
       } else {
         return '';
       }
@@ -47,34 +48,31 @@ class Translation implements TranslationInterface {
     $result = $query->fetchAllAssoc();
     if (count($result) == 0) {
       if ($fallback) {
-        return $string;
+        return $this->replaceArgs($string, $args);
       } else {
         return '';
       }
     }
 
     $result = reset($result);
-    foreach ($args as $arg => $replacement) {
-      $result['translation'] = str_replace($arg, $replacement, $result['translation']);
-    }
-
-    return $result['translation'];
+    return $this->replaceArgs($result['translation'], $args);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function set(string $string, string $translation, array $args = [], $from_langcode = NULL, $to_langcode = NULL): bool {
-    $from_langcode = !is_null($from_langcode) ? $from_langcode : $this->languageManager->getDefaultLanguage()->getLangcode();
-    $to_langcode = !is_null($to_langcode) ? $to_langcode : $this->languageManager->getCurrentLanguage()->getLangcode();
+  public function set(string $string, string $translation, $from_langcode = NULL, $to_langcode = NULL): bool {
+    $from_langcode = $from_langcode ?? $this->languageManager->getDefaultLanguage()->getLangcode();
+    $to_langcode = $to_langcode ?? $this->languageManager->getCurrentLanguage()->getLangcode();
 
     if ($from_langcode === $to_langcode) {
+      // Does not need to be translated because from and to langcode are the same.
       return TRUE;
     }
 
     // Fire an event before adding/saving the translation
     $preSaveEvent = new Event('stringTranslationPresave');
-    $preSaveEvent->fire($translation, [$string, $args, $from_langcode, $to_langcode]);
+    $preSaveEvent->fire($translation, [$string, $from_langcode, $to_langcode]);
 
     if ($this->get($string) == '') {
       $query = Nick::Database()
@@ -83,7 +81,6 @@ class Translation implements TranslationInterface {
           'id' => 0,
           'string' => $string,
           'translation' => $translation,
-          'args' => serialize($args),
           'from_langcode' => $from_langcode,
           'to_langcode' => $to_langcode,
         ])
@@ -96,7 +93,6 @@ class Translation implements TranslationInterface {
         ->condition('to_langcode', $to_langcode)
         ->values([
           'translation' => $translation,
-          'args' => serialize($args),
         ])
         ->execute();
     }
@@ -107,9 +103,23 @@ class Translation implements TranslationInterface {
 
     // Fire an event after adding/saving the translation
     $postSaveEvent = new Event('stringTranslationPostsave');
-    $postSaveEvent->fire($translation, [$string, $args, $from_langcode, $to_langcode]);
+    $postSaveEvent->fire($translation, [$string, $from_langcode, $to_langcode]);
 
     return TRUE;
+  }
+
+  /**
+   * @param string $string
+   * @param array  $args
+   *
+   * @return string|string[]
+   */
+  public function replaceArgs(string $string, array $args) {
+    $returnString = $string;
+    foreach ($args as $arg => $replacement) {
+      $returnString = StringManipulation::replace($returnString, $arg, $replacement);
+    }
+    return $returnString;
   }
 
 }

@@ -54,11 +54,21 @@ class Logs extends Page {
    */
   public function render($parameters = []) {
     parent::render($parameters);
+
+    if (isset($parameters['t'])) {
+      if ($parameters['t'] == 'clear') {
+        Nick::Logger()::clear();
+        header('Location: ./?p=logs');
+      }
+    }
+
+    $logs = Nick::Logger()->getLogs(TRUE);
     return Nick::Renderer()
       ->setType()
       ->setTemplate('logs')
       ->render([
-        'logs' => Nick::Logger()->getLogs(TRUE),
+        'logs' => $logs,
+        'count' => count($logs),
       ]);
   }
 

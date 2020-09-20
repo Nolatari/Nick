@@ -4,6 +4,7 @@ namespace Nick;
 
 use Nick;
 use Nick\Database\Database;
+use Nick\Database\Query;
 use Nick\Person\Person;
 use Nick\Translation\StringTranslation;
 
@@ -35,6 +36,15 @@ class Logger {
   public function __construct() {
     $this->database = Nick::Database();
     $this->renderer = Nick::Renderer();
+  }
+
+  /**
+   * Truncates logs table.
+   *
+   * @return Query
+   */
+  public static function clear() {
+    return Nick::Database()->query('TRUNCATE TABLE logs');
   }
 
   /**

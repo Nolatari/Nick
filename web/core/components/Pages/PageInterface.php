@@ -9,7 +9,7 @@ use Nick\Matter\MatterInterface;
  *
  * @package Nick\Pages
  */
-interface PagesInterface extends MatterInterface {
+interface PageInterface extends MatterInterface {
 
   /**
    * @return string

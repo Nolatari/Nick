@@ -10,16 +10,16 @@ use Nick\Matter\MatterInterface;
  *
  * @package Nick\Pages
  */
-class Pages Extends Matter implements PagesInterface {
+class Page Extends Matter implements PageInterface {
 
   /**
-   * Pages constructor.
+   * Page constructor.
    *
    * @param null|array $values
    */
   public function __construct($values = NULL) {
     parent::__construct($values);
-    $this->setType('pages');
+    $this->setType('page');
   }
 
   /**
@@ -64,7 +64,7 @@ class Pages Extends Matter implements PagesInterface {
         'length' => 255,
         'form' => [
           'type' => 'textbox',
-          'name' => 'Controller',
+          'name' => 'Page Controller',
           'required' => TRUE,
         ],
       ],

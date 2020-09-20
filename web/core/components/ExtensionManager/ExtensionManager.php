@@ -56,6 +56,7 @@ class ExtensionManager {
       }
     }
 
+    Nick::Logger()->add('Uninstalled extension ' . $extension, Nick::Logger()::TYPE_SUCCESS, 'Extensions');
     return TRUE;
   }
 
@@ -68,7 +69,7 @@ class ExtensionManager {
    * @return bool
    */
   public static function installExtension(string $extension, string $type): bool {
-    // @TODO: Validate extension
+    // @TODO: Validate extension, check compatibility
     $extension_storage = Nick::Database()->select('extensions')
       ->condition('name', $extension);
     $result = $extension_storage->execute();
@@ -106,9 +107,13 @@ class ExtensionManager {
       }
     }
 
+    Nick::Logger()->add('Installed extension ' . $extension, Nick::Logger()::TYPE_SUCCESS, 'Extensions');
     return TRUE;
   }
 
+  /**
+   * Initiates Install functions on installed extensions.
+   */
   public static function installExtensions() {
     $extensions = self::getInstalledExtensions();
     foreach ($extensions as $extension) {

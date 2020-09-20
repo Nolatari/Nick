@@ -2,6 +2,7 @@ name: Test Events
 version: 1.0a
 type: extension
 interface: false
+description: 'This addon showcases some events and what can be done with them.'
 event_listeners:
   stringTranslationPresave:
     class: '\Nick\TestEvents\TestEvents'

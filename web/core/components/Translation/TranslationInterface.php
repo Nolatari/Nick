@@ -28,12 +28,11 @@ interface TranslationInterface {
    *
    * @param string      $string
    * @param string      $translation
-   * @param array       $args
    * @param null|string $from_langcode
    * @param null|string $to_langcode
    *
    * @return bool
    */
-  public function set(string $string, string $translation, array $args = [], $from_langcode = NULL, $to_langcode = NULL);
+  public function set(string $string, string $translation, $from_langcode = NULL, $to_langcode = NULL);
 
 }

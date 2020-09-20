@@ -3,9 +3,12 @@ required: true
 type: extension
 classes:
   Config: '\Nick\Config'
+  Core: '\Nick\Core'
   Logger: '\Nick\Logger'
   Renderer: '\Nick\Renderer'
   Settings: '\Nick\Settings'
   SqlFormatter: '\Nick\SqlFormatter'
+  StringManipulation: '\Nick\StringManipulation'
   Theme: '\Nick\Theme'
+  Url: '\Nick\Url'
   YamlReader: '\Nick\YamlReader'

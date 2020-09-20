@@ -22,7 +22,7 @@ $cache->initializeCache();
  *
  * @return mixed
  */
-function translate($string, $args = []) {
+function translate(string $string, $args = []) {
   $t = new Language();
   return $t->translate($string, $args);
 }
