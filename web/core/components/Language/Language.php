@@ -117,4 +117,21 @@ class Language implements LanguageInterface {
     return reset($result);
   }
 
+  /**
+   * Returns all available languages.
+   *
+   * @return array|bool
+   */
+  public function getAvailableLanguages() {
+    $query = Nick::Database()
+      ->select('languages')
+      ->fields(NULL, ['langcode', 'language', 'country'])
+      ->execute();
+    if (!$query instanceof Result) {
+      return FALSE;
+    }
+
+    return $query->fetchAllAssoc('langcode');
+  }
+
 }
