@@ -35,6 +35,21 @@ interface FormStateInterface {
   public function setValues($values);
 
   /**
+   * @param string $key
+   *
+   * @return false|mixed
+   */
+  public function get(string $key);
+
+  /**
+   * @param string $key
+   * @param string $value
+   *
+   * @return self
+   */
+  public function set(string $key, string $value);
+
+  /**
    * Saves current form state to DB
    */
   public function save();

@@ -7,7 +7,6 @@ use Nick\Config;
 use Nick\Core;
 use Nick\Database\Database;
 use Nick\Form\FormBuilder;
-use Nick\Form\FormElement;
 use Nick\Matter\MatterManager;
 use Nick\Language\LanguageManager;
 use Nick\Logger;
@@ -70,15 +69,6 @@ class Nick {
    */
   public static function FormBuilder(MatterInterface $matter) {
     return new FormBuilder($matter);
-  }
-
-  /**
-   * Returns non-cached FormElement object
-   *
-   * @return FormElement
-   */
-  public static function FormElement() {
-    return new FormElement();
   }
 
   /**

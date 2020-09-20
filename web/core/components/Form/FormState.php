@@ -86,6 +86,21 @@ class FormState implements FormStateInterface {
   /**
    * {@inheritDoc}
    */
+  public function get($key) {
+    return $this->values[$key] ?? FALSE;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function set(string $key, string $value): self {
+    $this->values[$key] = $value;
+    return $this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function save() {
     if (!$this->populateValueArray(TRUE)) {
       $query = Nick::Database()

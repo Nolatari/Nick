@@ -47,13 +47,28 @@ class FormBuilder {
   /**
    * Returns form elements in array format and fires an event.
    *
-   * @return array
+   * @return string
    */
-  public function result(): array {
+  public function result(): string {
     $build = $this->build();
     $event = new Event('FormAlter');
     $event->fire($build, ['form-' . $this->getId(), $this->formState]);
-    return $build;
+    $render = '<form method="post" name="form-' . $this->getId() . '">';
+    foreach ($build as $key => $element) {
+      $element['key'] = $key;
+      $element['formId'] = $this->getId();
+      $element['attributes']['value'] = $this->getFormState()->get($key) ?: NULL;
+      if ($element['attributes']['value'] === NULL && isset($element['default_value'])) {
+        $element['attributes']['value'] = $element['default_value'];
+      }
+      $type = ucfirst($element['type']);
+      $className = '\\Nick\\Form\\FormElements\\' . $type;
+      /** @var FormElement $elementClass */
+      $elementClass = new $className();
+      $render .= $elementClass->render($element);
+    }
+    $render .= '</form>';
+    return $render;
   }
 
   /**
@@ -61,7 +76,7 @@ class FormBuilder {
    *
    * @return array
    */
-  protected function build(): array {
+  public function build(): array {
     $elements = [];
     foreach ($this->getFields() as $field => $values) {
       if (!isset($values['form'])) {

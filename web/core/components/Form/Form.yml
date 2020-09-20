@@ -3,7 +3,5 @@ version: 1.0a
 type: extension
 interface: false
 required: true
-classes:
-  FormBuilder: '\Nick\Form\FormBuilder'
-  FormElement: '\Nick\Form\FormElement'
-  FormState: '\Nick\Form\FormState'
+form_elements:
+  textbox: '\Nick\Form\FormElements\Textbox'

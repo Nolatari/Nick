@@ -71,16 +71,22 @@ class Logger {
   }
 
   /**
-   * @return array
+   * @param null $id
+   *
+   * @return array|string
    */
-  protected function typesToStrings() {
-    return [
+  protected function typesToStrings($id = NULL) {
+    $list = [
       self::TYPE_WARNING => 'warning',
       self::TYPE_ERROR => 'error',
       self::TYPE_INFO => 'info',
       self::TYPE_SUCCESS => 'success',
       self::TYPE_FAILURE => 'failure',
     ];
+    if ($id !== NULL) {
+      return $list[$id];
+    }
+    return $list;
   }
 
   /**
@@ -92,6 +98,37 @@ class Logger {
 
     if (!$logs_result = $logs->execute()) {
       return FALSE;
+    }
+
+    return $logs_result->fetchAllAssoc();
+  }
+
+  /**
+   * @param bool $massage
+   *
+   * @return array|bool
+   */
+  public function getLogs($massage = FALSE) {
+    $logs = $this->database->select('logs')
+                            ->orderBy('id', 'DESC');
+
+    if (!$logs_result = $logs->execute()) {
+      return FALSE;
+    }
+
+    if ($massage) {
+      $logs = $logs_result->fetchAllAssoc();
+      foreach ($logs as &$log) {
+        $owner = Person::load((int) $log['owner']);
+        if ($owner !== FALSE) {
+          $owner = $owner->getName();
+        } else {
+          $owner = 'Anonymous';
+        }
+        $log['owner'] = $owner;
+        $log['type'] = self::typesToStrings($log['type']);
+      }
+      return $logs;
     }
 
     return $logs_result->fetchAllAssoc();

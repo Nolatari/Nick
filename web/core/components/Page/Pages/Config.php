@@ -35,7 +35,7 @@ class Config extends Page {
     $this->caching = [
       'key' => 'page.config',
       'context' => 'page',
-      'max-age' => 300,
+      'max-age' => 0,
     ];
 
     return $this;
@@ -54,40 +54,48 @@ class Config extends Page {
 
   protected function siteForm() {
     $siteValues = Nick::Config()->get('site');
-    $form = $this->formBuilder->setId('site-settings')->setFields([
-      'title' => [
-        'type' => 'varchar',
-        'length' => 255,
-        'unique' => TRUE,
+    return $this->formBuilder->setId('site-settings')->setFields([
+      'name' => [
         'form' => [
           'type' => 'textbox',
+          'title' => $this->translate('Website name'),
           'default_value' => $siteValues['name'],
           'attributes' => [
             'type' => 'text',
+            'placeholder' => 'My Website',
           ],
         ],
       ],
-      'default_langcode' => [
-        'type' => 'varchar',
-        'length' => 255,
-        'unique' => TRUE,
+      'default-langcode' => [
         'form' => [
           'type' => 'textbox',
+          'title' => $this->translate('Default langcode'),
           'default_value' => $siteValues['default_langcode'],
           'attributes' => [
             'type' => 'text',
+            'placeholder' => 'en-US',
+          ],
+        ],
+      ],
+      'submit' => [
+        'form' => [
+          'type' => 'button',
+          'text' => $this->translate('Save settings'),
+          'attributes' => [
+            'type' => 'submit',
+          ],
+          'classes' => [
+            'btn-success'
           ],
         ],
       ],
     ]);
-    d($form->result());
   }
 
   /**
    * {@inheritDoc}
    */
   public function render($parameters = []) {
-    $this->siteForm();
     parent::render($parameters);
     if (isset($parameters['export'])) {
       Nick::Config()->export();
@@ -98,7 +106,12 @@ class Config extends Page {
     } else {
       switch ($parameters['t']) {
         case 'site':
-          // @TODO
+          return Nick::Renderer()
+            ->setType()
+            ->setTemplate('config')
+            ->render([
+              'form' => $this->siteForm()->result(),
+            ]);
           break;
         case 'appearance':
           // @TODO

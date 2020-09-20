@@ -1,0 +1,1 @@
+<button id="{{ formId }}-{{ key }}" class="btn{% if classes %}{% for class in classes %} {{ class }}{% endfor %}{% endif %}"{% for key,value in attributes %} {{ key }}="{{ value }}"{% endfor %}>{{ text }}</button>
