@@ -141,7 +141,7 @@ class Config extends Settings {
   /**
    * @param $key
    *
-   * @return string
+   * @return string|array
    */
   public function get($key) {
     if (strpos($key, '.') !== FALSE) {

@@ -62,7 +62,7 @@ class Config extends Page {
     $languages = $this->language->getAvailableLanguages();
     $options = [];
     foreach ($languages as $langcode => $language) {
-      $options[$langcode] = $language['language'] . ' [' . $langcode . ']';
+      $options[$langcode] = '[' . $langcode . '] ' . $language['language'] . ' - ' . $language['country'];
     }
     return $this->formBuilder->setId('site-settings')->setFields([
       'name' => [
