@@ -81,7 +81,7 @@ class Manifest implements ManifestInterface {
    */
   public function result() {
     $query = $this->query();
-    if (!$query instanceof Database) {
+    if (!$query instanceof Result) {
       return FALSE;
     }
     return $query->fetchAllAssoc();

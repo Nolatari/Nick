@@ -1,6 +1,7 @@
 <?php
 
 use Nick\ExtensionManager\ExtensionManager;
+use Nick\Menu\Menu;
 use Nick\Page\PageInterface;
 use Nick\Cache\CacheInterface;
 use Nick\Config;
@@ -168,18 +169,18 @@ class Nick {
     try {
       $logger = new Logger();
       $pageObject = self::PageManager()->getPageObject($_GET['p'] ?? 'dashboard', $_GET);
+      $menu = Menu::loadMultiple();
+      $menus = Nick::Manifest('menu')->fields(['title', 'description', 'route', 'type', 'parent'])->condition('status', 1)->order('structure', 'ASC');
+      d($menus->result());
+      d($menu);
       $headerVariables = [];
+      $headerVariables['logs'] = ['render' => $logger->render()];
       if ($pageObject instanceof PageInterface) {
-        $headerVariables = [
-          'page' => [
-            'id' => $_GET['p'] ?? 'dashboard',
-            'type' => $pageObject->get('type'),
-            'title' => $pageObject->get('title'),
-            'summary' => $pageObject->get('summary'),
-          ],
-          'logs' => [
-            'render' => $logger->render(),
-          ],
+        $headerVariables['page'] = [
+          'id' => $_GET['p'] ?? 'dashboard',
+          'type' => $pageObject->get('type'),
+          'title' => $pageObject->get('title'),
+          'summary' => $pageObject->get('summary'),
         ];
       }
       $header = self::PageManager()->getPageRender('header', $headerVariables);
