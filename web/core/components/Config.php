@@ -20,8 +20,7 @@ class Config extends Settings {
    * @return bool
    */
   public function import() {
-    if (!$truncate_query = Nick::Database()
-      ->query('TRUNCATE TABLE config')) {
+    if (!Nick::Database()->query('TRUNCATE TABLE config')) {
       Nick::Logger()->add('Something went wrong trying to truncate the config table.', Logger::TYPE_FAILURE, 'Config');
       return FALSE;
     }
@@ -32,11 +31,11 @@ class Config extends Settings {
         foreach ($value as $extension) {
           Nick::ExtensionManager()::installExtension($extension['name'], $extension['type']);
         }
-        continue;
-      }
-      if (!$this->set($key, $value)) {
-        Nick::Logger()->add('Something went wrong trying to import the following config: ' . $key, Logger::TYPE_FAILURE, 'Config');
-        return FALSE;
+      } else {
+        if (!$this->set($key, $value)) {
+          Nick::Logger()->add('Something went wrong trying to import the following config: ' . $key, Logger::TYPE_FAILURE, 'Config');
+          return FALSE;
+        }
       }
     }
 
