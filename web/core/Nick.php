@@ -169,11 +169,28 @@ class Nick {
     try {
       $logger = new Logger();
       $pageObject = self::PageManager()->getPageObject($_GET['p'] ?? 'dashboard', $_GET);
-      $menu = Menu::loadMultiple();
-      $menus = Nick::Manifest('menu')->fields(['title', 'description', 'route', 'type', 'parent'])->condition('status', 1)->order('structure', 'ASC');
-      d($menus->result());
-      d($menu);
+      $menus = Nick::Manifest('menu')
+        ->fields(['id', 'title', 'description', 'route', 'type', 'parent'])
+        ->condition('status', 1)
+        ->order('structure', 'ASC')
+        ->result();
+      foreach ($menus as $key => $menu) {
+        $menus[$key]['route'] = explode('.', $menus[$key]['route']);
+        $menuObject = new Menu();
+        $children = $menuObject->loadByProperties(['parent' => $menus[$key]['id']]);
+        if ($children !== FALSE) {
+          foreach ($children as &$child) {
+            $child = $child->getValues();
+            $child['route'] = explode('.', $child['route']);
+          }
+          $menus[$key]['children'] = $children;
+        }
+        if($menus[$key]['parent'] != 0) {
+          unset($menus[$key]);
+        }
+      }
       $headerVariables = [];
+      $headerVariables['menu'] = $menus;
       $headerVariables['logs'] = ['render' => $logger->render()];
       if ($pageObject instanceof PageInterface) {
         $headerVariables['page'] = [

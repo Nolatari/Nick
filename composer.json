@@ -7,7 +7,10 @@
     },
     "autoload": {
       "psr-4": {
-        "Nick\\": ["web/core/components/", "web/extensions/"]
+        "Nick\\": [
+          "web/core/components/",
+          "web/extensions/",
+        ]
       }
     },
     "require-dev": {

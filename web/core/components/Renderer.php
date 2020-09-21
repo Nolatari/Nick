@@ -6,6 +6,7 @@ use Exception;
 use Nick;
 use Nick\Event\Event;
 use Nick\Person\Person;
+use Nick\TwigExtensions\Router;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -97,6 +98,8 @@ class Renderer extends Settings {
     if ($this->getSetting('twig_debugging')) {
       $this->twig->addExtension(new DebugExtension());
     }
+    $router = new Router();
+    $this->twig->addExtension($router);
 
     return $this;
   }
