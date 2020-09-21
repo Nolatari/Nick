@@ -57,6 +57,9 @@ class Config extends Page {
     ]);
   }
 
+  /**
+   * @return FormBuilder
+   */
   protected function appearanceForm() {
     $appearanceValues = Nick::Config()->get('theme');
     $themes = Nick::Theme()->getAvailableThemes();
@@ -96,6 +99,9 @@ class Config extends Page {
     ]);
   }
 
+  /**
+   * @return FormBuilder
+   */
   protected function siteForm() {
     $siteValues = Nick::Config()->get('site');
     $languages = $this->language->getAvailableLanguages();
@@ -138,37 +144,75 @@ class Config extends Page {
     ]);
   }
 
+  protected function defaultForm() {
+    return $this->formBuilder->setId('default-settings-form')->setFields([
+      'import' => [
+        'form' => [
+          'type' => 'button',
+          'text' => 'Import',
+          'attributes' => [
+            'onclick' => 'javascript:window.location.replace("./?p=config&import");',
+          ],
+          'classes' => ['btn-success'],
+        ],
+      ],
+      'export' => [
+        'form' => [
+          'type' => 'button',
+          'text' => 'Export',
+          'attributes' => [
+            'onclick' => 'javascript:window.location.replace("./?p=config&export");',
+          ],
+          'classes' => ['btn-success'],
+        ],
+      ],
+      'difference' => [
+        'form' => [
+          'type' => 'button',
+          'text' => 'Difference',
+          'attributes' => [
+            'onclick' => 'javascript:window.location.replace("./?p=config&difference");',
+          ],
+          'classes' => ['btn-success'],
+        ],
+      ],
+    ]);
+  }
+
   /**
    * {@inheritDoc}
    */
   public function render($parameters = []) {
     parent::render($parameters);
-    if (isset($parameters['export'])) {
+    if (isset($parameters['export']) && isset($parameters['confirm'])) {
       Nick::Config()->export();
-    } elseif (isset($parameters['import'])) {
+    } elseif (isset($parameters['import']) && isset($parameters['confirm'])) {
       Nick::Config()->import();
-    } elseif (isset($parameters['difference'])) {
-      // @TODO
     } else {
-      switch ($parameters['t']) {
-        case 'site':
-          return Nick::Renderer()
-            ->setType()
-            ->setTemplate('config')
-            ->render([
-              'form' => $this->siteForm()->result(),
-            ]);
-        case 'appearance':
-          return Nick::Renderer()
-            ->setType()
-            ->setTemplate('config')
-            ->render([
-              'form' => $this->appearanceForm()->result(),
-            ]);
-        default:
-          break;
+      $form = NULL;
+      if (isset($parameters['t'])) {
+        switch ($parameters['t']) {
+          case 'site':
+            $form = $this->siteForm()->result();
+            break;
+          case 'appearance':
+            $form = $this->appearanceForm()->result();
+            break;
+          case 'default':
+            $form = $this->defaultForm()->result();
+            break;
+        }
       }
+
+      return Nick::Renderer()
+        ->setType()
+        ->setTemplate('config')
+        ->render([
+          'form' => $form,
+        ]);
     }
+
+    return NULL;
   }
 
 }
