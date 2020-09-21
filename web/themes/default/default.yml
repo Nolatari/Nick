@@ -1,0 +1,6 @@
+name: Default Theme
+version: 1.0a
+compatibility: 1.0a
+dependencies:
+  - twig
+  - kint

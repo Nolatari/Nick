@@ -57,6 +57,45 @@ class Config extends Page {
     ]);
   }
 
+  protected function appearanceForm() {
+    $appearanceValues = Nick::Config()->get('theme');
+    $themes = Nick::Theme()->getAvailableThemes();
+    $options = [];
+    foreach ($themes as $theme) {
+      $options[$theme] = Nick::Theme()->getThemeInfo($theme)['name'];
+    }
+    return $this->formBuilder->setId('appearance-settings')->setFields([
+      'admin' => [
+        'form' => [
+          'type' => 'select',
+          'title' => 'Admin theme',
+          'default_value' => Nick::Config()->get('theme.admin'),
+          'options' => $options,
+        ],
+      ],
+      'front' => [
+        'form' => [
+          'type' => 'select',
+          'title' => 'Front theme',
+          'default_value' => Nick::Config()->get('theme.front'),
+          'options' => $options,
+        ],
+      ],
+      'submit' => [
+        'form' => [
+          'type' => 'button',
+          'text' => $this->translate('Save settings'),
+          'attributes' => [
+            'type' => 'submit',
+          ],
+          'classes' => [
+            'btn-success'
+          ],
+        ],
+      ],
+    ]);
+  }
+
   protected function siteForm() {
     $siteValues = Nick::Config()->get('site');
     $languages = $this->language->getAvailableLanguages();
@@ -82,10 +121,6 @@ class Config extends Page {
           'title' => $this->translate('Default langcode'),
           'default_value' => $siteValues['default_langcode'],
           'options' => $options,
-          'attributes' => [
-            'type' => 'text',
-            'placeholder' => 'en-US',
-          ],
         ],
       ],
       'submit' => [
@@ -123,10 +158,13 @@ class Config extends Page {
             ->render([
               'form' => $this->siteForm()->result(),
             ]);
-          break;
         case 'appearance':
-          // @TODO
-          break;
+          return Nick::Renderer()
+            ->setType()
+            ->setTemplate('config')
+            ->render([
+              'form' => $this->appearanceForm()->result(),
+            ]);
         default:
           break;
       }

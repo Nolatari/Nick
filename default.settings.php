@@ -20,5 +20,10 @@ $settings['config'] = [
   'folder' => __DIR__ . '/config',
 ];
 
+$settings['themes'] = [
+  'folder' => __DIR__ . '/web/themes',
+];
+
 //$settings['debugging'] = TRUE;
 //$settings['twig_debugging'] = TRUE;
+//$settings['development'] = TRUE;
