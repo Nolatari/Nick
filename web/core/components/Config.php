@@ -173,11 +173,11 @@ class Config extends Settings {
 
   /**
    * @param string $key
-   * @param array $value
+   * @param array|string $value
    *
    * @return bool
    */
-  public function set(string $key, array $value) {
+  public function set(string $key, $value) {
     if (strpos($key, '.') !== FALSE) {
       $items = explode('.', $key);
       $key = $items[0];
