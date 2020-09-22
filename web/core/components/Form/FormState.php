@@ -14,10 +14,10 @@ use Nick\Database\Result;
 class FormState implements FormStateInterface {
 
   /** @var string $uuid */
-  protected $uuid;
+  protected string $uuid;
 
   /** @var array $values */
-  protected $values = [];
+  protected array $values = [];
 
   /**
    * FormState constructor.
@@ -39,7 +39,7 @@ class FormState implements FormStateInterface {
    *
    * @return string
    */
-  protected function getUUID() {
+  public function getUUID() {
     return $this->uuid;
   }
 
@@ -54,25 +54,6 @@ class FormState implements FormStateInterface {
     $this->uuid = $uuid;
 
     return $this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function populateValueArray($return = FALSE): bool {
-    $state_storage = Nick::Database()
-      ->select('form_state')
-      ->condition('uuid', $this->getUUID())
-      ->execute();
-    if (!$state_storage instanceof Result) {
-      return FALSE;
-    }
-
-    $this->values = $state_storage->fetchAllAssoc();
-    if ($return) {
-      return count($this->getValues());
-    }
-    return TRUE;
   }
 
   /**
@@ -108,8 +89,31 @@ class FormState implements FormStateInterface {
   /**
    * {@inheritDoc}
    */
+  public function populateValueArray($return = FALSE): bool {
+    $state_storage = Nick::Database()
+      ->select('form_state')
+      ->fields(NULL, ['data'])
+      ->condition('uuid', $this->getUUID())
+      ->execute();
+    if (!$state_storage instanceof Result) {
+      return FALSE;
+    }
+
+    if (!$result = $state_storage->fetchAllAssoc()) {
+      return FALSE;
+    }
+    $this->values = unserialize($result[0]['data']);
+    if ($return) {
+      return count($this->getValues());
+    }
+    return TRUE;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function save() {
-    if (!$this->populateValueArray(TRUE)) {
+    if (!$this->populateValueArray()) {
       $query = Nick::Database()
         ->insert('form_state')
         ->values([
@@ -121,7 +125,7 @@ class FormState implements FormStateInterface {
         ->update('form_state')
         ->condition('uuid', $this->getUUID())
         ->values([
-          'values' => serialize($this->getValues()),
+          'data' => serialize($this->getValues()),
         ]);
     }
     return $query->execute();

@@ -39,11 +39,6 @@ class FormBuilder {
       $this->matter = $matter;
       $this->setFields($matter::fields());
     }
-
-    /** @var FormStateInterface $formState */
-    $this->formState = new FormState();
-    $this->formState->setValues($this->values);
-    $this->formState->save();
   }
 
   /**
@@ -54,8 +49,8 @@ class FormBuilder {
   public function result(): string {
     $build = $this->build();
     $event = new Event('FormAlter');
-    $event->fire($build, ['form-' . $this->getId(), $this->formState]);
-    $render = '<form method="post" action="' . Url::fromRoute('formsubmit') . '" name="form-' . $this->getId() . '">';
+    $event->fire($build, ['form-' . $this->getId(), $this->getFormState()]);
+    $render = '<form method="post" action="' . Url::fromRoute(['formsubmit', NULL, $this->getFormState()->getUUID()]) . '" name="form-' . $this->getId() . '">';
     $formIdElement = new Hidden();
     $render .= $formIdElement->render([
       'formId' => $this->getId(),
@@ -95,6 +90,12 @@ class FormBuilder {
       }
       $elements[$field] = $values['form'];
     }
+
+    /** @var FormStateInterface $formState */
+    $this->formState = new FormState();
+    $this->formState->setValues($this->values);
+    $this->formState->save();
+
     return $elements;
   }
 

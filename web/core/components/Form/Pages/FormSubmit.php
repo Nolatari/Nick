@@ -8,6 +8,7 @@ use Nick\Language\Language;
 use Nick\Logger;
 use Nick\Page\Page;
 use Nick\Form\FormBuilder;
+use Nick\Form\FormState;
 
 /**
  * Class FormSubmit
@@ -88,9 +89,13 @@ class FormSubmit extends Page {
    * @return NULL|string|void
    */
   public function render($parameters = []) {
-    $formState = new FormState($parameters['uuid'] ?? NULL);
+    parent::render($parameters);
+    if (!isset($parameters['id']) || $parameters['id'] == NULL || $parameters['id'] == '') {
+      return NULL;
+    }
+    $formState = new FormState($parameters['id']);
+    d($formState);
     //$this->submitForm();
-    return NULL;
   }
 
 }
