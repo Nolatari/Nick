@@ -5,6 +5,7 @@ namespace Nick\Page\Pages;
 use Nick;
 use Nick\Page\Page;
 use Nick\Form\FormBuilder;
+use Nick\Url;
 
 /**
  * Class Logs
@@ -57,8 +58,8 @@ class Logs extends Page {
 
     if (isset($parameters['t'])) {
       if ($parameters['t'] == 'clear') {
-        Nick::Logger()::clear();
-        header('Location: ./?p=logs');
+        Nick::Logger()->clear();
+        header('Location: ' . Url::fromRoute('logs'));
       }
     }
 

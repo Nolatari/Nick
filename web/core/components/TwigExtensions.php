@@ -27,22 +27,7 @@ class TwigExtensions extends AbstractExtension {
    * @return string
    */
   public function getRoute($route) {
-    if (!is_array($route)) {
-      $route = explode('.', $route);
-    }
-
-    $returnString = './';
-    if (isset($route[0])) {
-      $returnString .= '?p=' . $route[0];
-    }
-    if (isset($route[1])) {
-      $returnString .= '&t=' . $route[1];
-    }
-    if (isset($route[2])) {
-      $returnString .= '&id=' . $route[2];
-    }
-
-    return $returnString;
+    return Url::fromRoute($route);
   }
 
 }

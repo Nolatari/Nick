@@ -3,7 +3,9 @@
 namespace Nick\Form;
 
 use Nick\Event\Event;
+use Nick\Form\FormElements\Hidden;
 use Nick\Matter\MatterInterface;
+use Nick\Url;
 
 /**
  * Class FormBuilder
@@ -53,7 +55,16 @@ class FormBuilder {
     $build = $this->build();
     $event = new Event('FormAlter');
     $event->fire($build, ['form-' . $this->getId(), $this->formState]);
-    $render = '<form method="post" name="form-' . $this->getId() . '">';
+    $render = '<form method="post" action="' . Url::fromRoute('formsubmit') . '" name="form-' . $this->getId() . '">';
+    $formIdElement = new Hidden();
+    $render .= $formIdElement->render([
+      'formId' => $this->getId(),
+      'key' => 'form-id',
+      'attributes' => [
+        'name' => 'form-id',
+        'value' => $this->getId(),
+      ],
+    ]);
     foreach ($build as $key => $element) {
       $element['key'] = $key;
       $element['formId'] = $this->getId();

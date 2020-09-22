@@ -43,7 +43,7 @@ class Logger {
    *
    * @return Query
    */
-  public static function clear() {
+  public function clear() {
     return Nick::Database()->query('TRUNCATE TABLE logs');
   }
 

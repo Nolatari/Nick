@@ -8,6 +8,35 @@ namespace Nick;
 class Url extends Settings {
 
   /**
+   * Returns URL based on route, there is no validation in this because routes are not set in stone.
+   * Any validation requirements will have to be done while calling the functionality.
+   *
+   * @param array|string $route
+   *                  Route as string or array, [0] = p | [1] = t | [2] = id
+   *                  Example: extensions.install.MyExtension will return ./?p=extensions&t=install&id=MyExtension
+   *
+   * @return string
+   */
+  public static function fromRoute($route): string {
+    if (!is_array($route)) {
+      $route = explode('.', $route);
+    }
+
+    $returnString = './';
+    if (isset($route[0])) {
+      $returnString .= '?p=' . $route[0];
+    }
+    if (isset($route[1])) {
+      $returnString .= '&t=' . $route[1];
+    }
+    if (isset($route[2])) {
+      $returnString .= '&id=' . $route[2];
+    }
+
+    return $returnString;
+  }
+
+  /**
    * Adds a GET parameter to the current url
    *
    * @param string|array $key

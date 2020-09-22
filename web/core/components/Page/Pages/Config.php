@@ -28,6 +28,7 @@ class Config extends Page {
     $this->formBuilder = new FormBuilder();
     $this->language = new Language();
     $this->setParameters([
+      'id' => 'config',
       'title' => $this->translate('Config'),
       'summary' => $this->translate('Configuration options'),
     ]);
@@ -38,7 +39,7 @@ class Config extends Page {
    */
   protected function setCacheOptions() {
     $this->caching = [
-      'key' => 'page.config',
+      'key' => 'page.' . $this->get('id'),
       'context' => 'page',
       'max-age' => 0,
     ];
@@ -94,6 +95,7 @@ class Config extends Page {
           'classes' => [
             'btn-success'
           ],
+          'handler' => [$this, 'saveAppearanceForm'],
         ],
       ],
     ]);
@@ -139,9 +141,14 @@ class Config extends Page {
           'classes' => [
             'btn-success'
           ],
+          'handler' => [$this, 'saveSiteForm'],
         ],
       ],
     ]);
+  }
+
+  public function saveSiteForm(&$form, Nick\Form\FormStateInterface $formState) {
+
   }
 
   protected function defaultForm() {
