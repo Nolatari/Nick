@@ -21,10 +21,17 @@ class FormState implements FormStateInterface {
 
   /**
    * FormState constructor.
+   *
+   * @param string|null $uuid
    */
-  public function __construct() {
-    // Create a unique UUID for this form state.
-    $this->setUUID(Core::createUUID());
+  public function __construct($uuid = NULL) {
+    if ($uuid !== NULL) {
+      $this->setUUID($uuid);
+      $this->populateValueArray();
+    } else {
+      // Create a unique UUID for this form state.
+      $this->setUUID(Core::createUUID());
+    }
   }
 
   /**

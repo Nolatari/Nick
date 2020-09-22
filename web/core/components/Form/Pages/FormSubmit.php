@@ -88,6 +88,7 @@ class FormSubmit extends Page {
    * @return NULL|string|void
    */
   public function render($parameters = []) {
+    $formState = new FormState($parameters['uuid'] ?? NULL);
     //$this->submitForm();
     return NULL;
   }
