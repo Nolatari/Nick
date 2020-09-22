@@ -1,16 +1,16 @@
 <?php
 
-namespace Nick\TwigExtensions;
+namespace Nick;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * Class Router
+ * Class TwigExtensions
  *
- * @package App\Twig
+ * @package Nick\
  */
-class Router extends AbstractExtension {
+class TwigExtensions extends AbstractExtension {
 
   /**
    * @return array|TwigFunction[]
