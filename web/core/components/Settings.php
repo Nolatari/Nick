@@ -10,13 +10,13 @@ namespace Nick;
 class Settings {
 
   /** @var array $settings */
-  protected array $settings;
+  protected $settings;
 
   /**
    * Settings constructor.
    */
   public function __construct() {
-    global $settings;
+    d($GLOBALS['nick_settings']);
     $this->settings = $GLOBALS['nick_settings'];
   }
 
