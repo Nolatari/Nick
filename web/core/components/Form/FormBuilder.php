@@ -5,8 +5,6 @@ namespace Nick\Form;
 use Nick;
 use Nick\Event\Event;
 use Nick\Form\FormElements\Hidden;
-use Nick\Logger;
-use Nick\Matter\MatterInterface;
 
 /**
  * Class FormBuilder
@@ -14,30 +12,6 @@ use Nick\Matter\MatterInterface;
  * @package Nick
  */
 class FormBuilder {
-
-  /** @var string $id */
-  protected string $id;
-
-  /** @var MatterInterface|null $matter */
-  protected $matter = NULL;
-
-  /** @var array $values */
-  protected array $values = [];
-
-  /** @var array $fields */
-  protected array $fields = [];
-
-  /**
-   * FormBuilder constructor.
-   *
-   * @param MatterInterface|null $matter
-   */
-  public function __construct(MatterInterface $matter = NULL) {
-    if (!is_null($matter)) {
-      $this->matter = $matter;
-      $this->setFields($matter::fields());
-    }
-  }
 
   /**
    * Returns form elements in array format and fires an event.
@@ -93,98 +67,6 @@ class FormBuilder {
     }
 
     return $elements;
-  }
-
-  /**
-   * Fire events and submit handler
-   *
-   * @param array  $form
-   * @param string $formId
-   *
-   * @return bool
-   */
-  public function submit(array &$form, string $formId): bool {
-    // Fire FormPreSubmitAlter event
-    $preSubmitEvent = new Event('FormPreSubmitAlter');
-    $preSubmitEvent->fire($form, [$formId]);
-
-    // Fire submit handler
-    if (!$handler = $form['submit']['form']['handler']) {
-      return FALSE;
-    }
-    $handlerClass = new $handler[0];
-
-    try {
-      // Attempt to call the submit handler
-      $handlerClass->{$handler[1]}($form, $_POST);
-    } catch(\Exception $e) {
-      Nick::Logger()->add($e->getMessage(), Logger::TYPE_ERROR, 'Form Submit');
-    }
-
-    // Fire FormPostSubmitAlter event
-    $postSubmitEvent = new Event('FormPostSubmitAlter');
-    $postSubmitEvent->fire($form, [$formId]);
-    return TRUE;
-  }
-
-  /**
-   * Default submit handler does nothing because there is nothing to handle!
-   */
-  public function submitForm() {
-
-  }
-
-  /**
-   * Returns array of fields.
-   *
-   * @return array
-   */
-  protected function getFields(): array {
-    return $this->fields;
-  }
-
-  /**
-   * Sets fields array.
-   *
-   * @param array $values
-   *
-   * @return self
-   */
-  public function setFields(array $values): self {
-    $this->fields = $values;
-
-    return $this;
-  }
-
-  /**
-   * Returns form ID.
-   *
-   * @return string
-   */
-  protected function getId(): string {
-    return $this->id;
-  }
-
-  /**
-   * Sets form ID.
-   *
-   * @param string $id
-   *
-   * @return self
-   */
-  public function setId(string $id): self {
-    $this->id = $id;
-
-    return $this;
-  }
-
-  /**
-   * Returns content item object.
-   *
-   * @return MatterInterface|null
-   */
-  protected function getMatter(): ?MatterInterface {
-    return $this->matter;
   }
 
 }

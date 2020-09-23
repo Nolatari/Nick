@@ -1,11 +1,13 @@
 <?php
 
-namespace Nick\Page\Pages;
+namespace Nick\Config\Pages;
 
 use Nick;
+use Nick\Config\Form\AppearanceSettingsForm;
+use Nick\Config\Form\SiteSettingsForm;
+use Nick\Form\Form;
 use Nick\Language\Language;
 use Nick\Page\Page;
-use Nick\Form\FormBuilder;
 
 /**
  * Class Config
@@ -14,8 +16,8 @@ use Nick\Form\FormBuilder;
  */
 class Config extends Page {
 
-  /** @var FormBuilder $formBuilder */
-  protected FormBuilder $formBuilder;
+  /** @var Form $form */
+  protected Form $form;
 
   /** @var Language $language */
   protected Language $language;
@@ -25,7 +27,7 @@ class Config extends Page {
    */
   public function __construct() {
     parent::__construct();
-    $this->formBuilder = new FormBuilder();
+    $this->form = new Form();
     $this->language = new Language();
     $this->setParameters([
       'id' => 'config',
@@ -59,92 +61,17 @@ class Config extends Page {
   }
 
   /**
-   * @return FormBuilder
+   * @return Form
    */
   protected function appearanceForm() {
-    $appearanceValues = Nick::Config()->get('theme');
-    $themes = Nick::Theme()->getAvailableThemes();
-    $options = [];
-    foreach ($themes as $theme) {
-      $options[$theme] = Nick::Theme()->getThemeInfo($theme)['name'];
-    }
-    return $this->formBuilder->setId('appearance-settings')->setFields([
-      'admin' => [
-        'form' => [
-          'type' => 'select',
-          'title' => 'Admin theme',
-          'default_value' => Nick::Config()->get('theme.admin'),
-          'options' => $options,
-        ],
-      ],
-      'front' => [
-        'form' => [
-          'type' => 'select',
-          'title' => 'Front theme',
-          'default_value' => Nick::Config()->get('theme.front'),
-          'options' => $options,
-        ],
-      ],
-      'submit' => [
-        'form' => [
-          'type' => 'button',
-          'text' => $this->translate('Save settings'),
-          'attributes' => [
-            'type' => 'submit',
-          ],
-          'classes' => [
-            'btn-success'
-          ],
-          'handler' => [$this, 'saveAppearanceForm'],
-        ],
-      ],
-    ]);
+    return new AppearanceSettingsForm();
   }
 
   /**
-   * @return FormBuilder
+   * @return Form
    */
   protected function siteForm() {
-    $siteValues = Nick::Config()->get('site');
-    $languages = $this->language->getAvailableLanguages();
-    $options = [];
-    foreach ($languages as $langcode => $language) {
-      $options[$langcode] = '[' . $langcode . '] ' . $language['language'] . ' - ' . $language['country'];
-    }
-    return $this->formBuilder->setId('site-settings')->setFields([
-      'name' => [
-        'form' => [
-          'type' => 'textbox',
-          'title' => $this->translate('Website name'),
-          'default_value' => $siteValues['name'],
-          'attributes' => [
-            'type' => 'text',
-            'placeholder' => 'My Website',
-          ],
-        ],
-      ],
-      'default-langcode' => [
-        'form' => [
-          'type' => 'select',
-          'title' => $this->translate('Default langcode'),
-          'default_value' => $siteValues['default_langcode'],
-          'options' => $options,
-        ],
-      ],
-      'submit' => [
-        'form' => [
-          'type' => 'button',
-          'text' => $this->translate('Save settings'),
-          'attributes' => [
-            'type' => 'submit',
-          ],
-          'classes' => [
-            'btn-success'
-          ],
-          'handler' => [$this, 'saveSiteForm'],
-        ],
-      ],
-    ]);
+    return new SiteSettingsForm();
   }
 
   public function saveSiteForm(&$form, &$values) {
@@ -152,7 +79,7 @@ class Config extends Page {
   }
 
   protected function defaultForm() {
-    return $this->formBuilder->setId('default-settings-form')->setFields([
+    return $this->form->setId('default-settings-form')->setFields([
       'import' => [
         'form' => [
           'type' => 'button',

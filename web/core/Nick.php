@@ -1,10 +1,12 @@
 <?php
 
 use Nick\ExtensionManager\ExtensionManager;
+use Nick\Form\Form;
+use Nick\Language\Language;
 use Nick\Menu\Menu;
 use Nick\Page\PageInterface;
 use Nick\Cache\CacheInterface;
-use Nick\Config;
+use Nick\Config\Config;
 use Nick\Core;
 use Nick\Database\Database;
 use Nick\Form\FormBuilder;
@@ -57,19 +59,19 @@ class Nick {
    *
    * @return Manifest
    */
-  public static function Manifest($type) {
+  public static function Manifest(string $type) {
     return new Manifest($type);
   }
 
   /**
    * Returns non-cached FormBuilder object
    *
-   * @param MatterInterface $matter
+   * @param MatterInterface|null $matter
    *
-   * @return FormBuilder
+   * @return Form
    */
-  public static function FormBuilder(MatterInterface $matter) {
-    return new FormBuilder($matter);
+  public static function Form(MatterInterface $matter = NULL) {
+    return new Form($matter);
   }
 
   /**
@@ -96,7 +98,7 @@ class Nick {
    * @return Config
    */
   public static function Config() {
-    return self::Cache()->getData('config', '\\Nick\\Config');
+    return self::Cache()->getData('config', '\\Nick\\Config\\Config');
   }
 
   /**
@@ -128,6 +130,15 @@ class Nick {
    */
   public static function LanguageManager() {
     return self::Cache()->getData('language.manager', '\\Nick\\Language\\LanguageManager');
+  }
+
+  /**
+   * Returns cached Language object
+   *
+   * @return Language
+   */
+  public static function Language() {
+    return self::Cache()->getData('language', '\\Nick\\Language\\Language');
   }
 
   /**

@@ -1,11 +1,14 @@
 <?php
 
-namespace Nick;
+namespace Nick\Config;
 
 use Exception;
 use FilesystemIterator;
 use Nick;
 use Nick\Database\Result;
+use Nick\Logger;
+use Nick\Settings;
+use Nick\YamlReader;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
