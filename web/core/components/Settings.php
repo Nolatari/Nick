@@ -17,7 +17,7 @@ class Settings {
    */
   public function __construct() {
     global $settings;
-    $this->settings = $settings;
+    $this->settings = $GLOBALS['nick_settings'];
   }
 
   /**

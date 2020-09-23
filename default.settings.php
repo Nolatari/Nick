@@ -1,8 +1,8 @@
 <?php
 
-$settings = [];
+$nick_settings = [];
 
-$settings['database'] = [
+$nick_settings['database'] = [
   'type' => 'mysql',
   'hostname' => 'hostname',
   'username' => 'username',
@@ -11,16 +11,16 @@ $settings['database'] = [
   'port' => 'port',
 ];
 
-$settings['root'] = [
+$nick_settings['root'] = [
   'folder' => __DIR__,
   'url' => 'http://headless_cms.lndo.site',
 ];
 
-$settings['config'] = [
+$nick_settings['config'] = [
   'folder' => __DIR__ . '/config',
 ];
 
-$settings['themes'] = [
+$nick_settings['themes'] = [
   'folder' => __DIR__ . '/web/themes',
 ];
 
