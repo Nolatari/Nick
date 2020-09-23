@@ -36,10 +36,12 @@ class Form extends FormBuilder implements FormInterface {
   public function __construct(MatterInterface $matter = NULL) {
     if (!is_null($matter)) {
       $this->matter = $matter;
-      $this->setId($matter->id() . '-form');
       $this->setFields($matter::fields() + $matter::initialFields());
       if ($matter->getValues() !== []) {
+        $this->setId($matter->id() . '-edit-form');
         $this->setValues($matter->getValues() ?: []);
+      } else {
+        $this->setId($matter->id() . '-add-form');
       }
     }
   }

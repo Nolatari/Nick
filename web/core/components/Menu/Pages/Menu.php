@@ -57,11 +57,18 @@ class Menu extends Page {
     ]);
   }
 
-  protected function defaultForm() {
+  /**
+   * @param int $id
+   *
+   * @return Form
+   */
+  protected function defaultForm(int $id) {
     $menuObject = new Nick\Menu\Menu();
-    $form = new Form($menuObject);
-    d($form);
-    return $form;
+    try {
+      $menuObject = $menuObject->loadByProperties(['id' => $id]);
+    } catch (\Exception $e) {
+    }
+    return new Form($menuObject);
   }
 
   /**
@@ -70,12 +77,18 @@ class Menu extends Page {
   public function render($parameters = []) {
     parent::render($parameters);
 
-    return Nick::Renderer()
-      ->setType()
-      ->setTemplate('menu')
-      ->render([
-        'form' => $this->defaultForm()->result(),
-      ]);
+    if (isset($parameters['t']) && $parameters['t'] == 'edit') {
+      if (!isset($parameters['id'])) {
+        return NULL;
+      }
+      return Nick::Renderer()
+        ->setType()
+        ->setTemplate('menu')
+        ->render([
+          'form' => $this->defaultForm((int) $parameters['id'])->result(),
+        ]);
     }
+    return NULL;
+  }
 
 }
