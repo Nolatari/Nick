@@ -2,10 +2,11 @@
 
 namespace Nick\Form;
 
+use Nick;
 use Nick\Event\Event;
 use Nick\Form\FormElements\Hidden;
+use Nick\Logger;
 use Nick\Matter\MatterInterface;
-use Nick\Url;
 
 /**
  * Class FormBuilder
@@ -25,9 +26,6 @@ class FormBuilder {
 
   /** @var array $fields */
   protected array $fields = [];
-
-  /** @var FormStateInterface $formState */
-  protected FormStateInterface $formState;
 
   /**
    * FormBuilder constructor.
@@ -49,8 +47,8 @@ class FormBuilder {
   public function result(): string {
     $build = $this->build();
     $event = new Event('FormAlter');
-    $event->fire($build, ['form-' . $this->getId(), $this->getFormState()]);
-    $render = '<form method="post" action="' . Url::fromRoute(['formsubmit', NULL, $this->getFormState()->getUUID()]) . '" name="form-' . $this->getId() . '">';
+    $event->fire($build, ['form-' . $this->getId()]);
+    $render = '<form method="post" name="form-' . $this->getId() . '">';
     $formIdElement = new Hidden();
     $render .= $formIdElement->render([
       'formId' => $this->getId(),
@@ -63,7 +61,10 @@ class FormBuilder {
     foreach ($build as $key => $element) {
       $element['key'] = $key;
       $element['formId'] = $this->getId();
-      $element['attributes']['value'] = $this->getFormState()->get($key) ?: NULL;
+      if ($key !== 'submit') {
+        $element['attributes']['name'] = $key;
+      }
+      $element['attributes']['value'] = $element['attributes']['value'] ?? NULL;
       if ($element['attributes']['value'] === NULL && isset($element['default_value'])) {
         $element['attributes']['value'] = $element['default_value'];
       }
@@ -91,11 +92,6 @@ class FormBuilder {
       $elements[$field] = $values['form'];
     }
 
-    /** @var FormStateInterface $formState */
-    $this->formState = new FormState();
-    $this->formState->setValues($this->values);
-    $this->formState->save();
-
     return $elements;
   }
 
@@ -104,22 +100,31 @@ class FormBuilder {
    *
    * @param array  $form
    * @param string $formId
+   *
+   * @return bool
    */
-  public function submit(array &$form, string $formId) {
-    // Set FormState values
-    $this->getFormState()->setValues($this->values);
-    $this->getFormState()->save();
-
+  public function submit(array &$form, string $formId): bool {
     // Fire FormPreSubmitAlter event
     $preSubmitEvent = new Event('FormPreSubmitAlter');
-    $preSubmitEvent->fire($form, [$formId, $this->getFormState()]);
+    $preSubmitEvent->fire($form, [$formId]);
 
     // Fire submit handler
-    $this->submitForm();
+    if (!$handler = $form['submit']['form']['handler']) {
+      return FALSE;
+    }
+    $handlerClass = new $handler[0];
+
+    try {
+      // Attempt to call the submit handler
+      $handlerClass->{$handler[1]}($form, $_POST);
+    } catch(\Exception $e) {
+      Nick::Logger()->add($e->getMessage(), Logger::TYPE_ERROR, 'Form Submit');
+    }
 
     // Fire FormPostSubmitAlter event
     $postSubmitEvent = new Event('FormPostSubmitAlter');
-    $postSubmitEvent->fire($form, [$formId, $this->getFormState()]);
+    $postSubmitEvent->fire($form, [$formId]);
+    return TRUE;
   }
 
   /**
@@ -127,13 +132,6 @@ class FormBuilder {
    */
   public function submitForm() {
 
-  }
-
-  /**
-   * @return FormStateInterface
-   */
-  public function getFormState(): FormStateInterface {
-    return $this->formState;
   }
 
   /**

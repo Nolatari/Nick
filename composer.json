@@ -3,13 +3,14 @@
       "ext-mysqli": "*",
       "ext-json": "*",
       "symfony/symfony": "^3.4",
-      "symfony/yaml": "^3.4"
+      "symfony/yaml": "^3.4",
+      "doctrine/annotations": "^1.10"
     },
     "autoload": {
       "psr-4": {
         "Nick\\": [
           "web/core/components/",
-          "web/extensions/",
+          "web/extensions/"
         ]
       }
     },

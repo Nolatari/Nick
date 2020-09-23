@@ -6,8 +6,6 @@
  * Year: 2020
  */
 
-use Nick\Matter\Matter;
-
 session_start();
 
 error_reporting(E_ALL);
