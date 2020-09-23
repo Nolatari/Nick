@@ -7,6 +7,11 @@ use Nick\Form\Form;
 use Nick\Form\FormInterface;
 use Nick\Matter\MatterInterface;
 
+/**
+ * Class SiteSettingsForm
+ *
+ * @package Nick\Config\Form
+ */
 class SiteSettingsForm extends Form implements FormInterface {
 
   /**

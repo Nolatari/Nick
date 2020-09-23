@@ -36,7 +36,11 @@ class Form extends FormBuilder implements FormInterface {
   public function __construct(MatterInterface $matter = NULL) {
     if (!is_null($matter)) {
       $this->matter = $matter;
-      $this->setFields($matter::fields());
+      $this->setId($matter->id() . '-form');
+      $this->setFields($matter::fields() + $matter::initialFields());
+      if ($matter->getValues() !== []) {
+        $this->setValues($matter->getValues() ?: []);
+      }
     }
   }
 
@@ -90,6 +94,28 @@ class Form extends FormBuilder implements FormInterface {
    */
   public function setFields(array $values): self {
     $this->fields = $values;
+
+    return $this;
+  }
+
+  /**
+   * Returns array of values.
+   *
+   * @return array
+   */
+  protected function getValues(): array {
+    return $this->values;
+  }
+
+  /**
+   * Sets value array.
+   *
+   * @param array $values
+   *
+   * @return self
+   */
+  public function setValues(array $values): self {
+    $this->values = $values;
 
     return $this;
   }
