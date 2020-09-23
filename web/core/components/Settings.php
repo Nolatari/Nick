@@ -10,7 +10,7 @@ namespace Nick;
 class Settings {
 
   /** @var array $settings */
-  protected $settings;
+  protected array $settings;
 
   /**
    * Settings constructor.
