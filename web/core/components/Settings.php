@@ -16,7 +16,6 @@ class Settings {
    * Settings constructor.
    */
   public function __construct() {
-    d($GLOBALS['nick_settings']);
     $this->settings = $GLOBALS['nick_settings'];
   }
 
