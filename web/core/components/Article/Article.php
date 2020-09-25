@@ -10,7 +10,7 @@ use Nick\Matter\MatterInterface;
  *
  * @package Nick\Article
  */
-class Article Extends Matter implements MenuInterface {
+class Article Extends Matter implements ArticleInterface {
 
   /**
    * Card constructor.
