@@ -45,7 +45,6 @@ class PageManager {
     if (!$pageObject instanceof PageInterface) {
       return FALSE;
     }
-
     return Nick::Cache()->getContentData($pageObject->getCacheOptions(), $page['controller'], 'render', [$parameters]);
   }
 

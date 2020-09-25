@@ -13,6 +13,16 @@ use Nick\Page\Page;
 class Header extends Page {
 
   /**
+   * Header constructor.
+   */
+  public function __construct() {
+    $this->setParameters([
+      'id' => 'header',
+    ]);
+    parent::__construct();
+  }
+
+  /**
    * {@inheritDoc}
    */
   protected function setCacheOptions($parameters = []) {

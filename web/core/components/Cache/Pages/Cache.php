@@ -15,6 +15,17 @@ use Nick\Url;
 class Cache extends Page {
 
   /**
+   * Cache constructor.
+   */
+  public function __construct() {
+    $this->setParameters([
+      'id' => 'cache',
+      'title' => 'Cache',
+    ]);
+    parent::__construct();
+  }
+
+  /**
    * {@inheritDoc}
    */
   protected function setCacheOptions($parameters = []) {

@@ -13,6 +13,16 @@ use Nick\Page\Page;
 class Footer extends Page {
 
   /**
+   * Footer constructor.
+   */
+  public function __construct() {
+    $this->setParameters([
+      'id' => 'footer',
+    ]);
+    parent::__construct();
+  }
+
+  /**
    * {@inheritDoc}
    */
   protected function setCacheOptions($parameters = []) {

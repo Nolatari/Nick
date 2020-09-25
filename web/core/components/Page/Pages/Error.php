@@ -16,11 +16,12 @@ class Error extends Page {
    * Error constructor.
    */
   public function __construct() {
-    parent::__construct();
     $this->setParameters([
+      'id' => 'error',
       'title' => $this->translate('Error'),
       'summary' => $this->translate('There was an error trying to reach a certain page.'),
     ]);
+    parent::__construct();
   }
 
   /**

@@ -16,13 +16,13 @@ class Login extends Page {
    * Login constructor.
    */
   public function __construct() {
-    parent::__construct();
     $this->setParameters([
       'title' => $this->translate('Login'),
       'summary' => $this->translate('Login to :sitename.', [
         ':sitename' => Nick::Config()->get('site.name'),
       ]),
     ]);
+    parent::__construct();
   }
 
   /**

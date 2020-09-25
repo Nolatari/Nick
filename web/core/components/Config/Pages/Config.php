@@ -26,7 +26,6 @@ class Config extends Page {
    * Config constructor.
    */
   public function __construct() {
-    parent::__construct();
     $this->form = new Form();
     $this->language = new Language();
     $this->setParameters([
@@ -34,6 +33,7 @@ class Config extends Page {
       'title' => $this->translate('Config'),
       'summary' => $this->translate('Configuration options'),
     ]);
+    parent::__construct();
   }
 
   /**

@@ -23,7 +23,7 @@ class Page implements PageInterface {
    * Dashboard constructor.
    */
   public function __construct() {
-    $this->setCacheOptions();
+    $this->setCacheOptions($_GET);
   }
 
   /**

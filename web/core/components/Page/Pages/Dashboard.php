@@ -17,12 +17,12 @@ class Dashboard extends Page {
    * Dashboard constructor.
    */
   public function __construct() {
-    parent::__construct();
     $this->setParameters([
       'id' => 'dashboard',
       'title' => $this->translate('Dashboard'),
       'summary' => $this->translate('Welcome to your Nick Dashboard!'),
     ]);
+    parent::__construct();
   }
 
   /**

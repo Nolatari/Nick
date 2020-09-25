@@ -13,12 +13,12 @@ class Article extends Page {
    * Article constructor.
    */
   public function __construct() {
-    parent::__construct();
     $this->setParameters([
       'id' => 'article',
       'title' => $this->translate('Article'),
       'summary' => $this->translate('Creates some dummy content, users, ...'),
     ]);
+    parent::__construct();
   }
 
   /**
@@ -32,11 +32,11 @@ class Article extends Page {
     ];
 
     if (isset($parameters['id'])) {
-      $this->caching['key'] = 'page.' . $this->get('id') . '.' . $parameters['id'];
-      $this->caching['max-age'] = 0;
       /** @var ArticleObject $article */
       $article = ArticleObject::load($parameters['id']);
       $this->setParameter('title', $article->getTitle());
+      $this->caching['key'] = 'page.' . $this->get('id') . '.' . $article->id();
+      $this->caching['max-age'] = 1800;
     }
 
     return $this;
@@ -65,7 +65,6 @@ class Article extends Page {
       $article = ArticleObject::load($parameters['id']);
       $matterRenderer = new MatterRenderer($article);
       $articleRender = $matterRenderer->render();
-      d($articleRender);
     }
 
     return Nick::Renderer()

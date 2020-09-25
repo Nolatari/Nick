@@ -18,12 +18,12 @@ class Logs extends Page {
    * Config constructor.
    */
   public function __construct() {
-    parent::__construct();
     $this->setParameters([
       'id' => 'logs',
       'title' => $this->translate('Logs'),
       'summary' => $this->translate('Shows recent logs'),
     ]);
+    parent::__construct();
   }
 
   /**

@@ -24,13 +24,13 @@ class Menu extends Page {
    * Config constructor.
    */
   public function __construct() {
-    parent::__construct();
     $this->language = new Language();
     $this->setParameters([
       'id' => 'menu',
       'title' => $this->translate('Menu'),
       'summary' => $this->translate('Menu options'),
     ]);
+    parent::__construct();
   }
 
   /**
