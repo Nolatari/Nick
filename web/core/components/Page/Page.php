@@ -58,9 +58,11 @@ class Page implements PageInterface {
   /**
    * Sets caching for page.
    *
-   * @return $this
+   * @param array|null $parameters
+   *
+   * @return self
    */
-  protected function setCacheOptions() {
+  protected function setCacheOptions($parameters = []) {
     $this->caching = [
       'tags' => [],
       'context' => [],

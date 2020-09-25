@@ -15,7 +15,7 @@ class Header extends Page {
   /**
    * {@inheritDoc}
    */
-  protected function setCacheOptions() {
+  protected function setCacheOptions($parameters = []) {
     $this->caching = [
       'key' => 'page.header',
       'context' => 'page',

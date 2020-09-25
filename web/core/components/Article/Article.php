@@ -13,7 +13,7 @@ use Nick\Matter\MatterInterface;
 class Article Extends Matter implements ArticleInterface {
 
   /**
-   * Card constructor.
+   * Article constructor.
    *
    * @param null|array $values
    */

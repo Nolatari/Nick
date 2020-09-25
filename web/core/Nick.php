@@ -20,6 +20,7 @@ use Nick\Page\PageManager;
 use Nick\Renderer;
 use Nick\Theme;
 use Nick\Translation\TranslationInterface;
+use Nick\Url;
 
 /**
  * Nick helper class.
@@ -209,6 +210,17 @@ class Nick {
           'type' => $pageObject->get('type'),
           'title' => $pageObject->get('title'),
           'summary' => $pageObject->get('summary'),
+          'cacheclear_uri' => Url::fromRoute(
+            [
+              'cache',
+              'clear_all'
+            ],
+            [
+              'data[p]' => $_GET['p'] ?? NULL,
+              'data[t]' => $_GET['t'] ?? NULL,
+              'data[id]' => $_GET['id'] ?? NULL,
+            ],
+          ),
         ];
       }
       $header = self::PageManager()->getPageRender('header', $headerVariables);

@@ -2,8 +2,6 @@
 
 namespace Nick\TestEvents;
 
-use Nick\Form\FormStateInterface;
-
 /**
  * Class TestEvents
  *
@@ -35,12 +33,10 @@ class TestEvents {
    *
    * @param array              $form
    * @param string             $form_id
-   * @param FormStateInterface $formState
    */
-  public function FormAlter(array &$form, string $form_id, FormStateInterface $formState) {
+  public function FormAlter(array &$form, string $form_id) {
     d($form);
     d($form_id);
-    d($formState);
   }
 
   /**

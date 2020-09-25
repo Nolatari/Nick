@@ -42,9 +42,9 @@ class Uninstall implements UninstallInterface {
    * @inheritDoc
    */
   public function doUninstall() {
-    $db = Nick::Database()
+    return Nick::Database()
       ->delete('pages')
-      ->condition('id', 'dummycontent');
-    return $db->execute();
+      ->condition('id', 'dummycontent')
+      ->execute();
   }
 }

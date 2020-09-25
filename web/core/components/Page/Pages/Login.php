@@ -28,7 +28,7 @@ class Login extends Page {
   /**
    * {@inheritDoc}
    */
-  protected function setCacheOptions() {
+  protected function setCacheOptions($parameters = []) {
     $this->caching = [
       'key' => 'page.login',
       'context' => 'page',

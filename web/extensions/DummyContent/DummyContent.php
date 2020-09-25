@@ -57,7 +57,7 @@ class DummyContent extends Page {
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions() {
+  public function setCacheOptions($parameters = []) {
     $this->caching = [
       'key' => 'page.' . $this->get('id'),
       'context' => 'page',
@@ -72,7 +72,6 @@ class DummyContent extends Page {
    */
   public function render($parameters = []) {
     parent::render($parameters);
-    d($parameters);
 
     $message = 'Do you wish to create dummy content?';
     $confirm = FALSE;

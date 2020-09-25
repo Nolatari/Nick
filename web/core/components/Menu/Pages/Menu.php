@@ -36,7 +36,7 @@ class Menu extends Page {
   /**
    * {@inheritDoc}
    */
-  protected function setCacheOptions() {
+  protected function setCacheOptions($parameters = []) {
     $this->caching = [
       'key' => 'page.' . $this->get('id'),
       'context' => 'page',

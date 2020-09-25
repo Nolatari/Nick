@@ -14,10 +14,12 @@ class Url extends Settings {
    * @param array|string $route
    *                  Route as string or array, [0] = p | [1] = t | [2] = id
    *                  Example: extensions.install.MyExtension will return ./?p=extensions&t=install&id=MyExtension
+   * @param array        $extra_params
+   *                  Adds extra parameters in array, example input: ['myKey' => 'myValue', 'my-other-key' => 'my-other-value']
    *
    * @return string
    */
-  public static function fromRoute($route): string {
+  public static function fromRoute($route, $extra_params = []): string {
     if (!is_array($route)) {
       $route = explode('.', $route);
     }
@@ -31,6 +33,10 @@ class Url extends Settings {
     }
     if (isset($route[2])) {
       $returnString .= '&id=' . $route[2];
+    }
+
+    foreach ($extra_params as $key => $value) {
+      $returnString .= '&' . $key . '=' . $value;
     }
 
     return $returnString;

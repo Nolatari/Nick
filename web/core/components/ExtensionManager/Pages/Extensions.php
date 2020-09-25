@@ -39,7 +39,7 @@ class Extensions extends Page {
   /**
    * {@inheritDoc}
    */
-  protected function setCacheOptions() {
+  protected function setCacheOptions($parameters = []) {
     $this->caching = [
       'key' => 'page.extensions',
       'context' => 'page',

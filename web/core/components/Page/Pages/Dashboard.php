@@ -28,7 +28,7 @@ class Dashboard extends Page {
   /**
    * {@inheritDoc}
    */
-  protected function setCacheOptions() {
+  protected function setCacheOptions($parameters = []) {
     $this->caching = [
       'key' => 'page.dashboard',
       'context' => 'page',
