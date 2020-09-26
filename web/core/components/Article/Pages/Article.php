@@ -4,6 +4,7 @@ namespace Nick\Article\Pages;
 
 use Nick;
 use Nick\Article\Article as ArticleObject;
+use Nick\Form\Form;
 use Nick\Matter\MatterRenderer;
 use Nick\Page\Page;
 
@@ -37,6 +38,10 @@ class Article extends Page {
       $this->setParameter('title', $article->getTitle());
       $this->caching['key'] = 'page.' . $this->get('id') . '.' . $article->id();
       $this->caching['max-age'] = 1800;
+      if (isset($parameters['t']) && !empty($parameters['t'])) {
+        $this->caching['key'] = 'page.' . $this->get('id') . '.' . $parameters['t'] . '.' . $article->id();
+        $this->caching['max-age'] = 0;
+      }
     }
 
     return $this;
@@ -59,16 +64,21 @@ class Article extends Page {
   public function render($parameters = []) {
     parent::render($parameters);
 
-    $articleRender = NULL;
+    $content = NULL;
     if (isset($parameters['id'])) {
       /** @var ArticleObject $article */
       $article = ArticleObject::load($parameters['id']);
       $matterRenderer = new MatterRenderer($article);
-      $articleRender = $matterRenderer->render();
+      $content = $matterRenderer->render();
+
+      if (isset($parameters['t']) && $parameters['t'] == 'edit') {
+        $form = new Form($article);
+        $content = $form->result();
+      }
     }
 
     return Nick::Renderer()
-      ->setType()
+      ->setType('core.Article')
       ->setTemplate($this->get('id'))
       ->render([
         'page' => [
@@ -76,7 +86,10 @@ class Article extends Page {
           'title' => $this->get('title'),
           'summary' => $this->get('summary'),
         ],
-        'article' => $articleRender,
+        'article' => [
+          'id' => $parameters['id'] ?? NULL,
+          'content' => $content,
+        ],
       ]);
   }
 

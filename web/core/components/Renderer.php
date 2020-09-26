@@ -85,6 +85,8 @@ class Renderer extends Settings {
     if (!is_dir($path)) {
       if (StringManipulation::contains($type, 'extension')) {
         $path = 'extensions/' . StringManipulation::replace($type, 'extension.', '') . '/templates';
+      } elseif (StringManipulation::contains($type, 'core')) {
+        $path = 'core/components/' . StringManipulation::replace($type, 'core.', '') . '/templates';
       } else {
         Nick::Logger()->add('[setType]: Folder not found.', Logger::TYPE_WARNING, 'Renderer');
         return NULL;

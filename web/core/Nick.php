@@ -9,7 +9,6 @@ use Nick\Cache\CacheInterface;
 use Nick\Config\Config;
 use Nick\Core;
 use Nick\Database\Database;
-use Nick\Form\FormBuilder;
 use Nick\Matter\MatterManager;
 use Nick\Language\LanguageManager;
 use Nick\Logger;

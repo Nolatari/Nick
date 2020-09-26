@@ -54,6 +54,7 @@ class Article Extends Matter implements ArticleInterface {
         'type' => 'varchar',
         'length' => 255,
         'form' => [
+          'title' => 'Title',
           'type' => 'textbox',
           'name' => 'title',
           'required' => TRUE,
@@ -62,6 +63,7 @@ class Article Extends Matter implements ArticleInterface {
       'body' => [
         'type' => 'text',
         'form' => [
+          'title' => 'Body',
           'type' => 'wysiwyg',
           'name' => 'body',
           'required' => TRUE,

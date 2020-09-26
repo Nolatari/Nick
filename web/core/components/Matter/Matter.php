@@ -153,6 +153,7 @@ class Matter implements MatterInterface {
         'length' => 1,
         'default_value' => self::UNPUBLISHED,
         'form' => [
+          'title' => 'Status',
           'type' => 'select',
           'name' => 'status',
           'label' => 'Status',
