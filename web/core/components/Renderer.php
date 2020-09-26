@@ -80,7 +80,7 @@ class Renderer extends Settings {
   public function setType($type = NULL) {
     $this->type = $type;
     $path = is_null($type) ? $this->getThemeFolder() :
-      $this->getThemeFolder() . $type;
+      $this->getThemeFolder() . StringManipulation::replace($type, ['core.', 'extension.'], '');
 
     if (!is_dir($path)) {
       if (StringManipulation::contains($type, 'extension')) {

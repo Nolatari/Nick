@@ -88,7 +88,7 @@ class Article extends Page {
         ],
         'article' => [
           'id' => $parameters['id'] ?? NULL,
-          'type' => $parameters['t'] ?: 'view',
+          'type' => $parameters['t'] ?? 'view',
           'content' => $content,
         ],
       ]);

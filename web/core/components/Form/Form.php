@@ -79,9 +79,7 @@ class Form extends FormBuilder implements FormInterface {
   }
 
   /**
-   * Returns array of fields.
-   *
-   * @return array
+   * {@inheritDoc}
    */
   protected function getFields(): array {
     return $this->fields;
@@ -98,6 +96,13 @@ class Form extends FormBuilder implements FormInterface {
     $this->fields = $values;
 
     return $this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  protected function getValue(string $key): ?string {
+    return $this->values[$key] ?? NULL;
   }
 
   /**
@@ -130,9 +135,7 @@ class Form extends FormBuilder implements FormInterface {
   }
 
   /**
-   * Returns form ID.
-   *
-   * @return string
+   * {@inheritDoc}
    */
   protected function getId(): string {
     return $this->id;

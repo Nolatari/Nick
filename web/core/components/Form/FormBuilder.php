@@ -13,6 +13,9 @@ use Nick\Form\FormElements\Hidden;
  */
 class FormBuilder {
 
+  /** @var array $values */
+  protected array $values;
+
   /**
    * Returns form elements in array format and fires an event.
    *
@@ -38,7 +41,7 @@ class FormBuilder {
       if ($key !== 'submit') {
         $element['attributes']['name'] = $key;
       }
-      $element['attributes']['value'] = $element['attributes']['value'] ?? NULL;
+      $element['attributes']['value'] = $this->getValue($key) ?? NULL;
       if ($element['attributes']['value'] === NULL && isset($element['default_value'])) {
         $element['attributes']['value'] = $element['default_value'];
       }
@@ -67,6 +70,33 @@ class FormBuilder {
     }
 
     return $elements;
+  }
+
+  /**
+   * Returns Form ID.
+   *
+   * @return null|string
+   */
+  protected function getId(): ?string {
+    return NULL;
+  }
+
+  /**
+   * Returns array of fields.
+   *
+   * @return null|array
+   */
+  protected function getFields(): ?array {
+    return NULL;
+  }
+
+  /**
+   * @param string $key
+   *
+   * @return string|null
+   */
+  protected function getValue(string $key): ?string {
+    return NULL;
   }
 
 }
