@@ -1,5 +1,8 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center flex-start mb-4">
-    <h1 class="h3 mb-0 text-gray-800">{{ page.title }}</h1> <a href="{{ route(['article', 'edit', article.id]) }}" class="btn btn-primary">Edit</a>
+    <h1 class="h3 mb-0 text-gray-800">{{ page.title }}</h1>&nbsp;
+    <a href="{{ route(['article', null, article.id]) }}" class="btn btn-{% if article.type == 'view' %}primary{% else %}link{% endif %}">View</a>
+    <a href="{{ route(['article', 'edit', article.id]) }}" class="btn btn-{% if article.type == 'edit' %}primary{% else %}link{% endif %}">Edit</a>
+    <a href="{{ route(['article', 'delete', article.id]) }}" class="btn btn-{% if article.type == 'delete' %}primary{% else %}link{% endif %}">Delete</a>
 </div>
 {{ article.content|raw }}
