@@ -156,7 +156,6 @@ class Matter implements MatterInterface {
           'title' => 'Status',
           'type' => 'select',
           'name' => 'status',
-          'label' => 'Status',
           'options' => [
             self::PUBLISHED => 'Published',
             self::UNPUBLISHED => 'Unpublished',

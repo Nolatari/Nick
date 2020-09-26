@@ -7,6 +7,7 @@ use Nick\Article\Article as ArticleObject;
 use Nick\Form\Form;
 use Nick\Matter\MatterRenderer;
 use Nick\Page\Page;
+use Nick\Url;
 
 class Article extends Page {
 
@@ -36,7 +37,7 @@ class Article extends Page {
       /** @var ArticleObject $article */
       $article = ArticleObject::load($parameters['id']);
       $this->setParameter('title', $article->getTitle());
-      $this->caching['key'] = 'page.' . $this->get('id') . '.' . $article->id();
+      $this->caching['key'] = 'page.' . $this->get('id') . '.view.' . $article->id();
       $this->caching['max-age'] = 1800;
       if (isset($parameters['t']) && !empty($parameters['t'])) {
         $this->caching['key'] = 'page.' . $this->get('id') . '.' . $parameters['t'] . '.' . $article->id();
@@ -71,9 +72,15 @@ class Article extends Page {
       $matterRenderer = new MatterRenderer($article);
       $content = $matterRenderer->render();
 
-      if (isset($parameters['t']) && $parameters['t'] == 'edit') {
-        $form = new Form($article);
-        $content = $form->result();
+      if (isset($parameters['t'])) {
+        if ($parameters['t'] == 'edit') {
+          $form = new Form($article);
+          $content = $form->result();
+        } elseif ($parameters['t'] == 'delete') {
+          $content = 'Are you sure you wish to delete this article? <br />';
+          $content .= '<a class="btn btn-success" href="' . Url::fromRoute(['article', 'delete', $parameters['id']], ['confirm' => NULL]) . '">Yes, I\'m sure</a> ';
+          $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(['article', 'view', $parameters['id']]) . '">No, take me back</a>';
+        }
       }
     }
 

@@ -36,7 +36,11 @@ class Url extends Settings {
     }
 
     foreach ($extra_params as $key => $value) {
-      $returnString .= '&' . $key . '=' . $value;
+      if (is_null($value)) {
+        $returnString .= '&' . $key;
+      } else {
+        $returnString .= '&' . $key . '=' . $value;
+      }
     }
 
     return $returnString;

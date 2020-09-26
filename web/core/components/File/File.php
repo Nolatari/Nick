@@ -62,7 +62,7 @@ class File extends Matter implements FileInterface {
         'form' => [
           'type' => 'select',
           'name' => 'file_type',
-          'label' => 'Type',
+          'title' => 'Type',
           'options' => [
             static::TYPE_FILE => 'File',
             static::TYPE_IMAGE => 'Image',
@@ -76,7 +76,7 @@ class File extends Matter implements FileInterface {
         'form' => [
           'type' => 'file',
           'name' => 'file_location',
-          'label' => 'Location',
+          'title' => 'Location',
         ],
       ],
     ];

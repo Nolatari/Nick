@@ -61,9 +61,9 @@ class Cache extends Page {
       }
 
       header('Location: ' . Url::fromRoute([
-          $parameters['data']['p'],
-          $parameters['data']['t'],
-          $parameters['data']['id'],
+          $parameters['data']['p'] ?? NULL,
+          $parameters['data']['t'] ?? NULL,
+          $parameters['data']['id'] ?? NULL,
         ]));
     } else {
       // @TODO
