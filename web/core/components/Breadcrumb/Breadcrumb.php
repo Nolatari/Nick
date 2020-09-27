@@ -12,6 +12,8 @@ use Nick;
 class Breadcrumb {
 
   /**
+   * Add breadcrumbs to page render
+   *
    * @param array|null $parameters
    */
   public function pagePreRender(&$parameters, $page_id) {

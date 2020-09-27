@@ -2,9 +2,8 @@
 
 namespace Nick\Form\FormElements;
 
-use Nick\Form\FormElement;
-use Nick\Renderer;
 use Nick;
+use Nick\Form\FormElement;
 
 /**
  * Class Textbox

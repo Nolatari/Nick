@@ -1,20 +1,20 @@
 <?php
 
-use Nick\ExtensionManager\ExtensionManager;
-use Nick\Form\Form;
-use Nick\Language\Language;
-use Nick\Menu\Menu;
-use Nick\Page\PageInterface;
 use Nick\Cache\CacheInterface;
 use Nick\Config\Config;
 use Nick\Core;
 use Nick\Database\Database;
-use Nick\Matter\MatterManager;
+use Nick\ExtensionManager\ExtensionManager;
+use Nick\Form\Form;
+use Nick\Language\Language;
 use Nick\Language\LanguageManager;
 use Nick\Logger;
 use Nick\Manifest\Manifest;
 use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
+use Nick\Matter\MatterManager;
+use Nick\Menu\Menu;
+use Nick\Page\PageInterface;
 use Nick\Page\PageManager;
 use Nick\Renderer;
 use Nick\Theme;
@@ -27,40 +27,12 @@ use Nick\Url;
 class Nick {
 
   /**
-   * @return CacheInterface
-   */
-  public static function Cache() {
-    global $cache;
-    return $cache ?? Core::getCacheClass();
-  }
-
-  /**
    * Returns non-cached Matter object
    *
    * @return Matter
    */
   public static function Matter() {
     return new Matter();
-  }
-
-  /**
-   * Returns uncached MatterManager object.
-   *
-   * @return MatterManager
-   */
-  public static function MatterManager() {
-    return new MatterManager();
-  }
-
-  /**
-   * Returns non-cached Manifest object
-   *
-   * @param string $type
-   *
-   * @return Manifest
-   */
-  public static function Manifest(string $type) {
-    return new Manifest($type);
   }
 
   /**
@@ -75,30 +47,12 @@ class Nick {
   }
 
   /**
-   * Returns cached Logger object
-   *
-   * @return Logger
-   */
-  public static function Logger() {
-    return self::Cache()->getData('logger', '\\Nick\\Logger');
-  }
-
-  /**
    * Returns non-cached Renderer object.
    *
    * @return Renderer
    */
   public static function Renderer() {
     return new Renderer();
-  }
-
-  /**
-   * Returns cached Config object
-   *
-   * @return Config
-   */
-  public static function Config() {
-    return self::Cache()->getData('config', '\\Nick\\Config\\Config');
   }
 
   /**
@@ -112,6 +66,23 @@ class Nick {
       $translationExtension = 'Translation';
     }
     return self::Cache()->getData('translation', '\\Nick\\' . $translationExtension . '\\' . $translationExtension);
+  }
+
+  /**
+   * Returns cached Config object
+   *
+   * @return Config
+   */
+  public static function Config() {
+    return self::Cache()->getData('config', '\\Nick\\Config\\Config');
+  }
+
+  /**
+   * @return CacheInterface
+   */
+  public static function Cache() {
+    global $cache;
+    return $cache ?? Core::getCacheClass();
   }
 
   /**
@@ -139,15 +110,6 @@ class Nick {
    */
   public static function Language() {
     return self::Cache()->getData('language', '\\Nick\\Language\\Language');
-  }
-
-  /**
-   * Returns uncached PageManager object
-   *
-   * @return PageManager
-   */
-  public static function PageManager() {
-    return new PageManager();
   }
 
   /**
@@ -196,7 +158,7 @@ class Nick {
           }
           $menus[$key]['children'] = $children;
         }
-        if($menus[$key]['parent'] != 0) {
+        if ($menus[$key]['parent'] != 0) {
           unset($menus[$key]);
         }
       }
@@ -238,6 +200,44 @@ class Nick {
     } catch (Exception $exception) {
       self::Logger()->add('Could not render Nick!' . PHP_EOL . $exception->getMessage(), Logger::TYPE_FAILURE, 'Bootstrap');
     }
+  }
+
+  /**
+   * Returns uncached MatterManager object.
+   *
+   * @return MatterManager
+   */
+  public static function MatterManager() {
+    return new MatterManager();
+  }
+
+  /**
+   * Returns uncached PageManager object
+   *
+   * @return PageManager
+   */
+  public static function PageManager() {
+    return new PageManager();
+  }
+
+  /**
+   * Returns non-cached Manifest object
+   *
+   * @param string $type
+   *
+   * @return Manifest
+   */
+  public static function Manifest(string $type) {
+    return new Manifest($type);
+  }
+
+  /**
+   * Returns cached Logger object
+   *
+   * @return Logger
+   */
+  public static function Logger() {
+    return self::Cache()->getData('logger', '\\Nick\\Logger');
   }
 
 }

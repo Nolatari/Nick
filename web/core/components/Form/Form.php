@@ -2,6 +2,7 @@
 
 namespace Nick\Form;
 
+use Exception;
 use Nick;
 use Nick\Event\Event;
 use Nick\Logger;
@@ -68,7 +69,7 @@ class Form extends FormBuilder implements FormInterface {
     try {
       // Attempt to call the submit handler
       $handlerClass->{$handler[1]}($form, $_POST);
-    } catch(\Exception $e) {
+    } catch (Exception $e) {
       Nick::Logger()->add($e->getMessage(), Logger::TYPE_ERROR, 'Form Submit');
     }
 
@@ -76,6 +77,13 @@ class Form extends FormBuilder implements FormInterface {
     $postSubmitEvent = new Event('FormPostSubmitAlter');
     $postSubmitEvent->fire($form, [$formId]);
     return TRUE;
+  }
+
+  /**
+   * Default submit handler does nothing because there is nothing to handle!
+   */
+  public function submitForm() {
+
   }
 
   /**
@@ -125,13 +133,6 @@ class Form extends FormBuilder implements FormInterface {
     $this->values = $values;
 
     return $this;
-  }
-
-  /**
-   * Default submit handler does nothing because there is nothing to handle!
-   */
-  public function submitForm() {
-
   }
 
   /**

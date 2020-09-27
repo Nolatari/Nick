@@ -2,8 +2,6 @@
 
 namespace Nick\Form;
 
-use Nick\Event\Event;
-
 /**
  * Class FormElement
  *
@@ -14,7 +12,7 @@ interface FormElement {
   /**
    * Renders Form Element.
    *
-   * @param array  $variables
+   * @param array $variables
    */
   public function render($variables = []);
 

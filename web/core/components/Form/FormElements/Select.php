@@ -2,8 +2,8 @@
 
 namespace Nick\Form\FormElements;
 
-use Nick\Form\FormElement;
 use Nick;
+use Nick\Form\FormElement;
 
 /**
  * Class Select

@@ -10,7 +10,7 @@ use Nick\Matter\MatterInterface;
  *
  * @package Nick\Menu
  */
-class Menu Extends Matter implements MenuInterface {
+class Menu extends Matter implements MenuInterface {
 
   /**
    * Card constructor.
@@ -215,4 +215,5 @@ class Menu Extends Matter implements MenuInterface {
   public function setTranslatable(bool $translatable) {
     return $this->setValue('translatable', $translatable);
   }
+
 }

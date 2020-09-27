@@ -2,6 +2,7 @@
 
 namespace Nick\Menu\Pages;
 
+use Exception;
 use Nick;
 use Nick\Form\Form;
 use Nick\Language\Language;
@@ -36,39 +37,12 @@ class Menu extends Page {
   /**
    * {@inheritDoc}
    */
-  protected function setCacheOptions($parameters = []) {
-    $this->caching = [
-      'key' => 'page.' . $this->get('id'),
-      'context' => 'page',
-      'max-age' => 0,
-    ];
-
-    return $this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public function install() {
     $pageManager = Nick::PageManager();
     return $pageManager->createPage([
       'id' => $this->get('id'),
       'controller' => '\\Nick\\Menu\\Pages\\Menu',
     ]);
-  }
-
-  /**
-   * @param int $id
-   *
-   * @return Form
-   */
-  protected function defaultForm(int $id) {
-    $menuObject = new Nick\Menu\Menu();
-    try {
-      $menuObject = $menuObject->loadByProperties(['id' => $id]);
-    } catch (\Exception $e) {
-    }
-    return new Form($menuObject);
   }
 
   /**
@@ -85,10 +59,37 @@ class Menu extends Page {
         ->setType()
         ->setTemplate('menu')
         ->render([
-          'form' => $this->defaultForm((int) $parameters['id'])->result(),
+          'form' => $this->defaultForm((int)$parameters['id'])->result(),
         ]);
     }
     return NULL;
+  }
+
+  /**
+   * @param int $id
+   *
+   * @return Form
+   */
+  protected function defaultForm(int $id) {
+    $menuObject = new Nick\Menu\Menu();
+    try {
+      $menuObject = $menuObject->loadByProperties(['id' => $id]);
+    } catch (Exception $e) {
+    }
+    return new Form($menuObject);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  protected function setCacheOptions($parameters = []) {
+    $this->caching = [
+      'key' => 'page.' . $this->get('id'),
+      'context' => 'page',
+      'max-age' => 0,
+    ];
+
+    return $this;
   }
 
 }

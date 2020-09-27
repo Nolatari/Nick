@@ -73,20 +73,20 @@ class FormBuilder {
   }
 
   /**
-   * Returns Form ID.
-   *
-   * @return null|string
-   */
-  protected function getId(): ?string {
-    return NULL;
-  }
-
-  /**
    * Returns array of fields.
    *
    * @return null|array
    */
   protected function getFields(): ?array {
+    return NULL;
+  }
+
+  /**
+   * Returns Form ID.
+   *
+   * @return null|string
+   */
+  protected function getId(): ?string {
     return NULL;
   }
 
