@@ -52,7 +52,8 @@ class Cache extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render($parameters = []) {
+  public function render(&$parameters = []) {
+    parent::render($parameters);
     if (isset($parameters['t']) && $parameters['t'] == 'clear_all') {
       if (Nick::Cache()->clearAllCaches() !== FALSE) {
         Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');

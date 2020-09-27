@@ -70,7 +70,7 @@ class DummyContent extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render($parameters = []) {
+  public function render(&$parameters = []) {
     parent::render($parameters);
 
     $message = 'Do you wish to create dummy content?';

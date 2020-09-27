@@ -52,7 +52,7 @@ class Login extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render($parameters = []) {
+  public function render(&$parameters = []) {
     parent::render($parameters);
     return Nick::Renderer()
       ->setType()

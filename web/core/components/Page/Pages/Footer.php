@@ -49,7 +49,7 @@ class Footer extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render($parameters = []) {
+  public function render(&$parameters = []) {
     return Nick::Renderer()
       ->setType()
       ->setTemplate('footer')

@@ -24,7 +24,7 @@ class Url extends Settings {
       $route = explode('.', $route);
     }
 
-    $returnString = './';
+    $returnString = (new Url)->getBaseUrl() . '/';
     if (isset($route[0])) {
       $returnString .= '?p=' . $route[0];
     }
@@ -115,7 +115,7 @@ class Url extends Settings {
    * Returns the site's base url (no filename, no parameters)
    */
   public function getBaseUrl(): string {
-    return $this->getSetting('uri') ?? 'http://localhost';
+    return $this->getSetting('root.url') ?? 'http://localhost';
   }
 
   /**
@@ -143,6 +143,13 @@ class Url extends Settings {
    */
   public static function getCurrentPath(): string {
     return $_SERVER['REQUEST_URI'];
+  }
+
+  /**
+   * @return string|null
+   */
+  public static function getCurrentRoute(): ?string {
+    return self::fromRoute([$_GET['p'] ?? NULL, $_GET['t'] ?? NULL, $_GET['id'] ?? NULL]);
   }
 
 }

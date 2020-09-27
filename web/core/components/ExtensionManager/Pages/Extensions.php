@@ -52,7 +52,7 @@ class Extensions extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render($parameters = []) {
+  public function render(&$parameters = []) {
     parent::render($parameters);
     $extensionManager = Nick::ExtensionManager();
     $extensionList = array_merge($extensionManager::getContribExtensions(), $extensionManager::getCoreExtensions());

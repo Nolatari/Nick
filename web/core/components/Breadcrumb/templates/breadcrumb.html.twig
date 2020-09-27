@@ -1,0 +1,23 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        {% if current_route.route != route([]) %}
+            <li class="breadcrumb-item"><a href="{{ route([]) }}">Home</a></li>
+        {% else %}
+            <li class="breadcrumb-item">Home</li>
+        {% endif %}
+        {% if page.title != null and current_route.route != route([]) %}
+            {% if current_route.route != route([page.id, null, current_route.id]) %}
+                <li class="breadcrumb-item"><a href="{{ route([page.id, null, current_route.id]) }}">{{ page.title }}</a></li>
+            {% else %}
+                <li class="breadcrumb-item">{{ page.title }}</li>
+            {% endif %}
+        {% endif %}
+        {% if current_route.type != null %}
+            {% if current_route.route != route([page.id, current_route.type, current_route.id]) %}
+                <li class="breadcrumb-item"><a href="{{ route([page.id, current_route.type, current_route.id]) }}">{{ current_route.type|capitalize }}</a></li>
+            {% else %}
+                <li class="breadcrumb-item">{{ current_route.type|capitalize }}</li>
+            {% endif %}
+        {% endif %}
+    </ol>
+</nav>

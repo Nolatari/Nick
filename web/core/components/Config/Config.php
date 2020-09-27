@@ -8,6 +8,7 @@ use Nick;
 use Nick\Database\Result;
 use Nick\Logger;
 use Nick\Settings;
+use Nick\StringManipulation;
 use Nick\YamlReader;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -146,10 +147,10 @@ class Config extends Settings {
    * @return string|array
    */
   public function get($key) {
-    if (strpos($key, '.') !== FALSE) {
+    if (StringManipulation::contains($key, '.')) {
       $items = explode('.', $key);
       $key = $items[0];
-      $item = $items[1];
+      unset($items[0]);
     }
     $config_storage = Nick::Database()
       ->select('config')
@@ -167,8 +168,10 @@ class Config extends Settings {
 
     $config = unserialize($result['value']);
 
-    if (isset($item)) {
-      $config = $config[$item];
+    if (isset($items)) {
+      foreach ($items as $item) {
+        $config = $config[$item];
+      }
     }
 
     return $config;

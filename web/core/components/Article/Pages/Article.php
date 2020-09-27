@@ -62,7 +62,7 @@ class Article extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render($parameters = []) {
+  public function render(&$parameters = []) {
     parent::render($parameters);
 
     $content = NULL;
@@ -78,7 +78,7 @@ class Article extends Page {
           $content = $form->result();
         } elseif ($parameters['t'] == 'delete') {
           $content = 'Are you sure you wish to delete this article? <br />';
-          $content .= '<a class="btn btn-success" href="' . Url::fromRoute(['article', 'delete', $parameters['id']], ['confirm' => NULL]) . '">Yes, I\'m sure</a> ';
+          $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(['article', 'delete', $parameters['id']], ['confirm' => NULL]) . '">Yes, I\'m sure</a> ';
           $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(['article', 'view', $parameters['id']]) . '">No, take me back</a>';
         }
       }

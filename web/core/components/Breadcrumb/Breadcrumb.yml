@@ -1,0 +1,10 @@
+name: Breadcrumb
+version: 1.0a
+type: extension
+interface: false
+required: false
+description: 'This addon adds breadcrumbs to your page.'
+event_listeners:
+  pagePreRender:
+    class: '\Nick\Breadcrumb\Breadcrumb'
+    method: 'pagePreRender'

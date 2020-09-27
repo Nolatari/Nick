@@ -43,9 +43,9 @@ class Page implements PageInterface {
   /**
    * {@inheritDoc}
    */
-  public function render($parameters = []) {
+  public function render(&$parameters = []) {
     $event = new Event('pagePreRender');
-    $event->fire($parameters);
+    $event->fire($parameters, [$this->get('id')]);
   }
 
   /**

@@ -203,6 +203,12 @@ class Nick {
       $headerVariables = [];
       $headerVariables['menu'] = $menus;
       $headerVariables['logs'] = ['render' => $logger->render()];
+      $headerVariables['current_route'] = [
+        'route' => Url::getCurrentRoute(),
+        'page' => $_GET['p'] ?? NULL,
+        'type' => $_GET['t'] ?? NULL,
+        'id' => $_GET['id'] ?? NULL,
+      ];
       if ($pageObject instanceof PageInterface) {
         $headerVariables['page'] = [
           'id' => $_GET['p'] ?? 'dashboard',

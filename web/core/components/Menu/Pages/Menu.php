@@ -74,7 +74,7 @@ class Menu extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render($parameters = []) {
+  public function render(&$parameters = []) {
     parent::render($parameters);
 
     if (isset($parameters['t']) && $parameters['t'] == 'edit') {

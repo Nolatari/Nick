@@ -25,6 +25,14 @@ class Settings {
    * @return mixed|NULL
    */
   protected function getSetting(string $key) {
+    if (StringManipulation::contains($key, '.')) {
+      $keys = explode('.', $key);
+      $return = $this->settings;
+      foreach ($keys as $item) {
+        $return = $return[$item];
+      }
+      return $return;
+    }
     return $this->settings[$key] ?? FALSE;
   }
 

@@ -116,7 +116,7 @@ class Config extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render($parameters = []) {
+  public function render(&$parameters = []) {
     parent::render($parameters);
     if (isset($parameters['export']) && isset($parameters['confirm'])) {
       Nick::Config()->export();
