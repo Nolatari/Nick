@@ -2,5 +2,3 @@ name: Event
 version: 1.0a
 type: extension
 required: true
-classes:
-  Event: '\Nick\Event\Event'

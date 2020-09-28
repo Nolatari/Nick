@@ -2,6 +2,11 @@
 
 namespace Nick\ExtensionManager;
 
+/**
+ * Interface InstallInterface
+ *
+ * @package Nick\ExtensionManager
+ */
 interface InstallInterface {
 
   /**

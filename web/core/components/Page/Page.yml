@@ -2,6 +2,3 @@ name: Page
 version: 1.0a
 type: extension
 required: true
-interface: true
-classes:
-  PageManager: '\Nick\Page\PageManager'

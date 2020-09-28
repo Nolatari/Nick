@@ -12,7 +12,7 @@
                 <li class="breadcrumb-item">{{ page.title }}</li>
             {% endif %}
         {% endif %}
-        {% if current_route.type != null %}
+        {% if current_route.type != null and current_route.type != 'view' %}
             {% if current_route.route != route([page.id, current_route.type, current_route.id]) %}
                 <li class="breadcrumb-item"><a href="{{ route([page.id, current_route.type, current_route.id]) }}">{{ current_route.type|capitalize }}</a></li>
             {% else %}

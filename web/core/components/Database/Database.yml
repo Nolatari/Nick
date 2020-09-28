@@ -1,13 +1,4 @@
 name: Database
 version: 1.0a
 type: extension
-interface: false
 required: true
-classes:
-  Database: '\Nick\Database\Database'
-  Select: '\Nick\Database\Select'
-  Update: '\Nick\Database\Update'
-  Insert: '\Nick\Database\Insert'
-  Delete: '\Nick\Database\Delete'
-  Query: '\Nick\Database\Query'
-  Result: '\Nick\Database\Result'

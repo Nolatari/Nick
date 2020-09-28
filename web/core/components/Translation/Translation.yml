@@ -1,7 +1,4 @@
 name: Translation
 version: 1.0a
 type: extension
-interface: true
 required: true
-traits:
-  StringTranslation: '\Nick\Translation\StringTranslation'
