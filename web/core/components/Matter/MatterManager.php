@@ -2,7 +2,9 @@
 
 namespace Nick\Matter;
 
+use Exception;
 use Nick;
+use Nick\Logger;
 use Nick\YamlReader;
 use Nick\Database\Result;
 
@@ -121,6 +123,56 @@ class MatterManager {
 
       $matter::create();
     }
+  }
+
+  /**
+   * @param array $properties
+   *          An array of properties your Matter should have
+   * @param bool  $multiple
+   *          If you expect multiple results, set this to TRUE
+   *
+   * @return bool|array
+   *
+   * @throws Exception
+   */
+  public function loadByProperties($properties = [], $multiple = FALSE) {
+    if (!isset($properties['type'])) {
+      return FALSE;
+    }
+    $type = $properties['type'];
+    $matter = static::getMatterClassFromType($type);
+    $matter->setType($type);
+    unset($properties['type']);
+    $query = Nick::Database()->select('matter__' . $type)
+      ->condition('status', 1)
+      ->orderBy('id', 'ASC');
+    foreach ($properties as $field => $value) {
+      if ($properties === 'type') {
+        continue;
+      }
+      $query->condition($field, $value);
+    }
+    try {
+      /** @var Result $result */
+      $result = $query->execute();
+    } catch (Exception $exception) {
+      Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'Matter');
+      return FALSE;
+    }
+    if (!$results = $result->fetchAllAssoc('id')) {
+      return FALSE;
+    }
+
+    if (count($results) === 1 && $multiple === FALSE) {
+      $current = reset($results);
+      return $matter->massageProperties($current);
+    }
+
+    $matters = [];
+    foreach ($results as $id => $current) {
+      $matters[] = $matter->massageProperties($current);
+    }
+    return $matters;
   }
 
 }

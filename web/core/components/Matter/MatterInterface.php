@@ -30,18 +30,6 @@ interface MatterInterface {
   public function getAllFields();
 
   /**
-   * @param array $properties
-   *          An array of properties your Matter should have
-   * @param bool  $multiple
-   *          If you expect multiple results, set this to TRUE
-   *
-   * @return bool|array
-   *
-   * @throws Exception
-   */
-  public function loadByProperties($properties = [], $multiple = FALSE);
-
-  /**
    * @return string|NULL
    */
   public function getType();
@@ -72,6 +60,11 @@ interface MatterInterface {
    * @return bool
    */
   public function save();
+
+  /**
+   * @return bool
+   */
+  public function delete();
 
   /**
    * @return int|string|NULL

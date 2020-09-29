@@ -13,13 +13,13 @@ use Nick\Manifest\Manifest;
 use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
 use Nick\Matter\MatterManager;
-use Nick\Menu\Menu;
 use Nick\Page\PageInterface;
 use Nick\Page\PageManager;
 use Nick\Renderer;
 use Nick\Theme;
 use Nick\Translation\TranslationInterface;
 use Nick\Url;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Nick helper class.
@@ -131,78 +131,6 @@ class Nick {
   }
 
   /**
-   * Bootstraps Nick
-   */
-  public static function Bootstrap() {
-    $core = new Core();
-    $core->setSystemSpecifics();
-    self::MatterManager()->createMatters();
-    self::ExtensionManager()->installExtensions();
-
-    try {
-      $logger = new Logger();
-      $pageObject = self::PageManager()->getPageObject($_GET['p'] ?? 'dashboard', $_GET);
-      $menus = Nick::Manifest('menu')
-        ->fields(['id', 'title', 'description', 'route', 'type', 'parent'])
-        ->condition('status', 1)
-        ->order('structure', 'ASC')
-        ->result();
-      foreach ($menus as $key => $menu) {
-        $menus[$key]['route'] = explode('.', $menus[$key]['route']);
-        $menuObject = new Menu();
-        $children = $menuObject->loadByProperties(['parent' => $menus[$key]['id']]);
-        if ($children !== FALSE) {
-          foreach ($children as &$child) {
-            $child = $child->getValues();
-            $child['route'] = explode('.', $child['route']);
-          }
-          $menus[$key]['children'] = $children;
-        }
-        if ($menus[$key]['parent'] != 0) {
-          unset($menus[$key]);
-        }
-      }
-      $headerVariables = [];
-      $headerVariables['menu'] = $menus;
-      $headerVariables['logs'] = ['render' => $logger->render()];
-      $headerVariables['current_route'] = [
-        'route' => Url::getCurrentRoute(),
-        'page' => $_GET['p'] ?? NULL,
-        'type' => $_GET['t'] ?? NULL,
-        'id' => $_GET['id'] ?? NULL,
-      ];
-      if ($pageObject instanceof PageInterface) {
-        $headerVariables['page'] = [
-          'id' => $_GET['p'] ?? 'dashboard',
-          'type' => $pageObject->get('type'),
-          'title' => $pageObject->get('title'),
-          'summary' => $pageObject->get('summary'),
-          'cacheclear_uri' => Url::fromRoute(
-            [
-              'cache',
-              'clear_all'
-            ],
-            [
-              'data[p]' => $_GET['p'] ?? NULL,
-              'data[t]' => $_GET['t'] ?? NULL,
-              'data[id]' => $_GET['id'] ?? NULL,
-            ],
-          ),
-        ];
-      }
-      $header = self::PageManager()->getPageRender('header', $headerVariables);
-      $page = self::PageManager()->getPageRender($_GET['p'] ?? 'dashboard', $_GET);
-      $footer = self::PageManager()->getPageRender('footer');
-
-      echo $header ?? NULL;
-      echo $page ?? NULL;
-      echo $footer ?? NULL;
-    } catch (Exception $exception) {
-      self::Logger()->add('Could not render Nick!' . PHP_EOL . $exception->getMessage(), Logger::TYPE_FAILURE, 'Bootstrap');
-    }
-  }
-
-  /**
    * Returns uncached MatterManager object.
    *
    * @return MatterManager
@@ -238,6 +166,63 @@ class Nick {
    */
   public static function Logger() {
     return self::Cache()->getData('logger', '\\Nick\\Logger');
+  }
+
+  /**
+   * Bootstraps Nick
+   *
+   * @param Request $request
+   */
+  public static function Bootstrap(Request $request) {
+    $core = new Core();
+    $core->setSystemSpecifics();
+    self::MatterManager()->createMatters();
+    self::ExtensionManager()->installExtensions();
+
+    $page = $request->query->has('p') ? $request->query->get('p') : 'dashboard';
+    $type = $request->query->has('t') ? $request->query->get('t') : NULL;
+    $id = $request->query->has('id') ? $request->query->get('id') : NULL;
+
+    try {
+      $logger = new Logger();
+      $pageObject = self::PageManager()->getPageObject($page, $request->query->all());
+      $headerVariables = [];
+      $headerVariables['logs'] = ['render' => $logger->render()];
+      $headerVariables['current_route'] = [
+        'route' => Url::getCurrentRoute(),
+        'page' => $page,
+        'type' => $type,
+        'id' => $id,
+      ];
+      if ($pageObject instanceof PageInterface) {
+        $headerVariables['page'] = [
+          'id' => $page,
+          'type' => $pageObject->get('type'),
+          'title' => $pageObject->get('title'),
+          'summary' => $pageObject->get('summary'),
+          'cacheclear_uri' => Url::fromRoute(
+            [
+              'cache',
+              'clear_all'
+            ],
+            [
+              'data[p]' => $page,
+              'data[t]' => $type,
+              'data[id]' => $id,
+            ],
+          ),
+        ];
+      }
+      $header = self::PageManager()->getPageRender('header', $headerVariables);
+      $page = self::PageManager()->getPageRender($page, $request->query->all());
+      $footer = self::PageManager()->getPageRender('footer');
+
+      echo $header ?? NULL;
+      echo $page ?? NULL;
+      echo $footer ?? NULL;
+    } catch (Exception $exception) {
+      self::Logger()->add('Could not render Nick!' . PHP_EOL . $exception->getMessage(), Logger::TYPE_FAILURE, 'Bootstrap');
+    }
   }
 
 }

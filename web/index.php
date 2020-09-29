@@ -6,6 +6,8 @@
  * Year: 2020
  */
 
+use Symfony\Component\HttpFoundation\Request;
+
 session_start();
 
 error_reporting(E_ALL);
@@ -15,5 +17,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../settings.php';
 require_once __DIR__ . '/core/includes.php';
 
+$request = Request::createFromGlobals();
+
 /** Bootstrap Nick. */
-\Nick::Bootstrap();
+\Nick::Bootstrap($request);

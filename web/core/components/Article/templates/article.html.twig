@@ -1,10 +1,12 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center flex-start mb-4">
     <h1 class="h3 mb-0 text-gray-800">{{ page.title }}</h1>&nbsp;
-    <div class="btn-group" role="group" aria-label="Basic example">
+    {% if article.id is not null %}
+    <div class="btn-group" role="group" aria-label="Conditional actions">
         <a href="{{ route(['article', 'view', article.id]) }}" class="btn btn-{% if article.type == 'view' %}primary{% else %}secondary{% endif %}">View</a>
         <a href="{{ route(['article', 'edit', article.id]) }}" class="btn btn-{% if article.type == 'edit' %}primary{% else %}secondary{% endif %}">Edit</a>
         <a href="{{ route(['article', 'delete', article.id]) }}" class="btn btn-{% if article.type == 'delete' %}danger{% else %}secondary{% endif %}">Delete</a>
     </div>
+    {% endif %}
 </div>
 {{ article.content|raw }}

@@ -2,9 +2,10 @@
     "require": {
       "ext-mysqli": "*",
       "ext-json": "*",
-      "symfony/symfony": "^3.4",
-      "symfony/yaml": "^3.4",
-      "doctrine/annotations": "^1.10"
+      "symfony/symfony": "^5.1",
+      "symfony/yaml": "^5.1",
+      "doctrine/annotations": "^1.10",
+      "symfony/http-foundation": "^5.1"
     },
     "autoload": {
       "psr-4": {

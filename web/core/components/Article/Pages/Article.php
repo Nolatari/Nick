@@ -5,6 +5,7 @@ namespace Nick\Article\Pages;
 use Nick;
 use Nick\Article\Article as ArticleObject;
 use Nick\Form\Form;
+use Nick\Manifest\Manifest;
 use Nick\Matter\MatterRenderer;
 use Nick\Page\Page;
 use Nick\Url;
@@ -33,7 +34,7 @@ class Article extends Page {
       'max-age' => 300,
     ];
 
-    if (isset($parameters['id'])) {
+    if (isset($parameters['id']) && !empty($parameters['id'])) {
       /** @var ArticleObject $article */
       $article = ArticleObject::load($parameters['id']);
       $this->setParameter('title', $article->getTitle());
@@ -43,6 +44,9 @@ class Article extends Page {
         $this->caching['key'] = 'page.' . $this->get('id') . '.' . $parameters['t'] . '.' . $article->id();
         $this->caching['max-age'] = 0;
       }
+    } elseif (isset($parameters['t']) && $parameters['t'] == 'overview') {
+      $this->caching['key'] = 'page.' . $this->get('id') . '.' . $parameters['t'];
+      $this->caching['max-age'] = 0;
     }
 
     return $this;
@@ -66,20 +70,28 @@ class Article extends Page {
     parent::render($parameters);
 
     $content = NULL;
-    if (isset($parameters['id'])) {
+    if (isset($parameters['id']) && !empty($parameters['id'])) {
       /** @var ArticleObject $article */
       $article = ArticleObject::load($parameters['id']);
       $matterRenderer = new MatterRenderer($article);
       $content = $matterRenderer->render();
 
       if (isset($parameters['t'])) {
-        if ($parameters['t'] == 'edit') {
-          $form = new Form($article);
-          $content = $form->result();
-        } elseif ($parameters['t'] == 'delete') {
-          $content = 'Are you sure you wish to delete this article? <br />';
-          $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(['article', 'delete', $parameters['id']], ['confirm' => NULL]) . '">Yes, I\'m sure</a> ';
-          $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(['article', 'view', $parameters['id']]) . '">No, take me back</a>';
+        switch ($parameters['t']) {
+          case 'edit':
+            $form = new Form($article);
+            $content = $form->result();
+            break;
+          case 'delete':
+            $content = 'Are you sure you wish to delete this article? <br />';
+            $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(['article', 'delete', $parameters['id']], ['confirm' => NULL]) . '">Yes, I\'m sure</a> ';
+            $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(['article', 'view', $parameters['id']]) . '">No, take me back</a>';
+            break;
+          case 'overview':
+            $manifest = new Manifest('article');
+            d($manifest);
+            $content = '';
+            break;
         }
       }
     }

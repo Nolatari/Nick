@@ -49,14 +49,14 @@ class Matter implements MatterInterface {
    * @param string $type
    *
    * @return MatterInterface|bool
+   *
+   * @throws Exception
    */
   protected static function loadMatter(int $id, string $type) {
     if ($id === 0) {
       return FALSE;
     }
-    $matterClass = MatterManager::getMatterClassFromType($type);
-    $matterClass = new $matterClass;
-    return $matterClass->loadByProperties(['id' => $id]);
+    return Nick::MatterManager()->loadByProperties(['type' => $type,'id' => $id]);
   }
 
   /**
@@ -72,50 +72,11 @@ class Matter implements MatterInterface {
   }
 
   /**
-   * {@inheritDoc}
-   */
-  public function loadByProperties($properties = [], $multiple = FALSE) {
-    $type = $this->getType() ?: $properties['type'];
-    if (!$type) {
-      return FALSE;
-    }
-    $this->setType($type);
-    unset($properties['type']);
-    $query = $this->database->select('matter__' . $type)
-      ->condition('status', 1)
-      ->orderBy('id', 'ASC');
-    foreach ($properties as $field => $value) {
-      $query->condition($field, $value);
-    }
-    try {
-      /** @var Result $result */
-      $result = $query->execute();
-    } catch (Exception $exception) {
-      Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'Matter');
-      return FALSE;
-    }
-    if (!$results = $result->fetchAllAssoc('id')) {
-      return FALSE;
-    }
-
-    if (count($results) === 1 && $multiple === FALSE) {
-      $matter = reset($results);
-      return $this->massageProperties($matter);
-    }
-
-    $matters = [];
-    foreach ($results as $id => $matter) {
-      $matters[] = $this->massageProperties($matter);
-    }
-    return $matters;
-  }
-
-  /**
    * @param array $matter
    *
    * @return mixed
    */
-  protected function massageProperties(array $matter) {
+  public function massageProperties(array $matter) {
     foreach ($matter as $ci_key => $ci_value) {
       if ($ci_key === 'owner' || !isset(static::fields()[$ci_key]['class'])) {
         continue;
@@ -226,7 +187,7 @@ class Matter implements MatterInterface {
    *
    * @return Matter
    */
-  protected function setType($type) {
+  public function setType($type) {
     $this->type = $type;
     return $this;
   }
@@ -321,7 +282,7 @@ class Matter implements MatterInterface {
    */
   public function save() {
     // Fire presave event
-    $presaveEvent = new Event('MatterPresave');
+    $presaveEvent = new Event('MatterPreSave');
     $presaveEvent->fire($this);
 
     $table = 'matter__' . $this->type;
@@ -389,7 +350,38 @@ class Matter implements MatterInterface {
     }
 
     // Fire postsave event
-    $postsaveEvent = new Event('MatterPostsave');
+    $postsaveEvent = new Event('MatterPostSave');
+    $postsaveEvent->fire($this);
+    return TRUE;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function delete() {
+    // Fire predelete event
+    $presaveEvent = new Event('MatterPreDelete');
+    $presaveEvent->fire($this);
+
+    if ($this->id() == NULL) {
+      Nick::Logger()->add('Cannot remove Matter without ID', Logger::TYPE_FAILURE, 'Matter');
+      return FALSE;
+    }
+
+    $query = Nick::Database()
+      ->delete('matter__' . $this->getType())
+      ->condition('id', $this->id());
+    $query_matter = Nick::Database()
+      ->delete('matter')
+      ->condition('id', $this->id());
+
+    if (!$query->execute() || !$query_matter->execute()) {
+      Nick::Logger()->add('Something went wrong trying to remove Matter ' . $this->getType() . ' [' . $this->id() . ']', Logger::TYPE_FAILURE, 'Matter');
+      return FALSE;
+    }
+
+    // Fire postdelete event
+    $postsaveEvent = new Event('MatterPostDelete');
     $postsaveEvent->fire($this);
     return TRUE;
   }
