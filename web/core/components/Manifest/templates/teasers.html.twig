@@ -7,8 +7,10 @@
         </div>
         <div class="card-body">
             {% for field in fields %}
-                {% if field != 'title' %}
-                <p><em>{{ field }}: </em>{{ data[field] }}</p>
+                {% if not hidden[field] %}
+                    {% if field != 'title' %}
+                        <p><em>{{ field }}: </em>{{ data[field]|raw }}</p>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </div>

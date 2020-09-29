@@ -6,7 +6,9 @@ use Nick;
 use Nick\Database\Database;
 use Nick\Database\Result;
 use Nick\Event\Event;
+use Nick\Matter\MatterInterface;
 use Nick\Matter\MatterManager;
+use Nick\Matter\MatterRenderer;
 
 /**
  * Class Manifest
@@ -89,10 +91,16 @@ class Manifest implements ManifestInterface {
     if ($massage) {
       $matter = MatterManager::getMatterClassFromType($this->getType());
       foreach ($results as $id => $values) {
-        $results[$id] = $matter->massageProperties($values);
+        $results[$id] = $matter->massageProperties($values)->getValues();
+        foreach ($results[$id] as &$field) {
+          if (!$field instanceof MatterInterface) {
+            continue;
+          }
+          $matterRenderer = new MatterRenderer($field);
+          $field = $matterRenderer->render();
+        }
       }
     }
-    d([$this->getType() => $results]);
     return $results;
   }
 

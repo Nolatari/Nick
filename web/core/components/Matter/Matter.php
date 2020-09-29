@@ -26,13 +26,13 @@ class Matter implements MatterInterface {
   const CARDINALITY_DEFAULT = 25;
 
   /** @var Database $database */
-  protected $database;
+  protected Database $database;
 
   /** @var string $type */
-  protected $type;
+  protected string $type;
 
   /** @var array|NULL $values */
-  protected $values;
+  protected ?array $values;
 
   /**
    * Card constructor.
@@ -42,6 +42,20 @@ class Matter implements MatterInterface {
   public function __construct($values = NULL) {
     $this->database = Nick::Database();
     $this->values = $values;
+  }
+
+  /**
+   * @param $int
+   *
+   * @return string
+   */
+  public static function intToStatus($int) {
+    switch($int) {
+      case 0:
+        return translate('Unpublished');
+      default:
+        return translate('Published');
+    }
   }
 
   /**
@@ -78,7 +92,10 @@ class Matter implements MatterInterface {
    */
   public function massageProperties(array $matter) {
     foreach ($matter as $ci_key => $ci_value) {
-      if (!isset(static::fields()[$ci_key]['class'])) {
+      if ($ci_key === 'status') {
+        $matter[$ci_key] = static::intToStatus($ci_value);
+        continue;
+      } elseif ($ci_key === 'id' || !isset(static::fields()[$ci_key]['class'])) {
         continue;
       }
       $className = static::fields()[$ci_key]['class'];

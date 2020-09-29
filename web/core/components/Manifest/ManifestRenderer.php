@@ -3,6 +3,8 @@
 namespace Nick\Manifest;
 
 use Nick\Renderer;
+use Nick\Translation\StringTranslation;
+use Nick\Url;
 
 /**
  * Class MatterRenderer
@@ -10,6 +12,7 @@ use Nick\Renderer;
  * @package Nick\Matter
  */
 class ManifestRenderer {
+  use StringTranslation;
 
   /** @var ManifestInterface $manifest */
   protected ManifestInterface $manifest;
@@ -19,6 +22,15 @@ class ManifestRenderer {
 
   /** @var string $viewMode */
   protected string $viewMode = 'table';
+
+  /** @var array $hiddenFields */
+  protected array $hiddenFields = [];
+
+  /** @var array $noLinkFields */
+  protected array $noLinkFields = [];
+
+  /** @var string|bool $actionLinks */
+  protected $actionLinks = FALSE;
 
   /**
    * MatterRenderer constructor.
@@ -88,20 +100,72 @@ class ManifestRenderer {
   }
 
   /**
+   * Visually hides field, data is still available for other fields to manipulate
+   *
+   * @param string $field
+   *
+   * @return $this
+   */
+  public function hideField(string $field): self {
+    $this->hiddenFields[$field] = TRUE;
+    return $this;
+  }
+
+  /**
+   * Won't show a link for this field if a link is available.
+   * Think about Owner, Title, ...
+   *
+   * @param string $field
+   *
+   * @return $this
+   */
+  public function noLink(string $field): self {
+    $this->noLinkFields[$field] = TRUE;
+    return $this;
+  }
+
+  /**
+   *
+   *
+   * @param string $matterType
+   *
+   * @return $this
+   */
+  public function addActionLinks(string $matterType): self {
+    $this->actionLinks = $matterType;
+    return $this;
+  }
+
+  /**
    * Returns rendered Matter object
+   *
+   * @param bool $massage
    *
    * @return string|NULL
    */
-  public function render(): ?string {
+  public function render(bool $massage = FALSE): ?string {
     $viewMode = $this->getViewMode();
     $manifest = $this->getManifest();
+
+    $fields = $manifest->getFields();
+    $results = $manifest->result($massage);
+
+    if ($this->actionLinks !== FALSE) {
+      $fields[] = 'edit-link';
+      $fields[] = 'delete-link';
+      foreach ($results as &$result) {
+        $result['edit-link'] = '<a href="' . Url::fromRoute([$this->actionLinks, 'edit', $result['id']]) . '">' . $this->translate('Edit') . '</a>';
+        $result['delete-link'] = '<a href="' . Url::fromRoute([$this->actionLinks, 'delete', $result['id']]) . '">' . $this->translate('Delete') . '</a>';
+      }
+    }
 
     return $this->getRenderer()
       ->setType('core.Manifest')
       ->setTemplate($viewMode)
       ->render([
-        'fields' => $manifest->getFields(),
-        'values' => $manifest->result(),
+        'fields' => $fields,
+        'values' => $results,
+        'hidden' => $this->hiddenFields,
       ]);
   }
 

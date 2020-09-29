@@ -95,11 +95,16 @@ class Article extends Page {
         case 'overview':
           $manifest = new Manifest('article');
           $manifest->fields([
-            'title', 'owner', 'status'
+            'id', 'title', 'owner', 'status'
           ]);
           $manifestRenderer = new ManifestRenderer($manifest);
-          $manifestRenderer->setViewMode('teasers');
-          $content = $manifestRenderer->render(TRUE);
+          $content = $manifestRenderer
+            ->setViewMode('table')
+            ->hideField('id')
+            ->hideField('status')
+            ->noLink('owner')
+            ->addActionLinks('article')
+            ->render(TRUE);
           break;
       }
     }

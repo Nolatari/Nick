@@ -12,9 +12,11 @@ interface ManifestInterface {
   /**
    * Returns array of results
    *
+   * @param bool $massage
+   *
    * @return array|bool
    */
-  public function result();
+  public function result($massage = FALSE);
 
   /**
    * Sets offset and limit for items in query.

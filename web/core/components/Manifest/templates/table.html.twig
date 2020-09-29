@@ -6,7 +6,9 @@
                 <thead>
                     <tr>
                         {% for field in fields %}
-                            <th>{{ field }}</th>
+                            {% if not hidden[field] %}
+                                <th>{{ field }}</th>
+                            {% endif %}
                         {% endfor %}
                     </tr>
                 </thead>
@@ -14,7 +16,13 @@
                 {% for data in values %}
                     <tr>
                         {% for field in fields %}
-                            <td>{{ data[field] }}</td>
+                            {% if not hidden[field] %}
+                                {% if field == 'title' %}
+                                    <td><a href="{{ route(['article', null, data.id]) }}">{{ data[field]|raw }}</a></td>
+                                {% else %}
+                                    <td>{{ data[field]|raw }}</td>
+                                {% endif %}
+                            {% endif %}
                         {% endfor %}
                     </tr>
                 {% endfor %}
@@ -22,7 +30,9 @@
                 <tfoot>
                     <tr>
                         {% for field in fields %}
-                            <th>{{ field }}</th>
+                            {% if not hidden[field] %}
+                                <th>{{ field }}</th>
+                            {% endif %}
                         {% endfor %}
                     </tr>
                 </tfoot>

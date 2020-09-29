@@ -15,6 +15,8 @@ class Uninstall implements UninstallInterface {
 
   /**
    * @inheritDoc
+   *
+   * @throws \Exception
    */
   public function condition() {
     $overview = \Nick::MatterManager()->loadByProperties(['type' => 'menu', 'route' => 'article.overview']);
@@ -23,6 +25,8 @@ class Uninstall implements UninstallInterface {
 
   /**
    * @inheritDoc
+   *
+   * @throws \Exception
    */
   public function doUninstall() {
     /** @var MenuInterface $menu */
@@ -30,4 +34,5 @@ class Uninstall implements UninstallInterface {
     $menu->delete();
     \Nick::Logger()->add('Removed menu item', Logger::TYPE_INFO, 'Article');
   }
+
 }
