@@ -6,6 +6,7 @@ use Nick;
 use Nick\Article\Article as ArticleObject;
 use Nick\Form\Form;
 use Nick\Manifest\Manifest;
+use Nick\Manifest\ManifestRenderer;
 use Nick\Matter\MatterRenderer;
 use Nick\Page\Page;
 use Nick\Url;
@@ -87,12 +88,19 @@ class Article extends Page {
             $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(['article', 'delete', $parameters['id']], ['confirm' => NULL]) . '">Yes, I\'m sure</a> ';
             $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(['article', 'view', $parameters['id']]) . '">No, take me back</a>';
             break;
-          case 'overview':
-            $manifest = new Manifest('article');
-            d($manifest);
-            $content = '';
-            break;
         }
+      }
+    } elseif (isset($parameters['t'])) {
+      switch ($parameters['t']) {
+        case 'overview':
+          $manifest = new Manifest('article');
+          $manifest->fields([
+            'title', 'owner', 'status'
+          ]);
+          $manifestRenderer = new ManifestRenderer($manifest);
+          $manifestRenderer->setViewMode('teasers');
+          $content = $manifestRenderer->render(TRUE);
+          break;
       }
     }
 

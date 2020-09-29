@@ -6,6 +6,7 @@ use Nick;
 use Nick\Database\Database;
 use Nick\Database\Result;
 use Nick\Event\Event;
+use Nick\Matter\MatterManager;
 
 /**
  * Class Manifest
@@ -79,12 +80,20 @@ class Manifest implements ManifestInterface {
   /**
    * {@inheritDoc}
    */
-  public function result() {
+  public function result($massage = FALSE) {
     $query = $this->query();
     if (!$query instanceof Result) {
       return FALSE;
     }
-    return $query->fetchAllAssoc();
+    $results = $query->fetchAllAssoc();
+    if ($massage) {
+      $matter = MatterManager::getMatterClassFromType($this->getType());
+      foreach ($results as $id => $values) {
+        $results[$id] = $matter->massageProperties($values);
+      }
+    }
+    d([$this->getType() => $results]);
+    return $results;
   }
 
   /**
@@ -183,7 +192,7 @@ class Manifest implements ManifestInterface {
    *
    * @return array
    */
-  protected function getFields() {
+  public function getFields() {
     return $this->fields;
   }
 
@@ -210,7 +219,7 @@ class Manifest implements ManifestInterface {
 
     // Fire alter event
     $event = new Event('ManifestQueryAlter');
-    $event->fire($query);
+    $event->fire($query, [$this->getType()]);
 
     // Execute query
     if (!$result = $query->execute()) {

@@ -78,7 +78,7 @@ class Matter implements MatterInterface {
    */
   public function massageProperties(array $matter) {
     foreach ($matter as $ci_key => $ci_value) {
-      if ($ci_key === 'owner' || !isset(static::fields()[$ci_key]['class'])) {
+      if (!isset(static::fields()[$ci_key]['class'])) {
         continue;
       }
       $className = static::fields()[$ci_key]['class'];
