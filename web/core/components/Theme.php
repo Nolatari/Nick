@@ -9,7 +9,7 @@ use Nick;
  *
  * @package Nick
  */
-class Theme extends Settings {
+class Theme {
 
   /**
    * Returns theme from config.
@@ -55,7 +55,7 @@ class Theme extends Settings {
    * @return string
    */
   public function getBaseThemeFolder(): string {
-    return $this->getSetting('themes')['folder'];
+    return Settings::get('themes.folder');
   }
 
   /**

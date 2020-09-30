@@ -34,4 +34,30 @@ class ArrayManipulation {
     return FALSE;
   }
 
+  /**
+   * Will remove array entries with an empty value.
+   * Empty can be null, an empty string or empty array.
+   *
+   * @param array $array
+   *                 The array where empty entries should be removed
+   *
+   * @return array $array
+   */
+  public static function removeEmptyEntries(array &$array): array {
+    foreach ($array as $key => $item) {
+      if (is_string($item)) {
+        if ($item === '') {
+          unset($array[$key]);
+        }
+      } elseif (is_array($item)) {
+        if (count($item) === 0) {
+          unset($array[$key]);
+        }
+      } elseif (is_null($item)) {
+        unset($array[$key]);
+      }
+    }
+    return $array;
+  }
+
 }

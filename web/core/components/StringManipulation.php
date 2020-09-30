@@ -60,4 +60,18 @@ class StringManipulation {
     }
   }
 
+  /**
+   * @param string $haystack
+   *                  Haystack to search for given needle in.
+   * @param string $needle
+   *                  Needle as string
+   * @param int    $limit
+   *                  The max amount of splits, default 99999 (null doesn't seem to work)
+   *
+   * @return array
+   */
+  public static function explode(string $haystack, string $needle, int $limit = 99999): array {
+    return explode($needle, $haystack, $limit);
+  }
+
 }

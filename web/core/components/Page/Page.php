@@ -4,6 +4,7 @@ namespace Nick\Page;
 
 use Nick\Event\Event;
 use Nick\Translation\StringTranslation;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Class Dashboard

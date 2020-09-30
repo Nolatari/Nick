@@ -18,7 +18,7 @@ use RecursiveIteratorIterator;
  *
  * @package Nick
  */
-class Config extends Settings {
+class Config {
 
   /**
    * @return bool
@@ -50,8 +50,8 @@ class Config extends Settings {
    * @return bool
    */
   public function export() {
-    $config_folder = $this->getSetting('config')['folder'];
-    if (!is_dir($this->getSetting('config')['folder'])) {
+    $config_folder = Settings::get('config.folder');
+    if (!is_dir(Settings::get('config.folder'))) {
       Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
     }
     $di = new RecursiveDirectoryIterator($config_folder, FilesystemIterator::SKIP_DOTS);
@@ -66,7 +66,7 @@ class Config extends Settings {
     foreach ($this->getConfig() as $item) {
       $config = YamlReader::toYaml(unserialize($item['value']));
       try {
-        $config_file = fopen($this->getSetting('config')['folder'] . '/' . $item['field'] . '.yml', 'w');
+        $config_file = fopen(Settings::get('config.folder') . '/' . $item['field'] . '.yml', 'w');
         fwrite($config_file, $config);
         fclose($config_file);
       } catch (Exception $e) {
@@ -98,9 +98,9 @@ class Config extends Settings {
   public function getStagedConfig($name = NULL) {
     $config = [];
     if ($name !== NULL) {
-      $config[] = YamlReader::fromYamlFile($this->getSetting('config')['folder'] . '/' . $name . '.yml');
+      $config[] = YamlReader::fromYamlFile(Settings::get('config.folder') . '/' . $name . '.yml');
     } else {
-      $folder = $this->getSetting('config')['folder'];
+      $folder = Settings::get('config.folder');
       if (!is_dir($folder)) {
         Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
         return $config;

@@ -9,31 +9,29 @@ namespace Nick;
  */
 class Settings {
 
-  /** @var array $settings */
-  protected array $settings;
-
-  /**
-   * Settings constructor.
-   */
-  public function __construct() {
-    $this->settings = $GLOBALS['nick_settings'];
-  }
-
   /**
    * @param string $key
    *
-   * @return mixed|NULL
+   * @return false|mixed
    */
-  protected function getSetting(string $key) {
+  public static function get(string $key) {
+    $settings = $GLOBALS['nick_settings'];
     if (StringManipulation::contains($key, '.')) {
       $keys = explode('.', $key);
-      $return = $this->settings;
+      $return = $settings;
       foreach ($keys as $item) {
         $return = $return[$item];
       }
       return $return;
     }
-    return $this->settings[$key] ?? FALSE;
+    return $settings[$key] ?? FALSE;
+  }
+
+  /**
+   * @return array
+   */
+  public static function getAll(): array {
+    return $GLOBALS['nick_settings'];
   }
 
 }

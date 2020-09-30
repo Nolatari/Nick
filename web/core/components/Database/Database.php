@@ -12,7 +12,7 @@ use Nick\SqlFormatter;
  *
  * @package Nick
  */
-class Database extends Settings {
+class Database {
 
   /** @var string $db */
   protected $db;
@@ -63,9 +63,8 @@ class Database extends Settings {
    * @param null   $database
    */
   public function __construct($condition_delimiter = 'AND', $database = NULL) {
-    parent::__construct();
     $this->condition_delimiter = $condition_delimiter;
-    $this->setDatabaseName($database ?? $this->getSetting('database')['database']);
+    $this->setDatabaseName($database ?? Settings::get('database.database'));
     $this->use_cache = $database == NULL ? FALSE : TRUE;
     $this->connect();
     $this->reset();
@@ -80,11 +79,11 @@ class Database extends Settings {
    */
   protected function connect() {
     $this->database = Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
-      $this->getSetting('database')['hostname'],
-      $this->getSetting('database')['username'],
-      $this->getSetting('database')['password'],
+      Settings::get('database.hostname'),
+      Settings::get('database.username'),
+      Settings::get('database.password'),
       $this->getDatabaseName(),
-      $this->getSetting('database')['port'] ?? 3306,
+      Settings::get('database.port') ?? 3306,
     ]);
     return $this;
   }
@@ -226,7 +225,7 @@ class Database extends Settings {
    * @return Result|bool
    */
   protected function executeQuery(string $query) {
-    if ($this->getSetting('debugging')) {
+    if (Settings::get('debugging')) {
       echo '<pre style="color:#fff;">';
       echo SqlFormatter::format($query);
       echo '</pre>';
@@ -236,7 +235,7 @@ class Database extends Settings {
       return FALSE;
     }
     $result = $this->database->query($query);
-    if ($this->getSetting('debugging')) {
+    if (Settings::get('debugging')) {
       if ($this->database->error !== '') {
         d($this->database->error);
       }

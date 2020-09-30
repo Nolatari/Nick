@@ -5,7 +5,7 @@ namespace Nick;
 /**
  * Class URL to build dynamic urls
  */
-class Url extends Settings {
+class Url {
 
   /**
    * Returns URL based on route, there is no validation in this because routes are not set in stone.
@@ -115,7 +115,7 @@ class Url extends Settings {
    * Returns the site's base url (no filename, no parameters)
    */
   public function getBaseUrl(): string {
-    return $this->getSetting('root.url') ?? 'http://localhost';
+    return Settings::get('root.url') ?? 'http://localhost';
   }
 
   /**

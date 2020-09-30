@@ -10,6 +10,8 @@ use Nick\Language\Language;
 use Nick\Language\LanguageManager;
 use Nick\Logger;
 use Nick\Manifest\Manifest;
+use Nick\Manifest\ManifestInterface;
+use Nick\Manifest\ManifestRenderer;
 use Nick\Matter\Matter;
 use Nick\Matter\MatterInterface;
 use Nick\Matter\MatterManager;
@@ -157,6 +159,17 @@ class Nick {
    */
   public static function Manifest(string $type) {
     return new Manifest($type);
+  }
+
+  /**
+   * Returns non-cached Manifest object
+   *
+   * @param ManifestInterface $manifest
+   *
+   * @return ManifestRenderer
+   */
+  public static function ManifestRenderer(ManifestInterface $manifest) {
+    return new ManifestRenderer($manifest);
   }
 
   /**

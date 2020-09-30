@@ -34,6 +34,9 @@ class Matter implements MatterInterface {
   /** @var array|NULL $values */
   protected ?array $values;
 
+  /** @var array|bool $fields */
+  protected $fields = FALSE;
+
   /**
    * Card constructor.
    *

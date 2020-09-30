@@ -11,6 +11,11 @@ use Nick\Matter\MatterRenderer;
 use Nick\Page\Page;
 use Nick\Url;
 
+/**
+ * Class Article
+ *
+ * @package Nick\Article\Pages
+ */
 class Article extends Page {
 
   /**
@@ -93,8 +98,7 @@ class Article extends Page {
     } elseif (isset($parameters['t'])) {
       switch ($parameters['t']) {
         case 'overview':
-          $manifest = new Manifest('article');
-          $manifest->fields([
+          $manifest = Nick::Manifest('article')->fields([
             'id', 'title', 'owner', 'status'
           ]);
           $manifestRenderer = new ManifestRenderer($manifest);

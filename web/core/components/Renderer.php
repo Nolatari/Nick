@@ -18,7 +18,7 @@ use Twig\Extension\DebugExtension;
  *
  * @package Nick
  */
-class Renderer extends Settings {
+class Renderer {
 
   /** @var string|null $type */
   protected $type;
@@ -39,8 +39,6 @@ class Renderer extends Settings {
    * Renderer constructor.
    */
   public function __construct() {
-    parent::__construct();
-
     $this->setThemeFolder(Nick::Theme()->getThemeFolder());
   }
 
@@ -94,8 +92,8 @@ class Renderer extends Settings {
     }
 
     $this->loader = new FilesystemLoader($path);
-    $this->twig = new Environment($this->getLoader(), ['debug' => $this->getSetting('twig_debugging')]);
-    if ($this->getSetting('twig_debugging')) {
+    $this->twig = new Environment($this->getLoader(), ['debug' => Settings::get('twig_debugging')]);
+    if (Settings::get('twig_debugging')) {
       $this->twig->addExtension(new DebugExtension());
     }
     $extensions = new TwigExtensions();
@@ -151,7 +149,7 @@ class Renderer extends Settings {
     if (!$template instanceof TemplateWrapper) {
       return FALSE;
     }
-    $render_settings = $this->settings;
+    $render_settings = Settings::getAll();
     unset($render_settings['database']);
     $variables = $variables + [
         'settings' => $render_settings,

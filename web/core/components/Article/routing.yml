@@ -1,0 +1,23 @@
+article.view:
+  url: '/article/{id}'
+  class: '\Nick\Article\Pages\Article'
+  parameters:
+    id: 1
+
+article.edit:
+  url: '/article/{id}/edit'
+  class: '\Nick\Article\Pages\Article'
+  parameters:
+    id: 1
+    type: 2
+
+article.delete:
+  url: '/article/{id}/delete'
+  class: '\Nick\Article\Pages\Article'
+  parameters:
+    id: 1
+    type: 2
+
+article.overview:
+  url: '/articles'
+  class: '\Nick\Article\Pages\Article'

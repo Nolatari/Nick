@@ -50,12 +50,13 @@ class Page Extends Matter implements PageInterface {
    */
   public static function initialFields(): array {
     return [
-      'pid' => [
+      'page' => [
         'type' => 'varchar',
         'length' => 255,
+        'unique' => TRUE,
         'form' => [
           'type' => 'textbox',
-          'name' => 'Page ID',
+          'name' => 'Page machine name',
           'required' => TRUE,
         ],
       ],

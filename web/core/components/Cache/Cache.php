@@ -13,7 +13,7 @@ use Nick\Settings;
  *
  * @package Nick\Cache
  */
-class Cache extends Settings implements CacheInterface {
+class Cache implements CacheInterface {
 
   /** @var array $cacheableData */
   protected array $cacheableData;
