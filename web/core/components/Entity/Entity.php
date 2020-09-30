@@ -1,6 +1,6 @@
 <?php
 
-namespace Nick\Matter;
+namespace Nick\Entity;
 
 use Exception;
 use Nick;
@@ -12,11 +12,11 @@ use Nick\Logger;
 use Nick\Person\Person;
 
 /**
- * Class Matter
+ * Class Entity
  *
- * @package Nick\Matter
+ * @package Nick\Entity
  */
-class Matter implements MatterInterface {
+class Entity implements EntityInterface {
 
   /** Constants for status values */
   const UNPUBLISHED = 0;
@@ -65,49 +65,49 @@ class Matter implements MatterInterface {
    * @param int    $id
    * @param string $type
    *
-   * @return MatterInterface|bool
+   * @return EntityInterface|bool
    *
    * @throws Exception
    */
-  protected static function loadMatter(int $id, string $type) {
+  protected static function loadEntity(int $id, string $type) {
     if ($id === 0) {
       return FALSE;
     }
-    return Nick::MatterManager()->loadByProperties(['type' => $type,'id' => $id]);
+    return Nick::EntityManager()->loadByProperties(['type' => $type,'id' => $id]);
   }
 
   /**
    * @param string $type
-   *          Type of Matter
+   *          Type of Entity
    *
    * @return array|bool
    */
-  protected static function loadMultipleMatters(string $type) {
-    $matterClass = MatterManager::getMatterClassFromType($type);
-    $matterClass = new $matterClass;
-    return $matterClass->loadByProperties([], TRUE);
+  protected static function loadMultipleEntities(string $type) {
+    $entityClass = EntityManager::getEntityClassFromType($type);
+    $entityClass = new $entityClass;
+    return $entityClass->loadByProperties([], TRUE);
   }
 
   /**
-   * @param array $matter
+   * @param array $entity
    *
    * @return mixed
    */
-  public function massageProperties(array $matter) {
-    foreach ($matter as $ci_key => $ci_value) {
+  public function massageProperties(array $entity) {
+    foreach ($entity as $ci_key => $ci_value) {
       if ($ci_key === 'status') {
-        $matter[$ci_key] = static::intToStatus($ci_value);
+        $entity[$ci_key] = static::intToStatus($ci_value);
         continue;
       } elseif ($ci_key === 'id' || !isset(static::fields()[$ci_key]['class'])) {
         continue;
       }
       $className = static::fields()[$ci_key]['class'];
       $class = new $className;
-      $matter[$ci_key] = $class::load($ci_value);
+      $entity[$ci_key] = $class::load($ci_value);
     }
-    $matterClass = MatterManager::getMatterClassFromType($this->getType());
-    if ($matterClass !== FALSE) {
-      return new $matterClass($matter);
+    $entityClass = EntityManager::getEntityClassFromType($this->getType());
+    if ($entityClass !== FALSE) {
+      return new $entityClass($entity);
     }
 
     return FALSE;
@@ -176,7 +176,7 @@ class Matter implements MatterInterface {
     }
 
     $fields_storage = $this->database
-      ->select('matter_storage')
+      ->select('entity_storage')
       ->fields(NULL, ['fields'])
       ->condition('type', $this->getType());
     /** @var Result $fields_result */
@@ -192,20 +192,20 @@ class Matter implements MatterInterface {
    * {@inheritDoc}
    */
   public function getStorage($type, $values = []) {
-    $matterClass = MatterManager::getMatterClassFromType($type);
-    if (!$matterClass) {
+    $entityClass = EntityManager::getEntityClassFromType($type);
+    if (!$entityClass) {
       return FALSE;
     }
-    $matterClass = new $matterClass($values);
-    return $matterClass;
+    $entityClass = new $entityClass($values);
+    return $entityClass;
   }
 
   /**
-   * Sets matter type
+   * Sets entity type
    *
    * @param $type
    *
-   * @return Matter
+   * @return Entity
    */
   public function setType($type) {
     $this->type = $type;
@@ -251,7 +251,7 @@ class Matter implements MatterInterface {
    */
   protected function massageValueArray() {
     $values = $this->values;
-    $fields = Matter::fields() + static::initialFields();
+    $fields = Entity::fields() + static::initialFields();
     $new_value_array = [];
     foreach ($fields as $field => $options) {
       if ($field === 'id') {
@@ -266,7 +266,7 @@ class Matter implements MatterInterface {
    * @return array
    */
   protected function getUniqueFields() {
-    $fields = Matter::fields() + static::initialFields();
+    $fields = Entity::fields() + static::initialFields();
     $unique_fields = [];
     foreach ($fields as $field => $options) {
       if (isset($options['unique']) && $options['unique']) {
@@ -281,8 +281,8 @@ class Matter implements MatterInterface {
    *
    * @return bool
    */
-  protected function addMatter(string $type) {
-    $query = $this->database->insert('matter')
+  protected function addEntity(string $type) {
+    $query = $this->database->insert('entity')
       ->values([
         'id' => 0,
         'type' => $type,
@@ -302,16 +302,16 @@ class Matter implements MatterInterface {
    */
   public function save() {
     // Fire presave event
-    $presaveEvent = new Event('MatterPreSave');
+    $presaveEvent = new Event('EntityPreSave');
     $presaveEvent->fire($this);
 
-    $table = 'matter__' . $this->type;
+    $table = 'entity__' . $this->type;
     // Check if item exists, update existing item or insert new item.
     if ($this->id() !== NULL) {
       $check = $this->database->select($table)
         ->condition('id', $this->id());
       if (!$result = $check->execute()) {
-        Nick::Logger()->add('[Matter][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
+        Nick::Logger()->add('[Entity][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
         return FALSE;
       }
       if (!$result->fetchAllAssoc()) {
@@ -320,11 +320,11 @@ class Matter implements MatterInterface {
           $check_existing->condition($field, $this->getValue($field));
         }
         if (!$result_existing = $check_existing->execute()) {
-          Nick::Logger()->add('[Matter][save][2: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
+          Nick::Logger()->add('[Entity][save][2: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
           return FALSE;
         }
         if ($result = $result_existing->fetchAllAssoc()) {
-          Nick::Logger()->add('[Matter][save]: Some field already exists.', Logger::TYPE_FAILURE, 'Matter');
+          Nick::Logger()->add('[Entity][save]: Some field already exists.', Logger::TYPE_FAILURE, 'Entity');
           return FALSE;
         }
 
@@ -345,16 +345,16 @@ class Matter implements MatterInterface {
           ->values($values);
       }
     } else {
-      if (!$this->addMatter($this->getType())) {
-        Nick::Logger()->add('[Matter][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
+      if (!$this->addEntity($this->getType())) {
+        Nick::Logger()->add('[Entity][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
         return FALSE;
       }
       $id = $this->database->select('INFORMATION_SCHEMA.TABLES')
         ->fields(NULL, ['AUTO_INCREMENT'])
         ->condition('TABLE_SCHEMA', $this->database->getDatabaseName())
-        ->condition('TABLE_NAME', 'matter');
+        ->condition('TABLE_NAME', 'entity');
       if (!$id_result = $id->execute()) {
-        Nick::Logger()->add('[Matter][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Matter');
+        Nick::Logger()->add('[Entity][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
         return FALSE;
       }
       $result = $id_result->fetchAllAssoc();
@@ -370,7 +370,7 @@ class Matter implements MatterInterface {
     }
 
     // Fire postsave event
-    $postsaveEvent = new Event('MatterPostSave');
+    $postsaveEvent = new Event('EntityPostSave');
     $postsaveEvent->fire($this);
     return TRUE;
   }
@@ -380,28 +380,28 @@ class Matter implements MatterInterface {
    */
   public function delete() {
     // Fire predelete event
-    $presaveEvent = new Event('MatterPreDelete');
+    $presaveEvent = new Event('EntityPreDelete');
     $presaveEvent->fire($this);
 
     if ($this->id() == NULL) {
-      Nick::Logger()->add('Cannot remove Matter without ID', Logger::TYPE_FAILURE, 'Matter');
+      Nick::Logger()->add('Cannot remove Entity without ID', Logger::TYPE_FAILURE, 'Entity');
       return FALSE;
     }
 
     $query = Nick::Database()
-      ->delete('matter__' . $this->getType())
+      ->delete('entity__' . $this->getType())
       ->condition('id', $this->id());
-    $query_matter = Nick::Database()
-      ->delete('matter')
+    $query_entity = Nick::Database()
+      ->delete('entity')
       ->condition('id', $this->id());
 
-    if (!$query->execute() || !$query_matter->execute()) {
-      Nick::Logger()->add('Something went wrong trying to remove Matter ' . $this->getType() . ' [' . $this->id() . ']', Logger::TYPE_FAILURE, 'Matter');
+    if (!$query->execute() || !$query_entity->execute()) {
+      Nick::Logger()->add('Something went wrong trying to remove Entity ' . $this->getType() . ' [' . $this->id() . ']', Logger::TYPE_FAILURE, 'Entity');
       return FALSE;
     }
 
     // Fire postdelete event
-    $postsaveEvent = new Event('MatterPostDelete');
+    $postsaveEvent = new Event('EntityPostDelete');
     $postsaveEvent->fire($this);
     return TRUE;
   }
@@ -425,18 +425,18 @@ class Matter implements MatterInterface {
    *
    * @return bool
    */
-  protected static function createMatter($type) {
-    if (MatterManager::matterInstalled($type)) {
+  protected static function createEntity($type) {
+    if (EntityManager::entityInstalled($type)) {
       return FALSE;
     }
     $database = Nick::Database();
     $results = [];
     $auto_increment = FALSE;
-    $fields_storage = Matter::fields() + static::initialFields();
+    $fields_storage = Entity::fields() + static::initialFields();
     $fields = '';
     foreach ($fields_storage as $field => $options) {
       if (!in_array(strtoupper($options['type']), Database::getFieldTypes())) {
-        Nick::Logger()->add('[Matter][createMatter]: Field type /' . $options['type'] . '/ does not comply to possible field types.', Logger::TYPE_WARNING, 'Matter');
+        Nick::Logger()->add('[Entity][createEntity]: Field type /' . $options['type'] . '/ does not comply to possible field types.', Logger::TYPE_WARNING, 'Entity');
       }
       if ($fields !== '') {
         $fields .= ',' . PHP_EOL;
@@ -450,26 +450,26 @@ class Matter implements MatterInterface {
 
     $fullClassName = explode('\\', static::class);
     $className = array_pop($fullClassName);
-    $database->insert('matter_storage')
+    $database->insert('entity_storage')
       ->values([
         'type' => $type,
         'label' => $className,
-        'description' => 'This item creates the ' . $className . ' matter.',
+        'description' => 'This item creates the ' . $className . ' entity.',
         'fields' => serialize(static::initialFields()),
       ])
       ->execute();
-    $query = $database->query('CREATE TABLE `matter__' . $type . '` (
+    $query = $database->query('CREATE TABLE `entity__' . $type . '` (
 ' . $fields . '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
     if (!$results[] = $query) {
-      Nick::Logger()->add('[Matter][createMatter]: Something went wrong while querying the create function.', Logger::TYPE_WARNING, 'Matter');
+      Nick::Logger()->add('[Entity][createEntity]: Something went wrong while querying the create function.', Logger::TYPE_WARNING, 'Entity');
     }
 
     if ($auto_increment !== FALSE) {
-      $add_primary_key = $database->query('ALTER TABLE `matter__' . $type . '`
+      $add_primary_key = $database->query('ALTER TABLE `entity__' . $type . '`
 ADD PRIMARY KEY (`' . $auto_increment . '`);');
       $results[] = $add_primary_key;
-      $add_auto_increment = $database->query('ALTER TABLE `matter__' . $type . '`
+      $add_auto_increment = $database->query('ALTER TABLE `entity__' . $type . '`
   MODIFY ' . Database::createFieldQuery($auto_increment, $fields_storage[$auto_increment]) . ' AUTO_INCREMENT;');
       $results[] = $add_auto_increment;
     }

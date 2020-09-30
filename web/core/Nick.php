@@ -12,9 +12,9 @@ use Nick\Logger;
 use Nick\Manifest\Manifest;
 use Nick\Manifest\ManifestInterface;
 use Nick\Manifest\ManifestRenderer;
-use Nick\Matter\Matter;
-use Nick\Matter\MatterInterface;
-use Nick\Matter\MatterManager;
+use Nick\Entity\Entity;
+use Nick\Entity\EntityInterface;
+use Nick\Entity\EntityManager;
 use Nick\Page\PageInterface;
 use Nick\Page\PageManager;
 use Nick\Renderer;
@@ -29,22 +29,22 @@ use Symfony\Component\HttpFoundation\Request;
 class Nick {
 
   /**
-   * Returns non-cached Matter object
+   * Returns non-cached Entity object
    *
-   * @return Matter
+   * @return Entity
    */
-  public static function Matter() {
-    return new Matter();
+  public static function Entity() {
+    return new Entity();
   }
 
   /**
    * Returns non-cached FormBuilder object
    *
-   * @param MatterInterface|null $matter
+   * @param EntityInterface|null $matter
    *
    * @return Form
    */
-  public static function Form(MatterInterface $matter = NULL) {
+  public static function Form(EntityInterface $matter = NULL) {
     return new Form($matter);
   }
 
@@ -133,12 +133,12 @@ class Nick {
   }
 
   /**
-   * Returns uncached MatterManager object.
+   * Returns uncached EntityManager object.
    *
-   * @return MatterManager
+   * @return EntityManager
    */
-  public static function MatterManager() {
-    return new MatterManager();
+  public static function EntityManager() {
+    return new EntityManager();
   }
 
   /**
@@ -189,7 +189,7 @@ class Nick {
   public static function Bootstrap(Request $request) {
     $core = new Core();
     $core->setSystemSpecifics();
-    self::MatterManager()->createMatters();
+    self::EntityManager()->createEntities();
     self::ExtensionManager()->installExtensions();
 
     $page = $request->query->has('p') ? $request->query->get('p') : 'dashboard';

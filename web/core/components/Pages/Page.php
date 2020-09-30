@@ -2,15 +2,15 @@
 
 namespace Nick\Pages;
 
-use Nick\Matter\Matter;
-use Nick\Matter\MatterInterface;
+use Nick\Entity\Entity;
+use Nick\Entity\EntityInterface;
 
 /**
  * Class Pages
  *
  * @package Nick\Pages
  */
-class Page Extends Matter implements PageInterface {
+class Page Extends Entity implements PageInterface {
 
   /**
    * Page constructor.
@@ -25,24 +25,24 @@ class Page Extends Matter implements PageInterface {
   /**
    * @param int $id
    *
-   * @return MatterInterface|NULL
+   * @return EntityInterface|NULL
    */
   public static function load(int $id) {
-    return parent::loadMatter($id, 'page');
+    return parent::loadEntity($id, 'page');
   }
 
   /**
    * @return array
    */
   public static function loadMultiple() {
-    return parent::loadMultipleMatters('page');
+    return parent::loadMultipleEntities('page');
   }
 
   /**
    * @return string|null
    */
   public static function create() {
-    return parent::createMatter('page');
+    return parent::createEntity('page');
   }
 
   /**

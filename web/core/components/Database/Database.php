@@ -5,7 +5,7 @@ namespace Nick\Database;
 use mysqli;
 use Nick;
 use Nick\Settings;
-use Nick\SqlFormatter;
+use Nick\SqlForentity;
 
 /**
  * Class Database
@@ -227,7 +227,7 @@ class Database {
   protected function executeQuery(string $query) {
     if (Settings::get('debugging')) {
       echo '<pre style="color:#fff;">';
-      echo SqlFormatter::format($query);
+      echo SqlForentity::format($query);
       echo '</pre>';
     }
 

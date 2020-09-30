@@ -7,9 +7,9 @@ use Nick\Translation\StringTranslation;
 use Nick\Url;
 
 /**
- * Class MatterRenderer
+ * Class EntityRenderer
  *
- * @package Nick\Matter
+ * @package Nick\Entity
  */
 class ManifestRenderer {
   use StringTranslation;
@@ -33,7 +33,7 @@ class ManifestRenderer {
   protected $actionLinks = FALSE;
 
   /**
-   * MatterRenderer constructor.
+   * EntityRenderer constructor.
    *
    * @param ManifestInterface $manifest
    */
@@ -60,7 +60,7 @@ class ManifestRenderer {
   }
 
   /**
-   * Returns Matter object
+   * Returns Entity object
    *
    * @return ManifestInterface
    */
@@ -69,7 +69,7 @@ class ManifestRenderer {
   }
 
   /**
-   * Sets Matter object
+   * Sets Entity object
    *
    * @param ManifestInterface $manifest
    *
@@ -127,17 +127,17 @@ class ManifestRenderer {
   /**
    *
    *
-   * @param string $matterType
+   * @param string $entityType
    *
    * @return $this
    */
-  public function addActionLinks(string $matterType): self {
-    $this->actionLinks = $matterType;
+  public function addActionLinks(string $entityType): self {
+    $this->actionLinks = $entityType;
     return $this;
   }
 
   /**
-   * Returns rendered Matter object
+   * Returns rendered Entity object
    *
    * @param bool $massage
    *

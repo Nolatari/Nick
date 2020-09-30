@@ -19,7 +19,7 @@ class Install implements InstallInterface {
    * @throws \Exception
    */
   public function condition() {
-    $overview = \Nick::MatterManager()->loadByProperties(['type' => 'menu', 'route' => 'article.overview'], TRUE);
+    $overview = \Nick::EntityManager()->loadByProperties(['type' => 'menu', 'route' => 'article.overview'], TRUE);
     return $overview !== FALSE;
   }
 

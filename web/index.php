@@ -21,5 +21,3 @@ $request = Request::createFromGlobals();
 
 /** Bootstrap Nick. */
 \Nick::Bootstrap($request);
-
-d(translate(':hey', [':hey' => 'heyyyy']));

@@ -2,7 +2,7 @@
 
 namespace Nick\Database;
 
-use Nick\Matter\MatterInterface;
+use Nick\Entity\EntityInterface;
 
 /**
  * Class Update
@@ -74,7 +74,7 @@ class Update extends Database {
       if ($fields !== '') {
         $fields .= ', ';
       }
-      if ($value instanceof MatterInterface) {
+      if ($value instanceof EntityInterface) {
         $value = $value->id();
       }
       $fields .= $field . ' = ' . self::addQuotationMarks(self::Cleanse($this->database, $value));

@@ -3,18 +3,18 @@
 namespace Nick;
 
 /**
- * SQL Formatter is a collection of utilities for debugging SQL queries.
+ * SQL Forentity is a collection of utilities for debugging SQL queries.
  * It includes methods for formatting, syntax highlighting, removing comments, etc.
  *
- * @package    SqlFormatter
+ * @package    SqlForentity
  * @author     Jeremy Dorn <jeremy@jeremydorn.com>
  * @author     Florin Patan <florinpatan@gmail.com>
  * @copyright  2013 Jeremy Dorn
  * @license    http://opensource.org/licenses/MIT
- * @link       http://github.com/jdorn/sql-formatter
+ * @link       http://github.com/jdorn/sql-forentity
  * @version    1.2.18
  */
-class SqlFormatter {
+class SqlForentity {
   // Constants for token types
   const TOKEN_TYPE_WHITESPACE = 0;
   const TOKEN_TYPE_WORD = 1;

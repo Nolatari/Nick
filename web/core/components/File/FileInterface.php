@@ -2,14 +2,14 @@
 
 namespace Nick\File;
 
-use Nick\Matter\MatterInterface;
+use Nick\Entity\EntityInterface;
 
 /**
  * Interface FileInterface
  *
  * @package Nick\File
  */
-interface FileInterface extends MatterInterface {
+interface FileInterface extends EntityInterface {
 
   /**
    * @return array|mixed|NULL|string

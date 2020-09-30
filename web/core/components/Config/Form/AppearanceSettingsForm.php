@@ -5,7 +5,7 @@ namespace Nick\Config\Form;
 use Nick;
 use Nick\Form\Form;
 use Nick\Form\FormInterface;
-use Nick\Matter\MatterInterface;
+use Nick\Entity\EntityInterface;
 
 /**
  * Class AppearanceSettingsForm
@@ -17,10 +17,10 @@ class AppearanceSettingsForm extends Form implements FormInterface {
   /**
    * AppearanceSettingsForm constructor.
    *
-   * @param MatterInterface|null $matter
+   * @param EntityInterface|null $entity
    */
-  public function __construct(MatterInterface $matter = NULL) {
-    parent::__construct($matter);
+  public function __construct(EntityInterface $entity = NULL) {
+    parent::__construct($entity);
     $themes = Nick::Theme()->getAvailableThemes();
     $options = [];
     foreach ($themes as $theme) {

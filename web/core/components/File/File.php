@@ -2,15 +2,15 @@
 
 namespace Nick\File;
 
-use Nick\Matter\Matter;
-use Nick\Matter\MatterInterface;
+use Nick\Entity\Entity;
+use Nick\Entity\EntityInterface;
 
 /**
  * Class File
  *
  * @package Nick\File
  */
-class File extends Matter implements FileInterface {
+class File extends Entity implements FileInterface {
 
   /** File type constants */
   const TYPE_VIDEO = 'video';
@@ -30,24 +30,24 @@ class File extends Matter implements FileInterface {
   /**
    * @param int $id
    *
-   * @return Matter|MatterInterface|null
+   * @return Entity|EntityInterface|null
    */
   public static function load(int $id) {
-    return parent::loadMatter($id, 'file');
+    return parent::loadEntity($id, 'file');
   }
 
   /**
    * @return array
    */
   public static function loadMultiple() {
-    return parent::loadMultipleMatters('file');
+    return parent::loadMultipleEntities('file');
   }
 
   /**
    * @return string|null
    */
   public static function create() {
-    return parent::createMatter('file');
+    return parent::createEntity('file');
   }
 
   /**

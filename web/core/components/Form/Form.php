@@ -6,7 +6,7 @@ use Exception;
 use Nick;
 use Nick\Event\Event;
 use Nick\Logger;
-use Nick\Matter\MatterInterface;
+use Nick\Entity\EntityInterface;
 use Nick\Translation\StringTranslation;
 
 /**
@@ -17,8 +17,8 @@ use Nick\Translation\StringTranslation;
 class Form extends FormBuilder implements FormInterface {
   use StringTranslation;
 
-  /** @var MatterInterface|null $matter */
-  protected $matter = NULL;
+  /** @var EntityInterface|null $entity */
+  protected $entity = NULL;
 
   /** @var array $values */
   protected array $values = [];
@@ -32,17 +32,17 @@ class Form extends FormBuilder implements FormInterface {
   /**
    * Form constructor.
    *
-   * @param MatterInterface|null $matter
+   * @param EntityInterface|null $entity
    */
-  public function __construct(MatterInterface $matter = NULL) {
-    if (!is_null($matter)) {
-      $this->matter = $matter;
-      $this->setFields($matter->getAllFields());
-      if ($matter->getValues() !== []) {
-        $this->setId($matter->id() . '-edit-form');
-        $this->setValues($matter->getValues() ?: []);
+  public function __construct(EntityInterface $entity = NULL) {
+    if (!is_null($entity)) {
+      $this->entity = $entity;
+      $this->setFields($entity->getAllFields());
+      if ($entity->getValues() !== []) {
+        $this->setId($entity->id() . '-edit-form');
+        $this->setValues($entity->getValues() ?: []);
       } else {
-        $this->setId($matter->id() . '-add-form');
+        $this->setId($entity->id() . '-add-form');
       }
     }
   }
@@ -158,10 +158,10 @@ class Form extends FormBuilder implements FormInterface {
   /**
    * Returns content item object.
    *
-   * @return MatterInterface|null
+   * @return EntityInterface|null
    */
-  protected function getMatter(): ?MatterInterface {
-    return $this->matter;
+  protected function getEntity(): ?EntityInterface {
+    return $this->entity;
   }
 
 }

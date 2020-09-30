@@ -6,9 +6,9 @@ use Nick;
 use Nick\Database\Database;
 use Nick\Database\Result;
 use Nick\Event\Event;
-use Nick\Matter\MatterInterface;
-use Nick\Matter\MatterManager;
-use Nick\Matter\MatterRenderer;
+use Nick\Entity\EntityInterface;
+use Nick\Entity\EntityManager;
+use Nick\Entity\EntityRenderer;
 
 /**
  * Class Manifest
@@ -89,15 +89,15 @@ class Manifest implements ManifestInterface {
     }
     $results = $query->fetchAllAssoc();
     if ($massage) {
-      $matter = MatterManager::getMatterClassFromType($this->getType());
+      $entity = EntityManager::getEntityClassFromType($this->getType());
       foreach ($results as $id => $values) {
-        $results[$id] = $matter->massageProperties($values)->getValues();
+        $results[$id] = $entity->massageProperties($values)->getValues();
         foreach ($results[$id] as &$field) {
-          if (!$field instanceof MatterInterface) {
+          if (!$field instanceof EntityInterface) {
             continue;
           }
-          $matterRenderer = new MatterRenderer($field);
-          $field = $matterRenderer->render();
+          $entityRenderer = new EntityRenderer($field);
+          $field = $entityRenderer->render();
         }
       }
     }
@@ -211,7 +211,7 @@ class Manifest implements ManifestInterface {
    */
   protected function query() {
     $query = Nick::Database()
-      ->select('matter__' . $this->getType())
+      ->select('entity__' . $this->getType())
       ->fields(NULL, $this->getFields());
     // Add conditions
     foreach ($this->getConditions() as $condition) {

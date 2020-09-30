@@ -5,7 +5,7 @@ namespace Nick\DummyContent;
 use Nick;
 use Nick\Article\Article;
 use Nick\ExtensionManager\ExtensionManager;
-use Nick\Matter\Matter;
+use Nick\Entity\Entity;
 use Nick\Page\Page;
 use Nick\Person\Person;
 
@@ -31,7 +31,7 @@ class DummyContent extends Page {
       return 'Person extension is not installed.';
     }
     $person = new Person([
-      'status' => Matter::PUBLISHED,
+      'status' => Entity::PUBLISHED,
       'owner' => 1,
       'name' => 'Admin',
       'password' => '$2y$10$vw4KCNOucAF4bjcTsrnIZO7/KAtWBHj9bMKGy4U4riVvOyZ9dLi4e',
@@ -45,7 +45,7 @@ class DummyContent extends Page {
       return 'Article extension is not installed.';
     }
     $article = new Article([
-      'status' => Matter::PUBLISHED,
+      'status' => Entity::PUBLISHED,
       'owner' => 1,
       'title' => 'My first article',
       'body' => 'This is my first article!\n\nLorem ipsum, and what not :-)',

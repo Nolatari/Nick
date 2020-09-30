@@ -2,14 +2,14 @@
 
 namespace Nick\Article;
 
-use Nick\Matter\MatterInterface;
+use Nick\Entity\EntityInterface;
 
 /**
  * Interface ArticleInterface
  *
  * @package Nick\Article
  */
-interface ArticleInterface extends MatterInterface {
+interface ArticleInterface extends EntityInterface {
 
   /**
    * @return string

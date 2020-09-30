@@ -1,6 +1,6 @@
 <?php
 
-namespace Nick\Matter;
+namespace Nick\Entity;
 
 use Exception;
 use Nick;
@@ -9,27 +9,27 @@ use Nick\YamlReader;
 use Nick\Database\Result;
 
 /**
- * Class MatterManager
+ * Class EntityManager
  *
- * @package Nick\Matter
+ * @package Nick\Entity
  */
-class MatterManager {
+class EntityManager {
 
   /**
    * @return array
    */
-  protected static function getAllMatterClasses() {
-    $matters = [];
+  protected static function getAllEntityClasses() {
+    $entities = [];
     $extensions = Nick::ExtensionManager()::getCoreExtensions() + Nick::ExtensionManager()::getContribExtensions();
     foreach ($extensions as $extension) {
       $extensionInfo = YamlReader::readExtension($extension);
-      if ($extensionInfo['type'] !== 'matter') {
+      if ($extensionInfo['type'] !== 'entity') {
         continue;
       }
 
-      $matters[] = $extension;
+      $entities[] = $extension;
     }
-    return $matters;
+    return $entities;
   }
 
   /**
@@ -37,8 +37,8 @@ class MatterManager {
    *
    * @return mixed
    */
-  public static function getMatterClassFromType($type) {
-    self::loadMatterClassFile($type);
+  public static function getEntityClassFromType($type) {
+    self::loadEntityClassFile($type);
 
     if (class_exists('\\Nick\\' . $type . '\\' . $type)) {
       $className = '\\Nick\\' . $type . '\\' . $type;
@@ -53,7 +53,7 @@ class MatterManager {
    *
    * @return bool
    */
-  public static function loadMatterClassFile($type) {
+  public static function loadEntityClassFile($type) {
     $dirs = Nick::ExtensionManager()::getCoreExtensions() + Nick::ExtensionManager()::getContribExtensions();
 
     foreach ($dirs as $dir) {
@@ -62,7 +62,7 @@ class MatterManager {
         if (is_file(__DIR__ . '/' . $dir . '/' . $dir . 'Interface.php')) {
           require_once __DIR__ . '/' . $dir . '/' . $dir . 'Interface.php';
         }
-        // Include the matter's class file
+        // Include the entity's class file
         if (is_file(__DIR__ . '/' . $dir . '/' . $dir . '.php')) {
           require_once __DIR__ . '/' . $dir . '/' . $dir . '.php';
         }
@@ -73,30 +73,30 @@ class MatterManager {
   }
 
   /**
-   * Checks whether matter is installed
+   * Checks whether entity is installed
    *
    * @param string $type
-   *            Machine readable label of matter.
+   *            Machine readable label of entity.
    *
    * @return bool
    */
-  public static function matterInstalled($type) {
+  public static function entityInstalled($type) {
     $database = Nick::Database();
     $type = strtolower($type);
-    $matter = $database
-      ->select('matter__' . $type)
+    $entity = $database
+      ->select('entity__' . $type)
       ->execute();
-    if (!$matter instanceof Result) {
+    if (!$entity instanceof Result) {
       return FALSE;
     }
-    $matter_storage = $database
-      ->select('matter_storage')
+    $entity_storage = $database
+      ->select('entity_storage')
       ->condition('type', $type)
       ->execute();
-    if (!$matter_storage instanceof Result) {
+    if (!$entity_storage instanceof Result) {
       return FALSE;
     }
-    if ($result = $matter_storage->fetchAllAssoc()) {
+    if ($result = $entity_storage->fetchAllAssoc()) {
       if (count($result) > 0) {
         return TRUE;
       }
@@ -107,27 +107,27 @@ class MatterManager {
   /**
    * Creates content items on bootstrapping Nick
    */
-  public function createMatters() {
-    // Create tables for Matters.
-    $matters = [];
-    foreach (self::getAllMatterClasses() as $matter) {
-      if (!self::matterInstalled($matter) && Nick::ExtensionManager()::extensionInstalled($matter)) {
-        $matters[] = self::getMatterClassFromType($matter);
+  public function createEntities() {
+    // Create tables for Entities.
+    $entities = [];
+    foreach (self::getAllEntityClasses() as $entity) {
+      if (!self::entityInstalled($entity) && Nick::ExtensionManager()::extensionInstalled($entity)) {
+        $entities[] = self::getEntityClassFromType($entity);
       }
     }
 
-    foreach ($matters as $matter) {
-      if (!$matter instanceof MatterInterface) {
+    foreach ($entities as $entity) {
+      if (!$entity instanceof EntityInterface) {
         continue;
       }
 
-      $matter::create();
+      $entity::create();
     }
   }
 
   /**
    * @param array $properties
-   *          An array of properties your Matter should have
+   *          An array of properties your Entity should have
    * @param bool  $multiple
    *          If you expect multiple results, set this to TRUE
    *
@@ -140,10 +140,10 @@ class MatterManager {
       return FALSE;
     }
     $type = $properties['type'];
-    $matter = static::getMatterClassFromType($type);
-    $matter->setType($type);
+    $entity = static::getEntityClassFromType($type);
+    $entity->setType($type);
     unset($properties['type']);
-    $query = Nick::Database()->select('matter__' . $type)
+    $query = Nick::Database()->select('entity__' . $type)
       ->condition('status', 1)
       ->orderBy('id', 'ASC');
     foreach ($properties as $field => $value) {
@@ -156,7 +156,7 @@ class MatterManager {
       /** @var Result $result */
       $result = $query->execute();
     } catch (Exception $exception) {
-      Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'Matter');
+      Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'Entity');
       return FALSE;
     }
     if (!$results = $result->fetchAllAssoc('id')) {
@@ -165,14 +165,14 @@ class MatterManager {
 
     if (count($results) === 1 && $multiple === FALSE) {
       $current = reset($results);
-      return $matter->massageProperties($current);
+      return $entity->massageProperties($current);
     }
 
-    $matters = [];
+    $entities = [];
     foreach ($results as $id => $current) {
-      $matters[] = $matter->massageProperties($current);
+      $entities[] = $entity->massageProperties($current);
     }
-    return $matters;
+    return $entities;
   }
 
 }

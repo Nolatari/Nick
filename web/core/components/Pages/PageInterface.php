@@ -2,14 +2,14 @@
 
 namespace Nick\Pages;
 
-use Nick\Matter\MatterInterface;
+use Nick\Entity\EntityInterface;
 
 /**
  * Interface PagesInterface
  *
  * @package Nick\Pages
  */
-interface PageInterface extends MatterInterface {
+interface PageInterface extends EntityInterface {
 
   /**
    * @return string

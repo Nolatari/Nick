@@ -1,15 +1,15 @@
 <?php
 
-namespace Nick\Matter;
+namespace Nick\Entity;
 
 use Exception;
 
 /**
- * Interface MatterInterface
+ * Interface EntityInterface
  *
- * @package Nick\Matter
+ * @package Nick\Entity
  */
-interface MatterInterface {
+interface EntityInterface {
 
   /**
    * @return array
@@ -20,7 +20,7 @@ interface MatterInterface {
    * @param string $type
    * @param array  $values
    *
-   * @return MatterInterface|bool
+   * @return EntityInterface|bool
    */
   public function getStorage($type, $values = []);
 

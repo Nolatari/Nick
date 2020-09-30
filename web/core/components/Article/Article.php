@@ -2,15 +2,15 @@
 
 namespace Nick\Article;
 
-use Nick\Matter\Matter;
-use Nick\Matter\MatterInterface;
+use Nick\Entity\Entity;
+use Nick\Entity\EntityInterface;
 
 /**
  * Class Article
  *
  * @package Nick\Article
  */
-class Article Extends Matter implements ArticleInterface {
+class Article Extends Entity implements ArticleInterface {
 
   /**
    * Article constructor.
@@ -25,24 +25,24 @@ class Article Extends Matter implements ArticleInterface {
   /**
    * @param int $id
    *
-   * @return MatterInterface|NULL
+   * @return EntityInterface|NULL
    */
   public static function load(int $id) {
-    return parent::loadMatter($id, 'article');
+    return parent::loadEntity($id, 'article');
   }
 
   /**
    * @return array
    */
   public static function loadMultiple() {
-    return parent::loadMultipleMatters('article');
+    return parent::loadMultipleEntities('article');
   }
 
   /**
    * @return string|null
    */
   public static function create() {
-    return parent::createMatter('article');
+    return parent::createEntity('article');
   }
 
   /**

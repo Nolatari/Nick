@@ -19,7 +19,7 @@ class Uninstall implements UninstallInterface {
    * @throws \Exception
    */
   public function condition() {
-    $overview = \Nick::MatterManager()
+    $overview = \Nick::EntityManager()
       ->loadByProperties([
         'type' => 'menu',
         'route' => 'article.overview'
@@ -34,21 +34,21 @@ class Uninstall implements UninstallInterface {
    */
   public function doUninstall() {
     /** @var MenuInterface $menu */
-    $menu = \Nick::MatterManager()
+    $menu = \Nick::EntityManager()
       ->loadByProperties([
         'type' => 'menu',
         'route' => 'article.overview'
       ]);
     $menu->delete();
     \Nick::Logger()->add('Removed menu item', Logger::TYPE_INFO, 'Article');
-    \Nick::Database()->delete('matter')
+    \Nick::Database()->delete('entity')
       ->condition('type', 'article')
       ->execute();
-    \Nick::Database()->delete('matter_storage')
+    \Nick::Database()->delete('entity_storage')
       ->condition('type', 'article')
       ->execute();
-    \Nick::Database()->query('DROP TABLE matter__article');
-    \Nick::Logger()->add('Removed Article matters', Logger::TYPE_INFO, 'Article');
+    \Nick::Database()->query('DROP TABLE entity__article');
+    \Nick::Logger()->add('Removed Article entities', Logger::TYPE_INFO, 'Article');
   }
 
 }

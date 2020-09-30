@@ -1,50 +1,50 @@
 <?php
 
-namespace Nick\Matter;
+namespace Nick\Entity;
 
 use Nick\Renderer;
 
 /**
- * Class MatterRenderer
+ * Class EntityRenderer
  *
- * @package Nick\Matter
+ * @package Nick\Entity
  */
-class MatterRenderer {
+class EntityRenderer {
 
-  /** @var MatterInterface $matter */
-  protected MatterInterface $matter;
+  /** @var EntityInterface $entity */
+  protected EntityInterface $entity;
 
   /** @var Renderer $renderer */
   protected Renderer $renderer;
 
   /**
-   * MatterRenderer constructor.
+   * EntityRenderer constructor.
    *
-   * @param MatterInterface $matter
+   * @param EntityInterface $entity
    */
-  public function __construct(MatterInterface $matter) {
-    $this->setMatter($matter);
+  public function __construct(EntityInterface $entity) {
+    $this->setEntity($entity);
     $this->setRenderer();
   }
 
   /**
-   * Returns Matter object
+   * Returns Entity object
    *
-   * @return MatterInterface
+   * @return EntityInterface
    */
-  protected function getMatter(): MatterInterface {
-    return $this->matter;
+  protected function getEntity(): EntityInterface {
+    return $this->entity;
   }
 
   /**
-   * Sets Matter object
+   * Sets Entity object
    *
-   * @param MatterInterface $matter
+   * @param EntityInterface $entity
    *
    * @return self
    */
-  protected function setMatter(MatterInterface $matter): self {
-    $this->matter = $matter;
+  protected function setEntity(EntityInterface $entity): self {
+    $this->entity = $entity;
     return $this;
   }
 
@@ -68,20 +68,20 @@ class MatterRenderer {
   }
 
   /**
-   * Returns rendered Matter object
+   * Returns rendered Entity object
    *
    * @param array $variables
    *
    * @return string|NULL
    */
   public function render($variables = []): ?string {
-    $matter = $this->getMatter();
-    $values = $matter->getValues();
+    $entity = $this->getEntity();
+    $values = $entity->getValues();
     $values = array_merge($values, $variables);
     return $this
       ->getRenderer()
-      ->setType('matter')
-      ->setTemplate($matter->getType())
+      ->setType('entity')
+      ->setTemplate($entity->getType())
       ->render($values);
   }
 

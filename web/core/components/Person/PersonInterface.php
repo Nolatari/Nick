@@ -2,14 +2,14 @@
 
 namespace Nick\Person;
 
-use Nick\Matter\MatterInterface;
+use Nick\Entity\EntityInterface;
 
 /**
  * Interface PersonInterface
  *
  * @package Nick\Person
  */
-interface PersonInterface extends MatterInterface {
+interface PersonInterface extends EntityInterface {
 
   /**
    * @return array|mixed|NULL|string

@@ -5,7 +5,7 @@ namespace Nick\Config\Form;
 use Nick;
 use Nick\Form\Form;
 use Nick\Form\FormInterface;
-use Nick\Matter\MatterInterface;
+use Nick\Entity\EntityInterface;
 
 /**
  * Class SiteSettingsForm
@@ -17,10 +17,10 @@ class SiteSettingsForm extends Form implements FormInterface {
   /**
    * SiteSettingsForm constructor.
    *
-   * @param MatterInterface|null $matter
+   * @param EntityInterface|null $entity
    */
-  public function __construct(MatterInterface $matter = NULL) {
-    parent::__construct($matter);
+  public function __construct(EntityInterface $entity = NULL) {
+    parent::__construct($entity);
     $siteValues = Nick::Config()->get('site');
     $languages = Nick::Language()->getAvailableLanguages();
     $options = [];

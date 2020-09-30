@@ -2,15 +2,15 @@
 
 namespace Nick\Menu;
 
-use Nick\Matter\Matter;
-use Nick\Matter\MatterInterface;
+use Nick\Entity\Entity;
+use Nick\Entity\EntityInterface;
 
 /**
  * Class Article
  *
  * @package Nick\Menu
  */
-class Menu extends Matter implements MenuInterface {
+class Menu extends Entity implements MenuInterface {
 
   /**
    * Card constructor.
@@ -25,24 +25,24 @@ class Menu extends Matter implements MenuInterface {
   /**
    * @param int $id
    *
-   * @return MatterInterface|NULL
+   * @return EntityInterface|NULL
    */
   public static function load(int $id) {
-    return parent::loadMatter($id, 'menu');
+    return parent::loadEntity($id, 'menu');
   }
 
   /**
    * @return array
    */
   public static function loadMultiple() {
-    return parent::loadMultipleMatters('menu');
+    return parent::loadMultipleEntities('menu');
   }
 
   /**
    * @return string|null
    */
   public static function create() {
-    return parent::createMatter('menu');
+    return parent::createEntity('menu');
   }
 
   /**

@@ -2,15 +2,15 @@
 
 namespace Nick\Person;
 
-use Nick\Matter\Matter;
-use Nick\Matter\MatterInterface;
+use Nick\Entity\Entity;
+use Nick\Entity\EntityInterface;
 
 /**
  * Class Person
  *
  * @package Nick\Person
  */
-class Person extends Matter implements PersonInterface {
+class Person extends Entity implements PersonInterface {
 
   /**
    * Person constructor.
@@ -50,24 +50,24 @@ class Person extends Matter implements PersonInterface {
   /**
    * @param int $id
    *
-   * @return Matter|MatterInterface|NULL
+   * @return Entity|EntityInterface|NULL
    */
   public static function load(int $id) {
-    return parent::loadMatter($id, 'person');
+    return parent::loadEntity($id, 'person');
   }
 
   /**
    * @return array
    */
   public static function loadMultiple() {
-    return parent::loadMultipleMatters('person');
+    return parent::loadMultipleEntities('person');
   }
 
   /**
    * @return string|null
    */
   public static function create() {
-    return parent::createMatter('person');
+    return parent::createEntity('person');
   }
 
   /**

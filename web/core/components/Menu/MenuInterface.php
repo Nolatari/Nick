@@ -2,14 +2,14 @@
 
 namespace Nick\Menu;
 
-use Nick\Matter\MatterInterface;
+use Nick\Entity\EntityInterface;
 
 /**
  * Interface MenuInterface
  *
  * @package Nick\Menu
  */
-interface MenuInterface extends MatterInterface {
+interface MenuInterface extends EntityInterface {
 
   /**
    * @return string

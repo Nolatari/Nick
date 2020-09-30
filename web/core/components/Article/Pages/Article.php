@@ -7,7 +7,7 @@ use Nick\Article\Article as ArticleObject;
 use Nick\Form\Form;
 use Nick\Manifest\Manifest;
 use Nick\Manifest\ManifestRenderer;
-use Nick\Matter\MatterRenderer;
+use Nick\Entity\EntityRenderer;
 use Nick\Page\Page;
 use Nick\Url;
 
@@ -79,8 +79,8 @@ class Article extends Page {
     if (isset($parameters['id']) && !empty($parameters['id'])) {
       /** @var ArticleObject $article */
       $article = ArticleObject::load($parameters['id']);
-      $matterRenderer = new MatterRenderer($article);
-      $content = $matterRenderer->render();
+      $entityRenderer = new EntityRenderer($article);
+      $content = $entityRenderer->render();
 
       if (isset($parameters['t'])) {
         switch ($parameters['t']) {

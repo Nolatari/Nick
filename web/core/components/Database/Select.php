@@ -2,7 +2,7 @@
 
 namespace Nick\Database;
 
-use Nick\Matter\Matter;
+use Nick\Entity\Entity;
 
 /**
  * Class Select
@@ -84,7 +84,7 @@ class Select extends Database {
    *
    * @return self
    */
-  public function limit(int $start = 0, int $end = Matter::CARDINALITY_DEFAULT) {
+  public function limit(int $start = 0, int $end = Entity::CARDINALITY_DEFAULT) {
     $this->limit = "$start, $end";
     return $this;
   }
