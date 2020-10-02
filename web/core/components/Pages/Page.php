@@ -26,6 +26,8 @@ class Page Extends Entity implements PageInterface {
    * @param int $id
    *
    * @return EntityInterface|NULL
+   *
+   * @throws \Exception
    */
   public static function load(int $id) {
     return parent::loadEntity($id, 'page');
@@ -50,7 +52,7 @@ class Page Extends Entity implements PageInterface {
    */
   public static function initialFields(): array {
     return [
-      'page' => [
+      'pid' => [
         'type' => 'varchar',
         'length' => 255,
         'unique' => TRUE,

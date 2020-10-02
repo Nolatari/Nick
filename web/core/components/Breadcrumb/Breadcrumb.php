@@ -15,8 +15,9 @@ class Breadcrumb {
    * Add breadcrumbs to page render
    *
    * @param array|null $parameters
+   * @param string     $page_id
    */
-  public function pagePreRender(&$parameters, $page_id) {
+  public function pagePreRender(?array &$parameters, string $page_id) {
     if ($page_id !== 'header') {
       return;
     }

@@ -7,6 +7,7 @@ use Nick\Database\Database;
 use Nick\ExtensionManager\ExtensionManager;
 use Nick\Form\Form;
 use Nick\Language\Language;
+use Nick\Language\LanguageInterface;
 use Nick\Language\LanguageManager;
 use Nick\Logger;
 use Nick\Manifest\Manifest;
@@ -18,7 +19,9 @@ use Nick\Entity\EntityManager;
 use Nick\Page\PageInterface;
 use Nick\Page\PageManager;
 use Nick\Renderer;
+use Nick\Routing\Routing;
 use Nick\Theme;
+use Nick\Translation\Translation;
 use Nick\Translation\TranslationInterface;
 use Nick\Url;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +32,7 @@ use Symfony\Component\HttpFoundation\Request;
 class Nick {
 
   /**
-   * Returns non-cached Entity object
+   * Returns Entity object
    *
    * @return Entity
    */
@@ -38,7 +41,7 @@ class Nick {
   }
 
   /**
-   * Returns non-cached FormBuilder object
+   * Returns Form object
    *
    * @param EntityInterface|null $matter
    *
@@ -49,7 +52,7 @@ class Nick {
   }
 
   /**
-   * Returns non-cached Renderer object.
+   * Returns Renderer object.
    *
    * @return Renderer
    */
@@ -58,25 +61,21 @@ class Nick {
   }
 
   /**
-   * Returns cached Translation object
+   * Returns Translation object
    *
    * @return TranslationInterface
    */
   public static function Translation() {
-    $translationExtension = self::Config()->get('translation.extension') or 'Translation';
-    if (!self::ExtensionManager()::extensionInstalled($translationExtension)) {
-      $translationExtension = 'Translation';
-    }
-    return self::Cache()->getData('translation', '\\Nick\\' . $translationExtension . '\\' . $translationExtension);
+    return new Translation();
   }
 
   /**
-   * Returns cached Config object
+   * Returns Config object
    *
    * @return Config
    */
   public static function Config() {
-    return self::Cache()->getData('config', '\\Nick\\Config\\Config');
+    return new Config();
   }
 
   /**
@@ -88,39 +87,41 @@ class Nick {
   }
 
   /**
-   * Returns cached ExtensionManager object
+   * Returns ExtensionManager object
    *
    * @return ExtensionManager
    */
   public static function ExtensionManager() {
-    return self::Cache()->getData('extension.manager', '\\Nick\\ExtensionManager\\ExtensionManager');
+    return new ExtensionManager();
   }
 
   /**
-   * Returns cached LanguageManager object
+   * Returns LanguageManager object
    *
    * @return LanguageManager
    */
   public static function LanguageManager() {
-    return self::Cache()->getData('language.manager', '\\Nick\\Language\\LanguageManager');
+    return new LanguageManager();
   }
 
   /**
-   * Returns cached Language object
+   * Returns Language object
    *
-   * @return Language
+   * @param string $langcode
+   *
+   * @return LanguageInterface
    */
-  public static function Language() {
-    return self::Cache()->getData('language', '\\Nick\\Language\\Language');
+  public static function Language(string $langcode = 'en'): LanguageInterface {
+    return new Language($langcode);
   }
 
   /**
-   * Returns cached Theme object
+   * Returns Theme object
    *
    * @return Theme
    */
   public static function Theme() {
-    return self::Cache()->getData('theme', '\\Nick\\Theme');
+    return new Theme();
   }
 
   /**
@@ -133,7 +134,7 @@ class Nick {
   }
 
   /**
-   * Returns uncached EntityManager object.
+   * Returns EntityManager object.
    *
    * @return EntityManager
    */
@@ -142,7 +143,7 @@ class Nick {
   }
 
   /**
-   * Returns uncached PageManager object
+   * Returns PageManager object
    *
    * @return PageManager
    */
@@ -151,18 +152,18 @@ class Nick {
   }
 
   /**
-   * Returns non-cached Manifest object
+   * Returns Manifest object
    *
    * @param string $type
    *
-   * @return Manifest
+   * @return ManifestInterface
    */
-  public static function Manifest(string $type) {
+  public static function Manifest(string $type): ManifestInterface {
     return new Manifest($type);
   }
 
   /**
-   * Returns non-cached Manifest object
+   * Returns Manifest object
    *
    * @param ManifestInterface $manifest
    *
@@ -173,12 +174,21 @@ class Nick {
   }
 
   /**
-   * Returns cached Logger object
+   * Returns Logger object
    *
    * @return Logger
    */
   public static function Logger() {
-    return self::Cache()->getData('logger', '\\Nick\\Logger');
+    return new Logger();
+  }
+
+  /**
+   * Returns Routing object.
+   *
+   * @return Routing
+   */
+  public static function Routing() {
+    return new Routing();
   }
 
   /**

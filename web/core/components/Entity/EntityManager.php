@@ -121,6 +121,10 @@ class EntityManager {
         continue;
       }
 
+      if (!method_exists($entity, 'create')) {
+        continue;
+      }
+
       $entity::create();
     }
   }
