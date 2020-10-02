@@ -1,3 +1,7 @@
 name: Article
 version: 1.0a
 type: entity
+event_listeners:
+  preSearchRender:
+    class: '\Nick\Article\Events'
+    method: 'preSearchRender'

@@ -14,12 +14,14 @@ class Select extends Database {
   /**
    * Select constructor.
    *
-   * @param      $table
-   * @param null $alias
-   * @param null $options
+   * @param string      $table
+   * @param string|null $alias
+   * @param null        $options
+   * @param string      $condition_delimiter
+   * @param string|null $database
    */
-  public function __construct($table, $alias = NULL, $options = NULL) {
-    parent::__construct($this->condition_delimiter, $this->getDatabaseName());
+  public function __construct(string $table, $alias = NULL, $options = NULL, $condition_delimiter = 'AND', string $database = NULL) {
+    parent::__construct($condition_delimiter, $database);
     $this->addTable($table, $alias, $options);
   }
 
@@ -148,6 +150,8 @@ class Select extends Database {
       }
       if (strtoupper($condition['operator']) === 'LIKE') {
         $conditions .= $condition['field'] . ' ' . $condition['operator'] . ' ' . self::addQuotationMarks(self::Cleanse($this->database, '%' . $condition['value'] . '%'));
+      } elseif(strtoupper($condition['operator']) === 'IN') {
+        $conditions .= $condition['field'] . ' ' . $condition['operator'] . ' (' . implode(',', $condition['value']) . ')';
       } else {
         $conditions .= $condition['field'] . ' ' . $condition['operator'] . ' ' . self::addQuotationMarks(self::Cleanse($this->database, $condition['value']));
       }

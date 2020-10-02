@@ -4,6 +4,7 @@ use Nick\Cache\CacheInterface;
 use Nick\Config\Config;
 use Nick\Core;
 use Nick\Database\Database;
+use Nick\Entity\EntityRenderer;
 use Nick\ExtensionManager\ExtensionManager;
 use Nick\Form\Form;
 use Nick\Language\Language;
@@ -20,6 +21,7 @@ use Nick\Page\PageInterface;
 use Nick\Page\PageManager;
 use Nick\Renderer;
 use Nick\Routing\Routing;
+use Nick\Search\Search;
 use Nick\Theme;
 use Nick\Translation\Translation;
 use Nick\Translation\TranslationInterface;
@@ -41,6 +43,17 @@ class Nick {
   }
 
   /**
+   * Returns EntityRenderer object
+   *
+   * @param EntityInterface $entity
+   *
+   * @return EntityRenderer
+   */
+  public static function EntityRenderer(EntityInterface $entity) {
+    return new EntityRenderer($entity);
+  }
+
+  /**
    * Returns Form object
    *
    * @param EntityInterface|null $matter
@@ -49,6 +62,17 @@ class Nick {
    */
   public static function Form(EntityInterface $matter = NULL) {
     return new Form($matter);
+  }
+
+  /**
+   * Returns Search object
+   *
+   * @param $query
+   *
+   * @return Search
+   */
+  public static function Search($query) {
+    return new Search($query);
   }
 
   /**
@@ -127,10 +151,14 @@ class Nick {
   /**
    * Returns cached Database object
    *
+   * @param string $condition_delimiter
+   * @param null   $database
+   *
    * @return Database
    */
-  public static function Database() {
-    return self::Cache()->getData('database', '\\Nick\\Database\\Database');
+  public static function Database($condition_delimiter = 'AND', $database = NULL) {
+    return new Database($condition_delimiter, $database); // Find solution to  cache Database again but with dynamic parameters
+    //return self::Cache()->getData('database', '\\Nick\\Database\\Database', NULL, [], [$condition_delimiter, $database]);
   }
 
   /**

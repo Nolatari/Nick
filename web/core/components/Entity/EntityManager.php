@@ -20,14 +20,18 @@ class EntityManager {
    */
   protected static function getAllEntityClasses() {
     $entities = [];
-    $extensions = Nick::ExtensionManager()::getCoreExtensions() + Nick::ExtensionManager()::getContribExtensions();
+    $extensions = Nick::ExtensionManager()::getInstalledExtensions();
     foreach ($extensions as $extension) {
-      $extensionInfo = YamlReader::readExtension($extension);
+      $extensionInfo = YamlReader::readExtension($extension['name']);
+      if (!is_array($extensionInfo)) {
+        Nick::Logger()->add($extension['name'] . ' entry exists in database but no module info yml file is found.', Logger::TYPE_FAILURE, 'EntityManager');
+        continue;
+      }
       if ($extensionInfo['type'] !== 'entity') {
         continue;
       }
 
-      $entities[] = $extension;
+      $entities[] = $extension['name'];
     }
     return $entities;
   }
@@ -80,7 +84,7 @@ class EntityManager {
    *
    * @return bool
    */
-  public static function entityInstalled($type) {
+  public static function entityInstalled(string $type) {
     $database = Nick::Database();
     $type = strtolower($type);
     $entity = $database

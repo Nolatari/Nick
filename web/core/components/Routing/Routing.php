@@ -68,8 +68,8 @@ class Routing {
   public function getUri(Request $request) {
     $queryParams = $request->query->all();
     if (count($this->parameters) > 0) {
-      foreach ($this->parameters as $param) {
-        $this->url = StringManipulation::replace($this->url, '{' . $param . '}', $queryParams[$param]);
+      foreach ($this->parameters as $param => $iterator) {
+        $this->url = StringManipulation::replace($this->url, '{' . $param . '}', $queryParams[$iterator]);
       }
     }
   }

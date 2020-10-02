@@ -2,3 +2,7 @@ name: Person
 version: 1.0a
 type: entity
 required: true
+event_listeners:
+  preSearchRender:
+    class: '\Nick\Person\Events'
+    method: 'preSearchRender'

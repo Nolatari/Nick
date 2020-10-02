@@ -6,7 +6,7 @@ namespace Nick;
  * SQL Forentity is a collection of utilities for debugging SQL queries.
  * It includes methods for formatting, syntax highlighting, removing comments, etc.
  *
- * @package    SqlForentity
+ * @package    SqlFormatter
  * @author     Jeremy Dorn <jeremy@jeremydorn.com>
  * @author     Florin Patan <florinpatan@gmail.com>
  * @copyright  2013 Jeremy Dorn
@@ -14,7 +14,7 @@ namespace Nick;
  * @link       http://github.com/jdorn/sql-forentity
  * @version    1.2.18
  */
-class SqlForentity {
+class SqlFormatter {
   // Constants for token types
   const TOKEN_TYPE_WHITESPACE = 0;
   const TOKEN_TYPE_WORD = 1;

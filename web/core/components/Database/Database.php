@@ -5,7 +5,7 @@ namespace Nick\Database;
 use mysqli;
 use Nick;
 use Nick\Settings;
-use Nick\SqlForentity;
+use Nick\SqlFormatter;
 
 /**
  * Class Database
@@ -17,7 +17,7 @@ class Database {
   /** @var string $db */
   protected $db;
 
-  /** @var mixed $database */
+  /** @var mysqli $database */
   protected $database;
 
   /** @var mixed $result */
@@ -154,8 +154,8 @@ class Database {
    *
    * @return Select
    */
-  public function select($table, $alias = NULL, $options = NULL) {
-    return new Select($table, $alias, $options);
+  public function select(string $table, $alias = NULL, $options = NULL) {
+    return new Select($table, $alias, $options, $this->condition_delimiter, $this->getDatabaseName());
   }
 
   /**
@@ -227,7 +227,7 @@ class Database {
   protected function executeQuery(string $query) {
     if (Settings::get('debugging')) {
       echo '<pre style="color:#fff;">';
-      echo SqlForentity::format($query);
+      echo SqlFormatter::format($query);
       echo '</pre>';
     }
 
