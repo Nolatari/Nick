@@ -2,24 +2,19 @@
 
 namespace Nick\TestEvents;
 
+use Nick\Event\EventListener;
+
 /**
  * Class TestEvents
  *
  * @package Nick\TestEvents
  */
-class TestEvents {
+class TestEvents extends EventListener {
 
   /**
-   * Tests the stringTranslationPresave event.
-   * Defined in the TestEvents.yml file!
-   *
-   * @param array $variables
-   * @param       $string
-   * @param       $args
-   * @param       $from_langcode
-   * @param       $to_langcode
+   * {@inheritDoc}
    */
-  public function TranslationPresave(array &$variables, $string, $args, $from_langcode, $to_langcode) {
+  public function stringTranslationPresave(?array &$variables, $string, $args, $from_langcode, $to_langcode) {
     d($variables);
     d($string);
     d($args);
@@ -28,25 +23,17 @@ class TestEvents {
   }
 
   /**
-   * Tests the FormAlter event.
-   * Defined in the TestEvents.yml file!
-   *
-   * @param array              $form
-   * @param string             $form_id
+   * {@inheritDoc}
    */
-  public function FormAlter(array &$form, string $form_id) {
+  public function FormAlter(?array &$form, string $form_id) {
     d($form);
     d($form_id);
   }
 
   /**
-   * Tests the preRender event.
-   * Defined in the TestEvents.yml file!
-   *
-   * @param array       $variables
-   * @param string|null $view_mode
+   * {@inheritDoc}
    */
-  public function preRender(array &$variables, $view_mode) {
+  public function preRender(?array &$variables, ?string $view_mode) {
     // Check whether page has an id (some don't!)
     if (!isset($variables['page']['id'])) {
       return;

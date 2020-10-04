@@ -3,19 +3,17 @@
 namespace Nick\Breadcrumb;
 
 use Nick;
+use Nick\Event\EventListener;
 
 /**
  * Class Breadcrumb
  *
  * @package Nick\Breadcrumb
  */
-class Breadcrumb {
+class Breadcrumb extends EventListener {
 
   /**
-   * Add breadcrumbs to page render
-   *
-   * @param array|null $parameters
-   * @param string     $page_id
+   * {@inheritDoc}
    */
   public function pagePreRender(?array &$parameters, string $page_id) {
     if ($page_id !== 'header') {

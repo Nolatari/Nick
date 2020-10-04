@@ -3,23 +3,19 @@
 namespace Nick\Article;
 
 use Nick\Database\Result;
+use Nick\Event\EventListener;
 
 /**
  * Class Events
  *
  * @package Nick\Article
  */
-class Events {
+class Events extends EventListener {
 
   /**
-   * preSearchRender event listener
-   *
-   * @param array  $results
-   * @param string $keyword
-   *
-   * @return bool
+   * {@inheritDoc}
    */
-  public function preSearchRender(array &$results, string $keyword) {
+  public function preSearchRender(?array &$results, string $keyword) {
     $results['Articles'] = [];
 
     $articles = \Nick::Database('OR')

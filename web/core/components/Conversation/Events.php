@@ -3,21 +3,19 @@
 namespace Nick\Conversation;
 
 use Nick;
+use Nick\Event\EventListener;
 
 /**
  * Class Events
  *
  * @package Nick\Conversation
  */
-class Events {
+class Events extends EventListener {
 
   /**
-   * Add conversation dropdown to header.
-   *
-   * @param array|null $parameters
-   * @param string     $page_id
+   * {@inheritDoc}
    */
-  public function prePageRender(?array &$parameters, string $page_id) {
+  public function pagePreRender(?array &$parameters, string $page_id) {
     if ($page_id !== 'header') {
       return;
     }
