@@ -14,7 +14,7 @@ use Nick\Menu\MenuInterface;
 class Uninstall implements UninstallInterface {
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    *
    * @throws \Exception
    */
@@ -28,7 +28,7 @@ class Uninstall implements UninstallInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    *
    * @throws \Exception
    */

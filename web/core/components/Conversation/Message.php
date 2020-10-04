@@ -1,16 +1,17 @@
 <?php
 
-namespace Nick\Article;
+namespace Nick\Conversation;
 
 use Nick\Entity\Entity;
 use Nick\Entity\EntityInterface;
+use Nick\Person\Person;
 
 /**
  * Class Article
  *
- * @package Nick\Article
+ * @package Nick\Conversation
  */
-class Article Extends Entity implements ArticleInterface {
+class Message Extends Entity implements MessageInterface {
 
   /**
    * Article constructor.
@@ -50,17 +51,13 @@ class Article Extends Entity implements ArticleInterface {
    */
   public static function initialFields(): array {
     return [
-      'title' => [
-        'type' => 'varchar',
-        'length' => 255,
-        'form' => [
-          'title' => 'Title',
-          'type' => 'textbox',
-          'name' => 'title',
-          'required' => TRUE,
-        ],
+      'conversation' => [
+        'type' => 'int',
+        'length' => 25,
+        'default_value' => Person::getCurrentPerson(),
+        'class' => '\\Nick\\Conversation\\Conversation',
       ],
-      'body' => [
+      'message' => [
         'type' => 'text',
         'form' => [
           'title' => 'Body',
@@ -78,15 +75,15 @@ class Article Extends Entity implements ArticleInterface {
   /**
    * {@inheritDoc}
    */
-  public function getTitle(): string {
-    return $this->getValue('title');
+  public function getConversation(): string {
+    return $this->getValue('conversation');
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setTitle($title) {
-    return $this->setValue('title', $title);
+  public function setConversation($conversation) {
+    return $this->setValue('conversation', $conversation->id());
   }
 
   /**
@@ -99,7 +96,7 @@ class Article Extends Entity implements ArticleInterface {
   /**
    * {@inheritDoc}
    */
-  public function setBody($body) {
+  public function setBody(string $body) {
     return $this->setValue('body', $body);
   }
 }

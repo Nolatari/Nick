@@ -25,7 +25,7 @@ class Install implements InstallInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    *
    * @throws \Exception
    */
@@ -35,7 +35,7 @@ class Install implements InstallInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function doInstall() {
     $menu = new Menu([

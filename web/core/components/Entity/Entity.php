@@ -376,7 +376,7 @@ class Entity implements EntityInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function delete() {
     // Fire predelete event

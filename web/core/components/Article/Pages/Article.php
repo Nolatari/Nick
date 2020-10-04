@@ -99,13 +99,12 @@ class Article extends Page {
       switch ($parameters['t']) {
         case 'overview':
           $manifest = Nick::Manifest('article')->fields([
-            'id', 'title', 'owner', 'status'
+            'id', 'title', 'status', 'owner'
           ]);
           $manifestRenderer = new ManifestRenderer($manifest);
           $content = $manifestRenderer
             ->setViewMode('table')
             ->hideField('id')
-            ->hideField('status')
             ->noLink('owner')
             ->addActionLinks('article')
             ->render(TRUE);

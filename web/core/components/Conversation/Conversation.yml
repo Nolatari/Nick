@@ -1,0 +1,8 @@
+name: Conversation
+version: 1.0a
+type: entity
+description: 'Allows for conversations between people'
+event_listeners:
+  prePageRender:
+    class: '\Nick\Conversation\Events'
+    method: 'prePageRender'

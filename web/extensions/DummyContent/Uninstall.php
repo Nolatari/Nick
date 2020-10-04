@@ -40,7 +40,7 @@ class Uninstall implements UninstallInterface {
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    *
    * @throws \Exception
    */
