@@ -9,4 +9,19 @@
         <div class="row">
             <p>{{ message }}</p>
         </div>
+        <div class="row">
+            {% if showButtons %}
+                {% for key, name in buttons %}
+                <p>
+                    {{ formElement('button', {
+                        text: name,
+                        classes: ['btn-primary'],
+                        formId: 'dummycontent',
+                        key: key,
+                        attributes: { onclick: 'window.location.href = "' ~ route(['dummycontent', key], {'confirm': null}) ~ '"' }
+                    })|raw }}
+                </p>&nbsp;
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>

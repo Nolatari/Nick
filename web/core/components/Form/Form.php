@@ -39,10 +39,10 @@ class Form extends FormBuilder implements FormInterface {
       $this->entity = $entity;
       $this->setFields($entity->getAllFields());
       if ($entity->getValues() !== []) {
-        $this->setId($entity->id() . '-edit-form');
+        $this->setId($entity->getType() . '-edit-form');
         $this->setValues($entity->getValues() ?: []);
       } else {
-        $this->setId($entity->id() . '-add-form');
+        $this->setId($entity->getType() . '-add-form');
       }
     }
   }

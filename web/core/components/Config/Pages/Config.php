@@ -4,8 +4,10 @@ namespace Nick\Config\Pages;
 
 use Nick;
 use Nick\Config\Form\AppearanceSettingsForm;
+use Nick\Config\Form\DefaultForm;
 use Nick\Config\Form\SiteSettingsForm;
 use Nick\Form\Form;
+use Nick\Form\FormInterface;
 use Nick\Language\Language;
 use Nick\Page\Page;
 
@@ -61,56 +63,24 @@ class Config extends Page {
   }
 
   /**
-   * @return Form
+   * @return FormInterface
    */
   protected function appearanceForm() {
     return new AppearanceSettingsForm();
   }
 
   /**
-   * @return Form
+   * @return FormInterface
    */
   protected function siteForm() {
     return new SiteSettingsForm();
   }
 
-  public function saveSiteForm(&$form, &$values) {
-    d('hey');
-  }
-
+  /**
+   * @return FormInterface
+   */
   protected function defaultForm() {
-    return $this->form->setId('default-settings-form')->setFields([
-      'import' => [
-        'form' => [
-          'type' => 'button',
-          'text' => 'Import',
-          'attributes' => [
-            'onclick' => 'javascript:window.location.replace("./?p=config&import");',
-          ],
-          'classes' => ['btn-success'],
-        ],
-      ],
-      'export' => [
-        'form' => [
-          'type' => 'button',
-          'text' => 'Export',
-          'attributes' => [
-            'onclick' => 'javascript:window.location.replace("./?p=config&export");',
-          ],
-          'classes' => ['btn-success'],
-        ],
-      ],
-      'difference' => [
-        'form' => [
-          'type' => 'button',
-          'text' => 'Difference',
-          'attributes' => [
-            'onclick' => 'javascript:window.location.replace("./?p=config&difference");',
-          ],
-          'classes' => ['btn-success'],
-        ],
-      ],
-    ]);
+    return new DefaultForm();
   }
 
   /**
@@ -122,6 +92,8 @@ class Config extends Page {
       Nick::Config()->export();
     } elseif (isset($parameters['import']) && isset($parameters['confirm'])) {
       Nick::Config()->import();
+    } elseif (isset($paremeters['difference'])) {
+      // TODO
     } else {
       $form = NULL;
       if (isset($parameters['t'])) {
@@ -132,7 +104,7 @@ class Config extends Page {
           case 'appearance':
             $form = $this->appearanceForm()->result();
             break;
-          case 'default':
+          default:
             $form = $this->defaultForm()->result();
             break;
         }
@@ -142,6 +114,7 @@ class Config extends Page {
         ->setType()
         ->setTemplate('config')
         ->render([
+          'title' => isset($parameters['t']) ? ucfirst($parameters['t']) . ' settings' : 'Settings',
           'form' => $form,
         ]);
     }

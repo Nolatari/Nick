@@ -1,12 +1,24 @@
 -
+    name: Article
+    type: matter
+-
+    name: Breadcrumb
+    type: extension
+-
     name: Cache
+    type: core
+-
+    name: Config
     type: core
 -
     name: Database
     type: core
 -
-    name: Events
+    name: Entity
     type: core
+-
+    name: Event
+    type: extension
 -
     name: ExtensionManager
     type: core
@@ -23,8 +35,8 @@
     name: Manifest
     type: core
 -
-    name: Matter
-    type: core
+    name: Menu
+    type: matter
 -
     name: Page
     type: core

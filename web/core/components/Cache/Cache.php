@@ -25,10 +25,10 @@ class Cache implements CacheInterface {
    * {@inheritDoc}
    */
   public function initializeCache() {
-    $this->cacheableData['NICK_VERSION'] = '0';
-    $this->cacheableData['NICK_VERSION_RELEASE'] = '6';
-    $this->cacheableData['NICK_VERSION_RELEASE_MINOR'] = '5';
-    $this->cacheableData['NICK_VERSION_STATUS'] = 'beta';
+    $this->cacheableData['NICK_VERSION'] = '1';
+    $this->cacheableData['NICK_VERSION_RELEASE'] = '0';
+    $this->cacheableData['NICK_VERSION_RELEASE_MINOR'] = '0';
+    $this->cacheableData['NICK_VERSION_STATUS'] = 'alpha';
   }
 
   /**

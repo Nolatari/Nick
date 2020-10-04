@@ -48,7 +48,9 @@ class DummyContent extends Page {
       'status' => Entity::PUBLISHED,
       'owner' => 1,
       'title' => 'My first article',
-      'body' => 'This is my first article!\n\nLorem ipsum, and what not :-)',
+      'body' => 'This is my first article!
+      
+      Lorem ipsum, and what not :-)',
     ]);
     $article->save();
     return 'Created new article \'My first article\'';
@@ -73,7 +75,8 @@ class DummyContent extends Page {
   public function render(&$parameters = []) {
     parent::render($parameters);
 
-    $message = 'Do you wish to create dummy content?';
+    $defaultMessage = 'Do you wish to create dummy content?';
+    $message = $defaultMessage;
     $confirm = FALSE;
     if (isset($parameters['confirm'])) {
       $confirm = TRUE;
@@ -94,6 +97,8 @@ class DummyContent extends Page {
           'summary' => $this->get('summary'),
         ],
         'message' => $message,
+        'showButtons' => $message === $defaultMessage,
+        'buttons' => ['article' => 'Article', 'person' => 'Person'],
         'confirm' => $confirm,
       ]);
   }

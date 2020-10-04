@@ -5,6 +5,7 @@ namespace Nick\DummyContent;
 use Nick;
 use Nick\ExtensionManager\InstallInterface;
 use Nick\ExtensionManager\UninstallInterface;
+use Nick\Menu\MenuInterface;
 use Nick\Page\PageManager;
 
 /**
@@ -40,11 +41,28 @@ class Uninstall implements UninstallInterface {
 
   /**
    * @inheritDoc
+   *
+   * @throws \Exception
    */
   public function doUninstall() {
-    return Nick::Database()
+    /** @var MenuInterface $menu */
+    $menu = \Nick::EntityManager()
+      ->loadByProperties([
+        'type' => 'menu',
+        'route' => 'dummycontent'
+      ]);
+    if (!$menu->delete()) {
+      return FALSE;
+    }
+
+    $page = Nick::Database()
       ->delete('pages')
-      ->condition('id', 'dummycontent')
-      ->execute();
+      ->condition('id', 'dummycontent');
+    if (!$page->execute()) {
+      return FALSE;
+    }
+
+    return TRUE;
   }
+
 }

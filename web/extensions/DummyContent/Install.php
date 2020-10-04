@@ -3,6 +3,9 @@
 namespace Nick\DummyContent;
 
 use Nick\ExtensionManager\InstallInterface;
+use Nick\Logger;
+use Nick\Menu\Menu;
+use Nick\Page\Page;
 use Nick\Page\PageManager;
 
 /**
@@ -19,7 +22,7 @@ class Install implements InstallInterface {
    * install constructor.
    */
   public function __construct() {
-    $this->pageManager = new PageManager();
+    $this->pageManager = \Nick::PageManager();
   }
 
   /**
@@ -42,10 +45,30 @@ class Install implements InstallInterface {
    * @return bool
    */
   public function doInstall(): bool {
-    return $this->pageManager->createPage([
+    $menu = new Menu([
+      'route' => 'dummycontent',
+      'title' => 'Dummy Content',
+      'description' => 'Create dummy content',
+      'structure' => 0,
+      'type' => 'link',
+      'translatable' => TRUE,
+      'parent' => 0,
+      'owner' => 1,
+      'status' => 1,
+    ]);
+    if (!$menu->save()) {
+      return FALSE;
+    }
+    \Nick::Logger()->add('Added menu item for DummyContent', Logger::TYPE_INFO, 'DummyContent');
+
+    if (!$this->pageManager->createPage([
       'dummycontent',
       '\\Nick\\DummyContent\\DummyContent',
-    ]);
+    ])) {
+      return FALSE;
+    }
+
+    return TRUE;
   }
 
 }

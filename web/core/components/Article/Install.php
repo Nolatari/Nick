@@ -5,6 +5,7 @@ namespace Nick\Article;
 use Nick\ExtensionManager\InstallInterface;
 use Nick\Logger;
 use Nick\Menu\Menu;
+use Nick\Page\PageManager;
 
 /**
  * Class Install
@@ -12,6 +13,16 @@ use Nick\Menu\Menu;
  * @package Nick\Article
  */
 class Install implements InstallInterface {
+
+  /** @var PageManager $pageManager */
+  protected PageManager $pageManager;
+
+  /**
+   * install constructor.
+   */
+  public function __construct() {
+    $this->pageManager = \Nick::PageManager();
+  }
 
   /**
    * @inheritDoc
@@ -38,7 +49,17 @@ class Install implements InstallInterface {
       'owner' => 1,
       'status' => 1,
     ]);
-    $menu->save();
+    if (!$menu->save()) {
+      return FALSE;
+    }
     \Nick::Logger()->add('Added menu item', Logger::TYPE_INFO, 'Article');
+
+    if (!$this->pageManager->createPage([
+      'article',
+      '\\Nick\\Article\\Article',
+    ])) {
+      return FALSE;
+    }
+    return TRUE;
   }
 }

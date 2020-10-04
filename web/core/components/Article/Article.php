@@ -66,6 +66,9 @@ class Article Extends Entity implements ArticleInterface {
           'title' => 'Body',
           'type' => 'wysiwyg',
           'name' => 'body',
+          'attributes' => [
+            'rows' => 5,
+          ],
           'required' => TRUE,
         ],
       ],
