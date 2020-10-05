@@ -3,10 +3,9 @@
 namespace Nick\Cache;
 
 use Nick;
-use Nick\Event\Event;
 use Nick\Database\Result;
+use Nick\Event\Event;
 use Nick\Logger;
-use Nick\Settings;
 
 /**
  * Class Cache => used to store cache in database.
@@ -20,16 +19,6 @@ class Cache implements CacheInterface {
 
   /** @var array $cacheStats */
   protected array $cacheStats;
-
-  /**
-   * {@inheritDoc}
-   */
-  public function initializeCache() {
-    $this->cacheableData['NICK_VERSION'] = '1';
-    $this->cacheableData['NICK_VERSION_RELEASE'] = '0';
-    $this->cacheableData['NICK_VERSION_RELEASE_MINOR'] = '0';
-    $this->cacheableData['NICK_VERSION_STATUS'] = 'alpha';
-  }
 
   /**
    * {@inheritDoc}
@@ -178,6 +167,16 @@ class Cache implements CacheInterface {
     $this->cacheableData = [];
     $this->initializeCache();
     return Nick::Database()->query('TRUNCATE TABLE cache_content');
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function initializeCache() {
+    $this->cacheableData['NICK_VERSION'] = '1';
+    $this->cacheableData['NICK_VERSION_RELEASE'] = '0';
+    $this->cacheableData['NICK_VERSION_RELEASE_MINOR'] = '0';
+    $this->cacheableData['NICK_VERSION_STATUS'] = 'alpha';
   }
 
 }

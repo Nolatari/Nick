@@ -4,9 +4,9 @@ namespace Nick\Entity;
 
 use Exception;
 use Nick;
+use Nick\Database\Result;
 use Nick\Logger;
 use Nick\YamlReader;
-use Nick\Database\Result;
 
 /**
  * Class EntityManager
@@ -14,6 +14,52 @@ use Nick\Database\Result;
  * @package Nick\Entity
  */
 class EntityManager {
+
+  /**
+   * @param $type
+   *
+   * @return bool
+   */
+  public static function uninstallEntityType($type) {
+    if (!self::entityInstalled($type)) {
+      return FALSE;
+    }
+    \Nick::Database()->delete('entity')
+      ->condition('type', $type)
+      ->execute();
+    \Nick::Database()->delete('entity_storage')
+      ->condition('type', $type)
+      ->execute();
+    \Nick::Database()->query('DROP TABLE entity__' . $type);
+    \Nick::Logger()->add('Removed ' . ucfirst($type) . ' entity type and entities', Logger::TYPE_INFO, ucfirst($type));
+
+    return TRUE;
+  }
+
+  /**
+   * Creates content items on bootstrapping Nick
+   */
+  public function createEntities() {
+    // Create tables for Entities.
+    $entities = [];
+    foreach (self::getAllEntityClasses() as $entity) {
+      if (!self::entityInstalled($entity) && Nick::ExtensionManager()::extensionInstalled($entity)) {
+        $entities[] = self::getEntityClassFromType($entity);
+      }
+    }
+
+    foreach ($entities as $entity) {
+      if (!$entity instanceof EntityInterface) {
+        continue;
+      }
+
+      if (!method_exists($entity, 'create')) {
+        continue;
+      }
+
+      $entity::create();
+    }
+  }
 
   /**
    * @return array
@@ -31,9 +77,41 @@ class EntityManager {
         continue;
       }
 
-      $entities[] = $extension['name'];
+      $entities[] = strtolower($extension['name']);
     }
     return $entities;
+  }
+
+  /**
+   * Checks whether entity is installed
+   *
+   * @param string $type
+   *            Machine readable label of entity.
+   *
+   * @return bool
+   */
+  public static function entityInstalled(string $type) {
+    $database = Nick::Database();
+    $type = strtolower($type);
+    $entity = $database
+      ->select('entity__' . $type)
+      ->execute();
+    if (!$entity instanceof Result) {
+      return FALSE;
+    }
+    $entity_storage = $database
+      ->select('entity_storage')
+      ->condition('type', $type)
+      ->execute();
+    if (!$entity_storage instanceof Result) {
+      return FALSE;
+    }
+    if ($result = $entity_storage->fetchAllAssoc()) {
+      if (count($result) > 0) {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
   /**
@@ -74,63 +152,6 @@ class EntityManager {
       }
     }
     return FALSE;
-  }
-
-  /**
-   * Checks whether entity is installed
-   *
-   * @param string $type
-   *            Machine readable label of entity.
-   *
-   * @return bool
-   */
-  public static function entityInstalled(string $type) {
-    $database = Nick::Database();
-    $type = strtolower($type);
-    $entity = $database
-      ->select('entity__' . $type)
-      ->execute();
-    if (!$entity instanceof Result) {
-      return FALSE;
-    }
-    $entity_storage = $database
-      ->select('entity_storage')
-      ->condition('type', $type)
-      ->execute();
-    if (!$entity_storage instanceof Result) {
-      return FALSE;
-    }
-    if ($result = $entity_storage->fetchAllAssoc()) {
-      if (count($result) > 0) {
-        return TRUE;
-      }
-    }
-    return FALSE;
-  }
-
-  /**
-   * Creates content items on bootstrapping Nick
-   */
-  public function createEntities() {
-    // Create tables for Entities.
-    $entities = [];
-    foreach (self::getAllEntityClasses() as $entity) {
-      if (!self::entityInstalled($entity) && Nick::ExtensionManager()::extensionInstalled($entity)) {
-        $entities[] = self::getEntityClassFromType($entity);
-      }
-    }
-
-    foreach ($entities as $entity) {
-      if (!$entity instanceof EntityInterface) {
-        continue;
-      }
-
-      if (!method_exists($entity, 'create')) {
-        continue;
-      }
-
-      $entity::create();
-    }
   }
 
   /**

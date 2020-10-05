@@ -3,9 +3,9 @@
 namespace Nick\Config\Form;
 
 use Nick;
+use Nick\Entity\EntityInterface;
 use Nick\Form\Form;
 use Nick\Form\FormInterface;
-use Nick\Entity\EntityInterface;
 use Nick\Url;
 
 /**
@@ -29,7 +29,7 @@ class DefaultForm extends Form implements FormInterface {
           'type' => 'button',
           'text' => 'Import',
           'attributes' => [
-            'onclick' => 'javascript:window.location.replace("' . Url::fromRoute('config', ['import' => NULL]) . '");',
+            'onclick' => 'window.location.href = \'' . Url::fromRoute('config', ['import' => NULL]) . '\';',
           ],
           'classes' => ['btn-success'],
         ],
@@ -39,7 +39,7 @@ class DefaultForm extends Form implements FormInterface {
           'type' => 'button',
           'text' => 'Export',
           'attributes' => [
-            'onclick' => 'javascript:window.location.replace("' . Url::fromRoute('config', ['export' => NULL]) . '");',
+            'onclick' => 'window.location.href = \'' . Url::fromRoute('config', ['export' => NULL]) . '\';',
           ],
           'classes' => ['btn-success'],
         ],
@@ -49,7 +49,7 @@ class DefaultForm extends Form implements FormInterface {
           'type' => 'button',
           'text' => 'Difference',
           'attributes' => [
-            'onclick' => 'javascript:window.location.replace("' . Url::fromRoute('config', ['difference' => NULL]) . '");',
+            'onclick' => 'window.location.href = \'' . Url::fromRoute('config', ['difference' => NULL]) . '\';',
           ],
           'classes' => ['btn-success'],
         ],

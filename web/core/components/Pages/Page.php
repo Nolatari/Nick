@@ -2,6 +2,7 @@
 
 namespace Nick\Pages;
 
+use Exception;
 use Nick\Entity\Entity;
 use Nick\Entity\EntityInterface;
 
@@ -10,7 +11,7 @@ use Nick\Entity\EntityInterface;
  *
  * @package Nick\Pages
  */
-class Page Extends Entity implements PageInterface {
+class Page extends Entity implements PageInterface {
 
   /**
    * Page constructor.
@@ -27,7 +28,7 @@ class Page Extends Entity implements PageInterface {
    *
    * @return EntityInterface|NULL
    *
-   * @throws \Exception
+   * @throws Exception
    */
   public static function load(int $id) {
     return parent::loadEntity($id, 'page');

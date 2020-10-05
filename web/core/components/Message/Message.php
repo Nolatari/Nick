@@ -1,26 +1,26 @@
 <?php
 
-namespace Nick\Conversation;
+namespace Nick\Message;
 
 use Nick\Entity\Entity;
 use Nick\Entity\EntityInterface;
 use Nick\Person\Person;
 
 /**
- * Class Article
+ * Class Message
  *
- * @package Nick\Conversation
+ * @package Nick\Message
  */
 class Message Extends Entity implements MessageInterface {
 
   /**
-   * Article constructor.
+   * Message constructor.
    *
    * @param null|array $values
    */
   public function __construct($values = NULL) {
     parent::__construct($values);
-    $this->setType('article');
+    $this->setType('message');
   }
 
   /**
@@ -29,21 +29,21 @@ class Message Extends Entity implements MessageInterface {
    * @return EntityInterface|NULL
    */
   public static function load(int $id) {
-    return parent::loadEntity($id, 'article');
+    return parent::loadEntity($id, 'message');
   }
 
   /**
    * @return array
    */
   public static function loadMultiple() {
-    return parent::loadMultipleEntities('article');
+    return parent::loadMultipleEntities('message');
   }
 
   /**
    * @return string|null
    */
   public static function create() {
-    return parent::createEntity('article');
+    return parent::createEntity('message');
   }
 
   /**

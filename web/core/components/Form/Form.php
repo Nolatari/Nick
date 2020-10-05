@@ -4,9 +4,9 @@ namespace Nick\Form;
 
 use Exception;
 use Nick;
+use Nick\Entity\EntityInterface;
 use Nick\Event\Event;
 use Nick\Logger;
-use Nick\Entity\EntityInterface;
 use Nick\Translation\StringTranslation;
 
 /**

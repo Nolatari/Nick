@@ -3,9 +3,9 @@
 namespace Nick\Config\Form;
 
 use Nick;
+use Nick\Entity\EntityInterface;
 use Nick\Form\Form;
 use Nick\Form\FormInterface;
-use Nick\Entity\EntityInterface;
 
 /**
  * Class AppearanceSettingsForm

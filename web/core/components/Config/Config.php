@@ -47,50 +47,6 @@ class Config {
   }
 
   /**
-   * @return bool
-   */
-  public function export() {
-    $config_folder = Settings::get('config.folder');
-    if (!is_dir(Settings::get('config.folder'))) {
-      Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
-    }
-    $di = new RecursiveDirectoryIterator($config_folder, FilesystemIterator::SKIP_DOTS);
-    $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
-    foreach ($ri as $file) {
-      if ($file->isDir()) {
-        continue;
-      }
-      unlink($file);
-    }
-
-    foreach ($this->getConfig() as $item) {
-      $config = YamlReader::toYaml(unserialize($item['value']));
-      try {
-        $config_file = fopen(Settings::get('config.folder') . '/' . $item['field'] . '.yml', 'w');
-        fwrite($config_file, $config);
-        fclose($config_file);
-      } catch (Exception $e) {
-        Nick::Logger()->add('Something went wrong trying to write config to file. [' . $item['field'] . '.yml]', Logger::TYPE_ERROR, 'Config');
-        return FALSE;
-      }
-    }
-
-    return TRUE;
-  }
-
-  /**
-   * Shows difference in config.
-   *
-   * @return array|bool
-   */
-  public function difference() {
-    return [
-      'live' => $this->getConfig(),
-      'staged' => $this->getStagedConfig(),
-    ];
-  }
-
-  /**
    * @param string|NULL $name
    *
    * @return array
@@ -124,61 +80,7 @@ class Config {
   }
 
   /**
-   * @return array|bool
-   */
-  public function getConfig() {
-    $config_storage = Nick::Database()
-      ->select('config')
-      ->execute();
-    if (!$config_storage instanceof Result) {
-      $returnArray = [];
-    } else {
-      $returnArray = $config_storage->fetchAllAssoc();
-    }
-
-    $returnArray[] = ['field' => 'extensions', 'value' => serialize(Nick::ExtensionManager()::getInstalledExtensions())];
-
-    return $returnArray;
-  }
-
-  /**
-   * @param $key
-   *
-   * @return string|array
-   */
-  public function get($key) {
-    if (StringManipulation::contains($key, '.')) {
-      $items = explode('.', $key);
-      $key = $items[0];
-      unset($items[0]);
-    }
-    $config_storage = Nick::Database()
-      ->select('config')
-      ->fields(NULL, ['value'])
-      ->condition('field', $key);
-    /** @var Result $config_result */
-    if (!$config_result = $config_storage->execute()) {
-      return FALSE;
-    }
-    $result = $config_result->fetchAllAssoc();
-    if (!$result) {
-      return FALSE;
-    }
-    $result = reset($result);
-
-    $config = unserialize($result['value']);
-
-    if (isset($items)) {
-      foreach ($items as $item) {
-        $config = $config[$item];
-      }
-    }
-
-    return $config;
-  }
-
-  /**
-   * @param string $key
+   * @param string       $key
    * @param array|string $value
    *
    * @return bool
@@ -225,6 +127,104 @@ class Config {
         ->execute();
     }
     return $config_query;
+  }
+
+  /**
+   * @return bool
+   */
+  public function export() {
+    $config_folder = Settings::get('config.folder');
+    if (!is_dir(Settings::get('config.folder'))) {
+      Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
+    }
+    $di = new RecursiveDirectoryIterator($config_folder, FilesystemIterator::SKIP_DOTS);
+    $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
+    foreach ($ri as $file) {
+      if ($file->isDir()) {
+        continue;
+      }
+      unlink($file);
+    }
+
+    foreach ($this->getConfig() as $item) {
+      $config = YamlReader::toYaml(unserialize($item['value']));
+      try {
+        $config_file = fopen(Settings::get('config.folder') . '/' . $item['field'] . '.yml', 'w');
+        fwrite($config_file, $config);
+        fclose($config_file);
+      } catch (Exception $e) {
+        Nick::Logger()->add('Something went wrong trying to write config to file. [' . $item['field'] . '.yml]', Logger::TYPE_ERROR, 'Config');
+        return FALSE;
+      }
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * @return array|bool
+   */
+  public function getConfig() {
+    $config_storage = Nick::Database()
+      ->select('config')
+      ->execute();
+    if (!$config_storage instanceof Result) {
+      $returnArray = [];
+    } else {
+      $returnArray = $config_storage->fetchAllAssoc();
+    }
+
+    $returnArray[] = ['field' => 'extensions', 'value' => serialize(Nick::ExtensionManager()::getInstalledExtensions())];
+
+    return $returnArray;
+  }
+
+  /**
+   * Shows difference in config.
+   *
+   * @return array|bool
+   */
+  public function difference() {
+    return [
+      'live' => $this->getConfig(),
+      'staged' => $this->getStagedConfig(),
+    ];
+  }
+
+  /**
+   * @param $key
+   *
+   * @return string|array
+   */
+  public function get($key) {
+    if (StringManipulation::contains($key, '.')) {
+      $items = explode('.', $key);
+      $key = $items[0];
+      unset($items[0]);
+    }
+    $config_storage = Nick::Database()
+      ->select('config')
+      ->fields(NULL, ['value'])
+      ->condition('field', $key);
+    /** @var Result $config_result */
+    if (!$config_result = $config_storage->execute()) {
+      return FALSE;
+    }
+    $result = $config_result->fetchAllAssoc();
+    if (!$result) {
+      return FALSE;
+    }
+    $result = reset($result);
+
+    $config = unserialize($result['value']);
+
+    if (isset($items)) {
+      foreach ($items as $item) {
+        $config = $config[$item];
+      }
+    }
+
+    return $config;
   }
 
 }

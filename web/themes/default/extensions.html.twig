@@ -31,7 +31,7 @@
                             <p>Version: {{ info.version }}  {% if not info.latest %}<sup>(Update available)</sup>{% endif %}</p>
                             <p>Installed: {% if info.installed %}Yes{% else %}No{% endif %}</p>
                             {% if info.description %}
-                                <p>{{ info.description }}</p>
+                                <p>{{ info.description|raw|nl2br }}</p>
                             {% endif %}
                             {% if info.installed and not info.required %}
                                 <p><a class="btn btn-danger" href="?p=extensions&t=uninstall&id={{ extension }}" role="button">Uninstall</a></p>

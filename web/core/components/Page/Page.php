@@ -4,7 +4,6 @@ namespace Nick\Page;
 
 use Nick\Event\Event;
 use Nick\Translation\StringTranslation;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * Class Dashboard
@@ -28,35 +27,6 @@ class Page implements PageInterface {
   }
 
   /**
-   * {@inheritDoc}
-   */
-  public function getCacheOptions(): array {
-    return $this->caching;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function get($parameter): ?string {
-    return $this->parameters[$parameter] ?? NULL;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function render(&$parameters = []) {
-    $event = new Event('pagePreRender');
-    $event->fire($parameters, [$this->get('id')]);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function install() {
-    // Empty function, has to be overwritten in child class.
-  }
-
-  /**
    * Sets caching for page.
    *
    * @param array|null $parameters
@@ -71,6 +41,35 @@ class Page implements PageInterface {
     ];
 
     return $this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function getCacheOptions(): array {
+    return $this->caching;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function render(&$parameters = []) {
+    $event = new Event('pagePreRender');
+    $event->fire($parameters, [$this->get('id')]);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function get($parameter): ?string {
+    return $this->parameters[$parameter] ?? NULL;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function install() {
+    // Empty function, has to be overwritten in child class.
   }
 
   /**
@@ -94,14 +93,6 @@ class Page implements PageInterface {
   }
 
   /**
-   * @param string $key
-   * @param string $value
-   */
-  protected function setParameter(string $key, string $value) {
-    $this->parameters[$key] = $value;
-  }
-
-  /**
    * Clones a parameter to a different key.
    *
    * @param string $originalKey
@@ -109,6 +100,14 @@ class Page implements PageInterface {
    */
   protected function cloneParameter(string $originalKey, string $cloneKey) {
     $this->setParameter($cloneKey, $this->get($originalKey) ?? '');
+  }
+
+  /**
+   * @param string $key
+   * @param string $value
+   */
+  protected function setParameter(string $key, string $value) {
+    $this->parameters[$key] = $value;
   }
 
 }

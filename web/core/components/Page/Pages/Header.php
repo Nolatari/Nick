@@ -25,19 +25,6 @@ class Header extends Page {
   /**
    * {@inheritDoc}
    */
-  protected function setCacheOptions($parameters = []) {
-    $this->caching = [
-      'key' => 'page.header',
-      'context' => 'page',
-      'max-age' => 0,
-    ];
-
-    return $this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public function install() {
     $pageManager = Nick::PageManager();
     return $pageManager->createPage([
@@ -55,6 +42,19 @@ class Header extends Page {
       ->setType()
       ->setTemplate('header')
       ->render($parameters ?? NULL);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  protected function setCacheOptions($parameters = []) {
+    $this->caching = [
+      'key' => 'page.header',
+      'context' => 'page',
+      'max-age' => 0,
+    ];
+
+    return $this;
   }
 
 }

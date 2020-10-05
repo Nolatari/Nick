@@ -41,46 +41,12 @@ class Config extends Page {
   /**
    * {@inheritDoc}
    */
-  protected function setCacheOptions($parameters = []) {
-    $this->caching = [
-      'key' => 'page.' . $this->get('id'),
-      'context' => 'page',
-      'max-age' => 0,
-    ];
-
-    return $this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public function install() {
     $pageManager = Nick::PageManager();
     return $pageManager->createPage([
       'id' => $this->get('id'),
       'controller' => '\\Nick\\Page\\Pages\\Config',
     ]);
-  }
-
-  /**
-   * @return FormInterface
-   */
-  protected function appearanceForm() {
-    return new AppearanceSettingsForm();
-  }
-
-  /**
-   * @return FormInterface
-   */
-  protected function siteForm() {
-    return new SiteSettingsForm();
-  }
-
-  /**
-   * @return FormInterface
-   */
-  protected function defaultForm() {
-    return new DefaultForm();
   }
 
   /**
@@ -108,6 +74,8 @@ class Config extends Page {
             $form = $this->defaultForm()->result();
             break;
         }
+      } else {
+        $form = $this->defaultForm()->result();
       }
 
       return Nick::Renderer()
@@ -120,6 +88,40 @@ class Config extends Page {
     }
 
     return NULL;
+  }
+
+  /**
+   * @return FormInterface
+   */
+  protected function siteForm() {
+    return new SiteSettingsForm();
+  }
+
+  /**
+   * @return FormInterface
+   */
+  protected function appearanceForm() {
+    return new AppearanceSettingsForm();
+  }
+
+  /**
+   * @return FormInterface
+   */
+  protected function defaultForm() {
+    return new DefaultForm();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  protected function setCacheOptions($parameters = []) {
+    $this->caching = [
+      'key' => 'page.' . $this->get('id'),
+      'context' => 'page',
+      'max-age' => 0,
+    ];
+
+    return $this;
   }
 
 }

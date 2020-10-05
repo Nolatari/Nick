@@ -35,6 +35,10 @@ class ExtensionManager {
    * @return bool
    */
   public static function uninstallExtension(string $extension): bool {
+    if (self::extensionInstalled($extension)) {
+      return FALSE;
+    }
+
     // @TODO: Validate extension, skip required extensions
     $extension_storage = Nick::Database()->update('extensions')
       ->condition('installed', '1')
@@ -63,13 +67,13 @@ class ExtensionManager {
   /**
    * Install an extension.
    *
-   * @param string $extension
-   * @param string $type
+   * @param string     $extension
+   * @param string     $type
    *
    * @return bool
    */
   public static function installExtension(string $extension, string $type): bool {
-    // @TODO: Validate extension, check compatibility
+    // @TODO: Validate extension, check compatibility, dependencies
     $extension_storage = Nick::Database()->select('extensions')
       ->condition('name', $extension);
     $result = $extension_storage->execute();

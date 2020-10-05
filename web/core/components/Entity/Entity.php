@@ -4,7 +4,6 @@ namespace Nick\Entity;
 
 use Exception;
 use Nick;
-use Nick\Core;
 use Nick\Database\Database;
 use Nick\Database\Result;
 use Nick\Event\Event;
@@ -48,20 +47,6 @@ class Entity implements EntityInterface {
   }
 
   /**
-   * @param $int
-   *
-   * @return string
-   */
-  public static function intToStatus($int) {
-    switch($int) {
-      case 0:
-        return translate('Unpublished');
-      default:
-        return translate('Published');
-    }
-  }
-
-  /**
    * @param int    $id
    * @param string $type
    *
@@ -73,7 +58,7 @@ class Entity implements EntityInterface {
     if ($id === 0) {
       return FALSE;
     }
-    return Nick::EntityManager()->loadByProperties(['type' => $type,'id' => $id]);
+    return Nick::EntityManager()->loadByProperties(['type' => $type, 'id' => $id]);
   }
 
   /**
@@ -86,6 +71,69 @@ class Entity implements EntityInterface {
     $entityClass = EntityManager::getEntityClassFromType($type);
     $entityClass = new $entityClass;
     return $entityClass->loadByProperties([], TRUE);
+  }
+
+  /**
+   * @param $type
+   *
+   * @return bool
+   */
+  protected static function createEntity($type) {
+    if (EntityManager::entityInstalled($type)) {
+      return FALSE;
+    }
+    $database = Nick::Database();
+    $results = [];
+    $auto_increment = FALSE;
+    $fields_storage = Entity::fields() + static::initialFields();
+    $fields = '';
+    foreach ($fields_storage as $field => $options) {
+      if (!in_array(strtoupper($options['type']), Database::getFieldTypes())) {
+        Nick::Logger()->add('[Entity][createEntity]: Field type /' . $options['type'] . '/ does not comply to possible field types.', Logger::TYPE_WARNING, 'Entity');
+      }
+      if ($fields !== '') {
+        $fields .= ',' . PHP_EOL;
+      }
+      $fields .= '  ' . Database::createFieldQuery($field, $options);
+
+      if (isset($options['auto_increment']) && $options['auto_increment'] !== FALSE) {
+        $auto_increment = $field;
+      }
+    }
+
+    $fullClassName = explode('\\', static::class);
+    $className = array_pop($fullClassName);
+    $database->insert('entity_storage')
+      ->values([
+        'type' => $type,
+        'label' => $className,
+        'description' => 'This item creates the ' . $className . ' entity.',
+        'fields' => serialize(static::initialFields()),
+      ])
+      ->execute();
+    $query = $database->query('CREATE TABLE `entity__' . $type . '` (
+' . $fields . '
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
+    if (!$results[] = $query) {
+      Nick::Logger()->add('[Entity][createEntity]: Something went wrong while querying the create function.', Logger::TYPE_WARNING, 'Entity');
+    }
+
+    if ($auto_increment !== FALSE) {
+      $add_primary_key = $database->query('ALTER TABLE `entity__' . $type . '`
+ADD PRIMARY KEY (`' . $auto_increment . '`);');
+      $results[] = $add_primary_key;
+      $add_auto_increment = $database->query('ALTER TABLE `entity__' . $type . '`
+  MODIFY ' . Database::createFieldQuery($auto_increment, $fields_storage[$auto_increment]) . ' AUTO_INCREMENT;');
+      $results[] = $add_auto_increment;
+    }
+
+    foreach ($results as $result) {
+      if (!$result) {
+        return FALSE;
+      }
+    }
+
+    return TRUE;
   }
 
   /**
@@ -111,6 +159,20 @@ class Entity implements EntityInterface {
     }
 
     return FALSE;
+  }
+
+  /**
+   * @param $int
+   *
+   * @return string
+   */
+  public static function intToStatus($int) {
+    switch ($int) {
+      case 0:
+        return translate('Unpublished');
+      default:
+        return translate('Published');
+    }
   }
 
   /**
@@ -144,6 +206,25 @@ class Entity implements EntityInterface {
         ],
       ],
     ];
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function getType() {
+    return $this->type;
+  }
+
+  /**
+   * Sets entity type
+   *
+   * @param $type
+   *
+   * @return Entity
+   */
+  public function setType($type) {
+    $this->type = $type;
+    return $this;
   }
 
   /**
@@ -201,39 +282,6 @@ class Entity implements EntityInterface {
   }
 
   /**
-   * Sets entity type
-   *
-   * @param $type
-   *
-   * @return Entity
-   */
-  public function setType($type) {
-    $this->type = $type;
-    return $this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function getType() {
-    return $this->type;
-  }
-
-  /**
-   * @return array|NULL
-   */
-  public function getValues() {
-    return $this->values;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function getValue(string $key) {
-    return $this->values[$key] ?? NULL;
-  }
-
-  /**
    * {@inheritDoc}
    */
   public function setValue(string $key, $value) {
@@ -242,52 +290,6 @@ class Entity implements EntityInterface {
     }
     $this->values[$key] = $value;
     return $this;
-  }
-
-  /**
-   * Massages value array to comply with fields order
-   *
-   * @return array
-   */
-  protected function massageValueArray() {
-    $values = $this->values;
-    $fields = Entity::fields() + static::initialFields();
-    $new_value_array = [];
-    foreach ($fields as $field => $options) {
-      if ($field === 'id') {
-        continue;
-      }
-      $new_value_array[$field] = $values[$field] ?? 0;
-    }
-    return $new_value_array;
-  }
-
-  /**
-   * @return array
-   */
-  protected function getUniqueFields() {
-    $fields = Entity::fields() + static::initialFields();
-    $unique_fields = [];
-    foreach ($fields as $field => $options) {
-      if (isset($options['unique']) && $options['unique']) {
-        $unique_fields[] = $field;
-      }
-    }
-    return $unique_fields;
-  }
-
-  /**
-   * @param string $type
-   *
-   * @return bool
-   */
-  protected function addEntity(string $type) {
-    $query = $this->database->insert('entity')
-      ->values([
-        'id' => 0,
-        'type' => $type,
-      ]);
-    return $query->execute();
   }
 
   /**
@@ -378,6 +380,73 @@ class Entity implements EntityInterface {
   /**
    * {@inheritDoc}
    */
+  public function id() {
+    return $this->getValue('id');
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function getValue(string $key) {
+    return $this->values[$key] ?? NULL;
+  }
+
+  /**
+   * @return array
+   */
+  protected function getUniqueFields() {
+    $fields = Entity::fields() + static::initialFields();
+    $unique_fields = [];
+    foreach ($fields as $field => $options) {
+      if (isset($options['unique']) && $options['unique']) {
+        $unique_fields[] = $field;
+      }
+    }
+    return $unique_fields;
+  }
+
+  /**
+   * Massages value array to comply with fields order
+   *
+   * @return array
+   */
+  protected function massageValueArray() {
+    $values = $this->values;
+    $fields = Entity::fields() + static::initialFields();
+    $new_value_array = [];
+    foreach ($fields as $field => $options) {
+      if ($field === 'id') {
+        continue;
+      }
+      $new_value_array[$field] = $values[$field] ?? 0;
+    }
+    return $new_value_array;
+  }
+
+  /**
+   * @return array|NULL
+   */
+  public function getValues() {
+    return $this->values;
+  }
+
+  /**
+   * @param string $type
+   *
+   * @return bool
+   */
+  protected function addEntity(string $type) {
+    $query = $this->database->insert('entity')
+      ->values([
+        'id' => 0,
+        'type' => $type,
+      ]);
+    return $query->execute();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function delete() {
     // Fire predelete event
     $presaveEvent = new Event('EntityPreDelete');
@@ -409,77 +478,7 @@ class Entity implements EntityInterface {
   /**
    * {@inheritDoc}
    */
-  public function id() {
-    return $this->getValue('id');
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public function owner() {
     return Person::load($this->getValue('owner'));
-  }
-
-  /**
-   * @param $type
-   *
-   * @return bool
-   */
-  protected static function createEntity($type) {
-    if (EntityManager::entityInstalled($type)) {
-      return FALSE;
-    }
-    $database = Nick::Database();
-    $results = [];
-    $auto_increment = FALSE;
-    $fields_storage = Entity::fields() + static::initialFields();
-    $fields = '';
-    foreach ($fields_storage as $field => $options) {
-      if (!in_array(strtoupper($options['type']), Database::getFieldTypes())) {
-        Nick::Logger()->add('[Entity][createEntity]: Field type /' . $options['type'] . '/ does not comply to possible field types.', Logger::TYPE_WARNING, 'Entity');
-      }
-      if ($fields !== '') {
-        $fields .= ',' . PHP_EOL;
-      }
-      $fields .= '  ' . Database::createFieldQuery($field, $options);
-
-      if (isset($options['auto_increment']) && $options['auto_increment'] !== FALSE) {
-        $auto_increment = $field;
-      }
-    }
-
-    $fullClassName = explode('\\', static::class);
-    $className = array_pop($fullClassName);
-    $database->insert('entity_storage')
-      ->values([
-        'type' => $type,
-        'label' => $className,
-        'description' => 'This item creates the ' . $className . ' entity.',
-        'fields' => serialize(static::initialFields()),
-      ])
-      ->execute();
-    $query = $database->query('CREATE TABLE `entity__' . $type . '` (
-' . $fields . '
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
-    if (!$results[] = $query) {
-      Nick::Logger()->add('[Entity][createEntity]: Something went wrong while querying the create function.', Logger::TYPE_WARNING, 'Entity');
-    }
-
-    if ($auto_increment !== FALSE) {
-      $add_primary_key = $database->query('ALTER TABLE `entity__' . $type . '`
-ADD PRIMARY KEY (`' . $auto_increment . '`);');
-      $results[] = $add_primary_key;
-      $add_auto_increment = $database->query('ALTER TABLE `entity__' . $type . '`
-  MODIFY ' . Database::createFieldQuery($auto_increment, $fields_storage[$auto_increment]) . ' AUTO_INCREMENT;');
-      $results[] = $add_auto_increment;
-    }
-
-    foreach ($results as $result) {
-      if (!$result) {
-        return FALSE;
-      }
-    }
-
-    return TRUE;
   }
 }

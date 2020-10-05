@@ -1,13 +1,14 @@
 <?php
 
-namespace Nick\Conversation;
+namespace Nick\Message;
 
+use Nick\Conversation\ConversationInterface;
 use Nick\Entity\EntityInterface;
 
 /**
  * Interface MessageInterface
  *
- * @package Nick\Conversation
+ * @package Nick\Message
  */
 interface MessageInterface extends EntityInterface {
 

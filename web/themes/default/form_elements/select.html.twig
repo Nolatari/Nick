@@ -2,7 +2,7 @@
     {% if title %}
     <label for="{{ formId }}-{{ key }}">{{ title }}</label>
     {% endif %}
-    <select id="{{ formId }}-{{ key }}" class="form-control{% if classes %}{% for class in classes %} {{ class }}{% endfor %}{% endif %}"{% for key,value in attributes %} {{ key }}="{{ value }}"{% endfor %}>
+    <select id="{{ formId }}-{{ key }}" class="form-control{% if classes %}{% for class in classes %} {{ class }}{% endfor %}{% endif %}"{% for key,value in attributes %} {{ key }}="{{ value|raw }}"{% endfor %}>
         {% for value,label in options %}
         <option value="{{ value }}">{{ label }}</option>
         {% endfor %}

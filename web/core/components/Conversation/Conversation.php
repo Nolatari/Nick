@@ -15,13 +15,13 @@ use Nick\Person\PersonInterface;
 class Conversation Extends Entity implements ConversationInterface {
 
   /**
-   * Article constructor.
+   * Conversation constructor.
    *
    * @param null|array $values
    */
   public function __construct($values = NULL) {
     parent::__construct($values);
-    $this->setType('article');
+    $this->setType('conversation');
   }
 
   /**
@@ -32,21 +32,21 @@ class Conversation Extends Entity implements ConversationInterface {
    * @throws \Exception
    */
   public static function load(int $id) {
-    return parent::loadEntity($id, 'article');
+    return parent::loadEntity($id, 'conversation');
   }
 
   /**
    * @return array
    */
   public static function loadMultiple() {
-    return parent::loadMultipleEntities('article');
+    return parent::loadMultipleEntities('conversation');
   }
 
   /**
    * @return string|null
    */
   public static function create() {
-    return parent::createEntity('article');
+    return parent::createEntity('conversation');
   }
 
   /**

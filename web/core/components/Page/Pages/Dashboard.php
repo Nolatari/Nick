@@ -4,7 +4,6 @@ namespace Nick\Page\Pages;
 
 use Nick;
 use Nick\Page\Page;
-use Nick\ExtensionManager;
 
 /**
  * Class Dashboard
@@ -23,19 +22,6 @@ class Dashboard extends Page {
       'summary' => $this->translate('Welcome to your Nick Dashboard!'),
     ]);
     parent::__construct();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  protected function setCacheOptions($parameters = []) {
-    $this->caching = [
-      'key' => 'page.dashboard',
-      'context' => 'page',
-      'max-age' => 1800,
-    ];
-
-    return $this;
   }
 
   /**
@@ -67,6 +53,19 @@ class Dashboard extends Page {
           'installedExtensions' => count(Nick::ExtensionManager()::getInstalledExtensions()),
         ],
       ]);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  protected function setCacheOptions($parameters = []) {
+    $this->caching = [
+      'key' => 'page.dashboard',
+      'context' => 'page',
+      'max-age' => 1800,
+    ];
+
+    return $this;
   }
 
 }

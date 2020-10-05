@@ -1,0 +1,6 @@
+name: Message
+version: 1.0a
+type: entity
+description: 'Adds messages to conversations'
+dependencies:
+  - Conversation

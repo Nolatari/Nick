@@ -14,21 +14,6 @@ use Nick\Logger;
 class PageManager {
 
   /**
-   * @param string $page_id
-   *
-   * @return mixed
-   */
-  protected function get404(string $page_id) {
-    $page = $this->getPage('error');
-    $pageObject = new $page['controller'];
-    if (!$pageObject instanceof PageInterface) {
-      return FALSE;
-    }
-
-    return Nick::Cache()->getContentData($pageObject->getCacheOptions(), $page['controller'], 'render', [['e' => '404', 'page' => $page_id]]);
-  }
-
-  /**
    * Returns cached/fresh page content.
    *
    * @param string $page_id
@@ -67,6 +52,39 @@ class PageManager {
   }
 
   /**
+   * Creates page in database.
+   *
+   * @param array $values
+   *
+   * @return bool
+   */
+  public function createPage($values = []): bool {
+    $page = Nick::Database()
+      ->insert('pages')
+      ->values($values);
+    if (!$page->execute()) {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * @param string $page_id
+   *
+   * @return mixed
+   */
+  protected function get404(string $page_id) {
+    $page = $this->getPage('error');
+    $pageObject = new $page['controller'];
+    if (!$pageObject instanceof PageInterface) {
+      return FALSE;
+    }
+
+    return Nick::Cache()->getContentData($pageObject->getCacheOptions(), $page['controller'], 'render', [['e' => '404', 'page' => $page_id]]);
+  }
+
+  /**
    * @param      $page_id
    * @param bool $object
    *
@@ -91,24 +109,6 @@ class PageManager {
     }
     $page_result = reset($page_result);
     return $page_result;
-  }
-
-  /**
-   * Creates page in database.
-   *
-   * @param array $values
-   *
-   * @return bool
-   */
-  public function createPage($values = []): bool {
-    $page = Nick::Database()
-      ->insert('pages')
-      ->values($values);
-    if (!$page->execute()) {
-      return FALSE;
-    }
-
-    return TRUE;
   }
 
 }

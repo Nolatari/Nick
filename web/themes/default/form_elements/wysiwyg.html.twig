@@ -1,6 +1,6 @@
 <div class="form-group">
     <label for="{{ formId }}-{{ key }}">{{ title }}</label>
-    <textarea class="form-control{% if classes %}{% for class in classes %} {{ class }}{% endfor %}{% endif %}" id="{{ formId }}-{{ key }}"{% for key,value in attributes %}{% if key != 'value' %} {{ key }}="{{ value }}"{% endif %}{% endfor %} aria-describedby="{{ formId }}-{{ key }}-description">
+    <textarea class="form-control{% if classes %}{% for class in classes %} {{ class }}{% endfor %}{% endif %}" id="{{ formId }}-{{ key }}"{% for key,value in attributes %}{% if key != 'value' %} {{ key }}="{{ value|raw }}"{% endif %}{% endfor %} aria-describedby="{{ formId }}-{{ key }}-description">
     {{- attributes.value|raw -}}
     </textarea>
     {% if description %}

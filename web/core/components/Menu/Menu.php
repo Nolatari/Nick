@@ -23,15 +23,6 @@ class Menu extends Entity implements MenuInterface {
   }
 
   /**
-   * @param int $id
-   *
-   * @return EntityInterface|NULL
-   */
-  public static function load(int $id) {
-    return parent::loadEntity($id, 'menu');
-  }
-
-  /**
    * @return array
    */
   public static function loadMultiple() {
@@ -200,6 +191,15 @@ class Menu extends Entity implements MenuInterface {
       return Menu::load($parentId);
     }
     return FALSE;
+  }
+
+  /**
+   * @param int $id
+   *
+   * @return EntityInterface|NULL
+   */
+  public static function load(int $id) {
+    return parent::loadEntity($id, 'menu');
   }
 
   /**

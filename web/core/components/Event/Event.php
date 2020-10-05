@@ -26,25 +26,6 @@ class Event implements EventInterface {
   }
 
   /**
-   * {@inheritDoc}
-   */
-  public function getEventName(): string {
-    return $this->eventName;
-  }
-
-  /**
-   * Sets the name of the event to be fired.
-   *
-   * @param string $eventName
-   *
-   * @return self
-   */
-  protected function setEventName(string $eventName): self {
-    $this->eventName = $eventName;
-    return $this;
-  }
-
-  /**
    * Fires the event and runs through all listeners/subscribers.
    *
    * @param mixed $variables
@@ -95,6 +76,25 @@ class Event implements EventInterface {
     }
 
     return $listeners;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function getEventName(): string {
+    return $this->eventName;
+  }
+
+  /**
+   * Sets the name of the event to be fired.
+   *
+   * @param string $eventName
+   *
+   * @return self
+   */
+  protected function setEventName(string $eventName): self {
+    $this->eventName = $eventName;
+    return $this;
   }
 
 }

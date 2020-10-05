@@ -1,4 +1,4 @@
 <div class="form-check">
-    <input id="{{ formId }}-{{ key }}" type="checkbox" class="form-check-input{% if classes %}{% for class in classes %} {{ class }}{% endfor %}{% endif %}"{% for key,value in attributes %} {{ key }}="{{ value }}"{% endfor %}>
+    <input id="{{ formId }}-{{ key }}" type="checkbox" class="form-check-input{% if classes %}{% for class in classes %} {{ class }}{% endfor %}{% endif %}"{% for key,value in attributes %} {{ key }}="{{ value|raw }}"{% endfor %}>
     <label class="form-check-label" for="exampleCheck1">{{ title }}</label>
 </div>

@@ -25,19 +25,6 @@ class Footer extends Page {
   /**
    * {@inheritDoc}
    */
-  protected function setCacheOptions($parameters = []) {
-    $this->caching = [
-      'key' => 'page.footer',
-      'context' => 'page',
-      'max-age' => 3600,
-    ];
-
-    return $this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public function install() {
     $pageManager = Nick::PageManager();
     return $pageManager->createPage([
@@ -54,6 +41,19 @@ class Footer extends Page {
       ->setType()
       ->setTemplate('footer')
       ->render();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  protected function setCacheOptions($parameters = []) {
+    $this->caching = [
+      'key' => 'page.footer',
+      'context' => 'page',
+      'max-age' => 3600,
+    ];
+
+    return $this;
   }
 
 }

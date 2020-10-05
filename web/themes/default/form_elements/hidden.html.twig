@@ -1,1 +1,1 @@
-<input type="hidden" id="{{ formId }}-{{ key }}" {% for key,value in attributes %} {{ key }}="{{ value }}"{% endfor %} />
+<input type="hidden" id="{{ formId }}-{{ key }}" {% for key,value in attributes %} {{ key }}="{{ value|raw }}"{% endfor %} />

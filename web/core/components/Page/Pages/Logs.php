@@ -4,7 +4,6 @@ namespace Nick\Page\Pages;
 
 use Nick;
 use Nick\Page\Page;
-use Nick\Form\FormBuilder;
 use Nick\Url;
 
 /**
@@ -24,19 +23,6 @@ class Logs extends Page {
       'summary' => $this->translate('Shows recent logs'),
     ]);
     parent::__construct();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  protected function setCacheOptions($parameters = []) {
-    $this->caching = [
-      'key' => 'page.logs',
-      'context' => 'page',
-      'max-age' => 0,
-    ];
-
-    return $this;
   }
 
   /**
@@ -71,6 +57,19 @@ class Logs extends Page {
         'logs' => $logs,
         'count' => count($logs),
       ]);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  protected function setCacheOptions($parameters = []) {
+    $this->caching = [
+      'key' => 'page.logs',
+      'context' => 'page',
+      'max-age' => 0,
+    ];
+
+    return $this;
   }
 
 }
