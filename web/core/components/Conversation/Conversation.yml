@@ -1,8 +1,8 @@
 name: Conversation
 version: 1.0a
 type: entity
-description: 'Allows for conversations between people.\nThis will also install the Message extension.'
+description: "Allows for conversations between people.\nThis will also (un-)install the <b>Message</b> extension."
 event_listeners:
-  prePageRender:
+  pagePreRender:
     class: '\Nick\Conversation\Events'
-    method: 'prePageRender'
+    method: 'pagePreRender'

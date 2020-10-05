@@ -2,6 +2,7 @@
 
 namespace Nick\Message;
 
+use Nick\Conversation\ConversationInterface;
 use Nick\Entity\Entity;
 use Nick\Entity\EntityInterface;
 use Nick\Person\Person;
@@ -82,7 +83,7 @@ class Message Extends Entity implements MessageInterface {
   /**
    * {@inheritDoc}
    */
-  public function setConversation($conversation) {
+  public function setConversation(ConversationInterface $conversation) {
     return $this->setValue('conversation', $conversation->id());
   }
 

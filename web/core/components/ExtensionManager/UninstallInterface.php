@@ -17,7 +17,7 @@ interface UninstallInterface {
   public function condition();
 
   /**
-   * Perform uninstall actions (Remove entity types, pages, ..)
+   * Perform uninstall actions (Remove entity types, pages, menu items, ...)
    *
    * @return bool
    */

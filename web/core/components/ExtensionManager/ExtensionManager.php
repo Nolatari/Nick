@@ -14,6 +14,8 @@ use Nick\YamlReader;
 class ExtensionManager {
 
   /**
+   * Returns array of installed extensions
+   *
    * @return array|bool
    */
   public static function getInstalledExtensions() {
@@ -30,12 +32,14 @@ class ExtensionManager {
   }
 
   /**
+   * Uninstalls extension and uses UninstallInterface instance class in namespace of extension
+   *
    * @param string $extension
    *
    * @return bool
    */
   public static function uninstallExtension(string $extension): bool {
-    if (self::extensionInstalled($extension)) {
+    if (!self::extensionInstalled($extension)) {
       return FALSE;
     }
 
@@ -53,10 +57,12 @@ class ExtensionManager {
       /** @var UninstallInterface $uninstallObject */
       $uninstallObject = new $uninstallObjectName();
 
-      try {
-        $uninstallObject->doUninstall();
-      } catch(\Exception $e) {
-        Nick::Logger()->add($e->getMessage());
+      if (!$uninstallObject->condition()) {
+        try {
+          $uninstallObject->doUninstall();
+        } catch (\Exception $e) {
+          Nick::Logger()->add($e->getMessage());
+        }
       }
     }
 
@@ -65,7 +71,7 @@ class ExtensionManager {
   }
 
   /**
-   * Install an extension.
+   * Installs extension and uses InstallInterface instance class in namespace of extension
    *
    * @param string     $extension
    * @param string     $type
@@ -146,7 +152,7 @@ class ExtensionManager {
   public static function extensionInstalled(string $extension) {
     $extensions = self::getInstalledExtensions();
     foreach ($extensions as $ext) {
-      if ($ext['name'] === $extension) {
+      if (strtolower($ext['name']) === strtolower($extension)) {
         return TRUE;
       }
     }

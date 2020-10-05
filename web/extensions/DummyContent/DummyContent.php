@@ -9,6 +9,11 @@ use Nick\Entity\Entity;
 use Nick\Page\Page;
 use Nick\Person\Person;
 
+/**
+ * Class DummyContent
+ *
+ * @package Nick\DummyContent
+ */
 class DummyContent extends Page {
 
   /**

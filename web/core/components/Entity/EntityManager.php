@@ -43,7 +43,7 @@ class EntityManager {
     // Create tables for Entities.
     $entities = [];
     foreach (self::getAllEntityClasses() as $entity) {
-      if (!self::entityInstalled($entity) && Nick::ExtensionManager()::extensionInstalled($entity)) {
+      if (!self::entityInstalled($entity)) {
         $entities[] = self::getEntityClassFromType($entity);
       }
     }

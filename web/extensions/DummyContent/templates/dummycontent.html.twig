@@ -12,13 +12,14 @@
         <div class="row">
             {% if showButtons %}
                 {% for key, name in buttons %}
+                    {% set url = route(['dummycontent', key], {'confirm': null}) %}
                 <p>
                     {{ formElement('button', {
                         text: name,
                         classes: ['btn-primary'],
                         formId: 'dummycontent',
                         key: key,
-                        attributes: { onclick: 'window.location.href = "' ~ route(['dummycontent', key], {'confirm': null}) ~ '"' }
+                        attributes: { onclick: 'window.location.href = \'' ~ url|raw ~ '\'' }
                     })|raw }}
                 </p>&nbsp;
                 {% endfor %}
