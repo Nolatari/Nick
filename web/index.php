@@ -25,3 +25,5 @@ $request = Request::createFromGlobals();
 
 d($request->getUri());
 \Nick::RouteManager()->routeMatch($request->getUri());
+
+// TODO: DB Backup! :(
