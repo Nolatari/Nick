@@ -3,6 +3,8 @@
 namespace Nick\Route;
 
 use Nick\Database\Result;
+use Nick\Logger;
+use Nick\Translation\StringTranslation;
 
 /**
  * Class RouteManager
@@ -10,6 +12,7 @@ use Nick\Database\Result;
  * @package Nick\Route
  */
 class RouteManager {
+  use StringTranslation;
 
   /**
    * Checks whether route exists in database
@@ -19,7 +22,23 @@ class RouteManager {
    * @return bool
    */
   public function routeExists(string $route): bool {
-    return TRUE;
+    $query = \Nick::Database()
+      ->select('routes')
+      ->condition('route', $route)
+      ->execute();
+    if (!$query instanceof Result) {
+      return FALSE;
+    }
+    $results = $query->fetchAllAssoc();
+    if (count($results) > 1) {
+      \Nick::Logger()->add(
+        $this->translate('More than one routes with name :route found.', [':route' => $route]),
+        Logger::TYPE_ERROR, 'RouteManager'
+      );
+      return FALSE;
+    }
+
+    return count($results) === 1;
   }
 
   /**
@@ -31,10 +50,10 @@ class RouteManager {
     $query = \Nick::Database()
       ->select('routes')
       ->execute();
-
     if (!$query instanceof Result) {
       return FALSE;
     }
+
     $results = $query->fetchAllAssoc();
     foreach ($results as $result) {
       d($result);
