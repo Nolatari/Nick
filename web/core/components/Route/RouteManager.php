@@ -77,8 +77,7 @@ class RouteManager {
           $exploded_route_url[$id] = $exploded_url[$id];
           $reworked_parameters[$key] = $exploded_url[$id];
         }
-        $route_url = '/' . implode('/', $exploded_route_url);
-        if ($route_url === $url) {
+        if ($exploded_route_url === $exploded_url) {
           return \Nick::Route()->load($result['route'])->setValue('parameters', $reworked_parameters);
         }
       }

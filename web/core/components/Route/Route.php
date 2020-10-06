@@ -28,7 +28,7 @@ class Route implements RouteInterface {
   protected array $parameters;
 
   /** @var array $values */
-  protected array $values;
+  protected array $values = [];
 
   /** @var Request $request */
   protected Request $request;
@@ -54,6 +54,9 @@ class Route implements RouteInterface {
     }
     $result = $query->fetchAllAssoc();
     $result = reset($result);
+    if (!is_array($result)) {
+      return FALSE;
+    }
     return $this->setValues($route, $result['controller'], unserialize($result['parameters']), $result['url']);
   }
 
@@ -125,9 +128,11 @@ class Route implements RouteInterface {
    */
   public function getUri() {
     $url = $this->url;
-    foreach ($this->parameters as $param => $iterator) {
-      if (isset($this->values[$param])) {
+    foreach ($this->values as $param => $value) {
+      if (isset($this->parameters[$param])) {
         $url = StringManipulation::replace($url, '{' . $param . '}', $this->values[$param]);
+      } else {
+
       }
     }
     return $url;

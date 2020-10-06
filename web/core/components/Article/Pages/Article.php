@@ -90,7 +90,7 @@ class Article extends Page {
             break;
           case 'delete':
             $content = 'Are you sure you wish to delete this article? <br />';
-            $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(['article', 'delete', $parameters['id']], ['confirm' => NULL]) . '">Yes, I\'m sure</a> ';
+            $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(\Nick::Route()->load('article.view')->setValue('id', $parameters['id'])->setValue('confirm', NULL)) . '">Yes, I\'m sure</a> ';
             $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(\Nick::Route()->load('article.view')->setValue('id', $parameters['id'])) . '">No, take me back</a>';
             break;
         }

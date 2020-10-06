@@ -260,7 +260,7 @@ class Nick {
       $headerVariables = [];
       $headerVariables['logs'] = ['render' => $logger->render()];
       $headerVariables['current_route'] = [
-        'route' => Url::getCurrentRoute(),
+        'route' => Url::getCurrentRoute()->getUri(),
         'page' => $page,
         'type' => $type,
         'id' => $id,

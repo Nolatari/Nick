@@ -3,6 +3,7 @@
 namespace Nick;
 
 use Nick\Route\RouteInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class URL to build dynamic urls
@@ -30,7 +31,7 @@ class Url {
    *
    * @return string
    */
-  public function addParamsToCurrentUrl($key, $value = NULL): string {
+  public function addParamsToCurrentUrl(string $key, $value = NULL): string {
     $current_params = $_GET;
     $url = $this->getUrlWithoutParameters();
 
@@ -122,10 +123,12 @@ class Url {
   }
 
   /**
-   * @return string|null
+   * @return RouteInterface
    */
-  public static function getCurrentRoute(): ?string {
-    return self::fromRoute([$_GET['p'] ?? NULL, $_GET['t'] ?? NULL, $_GET['id'] ?? NULL]);
+  public static function getCurrentRoute(): RouteInterface {
+    $request = Request::createFromGlobals();
+    $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
+    return \Nick::RouteManager()->routeMatch(StringManipulation::replace($uri, Settings::get('root.url'), ''));
   }
 
 }
