@@ -2,6 +2,8 @@
 
 namespace Nick\Route;
 
+use Nick\Database\Result;
+
 /**
  * Class RouteManager
  *
@@ -16,8 +18,27 @@ class RouteManager {
    *
    * @return bool
    */
-  public static function routeExists(string $route): bool {
+  public function routeExists(string $route): bool {
     return TRUE;
+  }
+
+  /**
+   * @param string $url
+   *
+   * @return bool
+   */
+  public function routeMatch(string $url) {
+    $query = \Nick::Database()
+      ->select('routes')
+      ->execute();
+
+    if (!$query instanceof Result) {
+      return FALSE;
+    }
+    $results = $query->fetchAllAssoc();
+    foreach ($results as $result) {
+      d($result);
+    }
   }
 
 }

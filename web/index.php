@@ -21,3 +21,7 @@ $request = Request::createFromGlobals();
 
 /** Bootstrap Nick. */
 \Nick::Bootstrap($request);
+
+
+d($request->getUri());
+\Nick::RouteManager()->routeMatch($request->getUri());

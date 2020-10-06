@@ -19,7 +19,7 @@ interface PageInterface {
   /**
    * Returns page parameter
    *
-   * @param $parameter
+   * @param string $parameter
    *
    * @return string
    */

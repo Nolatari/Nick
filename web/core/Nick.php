@@ -21,6 +21,7 @@ use Nick\Page\PageInterface;
 use Nick\Page\PageManager;
 use Nick\Renderer;
 use Nick\Route\Route;
+use Nick\Route\RouteManager;
 use Nick\Search\Search;
 use Nick\Theme;
 use Nick\Translation\Translation;
@@ -217,6 +218,15 @@ class Nick {
    */
   public static function Route() {
     return new Route();
+  }
+
+  /**
+   * Returns Route object.
+   *
+   * @return RouteManager
+   */
+  public static function RouteManager() {
+    return new RouteManager();
   }
 
   /**
