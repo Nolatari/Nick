@@ -211,11 +211,11 @@ class Nick {
   }
 
   /**
-   * Returns Routing object.
+   * Returns Route object.
    *
    * @return Route
    */
-  public static function Routing() {
+  public static function Route() {
     return new Route();
   }
 
