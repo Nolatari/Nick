@@ -4,6 +4,7 @@ namespace Nick\Route;
 
 use Nick;
 use Nick\Database\Result;
+use Nick\Page\PageInterface;
 use Nick\StringManipulation;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -26,12 +27,24 @@ class Route implements RouteInterface {
   /** @var array $parameters */
   protected array $parameters;
 
+  /** @var array $values */
+  protected array $values;
+
+  /** @var Request $request */
+  protected Request $request;
+
+  public function __construct() {
+    $this->request = Request::createFromGlobals();
+  }
+
   /**
-   * @param $route
+   * Returns either bool or route object based on route string
+   *
+   * @param string $route
    *
    * @return bool|self
    */
-  public function load($route) {
+  public function load(string $route) {
     $query = Nick::Database()
       ->select('routes')
       ->condition('route', $route)
@@ -40,7 +53,50 @@ class Route implements RouteInterface {
       return FALSE;
     }
     $result = $query->fetchAllAssoc();
-    return $this->setValues($route, $result['controller'], unserialize($result['parameters']));
+    $result = reset($result);
+    return $this->setValues($route, $result['controller'], unserialize($result['parameters']), $result['url']);
+  }
+
+  public function render() {
+    if (!class_exists($this->controller)) {
+      return NULL;
+    }
+    $controller = new $this->controller;
+    if (!$controller instanceof PageInterface) {
+      return NULL;
+    }
+
+    $parameters = $this->parameters;
+    return $controller->render($parameters);
+  }
+
+  /**
+   * Sets single value based on key.
+   *
+   * @param string $key
+   * @param mixed  $value
+   *
+   * @return self
+   */
+  public function setValue(string $key, $value): self {
+    switch ($key) {
+      case 'parameters':
+        $this->parameters = $value;
+        break;
+      case 'controller':
+        $this->controller = $value;
+        break;
+      case 'route':
+        $this->route = $value;
+        break;
+      case 'url':
+        $this->url = $value;
+        break;
+      default:
+        $this->values[$key] = $value;
+        break;
+    }
+    return $this;
   }
 
   /**
@@ -49,13 +105,15 @@ class Route implements RouteInterface {
    * @param string $route
    * @param string $controller
    * @param array  $parameters
+   * @param string $url
    *
    * @return self
    */
-  public function setValues(string $route, string $controller, array $parameters): self {
+  public function setValues(string $route, string $controller, array $parameters, string $url): self {
     $this->route = $route;
     $this->controller = $controller;
     $this->parameters = $parameters;
+    $this->url = $url;
 
     return $this;
   }
@@ -63,19 +121,16 @@ class Route implements RouteInterface {
   /**
    * Returns URI from Request and current Route
    *
-   * @param Request $request
-   *
    * @return string|string[]
    */
-  public function getUri(Request $request) {
-    $queryParams = $request->query->all();
-    if (count($this->parameters) > 0) {
-      foreach ($this->parameters as $param => $iterator) {
-        $this->url = StringManipulation::replace($this->url, '{' . $param . '}', $queryParams[$iterator]);
+  public function getUri() {
+    $url = $this->url;
+    foreach ($this->parameters as $param => $iterator) {
+      if (isset($this->values[$param])) {
+        $url = StringManipulation::replace($url, '{' . $param . '}', $this->values[$param]);
       }
     }
-
-    return $this->url;
+    return $url;
   }
 
   /**

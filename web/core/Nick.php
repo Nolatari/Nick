@@ -23,6 +23,8 @@ use Nick\Renderer;
 use Nick\Route\Route;
 use Nick\Route\RouteManager;
 use Nick\Search\Search;
+use Nick\Settings;
+use Nick\StringManipulation;
 use Nick\Theme;
 use Nick\Translation\Translation;
 use Nick\Translation\TranslationInterface;
@@ -240,6 +242,14 @@ class Nick {
     self::EntityManager()->createEntities();
     self::ExtensionManager()->installExtensions();
 
+    $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
+    $route = static::RouteManager()->routeMatch(StringManipulation::replace($uri, Settings::get('root.url'), ''));
+    if (!$route) {
+      $route = static::Route()->load('dashboard');
+    }
+
+    d($route);
+
     $page = $request->query->has('p') ? $request->query->get('p') : 'dashboard';
     $type = $request->query->has('t') ? $request->query->get('t') : NULL;
     $id = $request->query->has('id') ? $request->query->get('id') : NULL;
@@ -261,21 +271,11 @@ class Nick {
           'type' => $pageObject->get('type'),
           'title' => $pageObject->get('title'),
           'summary' => $pageObject->get('summary'),
-          'cacheclear_uri' => Url::fromRoute(
-            [
-              'cache',
-              'clear_all'
-            ],
-            [
-              'data[p]' => $page,
-              'data[t]' => $type,
-              'data[id]' => $id,
-            ],
-          ),
+          'cacheclear_uri' => Url::fromRoute(static::Route()->load('cache.clear')),
         ];
       }
       $header = self::PageManager()->getPageRender('header', $headerVariables);
-      $page = self::PageManager()->getPageRender($page, $request->query->all());
+      $page = $route->render();
       $footer = self::PageManager()->getPageRender('footer');
 
       echo $header ?? NULL;

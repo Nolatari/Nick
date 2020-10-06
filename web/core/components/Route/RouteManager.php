@@ -2,8 +2,10 @@
 
 namespace Nick\Route;
 
+use Nick\ArrayManipulation;
 use Nick\Database\Result;
 use Nick\Logger;
+use Nick\StringManipulation;
 use Nick\Translation\StringTranslation;
 
 /**
@@ -43,8 +45,9 @@ class RouteManager {
 
   /**
    * @param string $url
+   *                  Url should not contain the base url, filter this out!
    *
-   * @return bool
+   * @return bool|RouteInterface
    */
   public function routeMatch(string $url) {
     $query = \Nick::Database()
@@ -56,8 +59,32 @@ class RouteManager {
 
     $results = $query->fetchAllAssoc();
     foreach ($results as $result) {
-      d($result);
+      $result['parameters'] = unserialize($result['parameters']);
+      if ($result['url'] === $url) {
+        return \Nick::Route()->load($result['route']);
+      } elseif (count($result['parameters']) > 0) {
+        $exploded_route_url = ArrayManipulation::removeEmptyEntries(StringManipulation::explode($result['url'], '/'));
+        $exploded_url = ArrayManipulation::removeEmptyEntries(StringManipulation::explode($url, '/'));
+        // Reset numerical keys of both arrays
+        $exploded_route_url = array_merge($exploded_route_url);
+        $exploded_url = array_merge($exploded_url);
+        $reworked_parameters = [];
+        foreach ($result['parameters'] as $key => $id) {
+          if (!isset($exploded_url[$id])) {
+            continue;
+          }
+
+          $exploded_route_url[$id] = $exploded_url[$id];
+          $reworked_parameters[$key] = $exploded_url[$id];
+        }
+        $route_url = '/' . implode('/', $exploded_route_url);
+        if ($route_url === $url) {
+          return \Nick::Route()->load($result['route'])->setValue('parameters', $reworked_parameters);
+        }
+      }
     }
+
+    return FALSE;
   }
 
 }

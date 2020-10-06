@@ -50,8 +50,8 @@ class Article extends Page {
         $this->caching['key'] = 'page.' . $this->get('id') . '.' . $parameters['t'] . '.' . $article->id();
         $this->caching['max-age'] = 0;
       }
-    } elseif (isset($parameters['t']) && $parameters['t'] == 'overview') {
-      $this->caching['key'] = 'page.' . $this->get('id') . '.' . $parameters['t'];
+    } else {
+      $this->caching['key'] = 'page.' . $this->get('id') . '.overview';
       $this->caching['max-age'] = 0;
     }
 
@@ -91,25 +91,21 @@ class Article extends Page {
           case 'delete':
             $content = 'Are you sure you wish to delete this article? <br />';
             $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(['article', 'delete', $parameters['id']], ['confirm' => NULL]) . '">Yes, I\'m sure</a> ';
-            $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(['article', 'view', $parameters['id']]) . '">No, take me back</a>';
+            $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(\Nick::Route()->load('article.view')->setValue('id', $parameters['id'])) . '">No, take me back</a>';
             break;
         }
       }
-    } elseif (isset($parameters['t'])) {
-      switch ($parameters['t']) {
-        case 'overview':
-          $manifest = Nick::Manifest('article')->fields([
-            'id', 'title', 'status', 'owner'
-          ]);
-          $manifestRenderer = new ManifestRenderer($manifest);
-          $content = $manifestRenderer
-            ->setViewMode('table')
-            ->hideField('id')
-            ->noLink('owner')
-            ->addActionLinks('article')
-            ->render(TRUE);
-          break;
-      }
+    } else {
+      $manifest = Nick::Manifest('article')->fields([
+        'id', 'title', 'status', 'owner'
+      ]);
+      $manifestRenderer = new ManifestRenderer($manifest);
+      $content = $manifestRenderer
+        ->setViewMode('table')
+        ->hideField('id')
+        ->noLink('owner')
+        ->addActionLinks('article')
+        ->render(TRUE);
     }
 
     return Nick::Renderer()

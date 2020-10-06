@@ -24,16 +24,16 @@ class TwigExtensions extends AbstractExtension {
   }
 
   /**
-   * Creates route from string or array
+   * Creates url from route
    *
-   * @param string|array $route
-   *
-   * @param array        $extra
+   * @param string $route
+   * @param array  $parameters
    *
    * @return string
    */
-  public function getRoute($route, $extra = []) {
-    return Url::fromRoute($route, $extra);
+  public function getRoute(string $route, array $parameters) {
+    $route = \Nick::Route()->load($route)->setValue('parameters', $parameters);
+    return Url::fromRoute($route);
   }
 
   /**

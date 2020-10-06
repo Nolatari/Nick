@@ -23,15 +23,17 @@ interface PageInterface {
    *
    * @return string
    */
-  public function get($parameter);
+  public function get(string $parameter);
 
   /**
    * Returns the twig render of the current page.
    * To be overwritten in the page's class.
    *
+   * @param array $parameters
+   *
    * @return NULL|string
    */
-  public function render();
+  public function render(&$parameters = []);
 
   /**
    * Installs the page in the database in case it does not exist yet.

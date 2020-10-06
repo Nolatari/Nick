@@ -61,7 +61,7 @@ class Page implements PageInterface {
   /**
    * {@inheritDoc}
    */
-  public function get($parameter): ?string {
+  public function get(string $parameter): ?string {
     return $this->parameters[$parameter] ?? NULL;
   }
 

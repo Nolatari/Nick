@@ -32,7 +32,7 @@ class Uninstall implements UninstallInterface {
    */
   public function condition(): bool {
     $pageObject = $this->pageManager->getPageObject('dummycontent');
-    if (!$pageObject instanceof DummyContent) {
+    if ($pageObject instanceof DummyContent) {
       return FALSE;
     }
 

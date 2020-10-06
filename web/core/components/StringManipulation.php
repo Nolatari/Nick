@@ -46,7 +46,7 @@ class StringManipulation {
    *
    * @return string|string[]
    */
-  public static function replace(string &$haystack, $needle, string $replacement): string {
+  public static function replace(string $haystack, $needle, string $replacement): string {
     if (is_string($needle)) {
       return str_replace($needle, $replacement, $haystack);
     } elseif (is_array($needle)) {

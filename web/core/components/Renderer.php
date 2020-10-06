@@ -162,7 +162,7 @@ class Renderer {
             . Nick::Cache()->getData('NICK_VERSION_STATUS'),
         ],
         'theme' => [
-          'location' => 'themes/' . Nick::Theme()->getTheme('admin'),
+          'location' => Settings::get('root.url') . '/themes/' . Nick::Theme()->getTheme('admin'),
         ],
       ];
 

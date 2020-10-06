@@ -43,7 +43,7 @@ class ArrayManipulation {
    *
    * @return array $array
    */
-  public static function removeEmptyEntries(array &$array): array {
+  public static function removeEmptyEntries(array $array): array {
     foreach ($array as $key => $item) {
       if (is_string($item)) {
         if ($item === '') {

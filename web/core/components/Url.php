@@ -2,6 +2,8 @@
 
 namespace Nick;
 
+use Nick\Route\RouteInterface;
+
 /**
  * Class URL to build dynamic urls
  */
@@ -11,39 +13,13 @@ class Url {
    * Returns URL based on route, there is no validation in this because routes are not set in stone.
    * Any validation requirements will have to be done while calling the functionality.
    *
-   * @param array|string $route
-   *                  Route as string or array, [0] = p | [1] = t | [2] = id
-   *                  Example: extensions.install.MyExtension will return ./?p=extensions&t=install&id=MyExtension
-   * @param array        $extra_params
-   *                  Adds extra parameters in array, example input: ['myKey' => 'myValue', 'my-other-key' => 'my-other-value']
+   * @param RouteInterface $route
+   *                  RouteInterface to grab URL from
    *
    * @return string
    */
-  public static function fromRoute($route, $extra_params = []): string {
-    if (!is_array($route)) {
-      $route = explode('.', $route);
-    }
-
-    $returnString = (new Url)->getBaseUrl() . '/';
-    if (isset($route[0])) {
-      $returnString .= '?p=' . $route[0];
-    }
-    if (isset($route[1])) {
-      $returnString .= '&t=' . $route[1];
-    }
-    if (isset($route[2])) {
-      $returnString .= '&id=' . $route[2];
-    }
-
-    foreach ($extra_params as $key => $value) {
-      if (is_null($value)) {
-        $returnString .= '&' . $key;
-      } else {
-        $returnString .= '&' . $key . '=' . $value;
-      }
-    }
-
-    return $returnString;
+  public static function fromRoute(RouteInterface $route): string {
+    return $route->getUri();
   }
 
   /**

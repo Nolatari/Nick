@@ -19,11 +19,10 @@ require_once __DIR__ . '/core/includes.php';
 
 $request = Request::createFromGlobals();
 
+$url = \Nick::Route()->load('article.edit')->setValue('id', '17')->getUri();
+d($url);
+
 /** Bootstrap Nick. */
 \Nick::Bootstrap($request);
-
-
-d($request->getUri());
-\Nick::RouteManager()->routeMatch($request->getUri());
 
 // TODO: DB Backup! :(
