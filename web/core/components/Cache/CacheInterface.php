@@ -21,10 +21,15 @@ interface CacheInterface {
    * For storing content => CacheInterface::getContentData().
    *
    * @param string $cacheKey
+   *                  The key under which the data will be stored
    * @param string $fallbackClass
+   *                  The fallback class to use when there's no stored data yet
    * @param string $fallbackMethod
+   *                  The fallback method to use when there's no stored data yet
    * @param array  $methodData
+   *                  The necessary parameters for the given method in array format
    * @param array  $classData
+   *                  The necessary parameters for the given class in array format
    *
    * @return mixed
    */
@@ -36,11 +41,16 @@ interface CacheInterface {
    * This is mainly for (nearly) permanently storing content data.
    * E.g.: content, user data, ..
    *
-   * @param array  $cacheOptions
+   * @param array $cacheOptions
+   *                  The options for the content data (key, max-age, ..)
    * @param string $fallbackClass
+   *                  The fallback class to use when there's no stored data yet
    * @param string $fallbackMethod
+   *                  The fallback method to use when there's no stored data yet
    * @param array  $methodData
+   *                  The necessary parameters for the given method in array format
    * @param array  $classData
+   *                  The necessary parameters for the given class in array format
    *
    * @return mixed
    */
@@ -61,7 +71,7 @@ interface CacheInterface {
   public function returnCacheStats();
 
   /**
-   * Truncates caching tables
+   * Truncates caching table(s)
    *
    * @return bool
    */
