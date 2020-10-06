@@ -20,7 +20,7 @@ use Nick\Entity\EntityManager;
 use Nick\Page\PageInterface;
 use Nick\Page\PageManager;
 use Nick\Renderer;
-use Nick\Routing\Routing;
+use Nick\Route\Route;
 use Nick\Search\Search;
 use Nick\Theme;
 use Nick\Translation\Translation;
@@ -213,10 +213,10 @@ class Nick {
   /**
    * Returns Routing object.
    *
-   * @return Routing
+   * @return Route
    */
   public static function Routing() {
-    return new Routing();
+    return new Route();
   }
 
   /**

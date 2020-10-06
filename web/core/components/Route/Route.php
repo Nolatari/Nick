@@ -1,6 +1,6 @@
 <?php
 
-namespace Nick\Routing;
+namespace Nick\Route;
 
 use Nick;
 use Nick\Database\Result;
@@ -8,11 +8,11 @@ use Nick\StringManipulation;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class Routing
+ * Class Route
  *
- * @package Nick\Routing
+ * @package Nick\Route
  */
-class Routing {
+class Route implements RouteInterface {
 
   /** @var string $route */
   protected string $route;
@@ -64,6 +64,8 @@ class Routing {
    * Returns URI from Request and current Route
    *
    * @param Request $request
+   *
+   * @return string|string[]
    */
   public function getUri(Request $request) {
     $queryParams = $request->query->all();
@@ -72,12 +74,15 @@ class Routing {
         $this->url = StringManipulation::replace($this->url, '{' . $param . '}', $queryParams[$iterator]);
       }
     }
+
+    return $this->url;
   }
 
   /**
    * Saves route to database (Insert / update depending on current status)
    */
   public function save() {
+    // TODO: update if route exists
     $query = Nick::Database()
       ->insert('routes')
       ->values([
