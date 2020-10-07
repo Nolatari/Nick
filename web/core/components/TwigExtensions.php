@@ -3,6 +3,7 @@
 namespace Nick;
 
 use Nick\Form\FormElement;
+use Nick\Translation\StringTranslation;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -12,6 +13,7 @@ use Twig\TwigFunction;
  * @package Nick\
  */
 class TwigExtensions extends AbstractExtension {
+  use StringTranslation;
 
   /**
    * @return array|TwigFunction[]
@@ -20,6 +22,7 @@ class TwigExtensions extends AbstractExtension {
     return [
       new TwigFunction('route', [$this, 'getRoute']),
       new TwigFunction('formElement', [$this, 'getFormElement']),
+      new TwigFunction('trans', [$this, 'trans']),
     ];
   }
 
@@ -27,17 +30,31 @@ class TwigExtensions extends AbstractExtension {
    * Creates url from route
    *
    * @param string $route
-   * @param array  $parameters
+   * @param array  $values
    *
    * @return string
    */
-  public function getRoute(string $route, array $parameters = []) {
+  public function getRoute(string $route, array $values = []) {
     $route = \Nick::Route()->load($route);
     if (!$route) {
       return NULL;
     }
-    $route = $route->setValue('parameters', $parameters);
+    foreach ($values as $key => $value) {
+      $route = $route->setValue($key, $value);
+    }
     return Url::fromRoute($route);
+  }
+
+  /**
+   * Translates string.
+   *
+   * @param string $string
+   * @param array  $args
+   *
+   * @return mixed
+   */
+  public function trans(string $string, $args = []) {
+    return $this->translate($string, $args);
   }
 
   /**

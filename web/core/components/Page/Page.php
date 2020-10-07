@@ -4,6 +4,7 @@ namespace Nick\Page;
 
 use Nick\Event\Event;
 use Nick\Translation\StringTranslation;
+use Nick\Url;
 
 /**
  * Class Dashboard
@@ -23,7 +24,7 @@ class Page implements PageInterface {
    * Dashboard constructor.
    */
   public function __construct() {
-    $this->setCacheOptions($_GET);
+    $this->setCacheOptions(Url::getParameters());
   }
 
   /**

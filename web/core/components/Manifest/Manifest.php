@@ -89,6 +89,7 @@ class Manifest implements ManifestInterface {
     }
     $results = $query->fetchAllAssoc();
     if ($massage) {
+      /** @var EntityInterface $entity */
       $entity = EntityManager::getEntityClassFromType($this->getType());
       foreach ($results as $id => $values) {
         $results[$id] = $entity->massageProperties($values)->getValues();

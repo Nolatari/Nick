@@ -71,7 +71,7 @@ class Route implements RouteInterface {
     }
 
     $parameters = Url::getParameters();
-    return $controller->render($parameters);
+    return Nick::Cache()->getContentData($controller->getCacheOptions(), $this->controller, 'render', [$parameters]);
   }
 
   /**

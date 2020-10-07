@@ -248,8 +248,6 @@ class Nick {
       $route = static::Route()->load('dashboard');
     }
 
-    //d($route);
-
     $page = $request->query->has('p') ? $request->query->get('p') : 'dashboard';
     $type = $request->query->has('t') ? $request->query->get('t') : NULL;
     $id = $request->query->has('id') ? $request->query->get('id') : NULL;
@@ -260,7 +258,7 @@ class Nick {
       $headerVariables = [];
       $headerVariables['logs'] = ['render' => $logger->render()];
       $headerVariables['current_route'] = [
-        'route' => Url::getCurrentRoute()->getUri(),
+        'route' => $route->getUri(),
         'page' => $page,
         'type' => $type,
         'id' => $id,
