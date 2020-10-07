@@ -65,19 +65,19 @@ class Extensions extends Page {
     ksort($extensions);
 
     $action = NULL;
-    if (isset($parameters['id'])) {
-      $extension = $extensionManager::getExtensionInfo($parameters['id']);
-      if (isset($parameters['t'])) {
-        $action = $parameters['t'];
-        if ($parameters['t'] == 'uninstall') {
+    if (isset($parameters[1])) {
+      $extension = $extensionManager::getExtensionInfo($parameters[1]);
+      if (isset($parameters[2])) {
+        $action = $parameters[2];
+        if ($parameters[2] == 'uninstall') {
           if (isset($parameters['confirm'])) { // @TODO: Change this to POST parameters.
-            $extensionManager::uninstallExtension($parameters['id']);
-            header('Location: ./?p=' . $this->get('id') . '&id=' . $parameters['id']);
+            $extensionManager::uninstallExtension($parameters[1]);
+            header('Location: ./?p=' . $this->get('id') . '&id=' . $parameters[1]);
           }
-        } elseif ($parameters['t'] == 'install') {
+        } elseif ($parameters[2] == 'install') {
           if (isset($parameters['confirm'])) { // @TODO: Change this to POST parameters.
-            $extensionManager::installExtension($parameters['id'], $extension['type']);
-            header('Location: ./?p=' . $this->get('id') . '&id=' . $parameters['id']);
+            $extensionManager::installExtension($parameters[1], $extension['type']);
+            header('Location: ./?p=' . $this->get('id') . '&id=' . $parameters[1]);
           }
         }
       }
@@ -93,7 +93,7 @@ class Extensions extends Page {
           'summary' => $this->get('summary'),
         ],
         'extensions' => $extensions,
-        'active' => $parameters['id'] ?? FALSE,
+        'active' => $parameters[1] ?? FALSE,
         'action' => $action,
       ]);
   }

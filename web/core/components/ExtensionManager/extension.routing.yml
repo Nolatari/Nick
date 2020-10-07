@@ -1,0 +1,21 @@
+extension.overview:
+  url: '/extension'
+  class: '\Nick\ExtensionManager\Pages\Extensions'
+
+extension.view:
+  url: '/extension/{ext}'
+  class: '\Nick\ExtensionManager\Pages\Extensions'
+  parameters:
+    ext: 1
+
+extension.install:
+  url: '/extension/{ext}/install'
+  class: '\Nick\ExtensionManager\Pages\Extensions'
+  parameters:
+    ext: 1
+
+extension.uninstall:
+  url: '/extension/{ext}/uninstall'
+  class: '\Nick\ExtensionManager\Pages\Extensions'
+  parameters:
+    ext: 1

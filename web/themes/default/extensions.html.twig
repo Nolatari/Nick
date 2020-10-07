@@ -21,8 +21,8 @@
                     {% if action is not null and active == extension %}
                         <div class="tab-pane fade{% if active == extension %} show active{% endif %}" id="list-{{ extension }}" role="tabpanel" aria-labelledby="list-{{ extension }}-list">
                             <p>Are you sure you wish to {{ action }} {{ extension }}</p>
-                            <p><a class="btn btn-success" href="?p=extensions&t={{ action }}&id={{ extension }}&confirm" role="button">I'm sure!</a>
-                            <a class="btn btn-danger" href="?p=extensions&id={{ extension }}" role="button">No, take me back!</a></p>
+                            <p><a class="btn btn-success" href="{{ route('extension.' ~ action, {ext: extension, confirm: null}) }}" role="button">I'm sure!</a>
+                            <a class="btn btn-danger" href="{{ route('extension.view', {ext: extension}) }}" role="button">No, take me back!</a></p>
                         </div>
                     {% else %}
                         <div class="tab-pane fade{% if active == extension %} show active{% endif %}" id="list-{{ extension }}" role="tabpanel" aria-labelledby="list-{{ extension }}-list">
@@ -34,9 +34,9 @@
                                 <p>{{ info.description|raw|nl2br }}</p>
                             {% endif %}
                             {% if info.installed and not info.required %}
-                                <p><a class="btn btn-danger" href="?p=extensions&t=uninstall&id={{ extension }}" role="button">Uninstall</a></p>
+                                <p><a class="btn btn-danger" href="{{ route('extension.uninstall', {ext: extension}) }}" role="button">Uninstall</a></p>
                             {% elseif not info.installed %}
-                                <p><a class="btn btn-primary" href="?p=extensions&t=install&id={{ extension }}" role="button">Install</a></p>
+                                <p><a class="btn btn-primary" href="{{ route('extension.install', {ext: extension}) }}" role="button">Install</a></p>
                             {% elseif info.required %}
                                 <p>This extension is required and cannot be uninstalled.</p>
                             {% endif %}
