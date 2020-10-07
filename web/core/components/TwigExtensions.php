@@ -31,8 +31,12 @@ class TwigExtensions extends AbstractExtension {
    *
    * @return string
    */
-  public function getRoute(string $route, array $parameters) {
-    $route = \Nick::Route()->load($route)->setValue('parameters', $parameters);
+  public function getRoute(string $route, array $parameters = []) {
+    $route = \Nick::Route()->load($route);
+    if (!$route) {
+      return NULL;
+    }
+    $route = $route->setValue('parameters', $parameters);
     return Url::fromRoute($route);
   }
 

@@ -248,7 +248,7 @@ class Nick {
       $route = static::Route()->load('dashboard');
     }
 
-    d($route);
+    //d($route);
 
     $page = $request->query->has('p') ? $request->query->get('p') : 'dashboard';
     $type = $request->query->has('t') ? $request->query->get('t') : NULL;
@@ -256,7 +256,7 @@ class Nick {
 
     try {
       $logger = new Logger();
-      $pageObject = self::PageManager()->getPageObject($page, $request->query->all());
+      $pageObject = self::PageManager()->getPageObject($page, $parameters = Url::getParameters());
       $headerVariables = [];
       $headerVariables['logs'] = ['render' => $logger->render()];
       $headerVariables['current_route'] = [

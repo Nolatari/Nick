@@ -47,14 +47,21 @@ class RouteManager {
    * @param string $url
    *                  Url should not contain the base url, filter this out!
    *
+   * @param string $fallback
+   *                  Fallback route to use when main route is not available
+   *                  Use False to not use a fallback. Default is 'dashboard'
+   *
    * @return bool|RouteInterface
    */
-  public function routeMatch(string $url) {
+  public function routeMatch(string $url, $fallback = 'dashboard') {
     $query = \Nick::Database()
       ->select('routes')
       ->execute();
     if (!$query instanceof Result) {
-      return FALSE;
+      if (!$fallback) {
+        return FALSE;
+      }
+      return $this->routeMatch($fallback);
     }
 
     $results = $query->fetchAllAssoc();
@@ -78,12 +85,19 @@ class RouteManager {
           $reworked_parameters[$key] = $exploded_url[$id];
         }
         if ($exploded_route_url === $exploded_url) {
-          return \Nick::Route()->load($result['route'])->setValue('parameters', $reworked_parameters);
+          $route = \Nick::Route()->load($result['route']);
+          foreach ($reworked_parameters as $key => $value) {
+            $route = $route->setValue($key, $value);
+          }
+          return $route;
         }
       }
     }
 
-    return FALSE;
+    if (!$fallback) {
+      return FALSE;
+    }
+    return $this->routeMatch($fallback);
   }
 
 }

@@ -32,12 +32,10 @@ class MenuRender {
 
     // Loop over menus and add to array
     foreach ($menus as $key => $menu) {
-      $menus[$key]['route'] = explode('.', $menus[$key]['route']);
       $children = Nick::EntityManager()->loadByProperties(['type' => 'menu', 'parent' => $menus[$key]['id']]);
       if ($children !== FALSE) {
         foreach ($children as &$child) {
           $child = $child->getValues();
-          $child['route'] = explode('.', $child['route']);
         }
         $menus[$key]['children'] = $children;
       }

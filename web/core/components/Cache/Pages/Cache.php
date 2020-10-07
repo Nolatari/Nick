@@ -48,11 +48,11 @@ class Cache extends Page {
         Nick::Logger()->add('Could not clear caches.', Logger::TYPE_FAILURE, 'Cache');
       }
 
-      header('Location: ' . Url::fromRoute([
-          empty($parameters['data']['p']) ? NULL : $parameters['data']['p'],
-          empty($parameters['data']['t']) ? NULL : $parameters['data']['t'],
-          empty($parameters['data']['id']) ? NULL : $parameters['data']['id'],
-        ]));
+//      header('Location: ' . Url::fromRoute([
+//          empty($parameters['data']['p']) ? NULL : $parameters['data']['p'],
+//          empty($parameters['data']['t']) ? NULL : $parameters['data']['t'],
+//          empty($parameters['data']['id']) ? NULL : $parameters['data']['id'],
+//        ]));
     } else {
       // @TODO
     }

@@ -6,6 +6,7 @@ use Nick;
 use Nick\Database\Result;
 use Nick\Page\PageInterface;
 use Nick\StringManipulation;
+use Nick\Url;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -69,7 +70,7 @@ class Route implements RouteInterface {
       return NULL;
     }
 
-    $parameters = $this->parameters;
+    $parameters = Url::getParameters();
     return $controller->render($parameters);
   }
 

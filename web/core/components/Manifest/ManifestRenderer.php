@@ -154,8 +154,8 @@ class ManifestRenderer {
       $fields[] = 'edit-link';
       $fields[] = 'delete-link';
       foreach ($results as &$result) {
-        $result['edit-link'] = '<a href="' . Url::fromRoute([$this->actionLinks, 'edit', $result['id']]) . '">' . $this->translate('Edit') . '</a>';
-        $result['delete-link'] = '<a href="' . Url::fromRoute([$this->actionLinks, 'delete', $result['id']]) . '">' . $this->translate('Delete') . '</a>';
+        //$result['edit-link'] = '<a href="' . Url::fromRoute([$this->actionLinks, 'edit', $result['id']]) . '">' . $this->translate('Edit') . '</a>';
+        //$result['delete-link'] = '<a href="' . Url::fromRoute([$this->actionLinks, 'delete', $result['id']]) . '">' . $this->translate('Delete') . '</a>';
       }
     }
 

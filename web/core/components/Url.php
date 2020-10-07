@@ -20,7 +20,7 @@ class Url {
    * @return string
    */
   public static function fromRoute(RouteInterface $route): string {
-    return $route->getUri();
+    return Settings::get('root.url') . $route->getUri();
   }
 
   /**
@@ -122,10 +122,16 @@ class Url {
     return $_SERVER['REQUEST_URI'];
   }
 
+  public static function getParameters() {
+    $request = Request::createFromGlobals();
+    $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
+    return ArrayManipulation::removeEmptyEntries(StringManipulation::explode($uri, '/'));
+  }
+
   /**
-   * @return RouteInterface
+   * @return RouteInterface|bool
    */
-  public static function getCurrentRoute(): RouteInterface {
+  public static function getCurrentRoute() {
     $request = Request::createFromGlobals();
     $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
     return \Nick::RouteManager()->routeMatch(StringManipulation::replace($uri, Settings::get('root.url'), ''));
