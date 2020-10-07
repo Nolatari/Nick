@@ -16,7 +16,7 @@ use Nick\Route\RouteInterface;
 class Edit extends Page {
 
   /**
-   * Article constructor.
+   * Edit constructor.
    */
   public function __construct() {
     $this->setParameters([
@@ -46,17 +46,6 @@ class Edit extends Page {
     }
 
     return $this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function install() {
-    $pageManager = Nick::PageManager();
-    return $pageManager->createPage([
-      'id' => $this->get('id'),
-      'controller' => '\\Nick\\Article\\Pages\\Article',
-    ]);
   }
 
   /**

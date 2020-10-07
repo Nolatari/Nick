@@ -52,6 +52,8 @@ class ArrayManipulation {
       } elseif (is_array($item)) {
         if (count($item) === 0) {
           unset($array[$key]);
+        } else {
+          $array[$key] = static::removeEmptyEntries($array[$key]);
         }
       } elseif (is_null($item)) {
         unset($array[$key]);

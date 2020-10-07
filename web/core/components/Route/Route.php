@@ -34,6 +34,9 @@ class Route implements RouteInterface {
   /** @var Request $request */
   protected Request $request;
 
+  /**
+   * Route constructor.
+   */
   public function __construct() {
     $this->request = Request::createFromGlobals();
   }
@@ -140,12 +143,44 @@ class Route implements RouteInterface {
   }
 
   /**
+   * Returns current route
+   *
+   * @return string
+   */
+  public function getRoute() {
+    return $this->route;
+  }
+
+  /**
+   * Returns current route
+   *
+   * @return string
+   */
+  public function getController() {
+    return $this->controller;
+  }
+
+  /**
+   * Returns parameters in array format of current route.
+   *
+   * @return array
+   */
+  public function getParameters() {
+    return $this->parameters;
+  }
+
+  /**
    * Returns URI from Request and current Route
+   *
+   * @param bool $replaceParams
    *
    * @return string|string[]
    */
-  public function getUri() {
+  public function getUri($replaceParams = true) {
     $url = $this->url;
+    if (!$replaceParams) {
+      return $url;
+    }
     $current_params = [];
     foreach ($this->values as $param => $value) {
       if (isset($this->parameters[$param])) {

@@ -1,0 +1,26 @@
+entity.view:
+  url: '/entity/{type}/{id}'
+  class: '\Nick\Entity\Pages\View'
+  parameters:
+    - type: 1
+    - id: 2
+
+entity.edit:
+  url: '/entity/{type}/{id}/edit'
+  class: '\Nick\Entity\Pages\Edit'
+  parameters:
+    - type: 1
+    - id: 2
+
+entity.delete:
+  url: '/entity/{type}/{id}/delete'
+  class: '\Nick\Entity\Pages\Delete'
+  parameters:
+    - type: 1
+    - id: 2
+
+entity.overview:
+  url: '/entity/{type}'
+  class: '\Nick\Entity\Pages\Overview'
+  parameters:
+    - type: 1

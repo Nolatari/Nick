@@ -6,6 +6,7 @@ use Nick;
 use Nick\Article\Article as ArticleObject;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
+use Nick\StringManipulation;
 use Nick\Url;
 
 /**
@@ -16,7 +17,7 @@ use Nick\Url;
 class Delete extends Page {
 
   /**
-   * Article constructor.
+   * Delete constructor.
    */
   public function __construct() {
     $this->setParameters([
@@ -51,17 +52,6 @@ class Delete extends Page {
   /**
    * {@inheritDoc}
    */
-  public function install() {
-    $pageManager = Nick::PageManager();
-    return $pageManager->createPage([
-      'id' => $this->get('id'),
-      'controller' => '\\Nick\\Article\\Pages\\Article',
-    ]);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
 
@@ -69,6 +59,11 @@ class Delete extends Page {
     if (isset($parameters[2]) && !empty($parameters[2])) {
       /** @var ArticleObject $article */
       $article = ArticleObject::load($parameters[2]);
+
+      if (isset($parameters[4]) && StringManipulation::contains($parameters[4], 'confirm')) {
+        $article->delete();
+        header('Location: ' . Url::fromRoute(Nick::Route()->load('article.overview')));
+      }
 
       $content = 'Are you sure you wish to delete this ' . $article->getTitle() . '? <br />';
       $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(\Nick::Route()->load('article.delete')->setValue('id', $parameters[2])->setValue('confirm', NULL)) . '">Yes, I\'m sure</a> ';

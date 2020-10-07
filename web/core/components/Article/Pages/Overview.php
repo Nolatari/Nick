@@ -42,17 +42,6 @@ class Overview extends Page {
   /**
    * {@inheritDoc}
    */
-  public function install() {
-    $pageManager = Nick::PageManager();
-    return $pageManager->createPage([
-      'id' => $this->get('id'),
-      'controller' => '\\Nick\\Article\\Pages\\Overview',
-    ]);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
 

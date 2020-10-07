@@ -131,7 +131,15 @@ class Url {
   public static function getParameters() {
     $request = Request::createFromGlobals();
     $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
-    return ArrayManipulation::removeEmptyEntries(StringManipulation::explode($uri, '/'));
+    $parameters = ArrayManipulation::removeEmptyEntries(StringManipulation::explode($uri, '/'));
+    foreach ($parameters as $key => $value) {
+      if (StringManipulation::contains($value, '?')) {
+        $elements = StringManipulation::explode($value, '?');
+        $parameters[$key] = $elements[0];
+        $parameters[] = StringManipulation::replace($value, $elements[0] . '?', '');
+      }
+    }
+    return $parameters;
   }
 
   /**

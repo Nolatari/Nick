@@ -17,5 +17,5 @@ article.delete:
     - id: 1
 
 article.overview:
-  url: '/articles'
+  url: '/article'
   class: '\Nick\Article\Pages\Overview'

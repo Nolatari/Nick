@@ -64,6 +64,9 @@ class RouteManager {
       return $this->routeMatch($fallback);
     }
 
+    // Remove query parameters from URL
+    $url = preg_replace('/\?(.*$)/', '', $url);
+
     $results = $query->fetchAllAssoc();
     foreach ($results as $result) {
       $result['parameters'] = unserialize($result['parameters']);

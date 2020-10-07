@@ -40,14 +40,25 @@ class Logs extends Page {
   /**
    * {@inheritDoc}
    */
+  protected function setCacheOptions($parameters = []) {
+    $this->caching = [
+      'key' => 'page.logs',
+      'context' => 'page',
+      'max-age' => 0,
+    ];
+
+    return $this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
 
-    if (isset($parameters[1])) {
-      if ($parameters[1] == 'clear') {
-        Nick::Logger()->clear();
-        header('Location: ' . Url::fromRoute(Nick::Route()->load('logs')));
-      }
+    if ($route->getRoute() === 'logs.clear') {
+      Nick::Logger()->clear();
+      header('Location: ' . Url::fromRoute(Nick::Route()->load('logs')));
     }
 
     $logs = Nick::Logger()->getLogs(TRUE);
@@ -58,19 +69,6 @@ class Logs extends Page {
         'logs' => $logs,
         'count' => count($logs),
       ]);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  protected function setCacheOptions($parameters = []) {
-    $this->caching = [
-      'key' => 'page.logs',
-      'context' => 'page',
-      'max-age' => 0,
-    ];
-
-    return $this;
   }
 
 }

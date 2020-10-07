@@ -243,7 +243,7 @@ class Nick {
     self::ExtensionManager()->installExtensions();
 
     $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
-    $route = static::RouteManager()->routeMatch(StringManipulation::replace($uri, Settings::get('root.url'), ''));
+    $route = static::RouteManager()->routeMatch($uri);
     if (!$route) {
       $route = static::Route()->load('dashboard');
     }
