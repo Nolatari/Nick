@@ -1,9 +1,9 @@
 <?php
 
-namespace Nick\Article\Pages;
+namespace Nick\Entity\Pages;
 
 use Nick;
-use Nick\Article\Article as ArticleObject;
+use Nick\Entity\EntityInterface;
 use Nick\Form\Form;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
@@ -11,18 +11,18 @@ use Nick\Route\RouteInterface;
 /**
  * Class Edit
  *
- * @package Nick\Article\Pages
+ * @package Nick\Entity\Pages
  */
 class Edit extends Page {
 
   /**
-   * Article constructor.
+   * Entity constructor.
    */
   public function __construct() {
     $this->setParameters([
-      'id' => 'article.edit',
-      'title' => $this->translate('Article edit'),
-      'summary' => $this->translate('Edit page for an article'),
+      'id' => 'entity.edit',
+      'title' => $this->translate('Entity edit'),
+      'summary' => $this->translate('Edit page for an entity'),
     ]);
     parent::__construct();
   }
@@ -32,16 +32,20 @@ class Edit extends Page {
    */
   public function setCacheOptions($parameters = []) {
     $this->caching = [
-      'key' => 'page.article.edit',
+      'key' => 'page.entity.edit',
       'context' => 'page',
       'max-age' => 300,
     ];
 
     if (isset($parameters[2]) && !empty($parameters[2])) {
-      /** @var ArticleObject $article */
-      $article = ArticleObject::load($parameters[2]);
-      $this->setParameter('title', $this->translate('Edit :title', [':title' => $article->getTitle()]));
-      $this->caching['key'] = $this->caching['key'] . '.' . $article->id();
+      /** @var EntityInterface $entityObject */
+      $entityObject = \Nick::EntityManager()::getEntityClassFromType($parameters[1]);
+      if (!$entityObject instanceof EntityInterface) {
+        return $this;
+      }
+      $entity = $entityObject::load($parameters[2]);
+      $this->setParameter('title', $this->translate('Edit :title', [':title' => $entity->getTitle()]));
+      $this->caching['key'] = $this->caching['key'] . '.' . $entity->id();
       $this->caching['max-age'] = 0;
     }
 
@@ -55,7 +59,7 @@ class Edit extends Page {
     $pageManager = Nick::PageManager();
     return $pageManager->createPage([
       'id' => $this->get('id'),
-      'controller' => '\\Nick\\Article\\Pages\\Article',
+      'controller' => '\\Nick\\Entity\\Pages\\Entity',
     ]);
   }
 
@@ -67,15 +71,19 @@ class Edit extends Page {
 
     $content = NULL;
     if (isset($parameters[2]) && !empty($parameters[2])) {
-      /** @var ArticleObject $article */
-      $article = ArticleObject::load($parameters[2]);
+      /** @var EntityInterface $entityObject */
+      $entityObject = \Nick::EntityManager()::getEntityClassFromType($parameters[1]);
+      if (!$entityObject instanceof EntityInterface) {
+        return $this;
+      }
+      $entity = $entityObject::load($parameters[2]);
 
-      $form = new Form($article);
+      $form = new Form($entity);
       $content = $form->result();
     }
 
     return Nick::Renderer()
-      ->setType('core.Article')
+      ->setType('core.Entity')
       ->setTemplate('edit')
       ->render([
         'page' => [
@@ -83,7 +91,7 @@ class Edit extends Page {
           'title' => $this->get('title'),
           'summary' => $this->get('summary'),
         ],
-        'article' => [
+        'entity' => [
           'id' => $parameters[2] ?? NULL,
           'content' => $content,
         ],

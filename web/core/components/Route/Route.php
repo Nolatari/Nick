@@ -61,6 +61,11 @@ class Route implements RouteInterface {
     return $this->setValues($route, $result['controller'], unserialize($result['parameters']), $result['url']);
   }
 
+  /**
+   * Renders route object (if it complies with PageInterface).
+   *
+   * @return mixed|null
+   */
   public function render() {
     if (!class_exists($this->controller)) {
       return NULL;
@@ -71,7 +76,7 @@ class Route implements RouteInterface {
     }
 
     $parameters = Url::getParameters();
-    return Nick::Cache()->getContentData($controller->getCacheOptions(), $this->controller, 'render', [$parameters]);
+    return Nick::Cache()->getContentData($controller->getCacheOptions(), $this->controller, 'render', [$parameters, $this]);
   }
 
   /**

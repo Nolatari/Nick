@@ -4,6 +4,7 @@ namespace Nick\Page\Pages;
 
 use Nick;
 use Nick\Page\Page;
+use Nick\Route\RouteInterface;
 
 /**
  * Class Header
@@ -36,8 +37,8 @@ class Header extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
-    parent::render($parameters);
+  public function render(array &$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
     return Nick::Renderer()
       ->setType()
       ->setTemplate('header')

@@ -5,6 +5,7 @@ namespace Nick\Page;
 use Nick;
 use Nick\Database\Result;
 use Nick\Logger;
+use Nick\Route\RouteInterface;
 
 /**
  * Class PageManager
@@ -16,12 +17,13 @@ class PageManager {
   /**
    * Returns cached/fresh page content.
    *
-   * @param string $page_id
-   * @param array  $parameters
+   * @param string         $page_id
+   * @param array          $parameters
+   * @param RouteInterface $route
    *
    * @return mixed
    */
-  public function getPageRender($page_id, $parameters = []) {
+  public function getPageRender(string $page_id, array $parameters, RouteInterface $route) {
     $page = $this->getPage($page_id);
     if (!is_array($page)) {
       return $page;
@@ -30,7 +32,7 @@ class PageManager {
     if (!$pageObject instanceof PageInterface) {
       return FALSE;
     }
-    return Nick::Cache()->getContentData($pageObject->getCacheOptions(), $page['controller'], 'render', [$parameters]);
+    return Nick::Cache()->getContentData($pageObject->getCacheOptions(), $page['controller'], 'render', [$parameters, $route]);
   }
 
   /**

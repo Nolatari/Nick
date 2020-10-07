@@ -2,10 +2,7 @@
 
 namespace Nick\Message;
 
-use Nick\Entity\EntityManager;
 use Nick\ExtensionManager\UninstallInterface;
-use Nick\Logger;
-use Nick\Menu\MenuInterface;
 
 /**
  * Class Uninstall

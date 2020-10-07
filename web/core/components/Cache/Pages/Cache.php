@@ -5,7 +5,7 @@ namespace Nick\Cache\Pages;
 use Nick;
 use Nick\Logger;
 use Nick\Page\Page;
-use Nick\Url;
+use Nick\Route\RouteInterface;
 
 /**
  * Class Cache
@@ -39,8 +39,8 @@ class Cache extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
-    parent::render($parameters);
+  public function render(array &$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
     if (isset($parameters['t']) && $parameters['t'] == 'clear_all') {
       if (Nick::Cache()->clearAllCaches() !== FALSE) {
         Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');

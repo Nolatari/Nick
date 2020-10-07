@@ -3,7 +3,6 @@
 namespace Nick\Article;
 
 use Nick\ExtensionManager\UninstallInterface;
-use Nick\Logger;
 use Nick\Menu\MenuInterface;
 
 /**

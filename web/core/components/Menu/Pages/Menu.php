@@ -7,6 +7,7 @@ use Nick;
 use Nick\Form\Form;
 use Nick\Language\Language;
 use Nick\Page\Page;
+use Nick\Route\RouteInterface;
 
 /**
  * Class Menu
@@ -48,8 +49,8 @@ class Menu extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
-    parent::render($parameters);
+  public function render(array &$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
 
     if (isset($parameters['t']) && $parameters['t'] == 'edit') {
       if (!isset($parameters['id'])) {

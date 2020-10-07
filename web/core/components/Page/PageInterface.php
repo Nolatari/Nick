@@ -2,6 +2,8 @@
 
 namespace Nick\Page;
 
+use Nick\Route\RouteInterface;
+
 /**
  * Interface PageInterface
  *
@@ -29,11 +31,12 @@ interface PageInterface {
    * Returns the twig render of the current page.
    * To be overwritten in the page's class.
    *
-   * @param array $parameters
+   * @param array          $parameters
+   * @param RouteInterface $route
    *
    * @return NULL|string
    */
-  public function render(&$parameters = []);
+  public function render(array &$parameters, RouteInterface $route);
 
   /**
    * Installs the page in the database in case it does not exist yet.

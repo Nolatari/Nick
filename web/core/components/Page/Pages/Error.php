@@ -4,6 +4,7 @@ namespace Nick\Page\Pages;
 
 use Nick;
 use Nick\Page\Page;
+use Nick\Route\RouteInterface;
 
 /**
  * Class Error
@@ -38,8 +39,8 @@ class Error extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
-    parent::render($parameters);
+  public function render(array &$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
     switch ($parameters['e']) {
       case '404':
         $title = 'Page not found';

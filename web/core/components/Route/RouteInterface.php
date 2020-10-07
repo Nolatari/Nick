@@ -2,8 +2,6 @@
 
 namespace Nick\Route;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * Interface RouteInterface
  *

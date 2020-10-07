@@ -3,6 +3,7 @@
 namespace Nick\Page;
 
 use Nick\Event\Event;
+use Nick\Route\RouteInterface;
 use Nick\Translation\StringTranslation;
 use Nick\Url;
 
@@ -54,7 +55,7 @@ class Page implements PageInterface {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
+  public function render(array &$parameters, RouteInterface $route) {
     $event = new Event('pagePreRender');
     $event->fire($parameters, [$this->get('id')]);
   }

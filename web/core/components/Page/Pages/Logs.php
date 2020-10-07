@@ -4,6 +4,7 @@ namespace Nick\Page\Pages;
 
 use Nick;
 use Nick\Page\Page;
+use Nick\Route\RouteInterface;
 use Nick\Url;
 
 /**
@@ -39,13 +40,13 @@ class Logs extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
-    parent::render($parameters);
+  public function render(array &$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
 
-    if (isset($parameters['t'])) {
-      if ($parameters['t'] == 'clear') {
+    if (isset($parameters[1])) {
+      if ($parameters[1] == 'clear') {
         Nick::Logger()->clear();
-        header('Location: ' . Url::fromRoute('logs'));
+        header('Location: ' . Url::fromRoute(Nick::Route()->load('logs')));
       }
     }
 

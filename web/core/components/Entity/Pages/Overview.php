@@ -1,6 +1,6 @@
 <?php
 
-namespace Nick\Article\Pages;
+namespace Nick\Entity\Pages;
 
 use Nick;
 use Nick\Manifest\ManifestRenderer;
@@ -10,7 +10,7 @@ use Nick\Route\RouteInterface;
 /**
  * Class Overview
  *
- * @package Nick\Article\Pages
+ * @package Nick\Entity\Pages
  */
 class Overview extends Page {
 
@@ -19,9 +19,9 @@ class Overview extends Page {
    */
   public function __construct() {
     $this->setParameters([
-      'id' => 'article.overview',
-      'title' => $this->translate('Article overview'),
-      'summary' => $this->translate('List of existing articles.'),
+      'id' => 'entity.overview',
+      'title' => $this->translate('Entity overview'),
+      'summary' => $this->translate('List of existing entitys.'),
     ]);
     parent::__construct();
   }
@@ -31,7 +31,7 @@ class Overview extends Page {
    */
   public function setCacheOptions($parameters = []) {
     $this->caching = [
-      'key' => 'page.article.overview',
+      'key' => 'page.entity.overview',
       'context' => 'page',
       'max-age' => 300,
     ];
@@ -46,7 +46,7 @@ class Overview extends Page {
     $pageManager = Nick::PageManager();
     return $pageManager->createPage([
       'id' => $this->get('id'),
-      'controller' => '\\Nick\\Article\\Pages\\Overview',
+      'controller' => '\\Nick\\Entity\\Pages\\Overview',
     ]);
   }
 
@@ -57,7 +57,7 @@ class Overview extends Page {
     parent::render($parameters, $route);
 
     $content = NULL;
-    $manifest = Nick::Manifest('article')->fields([
+    $manifest = Nick::Manifest($parameters[1])->fields([
       'id', 'title', 'status', 'owner'
     ]);
     $manifestRenderer = new ManifestRenderer($manifest);
@@ -65,11 +65,11 @@ class Overview extends Page {
       ->setViewMode($parameters['viewmode'] ?? 'table')
       ->hideField('id')
       ->noLink('owner')
-      ->addActionLinks('article')
+      ->addActionLinks('entity')
       ->render(TRUE);
 
     return Nick::Renderer()
-      ->setType('core.Article')
+      ->setType('core.Entity')
       ->setTemplate('overview')
       ->render([
         'page' => [
@@ -77,7 +77,7 @@ class Overview extends Page {
           'title' => $this->get('title'),
           'summary' => $this->get('summary'),
         ],
-        'article' => [
+        'entity' => [
           'id' => $parameters['id'] ?? NULL,
           'content' => $content,
         ],

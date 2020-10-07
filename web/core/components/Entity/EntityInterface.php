@@ -2,8 +2,6 @@
 
 namespace Nick\Entity;
 
-use Exception;
-
 /**
  * Interface EntityInterface
  *

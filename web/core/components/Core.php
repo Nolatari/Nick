@@ -6,8 +6,6 @@ use Exception;
 use Nick;
 use Nick\Cache\Cache;
 use Nick\Cache\CacheInterface;
-use Nick\Database\Result;
-use Nick\Entity\EntityInterface;
 
 /**
  * Class Core

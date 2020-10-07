@@ -4,7 +4,6 @@ namespace Nick\Manifest;
 
 use Nick\Renderer;
 use Nick\Translation\StringTranslation;
-use Nick\Url;
 
 /**
  * Class EntityRenderer

@@ -5,6 +5,7 @@ namespace Nick\Page\Pages;
 use Nick;
 use Nick\Manifest\ManifestRenderer;
 use Nick\Page\Page;
+use Nick\Route\RouteInterface;
 
 /**
  * Class PageOverview
@@ -39,7 +40,7 @@ class PageOverview extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
+  public function render(array &$parameters, RouteInterface $route) {
     $manifest = Nick::Manifest('page');
     $renderer = new ManifestRenderer($manifest);
   }

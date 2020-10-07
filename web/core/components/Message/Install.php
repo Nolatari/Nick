@@ -26,7 +26,7 @@ class Install implements InstallInterface {
     if (!\Nick::ExtensionManager()::installExtension('Conversation', 'core')) {
       return FALSE;
     }
-    \Nick::Logger()->add('Installed Conversation as parent module', Logger::TYPE_INFO, 'Message');
+    \Nick::Logger()->add('Installed Conversation as parent extension', Logger::TYPE_INFO, 'Message');
 
     return TRUE;
   }

@@ -10,6 +10,7 @@ use Nick\Form\Form;
 use Nick\Form\FormInterface;
 use Nick\Language\Language;
 use Nick\Page\Page;
+use Nick\Route\RouteInterface;
 
 /**
  * Class Config
@@ -52,8 +53,8 @@ class Config extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
-    parent::render($parameters);
+  public function render(array &$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
     if (isset($parameters['export']) && isset($parameters['confirm'])) {
       Nick::Config()->export();
     } elseif (isset($parameters['import']) && isset($parameters['confirm'])) {

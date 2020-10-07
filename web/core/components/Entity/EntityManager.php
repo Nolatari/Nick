@@ -70,7 +70,7 @@ class EntityManager {
     foreach ($extensions as $extension) {
       $extensionInfo = YamlReader::readExtension($extension['name']);
       if (!is_array($extensionInfo)) {
-        Nick::Logger()->add($extension['name'] . ' entry exists in database but no module info yml file is found.', Logger::TYPE_FAILURE, 'EntityManager');
+        Nick::Logger()->add($extension['name'] . ' entry exists in database but no extension.info.yml file is found.', Logger::TYPE_FAILURE, 'EntityManager');
         continue;
       }
       if ($extensionInfo['type'] !== 'entity') {

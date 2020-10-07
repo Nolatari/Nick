@@ -4,11 +4,11 @@ namespace Nick\Article\Pages;
 
 use Nick;
 use Nick\Article\Article as ArticleObject;
-use Nick\Form\Form;
-use Nick\Manifest\Manifest;
-use Nick\Manifest\ManifestRenderer;
 use Nick\Entity\EntityRenderer;
+use Nick\Form\Form;
+use Nick\Manifest\ManifestRenderer;
 use Nick\Page\Page;
+use Nick\Route\RouteInterface;
 use Nick\Url;
 
 /**
@@ -72,8 +72,8 @@ class Article extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
-    parent::render($parameters);
+  public function render(array &$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
 
     $content = NULL;
     if (isset($parameters['id']) && !empty($parameters['id'])) {

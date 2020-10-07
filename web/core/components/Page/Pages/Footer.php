@@ -4,6 +4,7 @@ namespace Nick\Page\Pages;
 
 use Nick;
 use Nick\Page\Page;
+use Nick\Route\RouteInterface;
 
 /**
  * Class Footer
@@ -36,7 +37,7 @@ class Footer extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
+  public function render(array &$parameters, RouteInterface $route) {
     return Nick::Renderer()
       ->setType()
       ->setTemplate('footer')

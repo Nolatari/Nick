@@ -272,9 +272,9 @@ class Nick {
           'cacheclear_uri' => Url::fromRoute(static::Route()->load('cache.clear')),
         ];
       }
-      $header = self::PageManager()->getPageRender('header', $headerVariables);
+      $header = self::PageManager()->getPageRender('header', $headerVariables, $route);
       $page = $route->render();
-      $footer = self::PageManager()->getPageRender('footer');
+      $footer = self::PageManager()->getPageRender('footer', [], $route);
 
       echo $header ?? NULL;
       echo $page ?? NULL;

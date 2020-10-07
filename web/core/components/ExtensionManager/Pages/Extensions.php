@@ -4,7 +4,7 @@ namespace Nick\ExtensionManager\Pages;
 
 use Nick;
 use Nick\Page\Page;
-use Nick\ExtensionManager;
+use Nick\Route\RouteInterface;
 
 /**
  * Class Dashboard
@@ -52,8 +52,8 @@ class Extensions extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
-    parent::render($parameters);
+  public function render(array &$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
     $extensionManager = Nick::ExtensionManager();
     $extensionList = array_merge($extensionManager::getContribExtensions(), $extensionManager::getCoreExtensions());
     $extensions = [];

@@ -26,7 +26,7 @@ class Install implements InstallInterface {
     if (!\Nick::ExtensionManager()::installExtension('Message', 'core')) {
       return FALSE;
     }
-    \Nick::Logger()->add('Installed Message as submodule', Logger::TYPE_INFO, 'Conversation');
+    \Nick::Logger()->add('Installed Message as subextension', Logger::TYPE_INFO, 'Conversation');
 
     return TRUE;
   }

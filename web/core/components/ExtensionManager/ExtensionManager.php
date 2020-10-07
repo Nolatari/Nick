@@ -186,7 +186,7 @@ class ExtensionManager {
    * @return bool|mixed
    */
   public static function getExtensionInfo(string $extension) {
-    return YamlReader::readExtension($extension);
+    return YamlReader::readExtension($extension, 'info');
   }
 
   /**

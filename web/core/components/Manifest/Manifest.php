@@ -5,10 +5,10 @@ namespace Nick\Manifest;
 use Nick;
 use Nick\Database\Database;
 use Nick\Database\Result;
-use Nick\Event\Event;
 use Nick\Entity\EntityInterface;
 use Nick\Entity\EntityManager;
 use Nick\Entity\EntityRenderer;
+use Nick\Event\Event;
 
 /**
  * Class Manifest

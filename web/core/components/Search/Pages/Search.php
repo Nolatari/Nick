@@ -4,7 +4,7 @@ namespace Nick\Search\Pages;
 
 use Nick;
 use Nick\Page\Page;
-use Nick\ExtensionManager;
+use Nick\Route\RouteInterface;
 
 /**
  * Class Search
@@ -60,8 +60,8 @@ class Search extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
-    parent::render($parameters);
+  public function render(array &$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
 
     $results = Nick::Search($parameters['q'])->getSearchResults();
 

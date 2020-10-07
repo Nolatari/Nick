@@ -14,13 +14,15 @@ class YamlReader {
   /**
    * @param string $ext
    *
+   * @param string $type
+   *
    * @return mixed
    */
-  public static function readExtension(string $ext) {
-    if (is_file(__DIR__ . '/../../extensions/' . $ext . '/' . $ext . '.yml')) {
-      $file = __DIR__ . '/../../extensions/' . $ext . '/' . $ext . '.yml';
-    } elseif (is_file(__DIR__ . '/' . $ext . '/' . $ext . '.yml')) {
-      $file = __DIR__ . '/' . $ext . '/' . $ext . '.yml';
+  public static function readExtension(string $ext, $type = 'info') {
+    if (is_file(__DIR__ . '/../../extensions/' . $ext . '/extension.' . $type . '.yml')) {
+      $file = __DIR__ . '/../../extensions/' . $ext . '/extension.' . $type . '.yml';
+    } elseif (is_file(__DIR__ . '/' . $ext . '/extension.' . $type . '.yml')) {
+      $file = __DIR__ . '/' . $ext . '/extension.' . $type . '.yml';
     } else {
       return FALSE;
     }
