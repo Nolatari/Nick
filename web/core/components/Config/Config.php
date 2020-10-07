@@ -9,6 +9,7 @@ use Nick\Database\Result;
 use Nick\Logger;
 use Nick\Settings;
 use Nick\StringManipulation;
+use Nick\Translation\StringTranslation;
 use Nick\YamlReader;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -19,6 +20,7 @@ use RecursiveIteratorIterator;
  * @package Nick
  */
 class Config {
+  use StringTranslation;
 
   /**
    * @return bool
@@ -37,7 +39,8 @@ class Config {
         }
       } else {
         if (!$this->set($key, $value)) {
-          Nick::Logger()->add('Something went wrong trying to import the following config: ' . $key, Logger::TYPE_FAILURE, 'Config');
+          Nick::Logger()->add(
+            $this->translate('Something went wrong trying to import the following config: :key', [':key' => $key]), Logger::TYPE_FAILURE, 'Config');
           return FALSE;
         }
       }
@@ -58,7 +61,7 @@ class Config {
     } else {
       $folder = Settings::get('config.folder');
       if (!is_dir($folder)) {
-        Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
+        Nick::Logger()->add($this->translate('Config directory does not exist. Please create this folder, and give it write rights.'), Logger::TYPE_ERROR, 'Config');
         return $config;
       }
       $files = scandir($folder);
@@ -135,7 +138,7 @@ class Config {
   public function export() {
     $config_folder = Settings::get('config.folder');
     if (!is_dir(Settings::get('config.folder'))) {
-      Nick::Logger()->add('Config directory does not exist. Please create this folder, and give it writing rights.', Logger::TYPE_ERROR, 'Config');
+      Nick::Logger()->add($this->translate('Config directory does not exist. Please create this folder, and give it writing rights.'), Logger::TYPE_ERROR, 'Config');
     }
     $di = new RecursiveDirectoryIterator($config_folder, FilesystemIterator::SKIP_DOTS);
     $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
@@ -153,7 +156,11 @@ class Config {
         fwrite($config_file, $config);
         fclose($config_file);
       } catch (Exception $e) {
-        Nick::Logger()->add('Something went wrong trying to write config to file. [' . $item['field'] . '.yml]', Logger::TYPE_ERROR, 'Config');
+        Nick::Logger()->add(
+          $this->translate('Something went wrong trying to write config to file. [:field.yml]', [':field' => $item['field']]),
+          Logger::TYPE_ERROR,
+          'Config'
+        );
         return FALSE;
       }
     }
