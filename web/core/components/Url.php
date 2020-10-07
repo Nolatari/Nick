@@ -27,13 +27,16 @@ class Url {
    * Adds a GET parameter to the current url
    *
    * @param string|array $key
-   * @param string|NULL  $value
+   * @param string|null  $value
+   * @param string|null  $url
+   * @param array|null   $current_params
    *
    * @return string
    */
-  public function addParamsToCurrentUrl(string $key, $value = NULL): string {
-    $current_params = $_GET;
-    $url = $this->getUrlWithoutParameters();
+  public function addParamsToUrl($key, $value = NULL, $url = NULL, ?array $current_params = NULL): string {
+    $current_params = is_array($current_params) ? $current_params : $_GET;
+    $url = $url ?? $this->getUrlWithoutParameters();
+    $baseUrl = $url ?? $this->getUrlWithoutParameters();
 
     if (is_array($key)) {
       foreach ($key as $param_key => $param_value) {
@@ -44,7 +47,7 @@ class Url {
     }
 
     foreach ($current_params as $param_key => $param_value) {
-      if ($url == $this->getUrlWithoutParameters()) {
+      if ($url === $baseUrl) {
         $url .= '?';
       } else {
         $url .= '&';
@@ -59,12 +62,15 @@ class Url {
    * Adds a GET parameter to the current url
    *
    * @param string|array $key
+   * @param null         $url
+   * @param array|null   $current_params
    *
    * @return string
    */
-  public function removeParamsFromCurrentUrl($key): string {
-    $current_params = $_GET;
-    $url = $this->getUrlWithoutParameters();
+  public function removeParamsFromUrl($key, $url = NULL, ?array $current_params = NULL): string {
+    $current_params = is_array($current_params) ? $current_params : $_GET;
+    $url = $url ?? $this->getUrlWithoutParameters();
+    $baseUrl = $url ?? $this->getUrlWithoutParameters();
 
     if (is_array($key)) {
       foreach ($key as $param_key => $param_value) {
@@ -77,7 +83,7 @@ class Url {
     }
 
     foreach ($current_params as $param_key => $param_value) {
-      if ($url == $this->getUrlWithoutParameters()) {
+      if ($url === $baseUrl) {
         $url .= '?';
       } else {
         $url .= '&';
