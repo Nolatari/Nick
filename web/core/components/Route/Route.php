@@ -195,16 +195,40 @@ class Route implements RouteInterface {
   }
 
   /**
+   * Shorthand function to check whether route exists.
+   *
+   * @param $route
+   *
+   * @return bool
+   */
+  public function routeExists($route) {
+    $route = $this->load($route);
+    return $route !== FALSE;
+  }
+
+  /**
    * Saves route to database (Insert / update depending on current status)
    */
   public function save() {
-    // TODO: update if route exists
+    if ($this->routeExists($this->route)) {
+      $query = Nick::Database()
+        ->update('routes')
+        ->condition('route', $this->route)
+        ->values([
+          'controller' => $this->controller,
+          'parameters' => serialize($this->parameters),
+          'url' => $this->url,
+        ]);
+      return $query->execute();
+    }
+
     $query = Nick::Database()
       ->insert('routes')
       ->values([
-        $this->route,
-        $this->controller,
-        serialize($this->parameters),
+        'route' => $this->route,
+        'controller' => $this->controller,
+        'parameters' => serialize($this->parameters),
+        'url' => $this->url,
       ]);
     return $query->execute();
   }
