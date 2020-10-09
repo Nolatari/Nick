@@ -12,17 +12,20 @@ use Symfony\Component\Yaml\Yaml;
 class YamlReader {
 
   /**
-   * @param string $ext
+   * Reads yml files from the extension, default will be 'info'
    *
+   * @param string $extension
+   *                  The extension to be read
    * @param string $type
+   *                  The type of file (info, routing, services)
    *
    * @return mixed
    */
-  public static function readExtension(string $ext, $type = 'info') {
-    if (is_file(__DIR__ . '/../../extensions/' . $ext . '/extension.' . $type . '.yml')) {
-      $file = __DIR__ . '/../../extensions/' . $ext . '/extension.' . $type . '.yml';
-    } elseif (is_file(__DIR__ . '/' . $ext . '/extension.' . $type . '.yml')) {
-      $file = __DIR__ . '/' . $ext . '/extension.' . $type . '.yml';
+  public static function readExtension(string $extension, string $type = 'info') {
+    if (is_file(__DIR__ . '/../../extensions/' . $extension . '/extension.' . $type . '.yml')) {
+      $file = __DIR__ . '/../../extensions/' . $extension . '/extension.' . $type . '.yml';
+    } elseif (is_file(__DIR__ . '/' . $extension . '/extension.' . $type . '.yml')) {
+      $file = __DIR__ . '/' . $extension . '/extension.' . $type . '.yml';
     } else {
       return FALSE;
     }
