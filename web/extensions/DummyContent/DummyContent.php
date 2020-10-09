@@ -8,6 +8,7 @@ use Nick\ExtensionManager\ExtensionManager;
 use Nick\Entity\Entity;
 use Nick\Page\Page;
 use Nick\Person\Person;
+use Nick\Route\RouteInterface;
 
 /**
  * Class DummyContent
@@ -77,8 +78,8 @@ class DummyContent extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(&$parameters = []) {
-    parent::render($parameters);
+  public function render(&$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
 
     $defaultMessage = 'Do you wish to create dummy content?';
     $message = $defaultMessage;

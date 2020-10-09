@@ -60,7 +60,7 @@ class View extends Page {
       /** @var ArticleObject $article */
       $article = ArticleObject::load($id);
       $entityRenderer = new EntityRenderer($article);
-      $content = $entityRenderer->render();
+      $content = $entityRenderer->render([]);
 
       return Nick::Renderer()
         ->setType('core.Article')

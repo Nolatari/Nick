@@ -241,6 +241,7 @@ class Nick {
     $core->setSystemSpecifics();
     self::EntityManager()->createEntities();
     self::ExtensionManager()->installExtensions();
+    self::RouteManager()->installRoutes();
 
     $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
     $route = static::RouteManager()->routeMatch($uri);

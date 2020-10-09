@@ -1,0 +1,17 @@
+# Dashboard
+dashboard:
+  url: '/'
+  controller: '\Nick\Page\Pages\Dashboard'
+
+# Logs
+logs:
+  url: '/logs'
+  controller: '\Nick\Page\Pages\Logs'
+logs.clear:
+  url: '/logs/clear'
+  controller: '\Nick\Page\Pages\Logs'
+
+# Logs
+cache.clear:
+  url: '/cache/clear'
+  controller: '\Nick\Cache\Pages\Cache'

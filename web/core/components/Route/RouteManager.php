@@ -7,6 +7,7 @@ use Nick\Database\Result;
 use Nick\Logger;
 use Nick\StringManipulation;
 use Nick\Translation\StringTranslation;
+use Nick\YamlReader;
 
 /**
  * Class RouteManager
@@ -15,6 +16,35 @@ use Nick\Translation\StringTranslation;
  */
 class RouteManager {
   use StringTranslation;
+
+  /**
+   * Installs routes from extension.routing.yml files
+   */
+  public function installRoutes() {
+    $extensions = \Nick::ExtensionManager()::getInstalledExtensions();
+    foreach ($extensions as $extension) {
+      $routing = YamlReader::readExtension($extension['name'], 'routing');
+      if (!$routing) {
+        continue;
+      }
+      foreach ($routing as $route => $options) {
+        if ($this->routeExists($route)) {
+          $routeStorage = \Nick::Route()
+            ->load($route)
+            ->setValues($route, $options['controller'], $options['parameters'] ?? [], $options['url']);
+          if (!$routeStorage->save()) {
+            \Nick::Logger()->add($this->translate('Something went wrong trying to save a route [:route]', [':route', $route]), Logger::TYPE_FAILURE, 'RouteManager');
+          }
+        } else {
+          $routeStorage = \Nick::Route()
+            ->setValues($route, $options['controller'], $options['parameters'] ?? [], $options['url']);
+          if (!$routeStorage->save()) {
+            \Nick::Logger()->add($this->translate('Something went wrong trying to add a route [:route]', [':route', $route]), Logger::TYPE_FAILURE, 'RouteManager');
+          }
+        }
+      }
+    }
+  }
 
   /**
    * Checks whether route exists in database

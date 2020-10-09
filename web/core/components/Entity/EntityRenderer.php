@@ -74,14 +74,15 @@ class EntityRenderer {
    *
    * @return string|NULL
    */
-  public function render($variables = []): ?string {
+  public function render($variables, $viewMode = NULL): ?string {
     $entity = $this->getEntity();
+    $viewMode = $viewMode ?? 'default';
     $values = $entity->getValues();
     $values = array_merge($values, $variables);
     return $this
       ->getRenderer()
-      ->setType('entity')
-      ->setTemplate($entity->getType())
+      ->setType('entity/' . $entity->getType())
+      ->setTemplate($viewMode)
       ->render($values);
   }
 

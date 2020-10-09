@@ -158,8 +158,6 @@ class ManifestRenderer {
       }
     }
 
-    d($results);
-
     return $this->getRenderer()
       ->setType('core.Manifest')
       ->setTemplate($viewMode)
