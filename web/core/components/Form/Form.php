@@ -81,9 +81,12 @@ class Form extends FormBuilder implements FormInterface {
 
   /**
    * Default submit handler does nothing because there is nothing to handle!
+   *
+   * @param array $form
+   * @param array $values
    */
-  public function submitForm() {
-
+  public function submitForm(array &$form, array $values = []) {
+    // Template method
   }
 
   /**

@@ -39,12 +39,20 @@ class View extends Page {
 
     if (isset($parameters[2]) && !empty($parameters[2])) {
       /** @var EntityInterface $entityObject */
-      $entityObject = \Nick::EntityManager()::getEntityClassFromType($parameters[1]);
+      $entityObject = \Nick::EntityManager()::getEntityClassFromType($parameters[2]);
       if (!$entityObject instanceof EntityInterface) {
         return $this;
       }
-      $entity = $entityObject::load($parameters[2]);
-      $this->setParameter('title', $entity->getTitle());
+      /** @var EntityInterface $entity */
+      $entity = $entityObject::load($parameters[3]);
+      if (method_exists($entity, 'getTitle')) {
+        $title = $entity->getTitle();
+      } elseif (method_exists($entity, 'getName')) {
+        $title = $entity->getName();
+      } else {
+        $title = $entity->getType();
+      }
+      $this->setParameter('title', $title);
       $this->caching['key'] = $this->caching['key'] . '.' . $entity->id();
       $this->caching['max-age'] = 1800;
     }
@@ -70,14 +78,14 @@ class View extends Page {
     parent::render($parameters, $route);
 
     $content = NULL;
-    if (isset($parameters[2]) && !empty($parameters[2])) {
-      $id = $parameters[2];
+    if (isset($parameters[3]) && !empty($parameters[3])) {
+      $id = $parameters[3];
       /** @var EntityInterface $entityObject */
-      $entityObject = \Nick::EntityManager()::getEntityClassFromType($parameters[1]);
+      $entityObject = \Nick::EntityManager()::getEntityClassFromType($parameters[2]);
       if (!$entityObject instanceof EntityInterface) {
         return $this;
       }
-      $entity = $entityObject::load($parameters[2]);
+      $entity = $entityObject::load($parameters[3]);
       $entityRenderer = new EntityRenderer($entity);
       $content = $entityRenderer->render();
 

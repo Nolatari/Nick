@@ -6,7 +6,7 @@ description: 'This addon showcases some events and what can be done with them.'
 event_listeners:
   stringTranslationPresave:
     class: '\Nick\TestEvents\TestEvents'
-    method: 'TranslationPresave'
+    method: 'stringTranslationPresave'
   FormAlter:
     class: '\Nick\TestEvents\TestEvents'
     method: 'FormAlter'

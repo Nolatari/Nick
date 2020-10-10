@@ -19,13 +19,15 @@ class YamlReader {
    * @param string $type
    *                  The type of file (info, routing, services)
    *
-   * @return mixed
+   * @return array|false|mixed|string[]
    */
   public static function readExtension(string $extension, string $type = 'info') {
-    if (is_file(__DIR__ . '/../../extensions/' . $extension . '/extension.' . $type . '.yml')) {
-      $file = __DIR__ . '/../../extensions/' . $extension . '/extension.' . $type . '.yml';
-    } elseif (is_file(__DIR__ . '/' . $extension . '/extension.' . $type . '.yml')) {
-      $file = __DIR__ . '/' . $extension . '/extension.' . $type . '.yml';
+    $contrib_file = __DIR__ . '/../../extensions/' . $extension . '/extension.' . $type . '.yml';
+    $core_file = __DIR__ . '/' . $extension . '/extension.' . $type . '.yml';
+    if (is_file($contrib_file)) {
+      $file = $contrib_file;
+    } elseif (is_file($core_file)) {
+      $file = $core_file;
     } else {
       return FALSE;
     }
@@ -33,11 +35,27 @@ class YamlReader {
   }
 
   /**
-   * Yaml file => PHP
+   * Reads core yml files, default will be 'info'
+   *
+   * @param string $type
+   *                  The type of file (info, routing, services)
+   *
+   * @return array|false|mixed|string[]
+   */
+  public static function readCore(string $type = 'info') {
+    if (!is_file(__DIR__ . '/core.' . $type . '.yml')) {
+      return FALSE;
+    }
+
+    return self::fromYamlFile(__DIR__ . '/core.' . $type . '.yml');
+  }
+
+  /**
+   * Convert yaml file to PHP.
    *
    * @param string $file
    *
-   * @return array|mixed
+   * @return mixed|string[]
    */
   public static function fromYamlFile(string $file) {
     if (!is_file($file)) {
@@ -47,18 +65,18 @@ class YamlReader {
   }
 
   /**
-   * Yaml => PHP
+   * Convert yaml string to php.
    *
    * @param string $content
    *
-   * @return array|mixed
+   * @return mixed
    */
   public static function fromYaml(string $content) {
     return Yaml::parse($content);
   }
 
   /**
-   * PHP => Yaml
+   * Convert php to yaml string.
    *
    * @param $content
    *

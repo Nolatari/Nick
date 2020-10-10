@@ -57,20 +57,6 @@ interface CacheInterface {
   public function getContentData(array $cacheOptions, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []);
 
   /**
-   * Returns the whole cache array for debugging measures.
-   *
-   * @return array
-   */
-  public function returnCache();
-
-  /**
-   * Returns the cache stats for debugging measures.
-   *
-   * @return array
-   */
-  public function returnCacheStats();
-
-  /**
    * Truncates caching table(s)
    *
    * @return bool

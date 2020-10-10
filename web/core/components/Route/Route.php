@@ -65,11 +65,9 @@ class Route implements RouteInterface {
   }
 
   /**
-   * Renders route object (if it complies with PageInterface).
-   *
-   * @return mixed|null
+   * @return null|PageInterface
    */
-  public function render() {
+  public function getPageObject() {
     if (!class_exists($this->controller)) {
       return NULL;
     }
@@ -78,8 +76,17 @@ class Route implements RouteInterface {
       return NULL;
     }
 
+    return $controller;
+  }
+
+  /**
+   * Renders route object (if it complies with PageInterface).
+   *
+   * @return mixed|null
+   */
+  public function render() {
     $parameters = Url::getParameters();
-    return Nick::Cache()->getContentData($controller->getCacheOptions(), $this->controller, 'render', [$parameters, $this]);
+    return Nick::Cache()->getContentData($this->getPageObject()->getCacheOptions(), $this->controller, 'render', [$parameters, $this]);
   }
 
   /**

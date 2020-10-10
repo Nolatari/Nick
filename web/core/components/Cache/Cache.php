@@ -49,6 +49,15 @@ class Cache implements CacheInterface {
     $event = new Event('cacheContentAlter');
     $event->fire($cacheOptions);
 
+    // Don't cache content if max-age is 0, clearing unneeded queries.
+    if (isset($cacheOptions['max-age']) && $cacheOptions['max-age'] == 0) {
+      $class = new $fallbackClass(...$classData);
+      if (!$class) {
+        return FALSE;
+      }
+      return $class->{$fallbackMethod}(...$methodData);
+    }
+
     $query = Nick::Database()
       ->select('cache_content')
       ->condition('field', $cacheOptions['key'])

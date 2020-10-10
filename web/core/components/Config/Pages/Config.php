@@ -62,22 +62,7 @@ class Config extends Page {
     } elseif (isset($paremeters['difference'])) {
       // TODO
     } else {
-      $form = NULL;
-      if (isset($parameters['t'])) {
-        switch ($parameters['t']) {
-          case 'site':
-            $form = $this->siteForm()->result();
-            break;
-          case 'appearance':
-            $form = $this->appearanceForm()->result();
-            break;
-          default:
-            $form = $this->defaultForm()->result();
-            break;
-        }
-      } else {
-        $form = $this->defaultForm()->result();
-      }
+      $form = $this->defaultForm()->result();
 
       return Nick::Renderer()
         ->setType()
@@ -89,20 +74,6 @@ class Config extends Page {
     }
 
     return NULL;
-  }
-
-  /**
-   * @return FormInterface
-   */
-  protected function siteForm() {
-    return new SiteSettingsForm();
-  }
-
-  /**
-   * @return FormInterface
-   */
-  protected function appearanceForm() {
-    return new AppearanceSettingsForm();
   }
 
   /**

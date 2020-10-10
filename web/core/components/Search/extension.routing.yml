@@ -1,0 +1,3 @@
+search:
+  url: '/search'
+  controller: '\Nick\Search\Pages\Search'

@@ -74,7 +74,7 @@ class Menu extends Page {
   protected function defaultForm(int $id) {
     $menuObject = new Nick\Menu\Menu();
     try {
-      $menuObject = $menuObject->loadByProperties(['id' => $id]);
+      $menuObject = $menuObject->load($id);
     } catch (Exception $e) {
     }
     return new Form($menuObject);

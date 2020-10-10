@@ -53,10 +53,18 @@ class AppearanceSettingsForm extends Form implements FormInterface {
           'classes' => [
             'btn-success'
           ],
-          'handler' => [$this, 'saveAppearanceForm'],
+          'handler' => [$this, 'submitForm'],
         ],
       ],
     ]);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function submitForm(array &$form, array $values = []) {
+    d($form);
+    d($values);
   }
 
 }

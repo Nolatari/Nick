@@ -35,26 +35,7 @@ class Search extends Page {
       'max-age' => 0,
     ];
 
-    if ($parameters['q']) {
-      $this->caching = [
-        'key' => 'page.' . $this->get('id') . '.q.' . $parameters['q'],
-        'context' => 'page',
-        'max-age' => 0,
-      ];
-    }
-
     return $this;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function install() {
-    $pageManager = Nick::PageManager();
-    return $pageManager->createPage([
-      'id' => $this->get('id'),
-      'controller' => '\\Nick\\Search\\Pages\\Search',
-    ]);
   }
 
   /**
@@ -62,8 +43,8 @@ class Search extends Page {
    */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
-
-    $results = Nick::Search($parameters['q'])->getSearchResults();
+    $query = $_GET['q'] ?? NULL;
+    $results = Nick::Search($query)->getSearchResults();
 
     foreach ($results as $category => &$items) {
       if (!is_array($items)) {

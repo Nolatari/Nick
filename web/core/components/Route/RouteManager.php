@@ -22,8 +22,16 @@ class RouteManager {
    */
   public function installRoutes() {
     $extensions = \Nick::ExtensionManager()::getInstalledExtensions();
+    $extensions[] = [
+      'type' => 'core',
+      'name' => 'core',
+    ];
     foreach ($extensions as $extension) {
-      $routing = YamlReader::readExtension($extension['name'], 'routing');
+      if ($extension['name'] === 'core') {
+        $routing = YamlReader::readCore('routing');
+      } else {
+        $routing = YamlReader::readExtension($extension['name'], 'routing');
+      }
       if (!$routing) {
         continue;
       }

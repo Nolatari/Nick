@@ -1,0 +1,3 @@
+form.submit:
+  url: '/form/submit'
+  controller: '\Nick\Form\Pages\Submit'

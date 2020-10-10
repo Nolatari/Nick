@@ -160,8 +160,11 @@ class Nick {
    * @return Database
    */
   public static function Database($condition_delimiter = 'AND', $database = NULL) {
-    return new Database($condition_delimiter, $database); // Find solution to  cache Database again but with dynamic parameters
-    //return self::Cache()->getData('database', '\\Nick\\Database\\Database', NULL, [], [$condition_delimiter, $database]);
+    if (!is_null($database)) {
+      return self::Cache()->getData('database.' . $database . '.' . $condition_delimiter, '\\Nick\\Database\\Database', NULL, [], [$condition_delimiter, $database]);
+    } else {
+      return self::Cache()->getData('database.default.' . $condition_delimiter, '\\Nick\\Database\\Database', NULL, [], [$condition_delimiter]);
+    }
   }
 
   /**
@@ -239,9 +242,9 @@ class Nick {
   public static function Bootstrap(Request $request) {
     $core = new Core();
     $core->setSystemSpecifics();
-    self::EntityManager()->createEntities();
-    self::ExtensionManager()->installExtensions();
-    self::RouteManager()->installRoutes();
+    static::ExtensionManager()->installExtensions();
+    static::EntityManager()->createEntities();
+    static::RouteManager()->installRoutes();
 
     $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
     $route = static::RouteManager()->routeMatch($uri);
@@ -249,39 +252,24 @@ class Nick {
       $route = static::Route()->load('dashboard');
     }
 
-    $page = $request->query->has('p') ? $request->query->get('p') : 'dashboard';
-    $type = $request->query->has('t') ? $request->query->get('t') : NULL;
-    $id = $request->query->has('id') ? $request->query->get('id') : NULL;
-
     try {
-      $logger = new Logger();
-      $pageObject = self::PageManager()->getPageObject($page, $parameters = Url::getParameters());
       $headerVariables = [];
-      $headerVariables['logs'] = ['render' => $logger->render()];
-      $headerVariables['current_route'] = [
-        'route' => $route->getUri(),
-        'page' => $page,
-        'type' => $type,
-        'id' => $id,
+      $headerVariables['logs'] = ['render' => static::Logger()->render()];
+      $headerVariables['current_route'] = $route->getRoute();
+      $headerVariables['page'] = [
+        'title' => $route->getPageObject()->get('title') ?? NULL,
+        'summary' => $route->getPageObject()->get('summary') ?? NULL,
+        'author' => $route->getPageObject()->get('author') ?? NULL,
       ];
-      if ($pageObject instanceof PageInterface) {
-        $headerVariables['page'] = [
-          'id' => $page,
-          'type' => $pageObject->get('type'),
-          'title' => $pageObject->get('title'),
-          'summary' => $pageObject->get('summary'),
-          'cacheclear_uri' => Url::fromRoute(static::Route()->load('cache.clear')),
-        ];
-      }
-      $header = self::PageManager()->getPageRender('header', $headerVariables, $route);
+      $header = static::PageManager()->getPageRender('header', $headerVariables, $route);
       $page = $route->render();
-      $footer = self::PageManager()->getPageRender('footer', [], $route);
+      $footer = static::PageManager()->getPageRender('footer', [], $route);
 
       echo $header ?? NULL;
       echo $page ?? NULL;
       echo $footer ?? NULL;
     } catch (Exception $exception) {
-      self::Logger()->add('Could not render Nick!' . PHP_EOL . $exception->getMessage(), Logger::TYPE_FAILURE, 'Bootstrap');
+      static::Logger()->add('Could not render Nick!' . PHP_EOL . $exception->getMessage(), Logger::TYPE_FAILURE, 'Bootstrap');
     }
   }
 

@@ -15,3 +15,12 @@ logs.clear:
 cache.clear:
   url: '/cache/clear'
   controller: '\Nick\Cache\Pages\Cache'
+
+# Config
+config.site:
+  url: '/config/site'
+  controller: '\Nick\Config\Pages\Site'
+
+config.appearance:
+  url: '/config/appearance'
+  controller: '\Nick\Config\Pages\Appearance'

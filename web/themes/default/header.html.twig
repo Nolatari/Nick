@@ -24,14 +24,14 @@
             <hr class="sidebar-divider my-0">
             {% for item in menu %}
                 {% if item.type == 'dropdown' %}
-                    <li class="nav-item{% if page.id == item.route[0] %} active{% endif %}">
+                    <li class="nav-item{% if current_route == item.route %} active{% endif %}">
                         <a class="nav-link collapsed" href="{{ route(item.route) }}" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                             <i class="fas fa-fw fa-cog"></i>
                             <span>{{ item.title }}</span>
                         </a>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <h6 class="collapse-header">Configuration:</h6>
+                                <h6 class="collapse-header">{{ item.title }}:</h6>
                                 {% for child in item.children %}
                                     <a class="collapse-item" href="{{ route(child.route) }}">{{ child.title }}</a>
                                 {% endfor %}
@@ -39,7 +39,7 @@
                         </div>
                     </li>
                 {% elseif item.type == 'link' %}
-                    <li class="nav-item{% if page.id == item.route[0] %} active{% endif %}">
+                    <li class="nav-item{% if current_route == item.route %} active{% endif %}">
                         <a class="nav-link" href="{{ route(item.route) }}">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
                             <span>{{ item.title }}</span>
@@ -62,7 +62,6 @@
                     </button>
                     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="{{ route('search') }}" method="get">
                         <div class="input-group">
-                            <input type="hidden" name="p" value="search">
                             <input type="text" name="q" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">

@@ -70,11 +70,12 @@ class EntityRenderer {
   /**
    * Returns rendered Entity object
    *
-   * @param array $variables
+   * @param array       $variables
+   * @param string|null $viewMode
    *
    * @return string|NULL
    */
-  public function render($variables, $viewMode = NULL): ?string {
+  public function render(array $variables = [], $viewMode = NULL): ?string {
     $entity = $this->getEntity();
     $viewMode = $viewMode ?? 'default';
     $values = $entity->getValues();

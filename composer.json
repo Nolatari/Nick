@@ -5,7 +5,8 @@
       "symfony/symfony": "^5.1",
       "symfony/yaml": "^5.1",
       "doctrine/annotations": "^1.10",
-      "symfony/http-foundation": "^5.1"
+      "symfony/http-foundation": "^5.1",
+        "snc/redis-bundle": "^3.2"
     },
     "autoload": {
       "psr-4": {
