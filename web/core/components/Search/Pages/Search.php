@@ -57,7 +57,7 @@ class Search extends Page {
     }
 
     return Nick::Renderer()
-      ->setType()
+      ->setType('core.Search')
       ->setTemplate('search')
       ->render([
         'page' => [

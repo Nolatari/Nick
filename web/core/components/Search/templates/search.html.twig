@@ -1,0 +1,23 @@
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Recent logs{% if count > 0 %} <a class="btn btn-primary" href="../../../../themes/default?p=logs&t=clear">Clear logs</a>{% endif %}</h1>
+<div class="card shadow mb-4">
+    <div class="card-body">
+{% for category, items in results %}
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="checkbox-{{ category }}" value="{{ category }}"{% if not disabled[category] %} checked{% endif %}>
+            <label class="form-check-label" for="checkbox-{{ category }}">{{ category }}</label>
+        </div>
+{% endfor %}
+    </div>
+</div>
+{% for category, items in results %}
+<!-- Logs table -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h3>{{ category }} ({{ items|length }})</h3>
+        {% for item in items %}
+            {{ item|raw }}
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
