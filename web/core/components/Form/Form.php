@@ -18,7 +18,7 @@ class Form extends FormBuilder implements FormInterface {
   use StringTranslation;
 
   /** @var EntityInterface|null $entity */
-  protected $entity = NULL;
+  protected ?EntityInterface $entity = NULL;
 
   /** @var array $values */
   protected array $values = [];

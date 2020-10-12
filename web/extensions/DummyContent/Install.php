@@ -15,23 +15,13 @@ use Nick\Page\PageManager;
  */
 class Install implements InstallInterface {
 
-  /** @var PageManager $pageManager */
-  protected PageManager $pageManager;
-
-  /**
-   * install constructor.
-   */
-  public function __construct() {
-    $this->pageManager = \Nick::PageManager();
-  }
-
   /**
    * Checks whether the page already exists
    *
    * @return bool
    */
   public function condition(): bool {
-    $pageObject = $this->pageManager->getPageObject('dummycontent');
+    $pageObject = \Nick::PageManager()->getPageObject('dummycontent');
     if (!$pageObject instanceof DummyContent) {
       return FALSE;
     }
@@ -61,7 +51,7 @@ class Install implements InstallInterface {
     }
     \Nick::Logger()->add('Added menu item for DummyContent', Logger::TYPE_INFO, 'DummyContent');
 
-    if (!$this->pageManager->createPage([
+    if (!\Nick::PageManager()->createPage([
       'dummycontent',
       '\\Nick\\DummyContent\\DummyContent',
     ])) {

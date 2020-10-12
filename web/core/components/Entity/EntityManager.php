@@ -159,21 +159,24 @@ class EntityManager {
    *          An array of properties your Entity should have
    * @param bool  $multiple
    *          If you expect multiple results, set this to TRUE
+   * @param bool  $massage
    *
    * @return bool|array
    *
-   * @throws Exception
    */
-  public function loadByProperties($properties = [], $multiple = FALSE) {
+  public function loadByProperties($properties = [], $multiple = FALSE, $massage = TRUE) {
     if (!isset($properties['type'])) {
       return FALSE;
     }
     $type = $properties['type'];
     $entity = static::getEntityClassFromType($type);
+    if (!$entity instanceof EntityInterface) {
+      return FALSE;
+    }
     $entity->setType($type);
     unset($properties['type']);
-    $query = Nick::Database()->select('entity__' . $type)
-      ->condition('status', 1)
+    $query = Nick::Database()
+      ->select('entity__' . $type)
       ->orderBy('id', 'ASC');
     foreach ($properties as $field => $value) {
       if ($properties === 'type') {
@@ -194,12 +197,12 @@ class EntityManager {
 
     if (count($results) === 1 && $multiple === FALSE) {
       $current = reset($results);
-      return $entity->massageProperties($current);
+      return $entity->massageProperties($current, $massage);
     }
 
     $entities = [];
     foreach ($results as $id => $current) {
-      $entities[] = $entity->massageProperties($current);
+      $entities[] = $entity->massageProperties($current, $massage);
     }
     return $entities;
   }

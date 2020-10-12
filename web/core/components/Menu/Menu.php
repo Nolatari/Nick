@@ -194,12 +194,13 @@ class Menu extends Entity implements MenuInterface {
   }
 
   /**
-   * @param int $id
+   * @param int  $id
+   * @param bool $massage
    *
    * @return EntityInterface|NULL
    */
-  public static function load(int $id) {
-    return parent::loadEntity($id, 'menu');
+  public static function load(int $id, $massage = TRUE) {
+    return parent::loadEntity($id, 'menu', $massage);
   }
 
   /**

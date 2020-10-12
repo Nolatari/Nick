@@ -42,7 +42,7 @@ class FormBuilder {
       if ($key !== 'submit') {
         $element['attributes']['name'] = $key;
       }
-      $element['attributes']['value'] = $this->getValue($key) ?? NULL;
+      $element['attributes']['value'] = $this->getValue($key);
       if ($element['attributes']['value'] === NULL && isset($element['default_value'])) {
         $element['attributes']['value'] = $element['default_value'];
       }
@@ -50,6 +50,7 @@ class FormBuilder {
       $className = '\\Nick\\Form\\FormElements\\' . $type;
       /** @var FormElement $elementClass */
       $elementClass = new $className();
+      d($element);
       $render .= $elementClass->render($element);
     }
     $render .= '</form>';

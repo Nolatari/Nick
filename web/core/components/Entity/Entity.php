@@ -49,16 +49,16 @@ class Entity implements EntityInterface {
   /**
    * @param int    $id
    * @param string $type
+   * @param bool   $massage
    *
    * @return EntityInterface|bool
    *
-   * @throws Exception
    */
-  protected static function loadEntity(int $id, string $type) {
+  protected static function loadEntity(int $id, string $type, $massage = TRUE) {
     if ($id === 0) {
       return FALSE;
     }
-    return Nick::EntityManager()->loadByProperties(['type' => $type, 'id' => $id]);
+    return Nick::EntityManager()->loadByProperties(['type' => $type, 'id' => $id], FALSE, $massage);
   }
 
   /**
@@ -138,20 +138,23 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
 
   /**
    * @param array $entity
+   * @param bool  $massage
    *
    * @return mixed
    */
-  public function massageProperties(array $entity) {
-    foreach ($entity as $ci_key => $ci_value) {
-      if ($ci_key === 'status') {
-        $entity[$ci_key] = static::intToStatus($ci_value);
-        continue;
-      } elseif ($ci_key === 'id' || !isset(static::fields()[$ci_key]['class'])) {
-        continue;
+  public function massageProperties(array $entity, $massage = TRUE) {
+    if ($massage) {
+      foreach ($entity as $ci_key => $ci_value) {
+        if ($ci_key === 'status') {
+          $entity[$ci_key] = static::intToStatus($ci_value);
+          continue;
+        } elseif ($ci_key === 'id' || !isset(static::fields()[$ci_key]['class'])) {
+          continue;
+        }
+        $className = static::fields()[$ci_key]['class'];
+        $class = new $className;
+        $entity[$ci_key] = $class::load($ci_value);
       }
-      $className = static::fields()[$ci_key]['class'];
-      $class = new $className;
-      $entity[$ci_key] = $class::load($ci_value);
     }
     $entityClass = EntityManager::getEntityClassFromType($this->getType());
     if ($entityClass !== FALSE) {

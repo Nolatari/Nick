@@ -20,7 +20,6 @@ cache.clear:
 config.site:
   url: '/config/site'
   controller: '\Nick\Config\Pages\Site'
-
 config.appearance:
   url: '/config/appearance'
   controller: '\Nick\Config\Pages\Appearance'

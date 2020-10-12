@@ -15,23 +15,13 @@ use Nick\Page\PageManager;
  */
 class Uninstall implements UninstallInterface {
 
-  /** @var PageManager $pageManager */
-  protected PageManager $pageManager;
-
-  /**
-   * install constructor.
-   */
-  public function __construct() {
-    $this->pageManager = new PageManager();
-  }
-
   /**
    * Checks whether the page already exists
    *
    * @return bool
    */
   public function condition(): bool {
-    $pageObject = $this->pageManager->getPageObject('dummycontent');
+    $pageObject = \Nick::PageManager()->getPageObject('dummycontent');
     if ($pageObject instanceof DummyContent) {
       return FALSE;
     }
