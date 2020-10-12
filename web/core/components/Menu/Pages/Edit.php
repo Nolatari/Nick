@@ -5,6 +5,7 @@ namespace Nick\Menu\Pages;
 use Exception;
 use Nick;
 use Nick\Form\Form;
+use Nick\Form\FormInterface;
 use Nick\Menu\Menu;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
@@ -47,13 +48,13 @@ class Edit extends Page {
   /**
    * @param int $id
    *
-   * @return Form
+   * @return bool|FormInterface
    */
   protected function defaultForm(int $id) {
-    $menuObject = new Menu();
     try {
-      $menuObject = $menuObject->load($id, FALSE);
+      $menuObject = Menu::load($id, FALSE);
     } catch (Exception $e) {
+      return FALSE;
     }
     return new Form($menuObject);
   }
@@ -64,6 +65,13 @@ class Edit extends Page {
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
 
+    $form = $this->defaultForm((int)$parameters[2]);
+    if (!$form) {
+      $result = '';
+    } else {
+      $result = $form->result();
+    }
+
     if (!isset($parameters[2])) {
       return NULL;
     }
@@ -71,7 +79,7 @@ class Edit extends Page {
       ->setType()
       ->setTemplate('menu')
       ->render([
-        'form' => $this->defaultForm((int)$parameters[2])->result(),
+        'form' => $result,
       ]);
   }
 

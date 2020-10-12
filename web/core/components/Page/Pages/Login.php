@@ -29,12 +29,14 @@ class Login extends Page {
   /**
    * {@inheritDoc}
    */
-  public function install() {
-    $pageManager = Nick::PageManager();
-    return $pageManager->createPage([
-      'id' => $this->get('id'),
-      'controller' => '\\Nick\\Page\\Pages\\Login',
-    ]);
+  protected function setCacheOptions($parameters = []) {
+    $this->caching = [
+      'key' => 'page.login',
+      'context' => 'page',
+      'max-age' => 3600,
+    ];
+
+    return $this;
   }
 
   /**
@@ -46,19 +48,6 @@ class Login extends Page {
       ->setType()
       ->setTemplate('login')
       ->render();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  protected function setCacheOptions($parameters = []) {
-    $this->caching = [
-      'key' => 'page.login',
-      'context' => 'page',
-      'max-age' => 3600,
-    ];
-
-    return $this;
   }
 
 }

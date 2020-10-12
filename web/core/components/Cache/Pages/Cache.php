@@ -6,6 +6,7 @@ use Nick;
 use Nick\Logger;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
+use Nick\Url;
 
 /**
  * Class Cache
@@ -28,39 +29,6 @@ class Cache extends Page {
   /**
    * {@inheritDoc}
    */
-  public function install() {
-    $pageManager = Nick::PageManager();
-    return $pageManager->createPage([
-      'id' => $this->get('id'),
-      'controller' => '\\Nick\\Cache\\Pages\\Cache',
-    ]);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
-    if (isset($parameters['t']) && $parameters['t'] == 'clear_all') {
-      if (Nick::Cache()->clearAllCaches() !== FALSE) {
-        Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');
-      } else {
-        Nick::Logger()->add('Could not clear caches.', Logger::TYPE_FAILURE, 'Cache');
-      }
-
-//      header('Location: ' . Url::fromRoute([
-//          empty($parameters['data']['p']) ? NULL : $parameters['data']['p'],
-//          empty($parameters['data']['t']) ? NULL : $parameters['data']['t'],
-//          empty($parameters['data']['id']) ? NULL : $parameters['data']['id'],
-//        ]));
-    } else {
-      // @TODO
-    }
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   protected function setCacheOptions($parameters = []) {
     $this->caching = [
       'key' => 'page.cache',
@@ -69,6 +37,22 @@ class Cache extends Page {
     ];
 
     return $this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function render(array &$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
+    if (isset($parameters[2]) && $parameters[2] === 'clear') {
+      if (Nick::Cache()->clearAllCaches() !== FALSE) {
+        Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');
+      } else {
+        Nick::Logger()->add('Could not clear caches.', Logger::TYPE_FAILURE, 'Cache');
+      }
+
+      header('Location: ' . Url::fromRoute(Nick::Route()->load('dashboard')));
+    }
   }
 
 }

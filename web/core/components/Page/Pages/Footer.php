@@ -26,17 +26,6 @@ class Footer extends Page {
   /**
    * {@inheritDoc}
    */
-  public function install() {
-    $pageManager = Nick::PageManager();
-    return $pageManager->createPage([
-      'id' => $this->get('id'),
-      'controller' => '\\Nick\\Page\\Pages\\Footer',
-    ]);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public function render(array &$parameters, RouteInterface $route) {
     return Nick::Renderer()
       ->setType()

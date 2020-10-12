@@ -28,12 +28,14 @@ class Dashboard extends Page {
   /**
    * {@inheritDoc}
    */
-  public function install() {
-    $pageManager = Nick::PageManager();
-    return $pageManager->createPage([
-      'id' => $this->get('id'),
-      'controller' => '\\Nick\\Page\\Pages\\Dashboard',
-    ]);
+  protected function setCacheOptions($parameters = []) {
+    $this->caching = [
+      'key' => 'page.dashboard',
+      'context' => 'page',
+      'max-age' => 1800,
+    ];
+
+    return $this;
   }
 
   /**
@@ -54,19 +56,6 @@ class Dashboard extends Page {
           'installedExtensions' => count(Nick::ExtensionManager()::getInstalledExtensions()),
         ],
       ]);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  protected function setCacheOptions($parameters = []) {
-    $this->caching = [
-      'key' => 'page.dashboard',
-      'context' => 'page',
-      'max-age' => 1800,
-    ];
-
-    return $this;
   }
 
 }

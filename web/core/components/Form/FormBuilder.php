@@ -50,7 +50,6 @@ class FormBuilder {
       $className = '\\Nick\\Form\\FormElements\\' . $type;
       /** @var FormElement $elementClass */
       $elementClass = new $className();
-      d($element);
       $render .= $elementClass->render($element);
     }
     $render .= '</form>';

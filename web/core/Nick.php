@@ -249,7 +249,7 @@ class Nick {
     $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
     $route = static::RouteManager()->routeMatch($uri);
     if (!$route) {
-      $route = static::Route()->load('dashboard');
+      $route = static::Route()->load('error')->setValue('key', '404');
     }
 
     try {

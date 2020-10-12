@@ -26,12 +26,14 @@ class Header extends Page {
   /**
    * {@inheritDoc}
    */
-  public function install() {
-    $pageManager = Nick::PageManager();
-    return $pageManager->createPage([
-      'id' => $this->get('id'),
-      'controller' => '\\Nick\\Page\\Pages\\Header',
-    ]);
+  protected function setCacheOptions($parameters = []) {
+    $this->caching = [
+      'key' => 'page.header',
+      'context' => 'page',
+      'max-age' => 0,
+    ];
+
+    return $this;
   }
 
   /**
@@ -43,19 +45,6 @@ class Header extends Page {
       ->setType()
       ->setTemplate('header')
       ->render($parameters ?? NULL);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  protected function setCacheOptions($parameters = []) {
-    $this->caching = [
-      'key' => 'page.header',
-      'context' => 'page',
-      'max-age' => 0,
-    ];
-
-    return $this;
   }
 
 }

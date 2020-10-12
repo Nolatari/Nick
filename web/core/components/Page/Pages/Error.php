@@ -28,12 +28,18 @@ class Error extends Page {
   /**
    * {@inheritDoc}
    */
-  public function install() {
-    $pageManager = Nick::PageManager();
-    return $pageManager->createPage([
-      'id' => $this->get('id'),
-      'controller' => '\\Nick\\Page\\Pages\\Error',
-    ]);
+  protected function setCacheOptions($parameters = []) {
+    $this->caching = [
+      'key' => 'page.error',
+      'context' => 'page',
+      'max-age' => -1,
+    ];
+
+    if (isset($parameters[2])) {
+      $this->caching['key'] = $this->caching['key'] . '.' . $parameters[2];
+    }
+
+    return $this;
   }
 
   /**
@@ -41,7 +47,7 @@ class Error extends Page {
    */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
-    switch ($parameters['e']) {
+    switch ($parameters[2]) {
       case '404':
         $title = 'Page not found';
         break;
@@ -52,30 +58,16 @@ class Error extends Page {
         $title = 'Moved permanently';
         break;
       default:
-        $_GET['e'] = '500';
+        $parameters[2] = '500';
         $title = 'Internal server error';
         break;
     }
 
-    $variables = $variables ?? [];
-    $variables['page']['title'] = $title;
+    $parameters['page']['title'] = $title;
     return Nick::Renderer()
       ->setType('error')
-      ->setTemplate($parameters['e'])
-      ->render();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  protected function setCacheOptions($parameters = []) {
-    $this->caching = [
-      'key' => 'page.error',
-      'context' => 'page',
-      'max-age' => -1,
-    ];
-
-    return $this;
+      ->setTemplate($parameters[2])
+      ->render($parameters);
   }
 
 }

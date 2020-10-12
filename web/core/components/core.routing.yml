@@ -3,6 +3,13 @@ dashboard:
   url: '/'
   controller: '\Nick\Page\Pages\Dashboard'
 
+# Error
+error:
+  url: '/error/{key}'
+  controller: '\Nick\Page\Pages\Error'
+  parameters:
+    key: 1
+
 # Logs
 logs:
   url: '/logs'

@@ -29,17 +29,6 @@ class Logs extends Page {
   /**
    * {@inheritDoc}
    */
-  public function install() {
-    $pageManager = Nick::PageManager();
-    return $pageManager->createPage([
-      'id' => $this->get('id'),
-      'controller' => '\\Nick\\Page\\Pages\\Logs',
-    ]);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   protected function setCacheOptions($parameters = []) {
     $this->caching = [
       'key' => 'page.logs',
