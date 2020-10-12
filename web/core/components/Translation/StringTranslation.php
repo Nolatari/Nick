@@ -19,7 +19,8 @@ trait StringTranslation {
    *       ':item_color' => $itemColor, ':item' => $item]); This ensures the proper handling of variables in string
    *       translations for dynamic reusage of the string. This method can also be used to stack translations, for
    *       example:
-   *       $companyName = StringTranslation::translate('myCompany');
+   *       $companySuffix = StringTranslation::translate('Incorporated');
+   *       $companyName = StringTranslation::translate('myCompany :suffix', [':suffix' => $companySuffix]);
    *       StringTranslation::translate('Welcome to :company', [':company' => $companyName]);
    *
    * @param string $string
