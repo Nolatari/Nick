@@ -128,6 +128,11 @@ class Url {
     return $_SERVER['REQUEST_URI'];
   }
 
+  /**
+   * Returns URL parameters in array form (including clean URL parameters!)
+   *
+   * @return array
+   */
   public static function getParameters() {
     $request = Request::createFromGlobals();
     $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
@@ -138,6 +143,20 @@ class Url {
         $parameters[$key] = $elements[0];
         $parameters[] = StringManipulation::replace($value, $elements[0] . '?', '');
       }
+    }
+    return $parameters;
+  }
+
+  /**
+   * @param RouteInterface $route
+   *
+   * @return array
+   */
+  public static function getRefactoredParameters(RouteInterface $route) {
+    $parameters = static::getParameters();
+    d($route);
+    foreach ($parameters as $key => $parameter) {
+
     }
     return $parameters;
   }

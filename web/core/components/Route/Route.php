@@ -85,7 +85,7 @@ class Route implements RouteInterface {
    * @return mixed|null
    */
   public function render() {
-    $parameters = Url::getParameters();
+    $parameters = Url::getRefactoredParameters($this);
     return Nick::Cache()->getContentData($this->getPageObject()->getCacheOptions(), $this->controller, 'render', [$parameters, $this]);
   }
 
