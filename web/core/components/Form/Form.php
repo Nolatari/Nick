@@ -57,7 +57,7 @@ class Form extends FormBuilder implements FormInterface {
    */
   public function submit(array &$form, string $formId): bool {
     // Fire FormPreSubmitAlter event
-    $preSubmitEvent = new Event('FormPreSubmitAlter');
+    $preSubmitEvent = \Nick::Event('FormPreSubmitAlter');
     $preSubmitEvent->fire($form, [$formId]);
 
     // Fire submit handler
@@ -74,7 +74,7 @@ class Form extends FormBuilder implements FormInterface {
     }
 
     // Fire FormPostSubmitAlter event
-    $postSubmitEvent = new Event('FormPostSubmitAlter');
+    $postSubmitEvent = \Nick::Event('FormPostSubmitAlter');
     $postSubmitEvent->fire($form, [$formId]);
     return TRUE;
   }

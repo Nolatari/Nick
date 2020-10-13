@@ -46,7 +46,7 @@ class Cache implements CacheInterface {
    */
   public function getContentData(array $cacheOptions, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
     // Fires an event to alter cache options before being sent to DB.
-    $event = new Event('cacheContentAlter');
+    $event = \Nick::Event('cacheContentAlter');
     $event->fire($cacheOptions);
 
     // Don't cache content if max-age is 0, clearing unneeded queries.

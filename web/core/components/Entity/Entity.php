@@ -307,7 +307,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
    */
   public function save() {
     // Fire presave event
-    $presaveEvent = new Event('EntityPreSave');
+    $presaveEvent = \Nick::Event('EntityPreSave');
     $presaveEvent->fire($this);
 
     $table = 'entity__' . $this->type;
@@ -375,7 +375,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
     }
 
     // Fire postsave event
-    $postsaveEvent = new Event('EntityPostSave');
+    $postsaveEvent = \Nick::Event('EntityPostSave');
     $postsaveEvent->fire($this);
     return TRUE;
   }
@@ -452,7 +452,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
    */
   public function delete() {
     // Fire predelete event
-    $predeleteEvent = new Event('EntityPreDelete');
+    $predeleteEvent = \Nick::Event('EntityPreDelete');
     $predeleteEvent->fire($this);
 
     if ($this->id() == NULL) {
@@ -473,7 +473,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
     }
 
     // Fire postdelete event
-    $postdeleteEvent = new Event('EntityPostDelete');
+    $postdeleteEvent = \Nick::Event('EntityPostDelete');
     $postdeleteEvent->fire($this);
     return TRUE;
   }

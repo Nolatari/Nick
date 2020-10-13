@@ -5,6 +5,7 @@ use Nick\Config\Config;
 use Nick\Core;
 use Nick\Database\Database;
 use Nick\Entity\EntityRenderer;
+use Nick\Event\Event;
 use Nick\ExtensionManager\ExtensionManager;
 use Nick\Form\Form;
 use Nick\Language\Language;
@@ -43,6 +44,17 @@ class Nick {
    */
   public static function Entity() {
     return new Entity();
+  }
+
+  /**
+   * Returns Event object
+   *
+   * @param string $eventName
+   *
+   * @return Event
+   */
+  public static function Event(string $eventName) {
+    return new Event($eventName);
   }
 
   /**

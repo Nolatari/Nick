@@ -48,7 +48,7 @@ class Edit extends Page {
   /**
    * @param int $id
    *
-   * @return bool|FormInterface
+   * @return bool|Form
    */
   protected function defaultForm(int $id) {
     try {
@@ -56,7 +56,7 @@ class Edit extends Page {
     } catch (Exception $e) {
       return FALSE;
     }
-    return new Form($menuObject);
+    return \Nick::Form($menuObject);
   }
 
   /**

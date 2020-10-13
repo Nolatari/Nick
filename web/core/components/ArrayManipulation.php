@@ -35,6 +35,53 @@ class ArrayManipulation {
   }
 
   /**
+   * Copies array item from one key to another, and keeps the old array entry.
+   *
+   * @param array $array
+   * @param mixed $originalKey
+   * @param mixed $newKey
+   *
+   * @usage $myArray = ['my-old-key' => 'Default value'];
+   *        ArrayManipulation::copyKey($myArray, 'my-old-key', 'new-key-123');
+   *    Result:
+   *        $myArray === ['new-key-123' => 'Default value', 'new-key-123' => 'Default value']
+   *
+   * @return array
+   */
+  public static function copyKey(array &$array, $originalKey, $newKey) {
+    if (!isset($array[$originalKey])) {
+      return $array;
+    }
+
+    $array[$newKey] = &$array[$originalKey];
+    return $array;
+  }
+
+  /**
+   * Moves array item from one key to another, and unsets the old array entry.
+   *
+   * @param array $array
+   * @param mixed $originalKey
+   * @param mixed $newKey
+   *
+   * @usage $myArray = ['my-old-key' => 'Default value'];
+   *        ArrayManipulation::moveKey($myArray, 'my-old-key', 'new-key-123');
+   *    Result:
+   *        $myArray === ['new-key-123' => 'Default value']
+   *
+   * @return array
+   */
+  public static function moveKey(array &$array, $originalKey, $newKey) {
+    if (!isset($array[$originalKey])) {
+      return $array;
+    }
+
+    $array[$newKey] = &$array[$originalKey];
+    unset($array[$originalKey]);
+    return $array;
+  }
+
+  /**
    * Will remove array entries with an empty value.
    * Empty can be null, an empty string or empty array.
    *

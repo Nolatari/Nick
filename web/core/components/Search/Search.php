@@ -52,7 +52,7 @@ class Search {
   public function getSearchResults(): array {
     $results = [];
 
-    $event = new Event('preSearchRender');
+    $event = \Nick::Event('preSearchRender');
     $event->fire($results, [$this->getKeyword()]);
 
     return $results;

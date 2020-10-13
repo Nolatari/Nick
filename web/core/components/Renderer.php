@@ -142,7 +142,7 @@ class Renderer {
    * @return string|NULL
    */
   public function render(array $variables = [], $view_mode = NULL): ?string {
-    $event = new Event('preRender');
+    $event = \Nick::Event('preRender');
     $event->fire($variables, [$view_mode]);
 
     $template = $this->getTemplate();

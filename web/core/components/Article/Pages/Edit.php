@@ -59,7 +59,7 @@ class Edit extends Page {
       /** @var ArticleObject $article */
       $article = ArticleObject::load($parameters[2]);
 
-      $form = new Form($article);
+      $form = \Nick::Form($article);
       $content = $form->result();
     }
 
