@@ -452,8 +452,8 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
    */
   public function delete() {
     // Fire predelete event
-    $presaveEvent = new Event('EntityPreDelete');
-    $presaveEvent->fire($this);
+    $predeleteEvent = new Event('EntityPreDelete');
+    $predeleteEvent->fire($this);
 
     if ($this->id() == NULL) {
       Nick::Logger()->add('Cannot remove Entity without ID', Logger::TYPE_FAILURE, 'Entity');
@@ -473,8 +473,8 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
     }
 
     // Fire postdelete event
-    $postsaveEvent = new Event('EntityPostDelete');
-    $postsaveEvent->fire($this);
+    $postdeleteEvent = new Event('EntityPostDelete');
+    $postdeleteEvent->fire($this);
     return TRUE;
   }
 
