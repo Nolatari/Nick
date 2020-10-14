@@ -1,4 +1,4 @@
 name: Search
-type: extension
+type: component
 version: 1.0a
 required: true

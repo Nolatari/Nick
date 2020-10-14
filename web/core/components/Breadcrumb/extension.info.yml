@@ -1,6 +1,6 @@
 name: Breadcrumb
 version: 1.0a
-type: extension
+type: component
 description: 'This addon adds breadcrumbs to your page.'
 event_listeners:
   pagePreRender:
