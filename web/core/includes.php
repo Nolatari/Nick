@@ -23,6 +23,7 @@ $cache->initializeCache();
  * @return mixed
  */
 function translate(string $string, $args = []) {
-  $t = new Language();
-  return $t->translate($string, $args);
+  /** @var \Nick\Language\Language $language */
+  $language = \Nick::LanguageManager()->getCurrentLanguage();
+  return $language->translate($string, $args);
 }
