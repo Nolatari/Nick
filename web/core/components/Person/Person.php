@@ -46,7 +46,7 @@ class Person extends Entity implements PersonInterface {
    * @return int
    */
   public static function getCurrentPerson() {
-    return \Nick::Session()->get('NPersonID', 0);;
+    return \Nick::Session()->get('NPersonID', 0);
   }
 
   /**

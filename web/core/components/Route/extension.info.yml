@@ -1,4 +1,4 @@
 name: Route
 version: 1.0a
-type: component
+type: extension
 required: true

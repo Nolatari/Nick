@@ -37,9 +37,9 @@ class Edit extends Page {
       'max-age' => 300,
     ];
 
-    if (isset($parameters[2]) && !empty($parameters[2])) {
+    if (isset($parameters['id']) && !empty($parameters['id'])) {
       /** @var ArticleObject $article */
-      $article = ArticleObject::load($parameters[2]);
+      $article = ArticleObject::load($parameters['id']);
       $this->setParameter('title', $this->translate('Edit :title', [':title' => $article->getTitle()]));
       $this->caching['key'] = $this->caching['key'] . '.' . $article->id();
       $this->caching['max-age'] = 0;
@@ -55,9 +55,9 @@ class Edit extends Page {
     parent::render($parameters, $route);
 
     $content = NULL;
-    if (isset($parameters[2]) && !empty($parameters[2])) {
+    if (isset($parameters['id']) && !empty($parameters['id'])) {
       /** @var ArticleObject $article */
-      $article = ArticleObject::load($parameters[2]);
+      $article = ArticleObject::load($parameters['id']);
 
       $form = \Nick::Form($article);
       $content = $form->result();
@@ -73,7 +73,7 @@ class Edit extends Page {
           'summary' => $this->get('summary'),
         ],
         'article' => [
-          'id' => $parameters[2] ?? NULL,
+          'id' => $parameters['id'] ?? NULL,
           'content' => $content,
         ],
       ]);

@@ -144,19 +144,26 @@ class Url {
         $parameters[] = StringManipulation::replace($value, $elements[0] . '?', '');
       }
     }
+    $parameters = array_merge($parameters);
     return $parameters;
   }
 
   /**
+   * Returns URL parameters in array form (including clean URL parameters!)
+   * But also replaces the given integer keys with the keys defined by the route parameters.
+   *
    * @param RouteInterface $route
    *
    * @return array
    */
   public static function getRefactoredParameters(RouteInterface $route) {
     $parameters = static::getParameters();
-    d($route);
     foreach ($parameters as $key => $parameter) {
-
+      foreach ($route->getParameters() as $k => $id) {
+        if ($key === $id) {
+          $parameters = ArrayManipulation::moveKey($parameters, $id, $k);
+        }
+      }
     }
     return $parameters;
   }

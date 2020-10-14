@@ -55,10 +55,14 @@ class Entity implements EntityInterface {
    *
    */
   protected static function loadEntity(int $id, string $type, $massage = TRUE) {
-    if ($id === 0) {
+    if ($id === 0 && $type !== 'person') {
       return FALSE;
     }
-    return Nick::EntityManager()->loadByProperties(['type' => $type, 'id' => $id], FALSE, $massage);
+    return Nick::EntityManager()->loadByProperties(
+      ['type' => $type, 'id' => $id],
+      FALSE,
+      $massage
+    );
   }
 
   /**
@@ -68,7 +72,7 @@ class Entity implements EntityInterface {
    * @return array|bool
    */
   protected static function loadMultipleEntities(string $type) {
-    $entityClass = EntityManager::getEntityClassFromType($type);
+    $entityClass = Nick::EntityManager()::getEntityClassFromType($type);
     $entityClass = new $entityClass;
     return $entityClass->loadByProperties([], TRUE);
   }

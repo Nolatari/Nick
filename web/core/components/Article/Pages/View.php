@@ -37,9 +37,9 @@ class View extends Page {
       'max-age' => 300,
     ];
 
-    if (isset($parameters[2]) && !empty($parameters[2])) {
+    if (isset($parameters['id']) && !empty($parameters['id'])) {
       /** @var ArticleObject $article */
-      $article = ArticleObject::load($parameters[2]);
+      $article = ArticleObject::load($parameters['id']);
       $this->setParameter('title', $article->getTitle());
       $this->caching['key'] = $this->caching['key'] . '.' . $article->id();
       $this->caching['max-age'] = 1800;
@@ -55,8 +55,8 @@ class View extends Page {
     parent::render($parameters, $route);
 
     $content = NULL;
-    if (isset($parameters[2]) && !empty($parameters[2])) {
-      $id = $parameters[2];
+    if (isset($parameters['id']) && !empty($parameters['id'])) {
+      $id = $parameters['id'];
       /** @var ArticleObject $article */
       $article = ArticleObject::load($id);
       $entityRenderer = new EntityRenderer($article);

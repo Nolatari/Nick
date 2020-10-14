@@ -1,6 +1,6 @@
 name: Form
 version: 1.0a
-type: component
+type: extension
 required: true
 form_elements:
   textbox: '\Nick\Form\FormElements\Textbox'
