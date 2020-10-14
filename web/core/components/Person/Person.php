@@ -98,6 +98,14 @@ class Person extends Entity implements PersonInterface {
           ],
         ],
       ],
+      'language' => [
+        'type' => 'varchar',
+        'length' => '10',
+        'form' => [
+          'type' => 'select',
+          'options' => [],
+        ],
+      ],
     ];
   }
 
@@ -117,6 +125,13 @@ class Person extends Entity implements PersonInterface {
    */
   public function getName(): string {
     return $this->getValue('name');
+  }
+
+  /**
+   * @return string
+   */
+  public function getLanguage(): string {
+    return $this->getValue('language');
   }
 
   /**
