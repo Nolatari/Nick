@@ -4,6 +4,7 @@ namespace Nick\Language;
 
 use Exception;
 use Nick;
+use Nick\Database\Result;
 use Nick\Logger;
 
 /**
@@ -77,6 +78,23 @@ class LanguageManager {
    */
   public function getLanguageByLangcode(string $langcode = 'en'): LanguageInterface {
     return new Language($langcode);
+  }
+
+  /**
+   * Returns all available languages.
+   *
+   * @return array|bool
+   */
+  public function getAvailableLanguages() {
+    $query = Nick::Database()
+      ->select('languages')
+      ->fields(NULL, ['langcode', 'language', 'country'])
+      ->execute();
+    if (!$query instanceof Result) {
+      return FALSE;
+    }
+
+    return $query->fetchAllAssoc('langcode');
   }
 
 }

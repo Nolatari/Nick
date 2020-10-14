@@ -76,6 +76,10 @@ class Person extends Entity implements PersonInterface {
    * @return array
    */
   public static function initialFields(): array {
+    $language_options = \Nick::LanguageManager()->getAvailableLanguages();
+    foreach ($language_options as $langcode => $language) {
+      $language_options[$langcode] = '[' . $langcode . '] ' . $language['language'] . ' - ' . $language['country'];
+    }
     return [
       'name' => [
         'type' => 'varchar',
@@ -103,7 +107,7 @@ class Person extends Entity implements PersonInterface {
         'length' => '10',
         'form' => [
           'type' => 'select',
-          'options' => [],
+          'options' => $language_options,
         ],
       ],
     ];
