@@ -199,16 +199,17 @@ CREATE TABLE `entity__person` (
   `owner` int(25) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `name` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `language` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `entity__person`
 --
 
-INSERT INTO `entity__person` (`id`, `owner`, `status`, `name`, `password`) VALUES
-(0, 0, 1, 'Anonymous', ''),
-(1, 0, 1, 'Randy', '$2y$10$vw4KCNOucAF4bjcTsrnIZO7/KAtWBHj9bMKGy4U4riVvOyZ9dLi4e');
+INSERT INTO `entity__person` (`id`, `owner`, `status`, `name`, `password`, `language`) VALUES
+(0, 1, 1, 'Anonymous', '', 'en'),
+(1, 1, 1, 'Randy', '$2y$10$vw4KCNOucAF4bjcTsrnIZO7/KAtWBHj9bMKGy4U4riVvOyZ9dLi4e', 'en');
 
 -- --------------------------------------------------------
 

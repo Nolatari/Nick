@@ -18,8 +18,9 @@ use Nick\Manifest\ManifestRenderer;
 use Nick\Entity\Entity;
 use Nick\Entity\EntityInterface;
 use Nick\Entity\EntityManager;
-use Nick\Page\PageInterface;
 use Nick\Page\PageManager;
+use Nick\Person\Person;
+use Nick\Person\PersonInterface;
 use Nick\Renderer;
 use Nick\Route\Route;
 use Nick\Route\RouteManager;
@@ -29,8 +30,9 @@ use Nick\StringManipulation;
 use Nick\Theme;
 use Nick\Translation\Translation;
 use Nick\Translation\TranslationInterface;
-use Nick\Url;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Nick helper class.
@@ -118,11 +120,22 @@ class Nick {
   }
 
   /**
+   * Returns Cache object
+   *
    * @return CacheInterface
    */
   public static function Cache() {
     global $cache;
     return $cache ?? Core::getCacheClass();
+  }
+
+  /**
+   * Returns Person object
+   *
+   * @return EntityInterface|PersonInterface
+   */
+  public static function CurrentPerson() {
+    return Person::load(Person::getCurrentPerson());
   }
 
   /**
@@ -244,6 +257,15 @@ class Nick {
    */
   public static function RouteManager() {
     return new RouteManager();
+  }
+
+  /**
+   *
+   *
+   * @return SessionInterface
+   */
+  public static function Session() {
+    return new Session();
   }
 
   /**

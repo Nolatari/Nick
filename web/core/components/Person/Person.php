@@ -4,6 +4,7 @@ namespace Nick\Person;
 
 use Nick\Entity\Entity;
 use Nick\Entity\EntityInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Class Person
@@ -28,7 +29,7 @@ class Person extends Entity implements PersonInterface {
    * @param int $id
    */
   public static function changeTo(int $id) {
-    $_SESSION['uid'] = $id;
+    \Nick::Session()->set('NPersonID', $id);
   }
 
   /**
@@ -36,15 +37,16 @@ class Person extends Entity implements PersonInterface {
    */
   public static function logout() {
     session_destroy();
-    $_SESSION['uid'] = NULL;
-    unset($_SESSION['uid']);
+    \Nick::Session()->set('NPersonID', 0);
+    \Nick::Session()->remove('NPersonID');
+    unset($_SESSION['NPersonID']);
   }
 
   /**
    * @return int
    */
   public static function getCurrentPerson() {
-    return $_SESSION['uid'] ?? 0;
+    return \Nick::Session()->get('NPersonID', 0);;
   }
 
   /**
