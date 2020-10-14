@@ -132,6 +132,15 @@ class Person extends Entity implements PersonInterface {
   }
 
   /**
+   * @param string $name
+   *
+   * @return self
+   */
+  public function setName(string $name): self {
+    return $this->setValue('name', $name);
+  }
+
+  /**
    * @return string
    */
   public function getLanguage(): string {
@@ -139,17 +148,19 @@ class Person extends Entity implements PersonInterface {
   }
 
   /**
-   * {@inheritDoc}
+   * @param string $language
+   *
+   * @return self
    */
-  public function checkPassword($password): bool {
-    return password_verify($password, $this->getValue('password'));
+  public function setLanguage(string $language): self {
+    return $this->setValue('language', $language);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function checkPerson($field, $value) {
-    $this->checkPassword($value);
+  public function checkPassword($password): bool {
+    return password_verify($password, $this->getValue('password'));
   }
 
 }
