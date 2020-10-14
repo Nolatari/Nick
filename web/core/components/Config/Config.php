@@ -83,56 +83,6 @@ class Config {
   }
 
   /**
-   * @param string       $key
-   * @param array|string $value
-   *
-   * @return bool
-   */
-  public function set(string $key, $value) {
-    if (strpos($key, '.') !== FALSE) {
-      $items = explode('.', $key);
-      $key = $items[0];
-      $item = $items[1];
-    }
-
-    $config_storage = Nick::Database()
-      ->select('config')
-      ->fields(NULL, ['value'])
-      ->condition('field', $key)
-      ->execute();
-    if (!$config_storage instanceof Result) {
-      return FALSE;
-    }
-    $result = $config_storage->fetchAllAssoc();
-    if (count($result) > 0) {
-      $result = reset($result);
-      if (isset($item)) {
-        $result[$item] = $value;
-        $value = $result;
-      }
-
-      $value = serialize($value);
-      $config_query = Nick::Database()
-        ->update('config')
-        ->values(['value' => $value])
-        ->condition('field', $key)
-        ->execute();
-    } else {
-      if (isset($item)) {
-        $result = [$item => $value];
-        $value = $result;
-      }
-
-      $value = serialize($value);
-      $config_query = Nick::Database()
-        ->insert('config')
-        ->values([$key, $value])
-        ->execute();
-    }
-    return $config_query;
-  }
-
-  /**
    * @return bool
    */
   public function export() {
@@ -232,6 +182,56 @@ class Config {
     }
 
     return $config;
+  }
+
+  /**
+   * @param string       $key
+   * @param array|string $value
+   *
+   * @return bool
+   */
+  public function set(string $key, $value) {
+    if (strpos($key, '.') !== FALSE) {
+      $items = explode('.', $key);
+      $key = $items[0];
+      $item = $items[1];
+    }
+
+    $config_storage = Nick::Database()
+      ->select('config')
+      ->fields(NULL, ['value'])
+      ->condition('field', $key)
+      ->execute();
+    if (!$config_storage instanceof Result) {
+      return FALSE;
+    }
+    $result = $config_storage->fetchAllAssoc();
+    if (count($result) > 0) {
+      $result = reset($result);
+      if (isset($item)) {
+        $result[$item] = $value;
+        $value = $result;
+      }
+
+      $value = serialize($value);
+      $config_query = Nick::Database()
+        ->update('config')
+        ->values(['value' => $value])
+        ->condition('field', $key)
+        ->execute();
+    } else {
+      if (isset($item)) {
+        $result = [$item => $value];
+        $value = $result;
+      }
+
+      $value = serialize($value);
+      $config_query = Nick::Database()
+        ->insert('config')
+        ->values([$key, $value])
+        ->execute();
+    }
+    return $config_query;
   }
 
 }

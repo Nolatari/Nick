@@ -30,3 +30,9 @@ config.site:
 config.appearance:
   url: '/config/appearance'
   controller: '\Nick\Config\Pages\Appearance'
+config.import:
+  url: '/config/import'
+  controller: '\Nick\Config\Pages\Import'
+config.export:
+  url: '/config/export'
+  controller: '\Nick\Config\Pages\Export'

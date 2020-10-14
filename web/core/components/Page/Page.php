@@ -24,7 +24,7 @@ class Page implements PageInterface {
   /**
    * Dashboard constructor.
    */
-  public function __construct() {
+  public function __construct() {;
     $this->setCacheOptions(Url::getParameters());
   }
 

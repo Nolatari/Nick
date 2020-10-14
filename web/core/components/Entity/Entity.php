@@ -54,7 +54,7 @@ class Entity implements EntityInterface {
    * @return EntityInterface|bool
    *
    */
-  protected static function loadEntity(int $id, string $type, $massage = TRUE) {
+  protected static function loadEntity(int $id, string $type, $massage = FALSE) {
     if ($id === 0 && $type !== 'person') {
       return FALSE;
     }

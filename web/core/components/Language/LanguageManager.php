@@ -24,8 +24,8 @@ class LanguageManager {
    * LanguageManager constructor.
    */
   public function __construct() {
-    $this->setDefaultLanguage(\Nick::Config()->get('site.default_langcode') ?: 'en');
-    $this->setCurrentLanguage(\Nick::CurrentPerson()->getLanguage() ?: $this->defaultLangcode);
+    $this->defaultLangcode = \Nick::Config()->get('site.default_langcode') ?: 'en';
+    $this->currentLangcode = \Nick::CurrentPerson()->getLanguage() ?: $this->defaultLangcode;
   }
 
   /**
