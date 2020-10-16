@@ -53,7 +53,7 @@ class Language implements LanguageInterface {
    */
   public function getLanguage(): string {
     // Return translated string of language label.
-    return $this->translate(':language', [':language' => $this->language]);
+    return $this->translate($this->language);
   }
 
   /**
@@ -68,7 +68,7 @@ class Language implements LanguageInterface {
    */
   public function getCountry(): string {
     // Return translated string of language label.
-    return $this->translate(':country', [':country' => $this->country]);
+    return $this->translate($this->country);
   }
 
   /**
@@ -93,7 +93,7 @@ class Language implements LanguageInterface {
     $this->language = $properties['language'];
     $this->fallbackLanguage = $properties['fallback'] ?? 'en';
     $this->country = $properties['country'];
-    $this->default = Nick::Config()->get('site.default_langcode') == $langcode;
+    $this->default = Nick::Config()->get('site.default_langcode') === $langcode;
 
     return TRUE;
   }
