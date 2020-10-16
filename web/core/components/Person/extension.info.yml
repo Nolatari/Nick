@@ -2,6 +2,10 @@ name: Person
 version: 1.0a
 type: entity
 required: true
+entities:
+  person:
+    label: 'Person'
+    class: '\Nick\Person\Entity\Person'
 event_listeners:
   preSearchRender:
     class: '\Nick\Person\Events'

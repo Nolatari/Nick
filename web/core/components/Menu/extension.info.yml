@@ -2,6 +2,10 @@ name: Menu
 version: 1.0a
 type: entity
 required: true
+entities:
+  menu:
+    label: 'Menu'
+    class: '\Nick\Menu\Entity\Menu'
 event_listeners:
   pagePreRender:
     class: '\Nick\Menu\MenuRender'

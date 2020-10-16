@@ -2,6 +2,13 @@ name: Conversation
 version: 1.0a
 type: entity
 description: "Allows for conversations between people.\nThis will also (un-)install the <b>Message</b> extension."
+entities:
+  conversation:
+    label: 'Conversation'
+    class: '\Nick\Conversation\Entity\Conversation'
+  message:
+    label: 'Message'
+    class: '\Nick\Conversation\Entity\Message'
 event_listeners:
   pagePreRender:
     class: '\Nick\Conversation\Events'

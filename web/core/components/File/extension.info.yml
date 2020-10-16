@@ -2,3 +2,7 @@ name: File
 version: 1.0a
 type: entity
 required: true
+entities:
+  file:
+    label: 'File'
+    class: '\Nick\File\Entity\File'
