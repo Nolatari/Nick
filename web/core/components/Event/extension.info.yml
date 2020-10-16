@@ -1,4 +1,4 @@
 name: Event
 version: 1.0a
-type: extension
+type: component
 required: true

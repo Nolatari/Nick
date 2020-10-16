@@ -1,6 +1,10 @@
 name: Article
 version: 1.0a
 type: entity
+entities:
+  article:
+    label: 'Article'
+    class: '\Nick\Article\Entity\Article'
 event_listeners:
   preSearchRender:
     class: '\Nick\Article\Events'
