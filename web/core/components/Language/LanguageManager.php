@@ -38,12 +38,17 @@ class LanguageManager {
   }
 
   /**
-   * Sets the current language
+   * Sets the current language for the current user.
    *
    * @param string $langcode
    */
   public function setCurrentLanguage(string $langcode) {
     $this->currentLangcode = $langcode;
+    try {
+      Nick::CurrentPerson()->setValue('language', $langcode)->save();
+    } catch (Exception $exception) {
+      Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'LanguageManager');
+    }
   }
 
   /**
@@ -56,7 +61,7 @@ class LanguageManager {
   }
 
   /**
-   * Sets the default language
+   * Sets the default language for the whole website.
    *
    * @param string $langcode
    */
@@ -76,8 +81,8 @@ class LanguageManager {
    *
    * @return LanguageInterface
    */
-  public function getLanguageByLangcode(string $langcode = 'en'): LanguageInterface {
-    return new Language($langcode);
+  public function getLanguageByLangcode(string $langcode): LanguageInterface {
+    return \Nick::Language($langcode);
   }
 
   /**

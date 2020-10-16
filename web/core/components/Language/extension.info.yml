@@ -2,3 +2,7 @@ name: Language
 version: 1.0a
 type: extension
 required: true
+event_listeners:
+  pagePreRender:
+    class: '\Nick\Language\Events'
+    method: 'pagePreRender'

@@ -15,15 +15,15 @@ class Events extends EventListener {
   /**
    * {@inheritDoc}
    */
-  public function pagePreRender(?array &$parameters, string $page_id) {
+  public function pagePreRender(?array &$variables, string $page_id) {
     if ($page_id !== 'header') {
       return;
     }
 
-    $parameters['conversations'] = Nick::Renderer()
+    $variables['conversations'] = Nick::Renderer()
       ->setType('core.Conversation')
       ->setTemplate('conversation')
-      ->render($parameters);
+      ->render($variables);
   }
 
 }

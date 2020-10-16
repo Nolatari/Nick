@@ -132,7 +132,7 @@ class Nick {
   /**
    * Returns Person object
    *
-   * @return EntityInterface|PersonInterface
+   * @return PersonInterface
    */
   public static function CurrentPerson() {
     return Person::load(Person::getCurrentPerson());
