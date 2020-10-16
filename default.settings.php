@@ -14,6 +14,7 @@ $nick_settings['database'] = [
 $nick_settings['root'] = [
   'folder' => __DIR__,
   'url' => 'http://headless_cms.lndo.site',
+  'webroot' => '/web/', // With trailing slash
 ];
 
 $nick_settings['config'] = [
@@ -24,6 +25,11 @@ $nick_settings['themes'] = [
   'folder' => __DIR__ . '/web/themes',
 ];
 
-//$settings['debugging'] = TRUE;
-//$settings['twig_debugging'] = TRUE;
-//$settings['development'] = TRUE;
+$nick_settings['files'] = [
+  'public' => __DIR__ . '/files/public',
+  'private' => __DIR__ . '/files/private',
+];
+
+//$nick_settings['debugging'] = TRUE;
+//$nick_settings['twig_debugging'] = TRUE;
+//$nick_settings['development'] = TRUE;

@@ -4,7 +4,7 @@ namespace Nick;
 
 use Nick;
 use Nick\Event\Event;
-use Nick\Person\Person;
+use Nick\Person\Entity\Person;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -162,7 +162,7 @@ class Renderer {
             . Nick::Cache()->getData('NICK_VERSION_STATUS'),
         ],
         'theme' => [
-          'location' => Settings::get('root.url') . '/themes/' . Nick::Theme()->getTheme('admin'),
+          'location' => Settings::get('root.web.url') . '/themes/' . Nick::Theme()->getTheme('admin'),
         ],
       ];
 

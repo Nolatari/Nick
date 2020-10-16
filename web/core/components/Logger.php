@@ -5,7 +5,7 @@ namespace Nick;
 use Nick;
 use Nick\Database\Database;
 use Nick\Database\Query;
-use Nick\Person\Person;
+use Nick\Person\Entity\Person;
 use Nick\Translation\StringTranslation;
 
 /**

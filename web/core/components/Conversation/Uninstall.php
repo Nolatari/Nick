@@ -27,7 +27,7 @@ class Uninstall implements UninstallInterface {
    */
   public function doUninstall() {
     \Nick::EntityManager()::uninstallEntityType('conversation');
-    \Nick::ExtensionManager()::uninstallExtension('Message');
+    \Nick::EntityManager()::uninstallEntityType('message');
   }
 
 }

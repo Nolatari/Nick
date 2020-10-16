@@ -41,14 +41,14 @@ class EntityManager {
    */
   public function createEntities() {
     // Create tables for Entities.
-    $entities = [];
-    foreach (self::getAllEntityClasses() as $entity) {
-      if (!self::entityInstalled($entity)) {
-        $entities[] = self::getEntityClassFromType($entity);
+    $entities = self::getAllEntities();
+    foreach ($entities as $entity => $info) {
+      if (self::entityInstalled($entity)) {
+        unset($entities[$entity]);
       }
     }
 
-    foreach ($entities as $entity) {
+    foreach ($entities as $entity => $info) {
       if (!$entity instanceof EntityInterface) {
         continue;
       }
@@ -64,20 +64,22 @@ class EntityManager {
   /**
    * @return array
    */
-  protected static function getAllEntityClasses() {
+  protected static function getAllEntities() {
     $entities = [];
     $extensions = Nick::ExtensionManager()::getInstalledExtensions();
     foreach ($extensions as $extension) {
       $extensionInfo = YamlReader::readExtension($extension['name']);
       if (!is_array($extensionInfo)) {
-        Nick::Logger()->add($extension['name'] . ' entry exists in database but no extension.info.yml file is found.', Logger::TYPE_FAILURE, 'EntityManager');
+        Nick::Logger()->add($extension['name'] . ' entry exists in database but no extension info file is found.', Logger::TYPE_FAILURE, 'EntityManager');
         continue;
       }
-      if ($extensionInfo['type'] !== 'entity') {
+      if (!isset($extensionInfo['entities'])) {
         continue;
       }
 
-      $entities[] = strtolower($extension['name']);
+      foreach ($extensionInfo['entities'] as $entity => $info) {
+        $entities[$entity] = $info;
+      }
     }
     return $entities;
   }
@@ -120,38 +122,11 @@ class EntityManager {
    * @return mixed
    */
   public static function getEntityClassFromType($type) {
-    self::loadEntityClassFile($type);
-
-    if (class_exists('\\Nick\\' . $type . '\\' . $type)) {
-      $className = '\\Nick\\' . $type . '\\' . $type;
-    } else {
+    $entities = self::getAllEntities();
+    if (!isset($entities[$type])) {
       return FALSE;
     }
-    return new $className;
-  }
-
-  /**
-   * @param $type
-   *
-   * @return bool
-   */
-  public static function loadEntityClassFile($type) {
-    $dirs = Nick::ExtensionManager()::getCoreExtensions() + Nick::ExtensionManager()::getContribExtensions();
-
-    foreach ($dirs as $dir) {
-      if (strtolower($dir) === $type) {
-        // Include interface first
-        if (is_file(__DIR__ . '/' . $dir . '/' . $dir . 'Interface.php')) {
-          require_once __DIR__ . '/' . $dir . '/' . $dir . 'Interface.php';
-        }
-        // Include the entity's class file
-        if (is_file(__DIR__ . '/' . $dir . '/' . $dir . '.php')) {
-          require_once __DIR__ . '/' . $dir . '/' . $dir . '.php';
-        }
-        return TRUE;
-      }
-    }
-    return FALSE;
+    return new $entities[$type]['class'];
   }
 
   /**

@@ -1,7 +1,7 @@
 <style>
-    #nav-tabContent {
+    #nav-tabContent-container #nav-tabContent {
         position: sticky;
-        top: 12em;
+        top: 0px;
     }
 </style>
 <!-- Page Heading -->
@@ -21,7 +21,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="col-9" id="nav-tabContent-Container">
+        <div class="col-9" id="nav-tabContent-container">
             <div class="tab-content" id="nav-tabContent">
                 {% for extension, info in extensions %}
                     {% if action is not null and active == extension %}

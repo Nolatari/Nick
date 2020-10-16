@@ -67,20 +67,20 @@ class Extensions extends Page {
     ksort($extensions);
 
     $action = NULL;
-    if (isset($parameters[2])) {
-      $extension = $extensionManager::getExtensionInfo($parameters[2]);
-      if (isset($parameters[3])) {
-        $action = $parameters[3];
-        if ($parameters[3] == 'uninstall') {
-          if (isset($parameters[4]) && StringManipulation::contains($parameters[4], 'confirm')) { // @TODO: Change this to POST parameters.
-            $extensionManager::uninstallExtension($parameters[2]);
-            $redirect = Url::fromRoute(Nick::Route()->load('extension.view')->setValue('ext', $parameters[2]));
+    if (isset($parameters['ext'])) {
+      $extension = $extensionManager::getExtensionInfo($parameters['ext']);
+      if (isset($parameters[2])) {
+        $action = $parameters[2];
+        if ($parameters[2] == 'uninstall') {
+          if (isset($parameters[3]) && StringManipulation::contains($parameters[3], 'confirm')) { // @TODO: Change this to POST parameters.
+            $extensionManager::uninstallExtension($parameters['ext']);
+            $redirect = Url::fromRoute(Nick::Route()->load('extension.view')->setValue('ext', $parameters['ext']));
             header('Location: ' . $redirect);
           }
-        } elseif ($parameters[3] == 'install') {
-          if (isset($parameters[4]) && StringManipulation::contains($parameters[4], 'confirm')) { // @TODO: Change this to POST parameters.
-            $extensionManager::installExtension($parameters[2], $extension['type']);
-            $redirect = Url::fromRoute(Nick::Route()->load('extension.view')->setValue('ext', $parameters[2]));
+        } elseif ($parameters[2] == 'install') {
+          if (isset($parameters[3]) && StringManipulation::contains($parameters[3], 'confirm')) { // @TODO: Change this to POST parameters.
+            $extensionManager::installExtension($parameters['ext'], $extension['type']);
+            $redirect = Url::fromRoute(Nick::Route()->load('extension.view')->setValue('ext', $parameters['ext']));
             header('Location: ' . $redirect);
           }
         }
@@ -97,7 +97,7 @@ class Extensions extends Page {
           'summary' => $this->get('summary'),
         ],
         'extensions' => $extensions,
-        'active' => $parameters[2] ?? FALSE,
+        'active' => $parameters['ext'] ?? FALSE,
         'action' => $action,
       ]);
   }

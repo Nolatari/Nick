@@ -19,8 +19,8 @@ use Nick\Entity\Entity;
 use Nick\Entity\EntityInterface;
 use Nick\Entity\EntityManager;
 use Nick\Page\PageManager;
-use Nick\Person\Person;
-use Nick\Person\PersonInterface;
+use Nick\Person\Entity\Person;
+use Nick\Person\Entity\PersonInterface;
 use Nick\Renderer;
 use Nick\Route\Route;
 use Nick\Route\RouteManager;
@@ -280,7 +280,7 @@ class Nick {
     static::EntityManager()->createEntities();
     static::RouteManager()->installRoutes();
 
-    $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
+    $uri = StringManipulation::replace($request->getUri(), Settings::get('root.web.url'), '');
     $route = static::RouteManager()->routeMatch($uri);
     if (!$route) {
       $route = static::Route()->load('error')->setValue('key', '404');

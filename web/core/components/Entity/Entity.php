@@ -8,7 +8,7 @@ use Nick\Database\Database;
 use Nick\Database\Result;
 use Nick\Event\Event;
 use Nick\Logger;
-use Nick\Person\Person;
+use Nick\Person\Entity\Person;
 
 /**
  * Class Entity
@@ -196,7 +196,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
         'type' => 'int',
         'length' => 25,
         'default_value' => Person::getCurrentPerson(),
-        'class' => '\\Nick\\Person\\Person',
+        'class' => '\\Nick\\Person\\Entity\\Person',
       ],
       'status' => [
         'type' => 'tinyint',

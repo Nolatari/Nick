@@ -20,7 +20,7 @@ class Url {
    * @return string
    */
   public static function fromRoute(RouteInterface $route): string {
-    return Settings::get('root.url') . $route->getUri();
+    return Settings::get('root.web.url') . $route->getUri();
   }
 
   /**
@@ -98,7 +98,7 @@ class Url {
    * Returns the site's base url (no filename, no parameters)
    */
   public function getBaseUrl(): string {
-    return Settings::get('root.url') ?? 'http://localhost';
+    return Settings::get('root.web.url') ?? 'http://localhost';
   }
 
   /**
@@ -135,7 +135,7 @@ class Url {
    */
   public static function getParameters() {
     $request = Request::createFromGlobals();
-    $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
+    $uri = StringManipulation::replace($request->getUri(), Settings::get('root.web.url'), '');
     $parameters = ArrayManipulation::removeEmptyEntries(StringManipulation::explode($uri, '/'));
     foreach ($parameters as $key => $value) {
       if (StringManipulation::contains($value, '?')) {
@@ -173,8 +173,8 @@ class Url {
    */
   public static function getCurrentRoute() {
     $request = Request::createFromGlobals();
-    $uri = StringManipulation::replace($request->getUri(), Settings::get('root.url'), '');
-    return \Nick::RouteManager()->routeMatch(StringManipulation::replace($uri, Settings::get('root.url'), ''));
+    $uri = StringManipulation::replace($request->getUri(), Settings::get('root.web.url'), '');
+    return \Nick::RouteManager()->routeMatch(StringManipulation::replace($uri, Settings::get('root.web.url'), ''));
   }
 
 }

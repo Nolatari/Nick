@@ -3,11 +3,11 @@
 namespace Nick\DummyContent;
 
 use Nick;
-use Nick\Article\Article;
+use Nick\Article\Entity\Article;
 use Nick\ExtensionManager\ExtensionManager;
 use Nick\Entity\Entity;
 use Nick\Page\Page;
-use Nick\Person\Person;
+use Nick\Person\Entity\Person;
 use Nick\Route\RouteInterface;
 
 /**

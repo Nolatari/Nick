@@ -1,6 +1,6 @@
 name: Article
 version: 1.0a
-type: entity
+type: component
 entities:
   article:
     label: 'Article'

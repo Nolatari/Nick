@@ -1,4 +1,0 @@
-name: Message
-version: 1.0a
-type: entity
-description: "Adds messages to conversations.\nThis will also (un-)install the <b>Conversation</b> extension."
