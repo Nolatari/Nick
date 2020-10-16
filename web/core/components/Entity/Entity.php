@@ -329,11 +329,11 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
           $check_existing->condition($field, $this->getValue($field));
         }
         if (!$result_existing = $check_existing->execute()) {
-          Nick::Logger()->add('[Entity][save][2: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
+          Nick::Logger()->add('Something went wrong trying to execute Entity Save query', Logger::TYPE_FAILURE, 'Entity');
           return FALSE;
         }
         if ($result = $result_existing->fetchAllAssoc()) {
-          Nick::Logger()->add('[Entity][save]: Some field already exists.', Logger::TYPE_FAILURE, 'Entity');
+          Nick::Logger()->add('Some field already exists during Entity Save Query.', Logger::TYPE_FAILURE, 'Entity');
           return FALSE;
         }
 
@@ -355,7 +355,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
       }
     } else {
       if (!$this->addEntity($this->getType())) {
-        Nick::Logger()->add('[Entity][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
+        Nick::Logger()->add('Something went wrong trying to execute Entity Save query', Logger::TYPE_FAILURE, 'Entity');
         return FALSE;
       }
       $id = $this->database->select('INFORMATION_SCHEMA.TABLES')
@@ -363,7 +363,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
         ->condition('TABLE_SCHEMA', $this->database->getDatabaseName())
         ->condition('TABLE_NAME', 'entity');
       if (!$id_result = $id->execute()) {
-        Nick::Logger()->add('[Entity][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
+        Nick::Logger()->add('Something went wrong trying to execute Entity Save query', Logger::TYPE_FAILURE, 'Entity');
         return FALSE;
       }
       $result = $id_result->fetchAllAssoc();
