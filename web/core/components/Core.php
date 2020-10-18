@@ -14,11 +14,24 @@ use Nick\Cache\CacheInterface;
  */
 class Core {
 
+  /** @var array $disallowedEnvironmentKeys */
+  protected static array $disallowedEnvironmentKeys = [
+    'SCRIPT_FILENAME',
+    'REMOTE_PORT',
+    'SystemRoot',
+    'PATH',
+    'OPENSSL_CONF',
+    'WINDIR',
+    'PATHEXT',
+    'COMSPEC',
+  ];
+
   /**
    * Sets Nick's exception handler.
    */
   public function setSystemSpecifics() {
     @set_exception_handler([$this, 'Exception']);
+    Settings::setSettings();
   }
 
   /**
@@ -60,6 +73,35 @@ class Core {
       return new Cache;
     }
     return $cacheClass;
+  }
+
+  /**
+   * Returns environment variable
+   *
+   * @param string $key
+   *
+   * @return mixed
+   */
+  public static function getEnv(string $key, $allow_all = TRUE) {
+    if (!$allow_all) {
+      if (!in_array($key, static::$disallowedEnvironmentKeys)) {
+        return FALSE;
+      }
+    }
+    return $_ENV[$key];
+  }
+
+  /**
+   * Returns environment variable
+   *
+   * @param string $key
+   * @param mixed  $value
+   *
+   * @return mixed
+   */
+  public static function setEnv(string $key, $value) {
+    $_ENV[$key] = $value;
+    return $value;
   }
 
 }

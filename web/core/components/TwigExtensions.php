@@ -22,7 +22,8 @@ class TwigExtensions extends AbstractExtension {
     return [
       new TwigFunction('route', [$this, 'getRoute']),
       new TwigFunction('formElement', [$this, 'getFormElement']),
-      new TwigFunction('trans', [$this, 'trans']),
+      new TwigFunction('trans', [$this, 'getTranslation']),
+      new TwigFunction('getEnv', [$this, 'getEnv']),
     ];
   }
 
@@ -46,18 +47,6 @@ class TwigExtensions extends AbstractExtension {
   }
 
   /**
-   * Translates string.
-   *
-   * @param string $string
-   * @param array  $args
-   *
-   * @return mixed
-   */
-  public function trans(string $string, $args = []) {
-    return $this->translate($string, $args);
-  }
-
-  /**
    * Creates a new form element
    *
    * @param string $element
@@ -73,6 +62,29 @@ class TwigExtensions extends AbstractExtension {
     }
 
     return $formElement->render($variables);
+  }
+
+  /**
+   * Translates string.
+   *
+   * @param string $string
+   * @param array  $args
+   *
+   * @return mixed
+   */
+  public function getTranslation(string $string, $args = []) {
+    return $this->translate($string, $args);
+  }
+
+  /**
+   * Returns environment variable (if allowed!)
+   *
+   * @param string $key
+   *
+   * @return mixed
+   */
+  public function getEnv(string $key) {
+    return Core::getEnv($key, FALSE);
   }
 
 }

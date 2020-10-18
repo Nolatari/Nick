@@ -71,8 +71,9 @@ class Logger {
       'rendered' => 0,
     ];
 
-    $query = $this->database->insert('logs');
-    $query->values($data);
+    $query = $this->database
+      ->insert('logs')
+      ->values($data);
     if (!$result = $query->execute()) {
       return FALSE;
     }
@@ -128,6 +129,7 @@ class Logger {
     if ($massage) {
       $logs = $logs_result->fetchAllAssoc();
       foreach ($logs as &$log) {
+        /** @var Nick\Person\Entity\PersonInterface $owner */
         $owner = Person::load((int) $log['owner']);
         if ($owner !== FALSE) {
           $owner = $owner->getName();
