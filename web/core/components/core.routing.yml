@@ -17,6 +17,11 @@ logs:
 logs.clear:
   url: '/logs/clear'
   controller: '\Nick\Page\Pages\Logs'
+logs.view:
+  url: '/logs/view/{id}'
+  controller: '\Nick\Page\Pages\Log'
+  parameters:
+    id: 3
 
 # Logs
 cache.clear:

@@ -138,7 +138,10 @@ class RouteManager {
     if (!$fallback) {
       return FALSE;
     }
-    return $this->routeMatch($fallback);
+    if($this->routeExists($fallback)) {
+      return \Nick::Route()->load($fallback);
+    }
+    return FALSE;
   }
 
 }

@@ -8,7 +8,6 @@ use Nick\Database\Result;
 use Nick\Entity\EntityInterface;
 use Nick\Entity\EntityManager;
 use Nick\Entity\EntityRenderer;
-use Nick\Event\Event;
 
 /**
  * Class Manifest
@@ -128,7 +127,7 @@ class Manifest implements ManifestInterface {
    *
    * @param array $limit
    */
-  protected function setLimit($limit) {
+  protected function setLimit(array $limit) {
     $this->limit = $limit;
   }
 
