@@ -87,10 +87,14 @@ class ArrayManipulation {
    *
    * @param array $array
    *                 The array where empty entries should be removed
+   * @param bool  $recursive
+   *                 Default: TRUE, whether to also remove empty entries from arrays inside main array recursively
+   * @param bool  $resetKeys
+   *                 Default: FALSE, will reset keys in array after removing entries
    *
    * @return array $array
    */
-  public static function removeEmptyEntries(array $array): array {
+  public static function removeEmptyEntries(array $array, bool $recursive = TRUE, bool $resetKeys = FALSE): array {
     foreach ($array as $key => $item) {
       if (is_string($item)) {
         if ($item === '') {
@@ -100,11 +104,16 @@ class ArrayManipulation {
         if (count($item) === 0) {
           unset($array[$key]);
         } else {
-          $array[$key] = static::removeEmptyEntries($array[$key]);
+          if ($recursive) {
+            $array[$key] = static::removeEmptyEntries($array[$key], $recursive, $resetKeys);
+          }
         }
       } elseif (is_null($item)) {
         unset($array[$key]);
       }
+    }
+    if ($resetKeys) {
+      return array_merge($array);
     }
     return $array;
   }

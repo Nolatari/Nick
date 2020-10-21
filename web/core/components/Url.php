@@ -160,8 +160,10 @@ class Url {
     $parameters = static::getParameters();
     foreach ($parameters as $key => $parameter) {
       foreach ($route->getParameters() as $k => $id) {
-        if ($key === $id) {
+        if ($key === $id && $route->getValue($k) === NULL) {
           $parameters = ArrayManipulation::moveKey($parameters, $id, $k);
+        } elseif ($route->getValue($k) !== NULL) {
+          $parameters[$k] = $route->getValue($k);
         }
       }
     }
@@ -174,7 +176,7 @@ class Url {
   public static function getCurrentRoute() {
     $request = Request::createFromGlobals();
     $uri = StringManipulation::replace($request->getUri(), Settings::get('root.web.url'), '');
-    return \Nick::RouteManager()->routeMatch(StringManipulation::replace($uri, Settings::get('root.web.url'), ''));
+    return \Nick::RouteManager()->routeMatch(StringManipulation::replace($uri, Settings::get('root.web.url')));
   }
 
 }

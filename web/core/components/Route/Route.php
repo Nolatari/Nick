@@ -150,6 +150,24 @@ class Route implements RouteInterface {
   }
 
   /**
+   * @param string $key
+   *
+   * @return mixed|null
+   */
+  public function getValue(string $key) {
+    return $this->values[$key] ?? NULL;
+  }
+
+  /**
+   * Returns route values in array format.
+   *
+   * @return array
+   */
+  public function getValues(): array {
+    return $this->values;
+  }
+
+  /**
    * Returns current route
    *
    * @return string

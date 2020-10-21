@@ -82,24 +82,21 @@ class RouteManager {
   }
 
   /**
-   * @param string $url
-   *                  Url should not contain the base url, filter this out!
+   * @param string              $url
+   *                              Url should not contain the base url, filter this out!
    *
-   * @param string $fallback
-   *                  Fallback route to use when main route is not available
-   *                  Use False to not use a fallback. Default is 'dashboard'
+   * @param RouteInterface|null $fallback
+   *                              Fallback route to use when main route is not available
+   *                              Use False to not use a fallback. Default is 'dashboard'
    *
-   * @return bool|RouteInterface
+   * @return bool|null|RouteInterface
    */
-  public function routeMatch(string $url, $fallback = 'dashboard') {
+  public function routeMatch(string $url, ?RouteInterface $fallback = NULL) {
     $query = \Nick::Database()
       ->select('routes')
       ->execute();
     if (!$query instanceof Result) {
-      if (!$fallback) {
-        return FALSE;
-      }
-      return $this->routeMatch($fallback);
+      return $fallback ?? \Nick::Route()->load('error')->setValue('key', '404');
     }
 
     // Remove query parameters from URL
@@ -111,11 +108,8 @@ class RouteManager {
       if ($result['url'] === $url) {
         return \Nick::Route()->load($result['route']);
       } elseif (count($result['parameters']) > 0) {
-        $exploded_route_url = ArrayManipulation::removeEmptyEntries(StringManipulation::explode($result['url'], '/'));
-        $exploded_url = ArrayManipulation::removeEmptyEntries(StringManipulation::explode($url, '/'));
-        // Reset numerical keys of both arrays
-        $exploded_route_url = array_merge($exploded_route_url);
-        $exploded_url = array_merge($exploded_url);
+        $exploded_route_url = ArrayManipulation::removeEmptyEntries(StringManipulation::explode($result['url'], '/'), TRUE, TRUE);
+        $exploded_url = ArrayManipulation::removeEmptyEntries(StringManipulation::explode($url, '/'), TRUE, TRUE);
         $reworked_parameters = [];
         foreach ($result['parameters'] as $key => $id) {
           if (!isset($exploded_url[$id])) {
@@ -135,13 +129,7 @@ class RouteManager {
       }
     }
 
-    if (!$fallback) {
-      return FALSE;
-    }
-    if($this->routeExists($fallback)) {
-      return \Nick::Route()->load($fallback);
-    }
-    return FALSE;
+    return $fallback ?? \Nick::Route()->load('error')->setValue('key', '404');
   }
 
 }

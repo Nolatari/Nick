@@ -25,10 +25,10 @@ class Logger {
   const TYPE_FAILURE = 5;
 
   /** @var Database $database */
-  protected $database;
+  protected Database $database;
 
   /** @var Renderer $renderer */
-  protected $renderer;
+  protected Renderer $renderer;
 
   /**
    * Logger constructor.
@@ -65,7 +65,7 @@ class Logger {
       'type' => $type,
       'page' => $_SERVER['REQUEST_URI'],
       'owner' => Person::getCurrentPerson(),
-      'backtrace' => serialize(debug_backtrace()),
+      'backtrace' => serialize($trace ?? debug_backtrace()),
       'category' => $category,
       'message' => $message,
       'rendered' => 0,

@@ -32,11 +32,11 @@ class Error extends Page {
     $this->caching = [
       'key' => 'page.error',
       'context' => 'page',
-      'max-age' => -1,
+      'max-age' => 0,
     ];
 
-    if (isset($parameters[2])) {
-      $this->caching['key'] = $this->caching['key'] . '.' . $parameters[2];
+    if (isset($parameters['key'])) {
+      $this->caching['key'] = $this->caching['key'] . '.' . $parameters['key'];
     }
 
     return $this;
@@ -47,7 +47,7 @@ class Error extends Page {
    */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
-    switch ($parameters[2]) {
+    switch ($parameters['key']) {
       case '404':
         $title = 'Page not found';
         break;
@@ -58,7 +58,7 @@ class Error extends Page {
         $title = 'Moved permanently';
         break;
       default:
-        $parameters[2] = '500';
+        $parameters['key'] = '500';
         $title = 'Internal server error';
         break;
     }
@@ -66,7 +66,7 @@ class Error extends Page {
     $parameters['page']['title'] = $title;
     return Nick::Renderer()
       ->setType('error')
-      ->setTemplate($parameters[2])
+      ->setTemplate($parameters['key'])
       ->render($parameters);
   }
 
