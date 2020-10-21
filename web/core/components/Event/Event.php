@@ -5,6 +5,7 @@ namespace Nick\Event;
 use Exception;
 use Nick;
 use Nick\Logger;
+use Nick\Translation\StringTranslation;
 
 /**
  * Class Event
@@ -12,6 +13,7 @@ use Nick\Logger;
  * @package Nick\Events
  */
 class Event implements EventInterface {
+  use StringTranslation;
 
   /** @var string $eventName */
   protected string $eventName;
@@ -34,7 +36,7 @@ class Event implements EventInterface {
    * @return bool
    */
   public function fire(&$variables = [], $otherArgs = []): bool {
-    foreach ($this->getListeners() as $listener) {
+    foreach ($this->getListeners() as $extension => $listener) {
       /** @var EventListenerInterface $class */
       $class = new $listener['class']();
       if (!$class instanceof EventListenerInterface) {
@@ -44,6 +46,18 @@ class Event implements EventInterface {
       try {
         if (!is_array($otherArgs)) {
           Nick::Logger()->add('The other arguments have to be of the array format.', Logger::TYPE_ERROR, 'Event');
+          return FALSE;
+        }
+
+        if (!method_exists($class, $this->getEventName())) {
+          Nick::Logger()->add(
+            $this->translate(':eventName method does not exist in :extension listener class.',
+              [
+                ':eventName' => $this->getEventName(),
+                ':extension' => $extension,
+              ]),
+            Logger::TYPE_ERROR,
+            'Event');
           return FALSE;
         }
         // Call the listener class' method
@@ -77,7 +91,7 @@ class Event implements EventInterface {
       }
 
       // Extension listens to this event, add to array
-      $listeners[] = $extInfo['event_listeners'][$this->getEventName()];
+      $listeners[$extension['name']] = $extInfo['event_listeners'][$this->getEventName()];
     }
 
     return $listeners;

@@ -49,7 +49,7 @@ class Logger {
 
   /**
    * @param        $message
-   *    The message the log should include
+   *    The message the log should include, should be translated beforehand!
    * @param int    $type
    *    The type of this log (constants in Logger class)
    * @param string $category
