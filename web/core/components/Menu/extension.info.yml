@@ -9,4 +9,3 @@ entities:
 event_listeners:
   pagePreRender:
     class: '\Nick\Menu\MenuRender'
-    method: 'pagePreRender'

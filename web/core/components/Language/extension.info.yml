@@ -5,4 +5,3 @@ required: true
 event_listeners:
   pagePreRender:
     class: '\Nick\Language\Events'
-    method: 'pagePreRender'

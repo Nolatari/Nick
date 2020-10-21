@@ -8,4 +8,3 @@ entities:
 event_listeners:
   preSearchRender:
     class: '\Nick\Article\Events'
-    method: 'preSearchRender'

@@ -9,4 +9,3 @@ entities:
 event_listeners:
   preSearchRender:
     class: '\Nick\Person\Events'
-    method: 'preSearchRender'

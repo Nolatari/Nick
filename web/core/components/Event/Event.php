@@ -35,16 +35,21 @@ class Event implements EventInterface {
    */
   public function fire(&$variables = [], $otherArgs = []): bool {
     foreach ($this->getListeners() as $listener) {
+      /** @var EventListenerInterface $class */
       $class = new $listener['class']();
+      if (!$class instanceof EventListenerInterface) {
+        Nick::Logger()->add('EventListener must be instance of \Nick\Event\EventListenerInterface', Logger::TYPE_ERROR, 'Event');
+        return FALSE;
+      }
       try {
         if (!is_array($otherArgs)) {
-          Nick::Logger()->add('The other arguments have to be of the array format.', Logger::TYPE_ERROR, 'EventListener');
+          Nick::Logger()->add('The other arguments have to be of the array format.', Logger::TYPE_ERROR, 'Event');
           return FALSE;
         }
         // Call the listener class' method
-        $class->{$listener['method']}($variables, ...$otherArgs);
+        $class->{$this->getEventName()}($variables, ...$otherArgs);
       } catch (Exception $exception) {
-        Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'EventListener');
+        Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'Event');
         return FALSE;
       }
     }

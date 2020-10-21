@@ -12,4 +12,3 @@ entities:
 event_listeners:
   pagePreRender:
     class: '\Nick\Conversation\Events'
-    method: 'pagePreRender'
