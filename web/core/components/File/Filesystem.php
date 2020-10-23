@@ -26,18 +26,44 @@ class Filesystem {
   /**
    * Returns available filesystems.
    *
-   * @param string|null $key
+   * @param string|null $filesystem
    *
    * @return array|bool
    */
-  public function getAvailable(string $key = NULL) {
-    if (!is_null($key)) {
-      if (!isset($this->available[$key])) {
+  public function getAvailable(string $filesystem = NULL) {
+    if (!is_null($filesystem)) {
+      if (!isset($this->available[$filesystem])) {
         return FALSE;
       }
-      return $this->available[$key];
+      return $this->available[$filesystem];
     }
     return $this->available;
+  }
+
+  /**
+   * @param string $filesystem
+   *
+   * @return false|string
+   */
+  public function getFolder(string $filesystem) {
+    if (!isset($this->available[$filesystem]['folder'])) {
+      return FALSE;
+    }
+
+    return $this->available[$filesystem]['folder'];
+  }
+
+  /**
+   * @param string $filesystem
+   *
+   * @return false|string
+   */
+  public function getUrl(string $filesystem) {
+    if (!isset($this->available[$filesystem]['url'])) {
+      return FALSE;
+    }
+
+    return $this->available[$filesystem]['url'];
   }
 
   /**
