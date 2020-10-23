@@ -155,7 +155,7 @@ class Config {
    */
   public function get($key) {
     if (StringManipulation::contains($key, '.')) {
-      $items = explode('.', $key);
+      $items = StringManipulation::explode($key, '.');
       $key = $items[0];
       unset($items[0]);
     }
@@ -192,7 +192,7 @@ class Config {
    */
   public function set(string $key, $value) {
     if (strpos($key, '.') !== FALSE) {
-      $items = explode('.', $key);
+      $items = StringManipulation::explode($key, '.');
       $key = $items[0];
       $item = $items[1];
     }

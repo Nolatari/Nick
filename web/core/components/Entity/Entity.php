@@ -9,6 +9,7 @@ use Nick\Database\Result;
 use Nick\Event\Event;
 use Nick\Logger;
 use Nick\Person\Entity\Person;
+use Nick\StringManipulation;
 
 /**
  * Class Entity
@@ -105,7 +106,7 @@ class Entity implements EntityInterface {
       }
     }
 
-    $fullClassName = explode('\\', static::class);
+    $fullClassName = StringManipulation::explode(static::class, '\\');
     $className = array_pop($fullClassName);
     $database->insert('entity_storage')
       ->values([

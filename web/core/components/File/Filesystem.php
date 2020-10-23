@@ -19,7 +19,7 @@ class Filesystem {
    *
    * @param array|null $available
    */
-  public function __construct(?array$available = NULL) {
+  public function __construct(?array $available = NULL) {
     $this->setAvailable($available ?? Settings::get('files'));
   }
 

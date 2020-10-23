@@ -14,9 +14,11 @@ class Settings {
 
   /**
    * Sets setting array
+   *
+   * @param array|null $settings
    */
-  public static function setSettings() {
-    static::$settings = &$GLOBALS['nick_settings'];
+  public static function setSettings(?array &$settings = NULL) {
+    static::$settings = $settings ?? $GLOBALS['nick_settings'];
   }
 
   /**
@@ -27,7 +29,7 @@ class Settings {
    */
   public static function get(string $key) {
     if (StringManipulation::contains($key, '.')) {
-      $keys = explode('.', $key);
+      $keys = StringManipulation::explode($key, '.');
       $return = static::$settings;
       foreach ($keys as $item) {
         $return = &$return[$item];
