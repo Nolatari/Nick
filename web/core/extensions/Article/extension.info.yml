@@ -1,6 +1,6 @@
 name: Article
 version: 1.0a
-type: component
+type: extension
 entities:
   article:
     label: 'Article'

@@ -1,6 +1,6 @@
 name: Conversation
 version: 1.0a
-type: entity
+type: extension
 description: "Allows for conversations between people.\nThis installs two entities (Conversation and Message)"
 entities:
   conversation:
