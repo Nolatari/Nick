@@ -26,9 +26,17 @@ class Filesystem {
   /**
    * Returns available filesystems.
    *
-   * @return array
+   * @param string|null $key
+   *
+   * @return array|bool
    */
-  public function getAvailable() {
+  public function getAvailable(string $key = NULL) {
+    if (!is_null($key)) {
+      if (!isset($this->available[$key])) {
+        return FALSE;
+      }
+      return $this->available[$key];
+    }
     return $this->available;
   }
 
