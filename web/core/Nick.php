@@ -6,8 +6,11 @@ use Nick\Core;
 use Nick\Database\Database;
 use Nick\Entity\EntityRenderer;
 use Nick\Event\Event;
+use Nick\Event\EventInterface;
 use Nick\ExtensionManager\ExtensionManager;
+use Nick\File\Filesystem;
 use Nick\Form\Form;
+use Nick\Form\FormInterface;
 use Nick\Language\Language;
 use Nick\Language\LanguageInterface;
 use Nick\Language\LanguageManager;
@@ -23,6 +26,7 @@ use Nick\Person\Entity\Person;
 use Nick\Person\Entity\PersonInterface;
 use Nick\Renderer;
 use Nick\Route\Route;
+use Nick\Route\RouteInterface;
 use Nick\Route\RouteManager;
 use Nick\Search\Search;
 use Nick\Settings;
@@ -42,9 +46,9 @@ class Nick {
   /**
    * Returns Entity object
    *
-   * @return Entity
+   * @return EntityInterface
    */
-  public static function Entity() {
+  public static function Entity(): EntityInterface {
     return new Entity();
   }
 
@@ -53,9 +57,9 @@ class Nick {
    *
    * @param string $eventName
    *
-   * @return Event
+   * @return EventInterface
    */
-  public static function Event(string $eventName) {
+  public static function Event(string $eventName): EventInterface {
     return new Event($eventName);
   }
 
@@ -66,7 +70,7 @@ class Nick {
    *
    * @return EntityRenderer
    */
-  public static function EntityRenderer(EntityInterface $entity) {
+  public static function EntityRenderer(EntityInterface $entity): EntityRenderer {
     return new EntityRenderer($entity);
   }
 
@@ -75,9 +79,9 @@ class Nick {
    *
    * @param EntityInterface|null $matter
    *
-   * @return Form
+   * @return FormInterface
    */
-  public static function Form(EntityInterface $matter = NULL) {
+  public static function Form(EntityInterface $matter = NULL): FormInterface {
     return new Form($matter);
   }
 
@@ -88,7 +92,7 @@ class Nick {
    *
    * @return Search
    */
-  public static function Search($query) {
+  public static function Search($query): Search {
     return new Search($query);
   }
 
@@ -97,7 +101,7 @@ class Nick {
    *
    * @return Renderer
    */
-  public static function Renderer() {
+  public static function Renderer(): Renderer {
     return new Renderer();
   }
 
@@ -106,7 +110,7 @@ class Nick {
    *
    * @return TranslationInterface
    */
-  public static function Translation() {
+  public static function Translation(): TranslationInterface {
     return new Translation();
   }
 
@@ -115,7 +119,7 @@ class Nick {
    *
    * @return Config
    */
-  public static function Config() {
+  public static function Config(): Config {
     return new Config();
   }
 
@@ -124,7 +128,7 @@ class Nick {
    *
    * @return CacheInterface
    */
-  public static function Cache() {
+  public static function Cache(): CacheInterface {
     global $cache;
     return $cache ?? Core::getCacheClass();
   }
@@ -134,7 +138,7 @@ class Nick {
    *
    * @return PersonInterface
    */
-  public static function CurrentPerson() {
+  public static function CurrentPerson(): PersonInterface {
     return Person::load(Person::getCurrentPerson());
   }
 
@@ -143,8 +147,19 @@ class Nick {
    *
    * @return ExtensionManager
    */
-  public static function ExtensionManager() {
+  public static function ExtensionManager(): ExtensionManager {
     return new ExtensionManager();
+  }
+
+  /**
+   * Returns Filesystem object
+   *
+   * @param array|null $available
+   *
+   * @return Filesystem
+   */
+  public static function Filesystem(?array $available = NULL): Filesystem {
+    return new Filesystem($available);
   }
 
   /**
@@ -152,7 +167,7 @@ class Nick {
    *
    * @return LanguageManager
    */
-  public static function LanguageManager() {
+  public static function LanguageManager(): LanguageManager {
     return new LanguageManager();
   }
 
@@ -172,7 +187,7 @@ class Nick {
    *
    * @return Theme
    */
-  public static function Theme() {
+  public static function Theme(): Theme {
     return new Theme();
   }
 
@@ -184,7 +199,7 @@ class Nick {
    *
    * @return Database
    */
-  public static function Database($condition_delimiter = 'AND', $database = NULL) {
+  public static function Database($condition_delimiter = 'AND', $database = NULL): Database {
     if (!is_null($database)) {
       return self::Cache()->getData('database.' . $database . '.' . $condition_delimiter, '\\Nick\\Database\\Database', NULL, [], [$condition_delimiter, $database]);
     } else {
@@ -197,7 +212,7 @@ class Nick {
    *
    * @return EntityManager
    */
-  public static function EntityManager() {
+  public static function EntityManager(): EntityManager {
     return new EntityManager();
   }
 
@@ -206,7 +221,7 @@ class Nick {
    *
    * @return PageManager
    */
-  public static function PageManager() {
+  public static function PageManager(): PageManager {
     return new PageManager();
   }
 
@@ -228,7 +243,7 @@ class Nick {
    *
    * @return ManifestRenderer
    */
-  public static function ManifestRenderer(ManifestInterface $manifest) {
+  public static function ManifestRenderer(ManifestInterface $manifest): ManifestRenderer {
     return new ManifestRenderer($manifest);
   }
 
@@ -237,16 +252,16 @@ class Nick {
    *
    * @return Logger
    */
-  public static function Logger() {
+  public static function Logger(): Logger {
     return new Logger();
   }
 
   /**
    * Returns Route object.
    *
-   * @return Route
+   * @return RouteInterface
    */
-  public static function Route() {
+  public static function Route(): RouteInterface {
     return new Route();
   }
 
@@ -255,16 +270,16 @@ class Nick {
    *
    * @return RouteManager
    */
-  public static function RouteManager() {
+  public static function RouteManager(): RouteManager {
     return new RouteManager();
   }
 
   /**
-   *
+   * Returns Session object.
    *
    * @return SessionInterface
    */
-  public static function Session() {
+  public static function Session(): SessionInterface {
     return new Session();
   }
 
