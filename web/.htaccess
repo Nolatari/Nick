@@ -2,15 +2,18 @@
     Options -Indexes
     RewriteEngine On
 
+    RewriteCond %{HTTP_HOST} ^orgnix.be
+    RewriteRule (.*) https://www.orgnix.be/$1 [R=301,L]
+
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    RewriteCond %{REQUEST_URI} !/core/[^/]*\.php$
+    RewriteRule "^(.+/.*)\.php($|/)" - [F]
 
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-
-    RewriteCond %{REQUEST_URI} !/core/[^/]*\.php$
-    RewriteRule "^(.+/.*)\.php($|/)" - [F]
 </IfModule>
 
 <IfModule mod_headers.c>

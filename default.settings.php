@@ -26,8 +26,13 @@ $nick_settings['themes'] = [
 ];
 
 $nick_settings['files'] = [
-  'public' => __DIR__ . '/files/public',
-  'private' => __DIR__ . '/files/private',
+  'public' => [
+    'folder' => __DIR__ . '/web/files/public',
+    'url' => $nick_settings['root']['url'] . $nick_settings['root']['webroot'] . 'files/public',
+  ],
+  'private' => [
+    'folder' => __DIR__ . '/files/private'
+  ],
 ];
 
 //$nick_settings['debugging'] = TRUE;
