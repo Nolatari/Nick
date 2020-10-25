@@ -4,13 +4,14 @@ namespace Nick\Menu;
 
 use Exception;
 use Nick;
+use Nick\Event\EventListener;
 
 /**
  * Class MenuRender
  *
  * @package Nick\Menu
  */
-class MenuRender {
+class Events extends EventListener {
 
   /**
    * @param $parameters

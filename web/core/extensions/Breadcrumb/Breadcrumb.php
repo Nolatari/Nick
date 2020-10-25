@@ -21,7 +21,7 @@ class Breadcrumb extends EventListener {
     }
 
     $parameters['breadcrumb'] = Nick::Renderer()
-      ->setType('core.Breadcrumb')
+      ->setType('extension.Breadcrumb')
       ->setTemplate('breadcrumb')
       ->render($parameters);
   }

@@ -163,10 +163,19 @@ class ExtensionManager {
   /**
    * @return array
    */
-  public static function getCoreExtensions() {
+  public static function getCoreComponents() {
     return array_map(function ($item) {
       return str_replace('core/components/', '', $item);
     }, glob('core/components/*', GLOB_ONLYDIR));
+  }
+
+  /**
+   * @return array
+   */
+  public static function getCoreExtensions() {
+    return array_map(function ($item) {
+      return str_replace('core/extensions/', '', $item);
+    }, glob('core/extensions/*', GLOB_ONLYDIR));
   }
 
   /**

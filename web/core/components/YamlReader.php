@@ -22,12 +22,15 @@ class YamlReader {
    * @return array|false|mixed|string[]
    */
   public static function readExtension(string $extension, string $type = 'info') {
-    $contrib_file = __DIR__ . '/../../extensions/' . $extension . '/extension.' . $type . '.yml';
-    $core_file = __DIR__ . '/' . $extension . '/extension.' . $type . '.yml';
-    if (is_file($contrib_file)) {
-      $file = $contrib_file;
-    } elseif (is_file($core_file)) {
-      $file = $core_file;
+    $contrib_extension = __DIR__ . '/../../extensions/' . $extension . '/extension.' . $type . '.yml';
+    $core_extension = __DIR__ . '/../extensions/' . $extension . '/extension.' . $type . '.yml';
+    $core_component = __DIR__ . '/' . $extension . '/extension.' . $type . '.yml';
+    if (is_file($contrib_extension)) {
+      $file = $contrib_extension;
+    } elseif (is_file($core_extension)) {
+      $file = $core_extension;
+    } elseif (is_file($core_component)) {
+      $file = $core_component;
     } else {
       return FALSE;
     }

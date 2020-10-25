@@ -11,8 +11,8 @@
     "autoload": {
       "psr-4": {
         "Nick\\": [
-          "web/core/components/",
           "web/core/extensions/",
+          "web/core/components/",
           "web/extensions/"
         ]
       }

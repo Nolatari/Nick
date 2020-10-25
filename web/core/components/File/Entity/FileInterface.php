@@ -17,6 +17,13 @@ interface FileInterface extends EntityInterface {
   public function getFileType();
 
   /**
+   * @param string $filetype
+   *
+   * @return self
+   */
+  public function setFileType(string $filetype);
+
+  /**
    * @return array|mixed|NULL|string
    */
   public function getLocation();

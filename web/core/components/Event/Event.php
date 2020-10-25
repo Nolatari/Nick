@@ -40,7 +40,7 @@ class Event implements EventInterface {
       /** @var EventListenerInterface $class */
       $class = new $listener['class']();
       if (!$class instanceof EventListenerInterface) {
-        Nick::Logger()->add('EventListener must be instance of \Nick\Event\EventListenerInterface', Logger::TYPE_ERROR, 'Event');
+        Nick::Logger()->add('EventListener ' . $listener['class'] . ' must be instance of \Nick\Event\EventListenerInterface', Logger::TYPE_ERROR, 'Event');
         return FALSE;
       }
       try {

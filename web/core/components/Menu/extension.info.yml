@@ -8,4 +8,4 @@ entities:
     class: '\Nick\Menu\Entity\Menu'
 event_listeners:
   pagePreRender:
-    class: '\Nick\Menu\MenuRender'
+    class: '\Nick\Menu\Events'

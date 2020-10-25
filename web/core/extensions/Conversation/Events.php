@@ -21,7 +21,7 @@ class Events extends EventListener {
     }
 
     $variables['conversations'] = Nick::Renderer()
-      ->setType('core.Conversation')
+      ->setType('extension.Conversation')
       ->setTemplate('conversation')
       ->render($variables);
   }

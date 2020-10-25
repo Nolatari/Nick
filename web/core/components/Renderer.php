@@ -83,6 +83,9 @@ class Renderer {
     if (!is_dir($path)) {
       if (StringManipulation::contains($type, 'extension')) {
         $path = 'extensions/' . StringManipulation::replace($type, 'extension.', '') . '/templates';
+        if (!is_dir($path)) {
+          $path = 'core/extensions/' . StringManipulation::replace($type, 'extension.', '') . '/templates';
+        }
       } elseif (StringManipulation::contains($type, 'core')) {
         $path = 'core/components/' . StringManipulation::replace($type, 'core.', '') . '/templates';
       } else {

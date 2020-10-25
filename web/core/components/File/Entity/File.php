@@ -76,7 +76,7 @@ class File extends Entity implements FileInterface {
         'form' => [
           'type' => 'file',
           'name' => 'file_location',
-          'title' => 'Location',
+          'title' => 'File Location',
         ],
       ],
     ];
@@ -87,6 +87,13 @@ class File extends Entity implements FileInterface {
    */
   public function getFileType(): string {
     return $this->getValue('filetype');
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function setFileType(string $filetype): self {
+    return $this->setValue('filetype', $filetype);
   }
 
   /**

@@ -2,6 +2,7 @@
 
 namespace Nick\Article;
 
+use Nick\Article\Entity\Article;
 use Nick\Database\Result;
 use Nick\Event\EventListener;
 
