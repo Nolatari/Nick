@@ -312,8 +312,8 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
    */
   public function save() {
     // Fire presave event
-    $presaveEvent = \Nick::Event('EntityPreSave');
-    $presaveEvent->fire($this);
+    \Nick::Event('EntityPreSave')
+      ->fire($this);
 
     $table = 'entity__' . $this->type;
     // Check if item exists, update existing item or insert new item.
@@ -380,8 +380,8 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
     }
 
     // Fire postsave event
-    $postsaveEvent = \Nick::Event('EntityPostSave');
-    $postsaveEvent->fire($this);
+    \Nick::Event('EntityPostSave')
+      ->fire($this);
     return TRUE;
   }
 
@@ -457,8 +457,8 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
    */
   public function delete() {
     // Fire predelete event
-    $predeleteEvent = \Nick::Event('EntityPreDelete');
-    $predeleteEvent->fire($this);
+    \Nick::Event('EntityPreDelete')
+      ->fire($this);
 
     if ($this->id() == NULL) {
       Nick::Logger()->add('Cannot remove Entity without ID', Logger::TYPE_FAILURE, 'Entity');
@@ -478,8 +478,8 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
     }
 
     // Fire postdelete event
-    $postdeleteEvent = \Nick::Event('EntityPostDelete');
-    $postdeleteEvent->fire($this);
+    \Nick::Event('EntityPostDelete')
+      ->fire($this);
     return TRUE;
   }
 

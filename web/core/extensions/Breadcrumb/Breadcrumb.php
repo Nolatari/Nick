@@ -15,15 +15,15 @@ class Breadcrumb extends EventListener {
   /**
    * {@inheritDoc}
    */
-  public function pagePreRender(?array &$parameters, string $page_id) {
+  public function pagePreRender(?array &$variables, string $page_id) {
     if ($page_id !== 'header') {
       return;
     }
 
-    $parameters['breadcrumb'] = Nick::Renderer()
+    $variables['breadcrumb'] = \Nick::Renderer()
       ->setType('extension.Breadcrumb')
       ->setTemplate('breadcrumb')
-      ->render($parameters);
+      ->render($variables);
   }
 
 }

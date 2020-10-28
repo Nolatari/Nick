@@ -226,8 +226,8 @@ class Manifest implements ManifestInterface {
     $query->limit($limit['offset'], $limit['limit']);
 
     // Fire alter event
-    $event = \Nick::Event('ManifestQueryAlter');
-    $event->fire($query, [$this->getType()]);
+    \Nick::Event('ManifestQueryAlter')
+      ->fire($query, [$this->getType()]);
 
     // Execute query
     if (!$result = $query->execute()) {

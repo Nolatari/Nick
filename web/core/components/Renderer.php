@@ -145,8 +145,8 @@ class Renderer {
    * @return string|NULL
    */
   public function render(array $variables = [], $view_mode = NULL): ?string {
-    $event = \Nick::Event('preRender');
-    $event->fire($variables, [$view_mode]);
+    \Nick::Event('preRender')
+      ->fire($variables, [$view_mode]);
 
     $template = $this->getTemplate();
     if (!$template instanceof TemplateWrapper) {

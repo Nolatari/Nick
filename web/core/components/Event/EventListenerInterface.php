@@ -2,6 +2,8 @@
 
 namespace Nick\Event;
 
+use Nick\Entity\EntityInterface;
+
 /**
  * interface EventListenerInterface
  *
@@ -56,4 +58,31 @@ interface EventListenerInterface {
    */
   public function stringTranslationPresave(array &$variables, ?string $string, ?array $args, ?string $from_langcode, ?string $to_langcode);
 
+  /**
+   * EntityPreDelete event
+   *
+   * @param EntityInterface|null $entity
+   */
+  public function EntityPreDelete(?EntityInterface $entity);
+
+  /**
+   * EntityPostDelete event
+   *
+   * @param EntityInterface|null $entity
+   */
+  public function EntityPostDelete(?EntityInterface $entity);
+
+  /**
+   * EntityPreSave event
+   *
+   * @param EntityInterface|null $entity
+   */
+  public function EntityPreSave(?EntityInterface $entity);
+
+  /**
+   * EntityPostSave event
+   *
+   * @param EntityInterface|null $entity
+   */
+  public function EntityPostSave(?EntityInterface $entity);
 }

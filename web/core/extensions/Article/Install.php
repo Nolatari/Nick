@@ -4,8 +4,7 @@ namespace Nick\Article;
 
 use Nick\ExtensionManager\InstallInterface;
 use Nick\Logger;
-use Nick\Menu\Menu;
-use Nick\Page\PageManager;
+use Nick\Menu\Entity\Menu;
 
 /**
  * Class Install
@@ -16,8 +15,6 @@ class Install implements InstallInterface {
 
   /**
    * {@inheritDoc}
-   *
-   * @throws \Exception
    */
   public function condition() {
     $overview = \Nick::EntityManager()->loadByProperties(['type' => 'menu', 'route' => 'article.overview'], TRUE);

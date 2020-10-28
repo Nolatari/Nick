@@ -71,8 +71,8 @@ class Translation implements TranslationInterface {
     }
 
     // Fire an event before adding/saving the translation
-    $preSaveEvent = \Nick::Event('stringTranslationPresave');
-    $preSaveEvent->fire($translation, [$string, $from_langcode, $to_langcode]);
+    \Nick::Event('stringTranslationPresave')
+      ->fire($translation, [$string, $from_langcode, $to_langcode]);
 
     if ($this->get($string) == '') {
       $query = Nick::Database()
@@ -102,8 +102,8 @@ class Translation implements TranslationInterface {
     }
 
     // Fire an event after adding/saving the translation
-    $postSaveEvent = \Nick::Event('stringTranslationPostsave');
-    $postSaveEvent->fire($translation, [$string, $from_langcode, $to_langcode]);
+    \Nick::Event('stringTranslationPostsave')
+      ->fire($translation, [$string, $from_langcode, $to_langcode]);
 
     return TRUE;
   }

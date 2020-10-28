@@ -56,8 +56,8 @@ class Page implements PageInterface {
    * {@inheritDoc}
    */
   public function render(array &$parameters, RouteInterface $route) {
-    $event = \Nick::Event('pagePreRender');
-    $event->fire($parameters, [$this->get('id')]);
+    \Nick::Event('pagePreRender')
+      ->fire($parameters, [$this->get('id')]);
   }
 
   /**

@@ -20,7 +20,7 @@ class Events extends EventListener {
       return;
     }
 
-    $variables['conversations'] = Nick::Renderer()
+    $variables['conversations'] = \Nick::Renderer()
       ->setType('extension.Conversation')
       ->setTemplate('conversation')
       ->render($variables);
