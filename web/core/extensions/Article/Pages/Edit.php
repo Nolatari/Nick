@@ -3,8 +3,7 @@
 namespace Nick\Article\Pages;
 
 use Nick;
-use Nick\Article\Article as ArticleObject;
-use Nick\Form\Form;
+use Nick\Article\Entity\Article;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 
@@ -38,8 +37,8 @@ class Edit extends Page {
     ];
 
     if (isset($parameters['id']) && !empty($parameters['id'])) {
-      /** @var ArticleObject $article */
-      $article = ArticleObject::load($parameters['id']);
+      /** @var Article $article */
+      $article = Article::load($parameters['id']);
       $this->setParameter('title', $this->translate('Edit :title', [':title' => $article->getTitle()]));
       $this->caching['key'] = $this->caching['key'] . '.' . $article->id();
       $this->caching['max-age'] = 0;
@@ -56,8 +55,8 @@ class Edit extends Page {
 
     $content = NULL;
     if (isset($parameters['id']) && !empty($parameters['id'])) {
-      /** @var ArticleObject $article */
-      $article = ArticleObject::load($parameters['id']);
+      /** @var Article $article */
+      $article = Article::load($parameters['id']);
 
       $form = \Nick::Form($article);
       $content = $form->result();

@@ -10,7 +10,6 @@ use Nick\Event\EventInterface;
 use Nick\ExtensionManager\ExtensionManager;
 use Nick\File\Filesystem;
 use Nick\Form\Form;
-use Nick\Form\FormInterface;
 use Nick\Language\Language;
 use Nick\Language\LanguageInterface;
 use Nick\Language\LanguageManager;
@@ -79,9 +78,9 @@ class Nick {
    *
    * @param EntityInterface|null $matter
    *
-   * @return FormInterface
+   * @return Form
    */
-  public static function Form(EntityInterface $matter = NULL): FormInterface {
+  public static function Form(EntityInterface $matter = NULL): Form {
     return new Form($matter);
   }
 
