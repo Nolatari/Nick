@@ -34,6 +34,7 @@ use Nick\Theme;
 use Nick\Translation\Translation;
 use Nick\Translation\TranslationInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -313,9 +314,14 @@ class Nick {
       $page = $route->render();
       $footer = static::PageManager()->getPageRender('footer', [], $route);
 
-      echo $header ?? NULL;
-      echo $page ?? NULL;
-      echo $footer ?? NULL;
+      $response = new Response(
+        'Content',
+        Response::HTTP_OK,
+        ['content-type' => 'text/html']
+      );
+      $response->setContent($header . $page . $footer);
+      $response->prepare($request);
+      $response->send();
     } catch (Exception $exception) {
       static::Logger()->add('Could not render Nick!' . PHP_EOL . $exception->getMessage(), Logger::TYPE_FAILURE, 'Bootstrap');
     }

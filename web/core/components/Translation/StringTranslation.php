@@ -28,8 +28,8 @@ trait StringTranslation {
    *
    * @return mixed
    */
-  public function translate(string $string, array $args = []) {
-    $translation = Nick::Translation();
+  public function translate($string, array $args = []) {
+    $translation = \Nick::Translation();
 
     if (!is_string($string)) {
       Nick::Logger()->add('Only strings should be entered.');
