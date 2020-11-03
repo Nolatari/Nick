@@ -17,7 +17,8 @@ class Uninstall implements UninstallInterface {
    * @throws \Exception
    */
   public function condition() {
-    return \Nick::EntityManager()::entityInstalled('conversation') === FALSE;
+    return \Nick::EntityManager()::entityInstalled('conversation') === FALSE
+      && \Nick::EntityManager()::entityInstalled('message') === FALSE;
   }
 
   /**

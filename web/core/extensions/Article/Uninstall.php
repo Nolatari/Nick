@@ -3,7 +3,7 @@
 namespace Nick\Article;
 
 use Nick\ExtensionManager\UninstallInterface;
-use Nick\Menu\MenuInterface;
+use Nick\Menu\Entity\MenuInterface;
 
 /**
  * Class Uninstall
@@ -23,7 +23,7 @@ class Uninstall implements UninstallInterface {
         'type' => 'menu',
         'route' => 'article.overview'
       ]);
-    return $overview === FALSE;
+    return $overview === FALSE && \Nick::EntityManager()::entityInstalled('article');
   }
 
   /**
@@ -38,7 +38,9 @@ class Uninstall implements UninstallInterface {
         'type' => 'menu',
         'route' => 'article.overview'
       ]);
-    $menu->delete();
+    if ($menu !== FALSE) {
+      $menu->delete();
+    }
 
     \Nick::EntityManager()::uninstallEntityType('article');
   }
