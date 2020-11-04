@@ -52,7 +52,7 @@ class Search extends Page {
       }
 
       foreach ($items as $key => &$item) {
-        $item = Nick::EntityRenderer($item)->render();
+        $item = \Nick::EntityRenderer($item)->render([], 'search-result');
       }
     }
 

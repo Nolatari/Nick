@@ -298,28 +298,27 @@ class Nick {
     $uri = StringManipulation::replace($request->getUri(), Settings::get('root.web.url'), '');
     $route = static::RouteManager()->routeMatch($uri);
     if (!$route) {
-      $route = static::Route()->load('error')->setValue('key', '404');
+      $route = static::Route()->load('dashboard');
     }
 
     try {
-      $headerVariables = [];
-      $headerVariables['logs'] = ['render' => static::Logger()->render()];
-      $headerVariables['current_route'] = $route->getRoute();
-      $headerVariables['page'] = [
-        'title' => $route->getPageObject()->get('title') ?? NULL,
+      $variables = [];
+      $variables['logs'] = ['render' => static::Logger()->render()];
+      $variables['current_route'] = $route->getRoute();
+      $variables['page'] = [
+        'title'   => $route->getPageObject()->get('title') ?? NULL,
+        'author'  => $route->getPageObject()->get('author') ?? NULL,
         'summary' => $route->getPageObject()->get('summary') ?? NULL,
-        'author' => $route->getPageObject()->get('author') ?? NULL,
       ];
-      $header = static::PageManager()->getPageRender('header', $headerVariables, $route);
+      $header = static::PageManager()->getPageRender('header', $variables, $route);
       $page = $route->render();
-      $footer = static::PageManager()->getPageRender('footer', [], $route);
+      $footer = static::PageManager()->getPageRender('footer', $variables, $route);
 
       $response = new Response(
-        'Content',
+        $header . $page . $footer,
         Response::HTTP_OK,
         ['content-type' => 'text/html']
       );
-      $response->setContent($header . $page . $footer);
       $response->prepare($request);
       $response->send();
     } catch (Exception $exception) {
