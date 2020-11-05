@@ -33,7 +33,7 @@ class Add extends Page {
     $this->caching = [
       'key' => 'page.article.add',
       'context' => 'page',
-      'max-age' => 300,
+      'max-age' => 0,
     ];
 
     return $this;

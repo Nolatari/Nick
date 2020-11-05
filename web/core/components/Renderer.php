@@ -22,6 +22,9 @@ class Renderer {
   /** @var string|null $type */
   protected ?string $type;
 
+  /** @var string|null $path */
+  protected ?string $path;
+
   /** @var string $template */
   protected string $template;
 
@@ -92,26 +95,29 @@ class Renderer {
   /**
    * @param string|NULL $type
    *
+   * @param bool        $skip
+   *
    * @return Renderer|NULL
    */
-  public function setType($type = NULL) {
+  public function setType($type = NULL, $skip = FALSE) {
     $this->type = $type;
     $path = is_null($type) ? $this->getThemeFolder() :
-      $this->getThemeFolder() . StringManipulation::replace($type, ['core.', 'extension.'], '');
+      $this->getThemeFolder() . StringManipulation::replace($type, ['core.', 'extension.'], '') . '/';
 
-    if (!is_dir($path)) {
+    if (!is_dir($path) || $skip) {
       if (StringManipulation::contains($type, 'extension')) {
-        $path = 'extensions/' . StringManipulation::replace($type, 'extension.', '') . '/templates';
+        $path = 'extensions/' . StringManipulation::replace($type, 'extension.', '') . '/templates/';
         if (!is_dir($path)) {
-          $path = 'core/extensions/' . StringManipulation::replace($type, 'extension.', '') . '/templates';
+          $path = 'core/extensions/' . StringManipulation::replace($type, 'extension.', '') . '/templates/';
         }
       } elseif (StringManipulation::contains($type, 'core')) {
-        $path = 'core/components/' . StringManipulation::replace($type, 'core.', '') . '/templates';
+        $path = 'core/components/' . StringManipulation::replace($type, 'core.', '') . '/templates/';
       } else {
         \Nick::Logger()->add('[setType]: Folder not found.', Logger::TYPE_WARNING, 'Renderer');
         return NULL;
       }
     }
+    $this->path = $path;
 
     $this->setLoader(new FilesystemLoader($path));
     $this->setTwig(new Environment($this->getLoader(), ['debug' => Settings::get('twig_debugging')]));
@@ -137,6 +143,9 @@ class Renderer {
    * @return Renderer
    */
   public function setTemplate(string $template) {
+    if (!is_file($this->path . $template . '.html.twig')) {
+      $this->setType($this->type, TRUE);
+    }
     $this->template = $template;
     return $this;
   }

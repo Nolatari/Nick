@@ -19,7 +19,7 @@ class Add extends Page {
   public function __construct() {
     $this->setParameters([
       'id' => 'entity.add',
-      'title' => $this->translate('entity add'),
+      'title' => $this->translate('Add entity'),
       'summary' => $this->translate('Add page for an entity'),
     ]);
     parent::__construct();
@@ -32,7 +32,7 @@ class Add extends Page {
     $this->caching = [
       'key' => 'page.entity.add',
       'context' => 'page',
-      'max-age' => 300,
+      'max-age' => 0,
     ];
 
     return $this;

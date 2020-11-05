@@ -33,7 +33,7 @@ class Edit extends Page {
     $this->caching = [
       'key' => 'page.article.edit',
       'context' => 'page',
-      'max-age' => 300,
+      'max-age' => 0,
     ];
 
     if (isset($parameters['id']) && !empty($parameters['id'])) {
