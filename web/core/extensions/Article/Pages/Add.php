@@ -8,20 +8,20 @@ use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 
 /**
- * Class Edit
+ * Class Add
  *
  * @package Nick\Article\Pages
  */
-class Edit extends Page {
+class Add extends Page {
 
   /**
    * Edit constructor.
    */
   public function __construct() {
     $this->setParameters([
-      'id' => 'article.edit',
-      'title' => $this->translate('Article edit'),
-      'summary' => $this->translate('Edit page for an article'),
+      'id' => 'article.add',
+      'title' => $this->translate('Article add'),
+      'summary' => $this->translate('Add page for an article'),
     ]);
     parent::__construct();
   }
@@ -31,18 +31,10 @@ class Edit extends Page {
    */
   public function setCacheOptions($parameters = []) {
     $this->caching = [
-      'key' => 'page.article.edit',
+      'key' => 'page.article.add',
       'context' => 'page',
       'max-age' => 300,
     ];
-
-    if (isset($parameters['id']) && !empty($parameters['id'])) {
-      /** @var Article $article */
-      $article = Article::load($parameters['id']);
-      $this->setParameter('title', $this->translate('Edit :title', [':title' => $article->getTitle()]));
-      $this->caching['key'] = $this->caching['key'] . '.' . $article->id();
-      $this->caching['max-age'] = 0;
-    }
 
     return $this;
   }
@@ -53,18 +45,13 @@ class Edit extends Page {
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
 
-    $content = NULL;
-    if (isset($parameters['id']) && !empty($parameters['id'])) {
-      /** @var Article $article */
-      $article = Article::load($parameters['id']);
-
-      $form = \Nick::Form($article);
-      $content = $form->result();
-    }
+    $article = new Article();
+    $form = \Nick::Form($article);
+    $content = $form->result();
 
     return \Nick::Renderer()
       ->setType('extension.Article')
-      ->setTemplate('edit')
+      ->setTemplate('add')
       ->render([
         'page' => [
           'id' => $this->get('id'),
@@ -72,7 +59,6 @@ class Edit extends Page {
           'summary' => $this->get('summary'),
         ],
         'article' => [
-          'id' => $parameters['id'] ?? NULL,
           'content' => $content,
         ],
       ]);

@@ -3,7 +3,7 @@
 namespace Nick\Article\Pages;
 
 use Nick;
-use Nick\Article\Article as ArticleObject;
+use Nick\Article\Entity\Article;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 use Nick\StringManipulation;
@@ -39,8 +39,8 @@ class Delete extends Page {
     ];
 
     if (isset($parameters[1]) && !empty($parameters[1])) {
-      /** @var ArticleObject $article */
-      $article = ArticleObject::load($parameters[1]);
+      /** @var Article $article */
+      $article = Article::load($parameters[1]);
       $this->setParameter('title', $this->translate('Delete :title', [':title' => $article->getTitle()]));
       $this->caching['key'] = $this->caching['key'] . '.' . $article->id();
       $this->caching['max-age'] = 0;
@@ -57,8 +57,8 @@ class Delete extends Page {
 
     $content = NULL;
     if (isset($parameters['id']) && !empty($parameters['id'])) {
-      /** @var ArticleObject $article */
-      $article = ArticleObject::load($parameters['id']);
+      /** @var Article $article */
+      $article = Article::load($parameters['id']);
 
       if (isset($parameters[3]) && StringManipulation::contains($parameters[3], 'confirm')) {
         $article->delete();
@@ -71,7 +71,7 @@ class Delete extends Page {
     }
 
     return \Nick::Renderer()
-      ->setType('core.Article')
+      ->setType('extension.Article')
       ->setTemplate('delete')
       ->render([
         'page' => [

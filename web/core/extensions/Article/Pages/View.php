@@ -3,7 +3,7 @@
 namespace Nick\Article\Pages;
 
 use Nick;
-use Nick\Article\Article as ArticleObject;
+use Nick\Article\Entity\Article;
 use Nick\Entity\EntityRenderer;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
@@ -38,8 +38,8 @@ class View extends Page {
     ];
 
     if (isset($parameters['id']) && !empty($parameters['id'])) {
-      /** @var ArticleObject $article */
-      $article = ArticleObject::load($parameters['id']);
+      /** @var Article $article */
+      $article = Article::load($parameters['id']);
       $this->setParameter('title', $article->getTitle());
       $this->caching['key'] = $this->caching['key'] . '.' . $article->id();
       $this->caching['max-age'] = 1800;
@@ -57,13 +57,13 @@ class View extends Page {
     $content = NULL;
     if (isset($parameters['id']) && !empty($parameters['id'])) {
       $id = $parameters['id'];
-      /** @var ArticleObject $article */
-      $article = ArticleObject::load($id);
+      /** @var Article $article */
+      $article = Article::load($id);
       $entityRenderer = new EntityRenderer($article);
       $content = $entityRenderer->render([]);
 
       return \Nick::Renderer()
-        ->setType('core.Article')
+        ->setType('extension.Article')
         ->setTemplate('view')
         ->render([
           'page' => [

@@ -10,6 +10,12 @@ article.edit:
   parameters:
     id: 1
 
+article.add:
+  url: '/article/add'
+  controller: '\Nick\Article\Pages\Add'
+  parameters:
+    id: 1
+
 article.delete:
   url: '/article/{id}/delete'
   controller: '\Nick\Article\Pages\Delete'

@@ -58,7 +58,7 @@ class Overview extends Page {
       ->render(TRUE);
 
     return \Nick::Renderer()
-      ->setType('core.Article')
+      ->setType('extension.Article')
       ->setTemplate('overview')
       ->render([
         'page' => [

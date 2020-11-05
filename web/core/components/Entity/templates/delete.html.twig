@@ -1,0 +1,12 @@
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center flex-start mb-4">
+    <h1 class="h3 mb-0 text-gray-800">{{ page.title }}</h1>&nbsp;
+    {% if entity.id is not null %}
+        <div class="btn-group" role="group" aria-label="Conditional actions">
+            <a href="{{ route('entity.view', {'id': entity.id}) }}" class="btn btn-secondary">View</a>
+            <a href="{{ route('entity.edit', {'id': entity.id}) }}" class="btn btn-secondary">Edit</a>
+            <a href="{{ route('entity.delete', {'id': entity.id}) }}" class="btn btn-danger">Delete</a>
+        </div>
+    {% endif %}
+</div>
+{{ entity.content|raw }}

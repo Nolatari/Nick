@@ -49,15 +49,16 @@ class EntityManager {
     }
 
     foreach ($entities as $entity => $info) {
-      if (!$entity instanceof EntityInterface) {
+      $entity_object = new $info['class'];
+      if (!$entity_object instanceof EntityInterface) {
         continue;
       }
 
-      if (!method_exists($entity, 'create')) {
+      if (!method_exists($entity_object, 'create')) {
         continue;
       }
 
-      $entity::create();
+      $entity_object::create();
     }
   }
 
@@ -123,7 +124,7 @@ class EntityManager {
    */
   public static function getEntityClassFromType($type) {
     $entities = self::getAllEntities();
-    if (!isset($entities[$type])) {
+    if (!isset($entities[$type]['class'])) {
       return FALSE;
     }
     return new $entities[$type]['class'];
