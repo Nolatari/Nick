@@ -41,7 +41,7 @@ class Header extends Page {
    */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType()
       ->setTemplate('header')
       ->render($parameters ?? NULL);

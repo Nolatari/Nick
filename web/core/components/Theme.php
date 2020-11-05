@@ -21,9 +21,9 @@ class Theme {
    */
   public function getTheme($key = NULL): string {
     if ($key !== NULL) {
-      return Nick::Config()->get('theme.' . $key);
+      return \Nick::Config()->get('theme.' . $key);
     }
-    return Nick::Config()->get('theme');
+    return \Nick::Config()->get('theme');
   }
 
   /**
@@ -37,7 +37,7 @@ class Theme {
    * @return bool
    */
   public function setTheme(string $key, string $theme): bool {
-    return Nick::Config()->set('theme.' . $key, $theme);
+    return \Nick::Config()->set('theme.' . $key, $theme);
   }
 
   /**

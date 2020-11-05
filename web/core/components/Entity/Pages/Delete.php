@@ -56,7 +56,7 @@ class Delete extends Page {
    * {@inheritDoc}
    */
   public function install() {
-    $pageManager = Nick::PageManager();
+    $pageManager = \Nick::PageManager();
     return $pageManager->createPage([
       'id' => $this->get('id'),
       'controller' => '\\Nick\\Entity\\Pages\\Entity',
@@ -83,7 +83,7 @@ class Delete extends Page {
       $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(\Nick::Route()->load('entity.view')->setValue('id', $parameters[2])) . '">No, take me back</a>';
     }
 
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType('core.Entity')
       ->setTemplate('delete')
       ->render([

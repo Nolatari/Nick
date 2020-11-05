@@ -64,7 +64,7 @@ class Error extends Page {
     }
 
     $parameters['page']['title'] = $title;
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType('error')
       ->setTemplate($parameters['key'])
       ->render($parameters);

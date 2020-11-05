@@ -27,7 +27,7 @@ class Footer extends Page {
    * {@inheritDoc}
    */
   public function render(array &$parameters, RouteInterface $route) {
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType()
       ->setTemplate('footer')
       ->render();

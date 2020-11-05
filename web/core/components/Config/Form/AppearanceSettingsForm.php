@@ -21,17 +21,17 @@ class AppearanceSettingsForm extends Form implements FormInterface {
    */
   public function __construct(EntityInterface $entity = NULL) {
     parent::__construct($entity);
-    $themes = Nick::Theme()->getAvailableThemes();
+    $themes = \Nick::Theme()->getAvailableThemes();
     $options = [];
     foreach ($themes as $theme) {
-      $options[$theme] = Nick::Theme()->getThemeInfo($theme)['name'];
+      $options[$theme] = \Nick::Theme()->getThemeInfo($theme)['name'];
     }
     return $this->setId('appearance-settings')->setFields([
       'admin' => [
         'form' => [
           'type' => 'select',
           'title' => 'Admin theme',
-          'default_value' => Nick::Config()->get('theme.admin'),
+          'default_value' => \Nick::Config()->get('theme.admin'),
           'options' => $options,
         ],
       ],
@@ -39,7 +39,7 @@ class AppearanceSettingsForm extends Form implements FormInterface {
         'form' => [
           'type' => 'select',
           'title' => 'Front theme',
-          'default_value' => Nick::Config()->get('theme.front'),
+          'default_value' => \Nick::Config()->get('theme.front'),
           'options' => $options,
         ],
       ],

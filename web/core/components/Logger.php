@@ -34,8 +34,8 @@ class Logger {
    * Logger constructor.
    */
   public function __construct() {
-    $this->database = Nick::Database();
-    $this->renderer = Nick::Renderer();
+    $this->database = \Nick::Database();
+    $this->renderer = \Nick::Renderer();
   }
 
   /**
@@ -44,7 +44,7 @@ class Logger {
    * @return Query
    */
   public function clear() {
-    return Nick::Database()->query('TRUNCATE TABLE logs');
+    return \Nick::Database()->query('TRUNCATE TABLE logs');
   }
 
   /**

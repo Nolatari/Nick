@@ -58,7 +58,7 @@ class Cache implements CacheInterface {
       return $class->{$fallbackMethod}(...$methodData);
     }
 
-    $query = Nick::Database()
+    $query = \Nick::Database()
       ->select('cache_content')
       ->condition('field', $cacheOptions['key'])
       ->execute();
@@ -110,7 +110,7 @@ class Cache implements CacheInterface {
    * @return bool
    */
   protected function insertContentData(array $cacheOptions, $value = []) {
-    $query = Nick::Database()
+    $query = \Nick::Database()
       ->insert('cache_content')
       ->values([
         'field' => $cacheOptions['key'],
@@ -122,7 +122,7 @@ class Cache implements CacheInterface {
       ])
       ->execute();
     if (!$query) {
-      Nick::Logger()->add('Something went wrong trying to insert cache item [' . $cacheOptions['key'] . ']', Logger::TYPE_FAILURE, 'Cache');
+      \Nick::Logger()->add('Something went wrong trying to insert cache item [' . $cacheOptions['key'] . ']', Logger::TYPE_FAILURE, 'Cache');
       return FALSE;
     }
 
@@ -136,7 +136,7 @@ class Cache implements CacheInterface {
    * @return bool
    */
   protected function updateContentData(array $cacheOptions, $value = []) {
-    $query = Nick::Database()
+    $query = \Nick::Database()
       ->update('cache_content')
       ->condition('field', $cacheOptions['key'])
       ->values([
@@ -148,7 +148,7 @@ class Cache implements CacheInterface {
       ])
       ->execute();
     if (!$query) {
-      Nick::Logger()->add('Something went wrong trying to update cache item [' . $cacheOptions['key'] . ']', Logger::TYPE_FAILURE, 'Cache');
+      \Nick::Logger()->add('Something went wrong trying to update cache item [' . $cacheOptions['key'] . ']', Logger::TYPE_FAILURE, 'Cache');
       return FALSE;
     }
 
@@ -175,7 +175,7 @@ class Cache implements CacheInterface {
   public function clearAllCaches() {
     $this->cacheableData = [];
     $this->initializeCache();
-    return Nick::Database()->query('TRUNCATE TABLE cache_content');
+    return \Nick::Database()->query('TRUNCATE TABLE cache_content');
   }
 
   /**

@@ -62,7 +62,7 @@ class Edit extends Page {
       $content = $form->result();
     }
 
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType('core.Article')
       ->setTemplate('edit')
       ->render([

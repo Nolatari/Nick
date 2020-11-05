@@ -43,7 +43,7 @@ class Dashboard extends Page {
    */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType()
       ->setTemplate('dashboard')
       ->render([

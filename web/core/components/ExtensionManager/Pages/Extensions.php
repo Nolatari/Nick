@@ -31,7 +31,7 @@ class Extensions extends Page {
    * {@inheritDoc}
    */
   public function install() {
-    $pageManager = Nick::PageManager();
+    $pageManager = \Nick::PageManager();
     return $pageManager->createPage([
       'id' => $this->get('id'),
       'controller' => '\\Nick\\ExtensionManager\\Pages\\Extensions',
@@ -56,7 +56,7 @@ class Extensions extends Page {
    */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
-    $extensionManager = Nick::ExtensionManager();
+    $extensionManager = \Nick::ExtensionManager();
     $extensionList = array_merge($extensionManager::getContribExtensions(), $extensionManager::getCoreExtensions(), $extensionManager::getCoreComponents());
     $extensions = [];
     foreach ($extensionList as $extension) {
@@ -87,7 +87,7 @@ class Extensions extends Page {
       }
     }
 
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType()
       ->setTemplate('extensions')
       ->render([

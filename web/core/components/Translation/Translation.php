@@ -22,7 +22,7 @@ class Translation implements TranslationInterface {
    * Translation constructor.
    */
   public function __construct() {
-    $this->languageManager = Nick::LanguageManager();
+    $this->languageManager = \Nick::LanguageManager();
   }
 
   /**
@@ -30,7 +30,7 @@ class Translation implements TranslationInterface {
    */
   public function get(string $string, $args = [], $fallback = TRUE, $langcode = NULL): string {
     $langcode = $langcode ?: $this->languageManager->getCurrentLanguage()->getLangcode();
-    $query = Nick::Database()
+    $query = \Nick::Database()
       ->select('translations')
       ->fields(NULL, ['translation'])
       ->condition('string', $string)
@@ -75,7 +75,7 @@ class Translation implements TranslationInterface {
       ->fire($translation, [$string, $from_langcode, $to_langcode]);
 
     if ($this->get($string) == '') {
-      $query = Nick::Database()
+      $query = \Nick::Database()
         ->insert('translations')
         ->values([
           'id' => 0,
@@ -86,7 +86,7 @@ class Translation implements TranslationInterface {
         ])
         ->execute();
     } else {
-      $query = Nick::Database()
+      $query = \Nick::Database()
         ->update('translations')
         ->condition('string', $string)
         ->condition('from_langcode', $from_langcode)

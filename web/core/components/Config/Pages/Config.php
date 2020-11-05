@@ -43,7 +43,7 @@ class Config extends Page {
    * {@inheritDoc}
    */
   public function install() {
-    $pageManager = Nick::PageManager();
+    $pageManager = \Nick::PageManager();
     return $pageManager->createPage([
       'id' => $this->get('id'),
       'controller' => '\\Nick\\Page\\Pages\\Config',
@@ -56,15 +56,15 @@ class Config extends Page {
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
     if (isset($parameters['export']) && isset($parameters['confirm'])) {
-      Nick::Config()->export();
+      \Nick::Config()->export();
     } elseif (isset($parameters['import']) && isset($parameters['confirm'])) {
-      Nick::Config()->import();
+      \Nick::Config()->import();
     } elseif (isset($paremeters['difference'])) {
       // TODO
     } else {
       $form = $this->defaultForm()->result();
 
-      return Nick::Renderer()
+      return \Nick::Renderer()
         ->setType()
         ->setTemplate('config')
         ->render([

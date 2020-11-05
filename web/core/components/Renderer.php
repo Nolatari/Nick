@@ -3,7 +3,6 @@
 namespace Nick;
 
 use Nick;
-use Nick\Event\Event;
 use Nick\Person\Entity\Person;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -21,7 +20,7 @@ use Twig\TemplateWrapper;
 class Renderer {
 
   /** @var string|null $type */
-  protected $type;
+  protected ?string $type;
 
   /** @var string $template */
   protected string $template;
@@ -50,10 +49,30 @@ class Renderer {
   }
 
   /**
+   * @param FilesystemLoader $loader
+   *
+   * @return self
+   */
+  protected function setLoader(FilesystemLoader $loader) {
+    $this->loader = $loader;
+    return $this;
+  }
+
+  /**
    * @return Environment
    */
   protected function getTwig() {
     return $this->twig;
+  }
+
+  /**
+   * @param Environment $twig
+   *
+   * @return self
+   */
+  protected function setTwig(Environment $twig) {
+    $this->twig = $twig;
+    return $this;
   }
 
   /**
@@ -66,7 +85,7 @@ class Renderer {
   /**
    * @param string $theme_folder
    */
-  protected function setThemeFolder($theme_folder) {
+  protected function setThemeFolder(string $theme_folder) {
     $this->theme_folder = $theme_folder;
   }
 
@@ -89,13 +108,13 @@ class Renderer {
       } elseif (StringManipulation::contains($type, 'core')) {
         $path = 'core/components/' . StringManipulation::replace($type, 'core.', '') . '/templates';
       } else {
-        Nick::Logger()->add('[setType]: Folder not found.', Logger::TYPE_WARNING, 'Renderer');
+        \Nick::Logger()->add('[setType]: Folder not found.', Logger::TYPE_WARNING, 'Renderer');
         return NULL;
       }
     }
 
-    $this->loader = new FilesystemLoader($path);
-    $this->twig = new Environment($this->getLoader(), ['debug' => Settings::get('twig_debugging')]);
+    $this->setLoader(new FilesystemLoader($path));
+    $this->setTwig(new Environment($this->getLoader(), ['debug' => Settings::get('twig_debugging')]));
     if (Settings::get('twig_debugging')) {
       $this->twig->addExtension(new DebugExtension());
     }
@@ -129,11 +148,11 @@ class Renderer {
     try {
       return $this->getTwig()->load($this->template . '.html.twig');
     } catch (LoaderError $e) {
-      Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
+      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     } catch (RuntimeError $e) {
-      Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
+      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     } catch (SyntaxError $e) {
-      Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
+      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     }
     return FALSE;
   }
@@ -158,14 +177,14 @@ class Renderer {
         'settings' => $render_settings,
         'active_user' => Person::getCurrentPerson(),
         'site' => [
-          'name' => Nick::Config()->get('site.name') ?? 'Nick',
-          'version' => Nick::Cache()->getData('NICK_VERSION') . '.'
-            . Nick::Cache()->getData('NICK_VERSION_RELEASE') . '.'
-            . Nick::Cache()->getData('NICK_VERSION_RELEASE_MINOR') . ' '
-            . Nick::Cache()->getData('NICK_VERSION_STATUS'),
+          'name' => \Nick::Config()->get('site.name') ?? 'Nick',
+          'version' => \Nick::Cache()->getData('NICK_VERSION') . '.'
+            . \Nick::Cache()->getData('NICK_VERSION_RELEASE') . '.'
+            . \Nick::Cache()->getData('NICK_VERSION_RELEASE_MINOR') . ' '
+            . \Nick::Cache()->getData('NICK_VERSION_STATUS'),
         ],
         'theme' => [
-          'location' => Settings::get('root.web.url') . '/themes/' . Nick::Theme()->getTheme('admin'),
+          'location' => Settings::get('root.web.url') . '/themes/' . \Nick::Theme()->getTheme('admin'),
         ],
       ];
 

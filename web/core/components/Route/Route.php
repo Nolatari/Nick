@@ -49,7 +49,7 @@ class Route implements RouteInterface {
    * @return bool|self
    */
   public function load(string $route) {
-    $query = Nick::Database()
+    $query = \Nick::Database()
       ->select('routes')
       ->condition('route', $route)
       ->execute();
@@ -86,7 +86,7 @@ class Route implements RouteInterface {
    */
   public function render() {
     $parameters = Url::getRefactoredParameters($this);
-    return Nick::Cache()->getContentData($this->getPageObject()->getCacheOptions(), $this->controller, 'render', [$parameters, $this]);
+    return \Nick::Cache()->getContentData($this->getPageObject()->getCacheOptions(), $this->controller, 'render', [$parameters, $this]);
   }
 
   /**
@@ -236,7 +236,7 @@ class Route implements RouteInterface {
    */
   public function save() {
     if ($this->routeExists($this->route)) {
-      $query = Nick::Database()
+      $query = \Nick::Database()
         ->update('routes')
         ->condition('route', $this->route)
         ->values([
@@ -247,7 +247,7 @@ class Route implements RouteInterface {
       return $query->execute();
     }
 
-    $query = Nick::Database()
+    $query = \Nick::Database()
       ->insert('routes')
       ->values([
         'route' => $this->route,

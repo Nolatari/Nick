@@ -41,7 +41,7 @@ class PageOverview extends Page {
    * {@inheritDoc}
    */
   public function render(array &$parameters, RouteInterface $route) {
-    $manifest = Nick::Manifest('page');
+    $manifest = \Nick::Manifest('page');
     $renderer = new ManifestRenderer($manifest);
   }
 

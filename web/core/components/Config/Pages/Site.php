@@ -60,7 +60,7 @@ class Site extends Page {
     parent::render($parameters, $route);
     $form = $this->siteForm()->result();
 
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType()
       ->setTemplate('config')
       ->render([

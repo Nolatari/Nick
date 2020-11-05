@@ -32,13 +32,13 @@ trait StringTranslation {
     $translation = \Nick::Translation();
 
     if (!is_string($string)) {
-      Nick::Logger()->add('Only strings should be entered.');
+      \Nick::Logger()->add('Only strings should be entered.');
       return FALSE;
     }
 
     if ($string === $translation->get($string)) {
       if (!$translation->set($string, $string)) {
-        Nick::Logger()->add('Something went wrong trying to set a translation.', Logger::TYPE_FAILURE, 'StringTranslation');
+        \Nick::Logger()->add('Something went wrong trying to set a translation.', Logger::TYPE_FAILURE, 'StringTranslation');
       }
     }
     return $translation->get($string, $args);

@@ -46,9 +46,9 @@ class Cache extends Page {
     parent::render($parameters, $route);
     if (isset($parameters[2]) && $parameters[2] === 'clear') {
       if (Nick::Cache()->clearAllCaches() !== FALSE) {
-        Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');
+        \Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');
       } else {
-        Nick::Logger()->add('Could not clear caches.', Logger::TYPE_FAILURE, 'Cache');
+        \Nick::Logger()->add('Could not clear caches.', Logger::TYPE_FAILURE, 'Cache');
       }
 
       header('Location: ' . Url::fromRoute(Nick::Route()->load('dashboard')));

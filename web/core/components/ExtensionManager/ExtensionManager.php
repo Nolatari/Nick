@@ -19,7 +19,7 @@ class ExtensionManager {
    * @return array|bool
    */
   public static function getInstalledExtensions() {
-    $extensions_storage = Nick::Database()->select('extensions')
+    $extensions_storage = \Nick::Database()->select('extensions')
       ->fields(NULL, ['name', 'type'])
       ->condition('installed', '1');
 
@@ -44,7 +44,7 @@ class ExtensionManager {
     }
 
     // @TODO: Validate extension, skip required extensions
-    $extension_storage = Nick::Database()->update('extensions')
+    $extension_storage = \Nick::Database()->update('extensions')
       ->condition('installed', '1')
       ->condition('name', $extension)
       ->values(['installed' => 0]);
@@ -61,12 +61,12 @@ class ExtensionManager {
         try {
           $uninstallObject->doUninstall();
         } catch (\Exception $e) {
-          Nick::Logger()->add($e->getMessage());
+          \Nick::Logger()->add($e->getMessage());
         }
       }
     }
 
-    Nick::Logger()->add('Uninstalled extension ' . $extension, Nick::Logger()::TYPE_SUCCESS, 'Extensions');
+    \Nick::Logger()->add('Uninstalled extension ' . $extension, \Nick::Logger()::TYPE_SUCCESS, 'Extensions');
     return TRUE;
   }
 
@@ -80,7 +80,7 @@ class ExtensionManager {
    */
   public static function installExtension(string $extension, string $type): bool {
     // @TODO: Validate extension, check compatibility, dependencies
-    $extension_storage = Nick::Database()->select('extensions')
+    $extension_storage = \Nick::Database()->select('extensions')
       ->condition('name', $extension);
     $result = $extension_storage->execute();
     if (!$result instanceof Result) {
@@ -88,11 +88,11 @@ class ExtensionManager {
     }
 
     if ($result->getCount() == 1) {
-      $ext = Nick::Database()->update('extensions')
+      $ext = \Nick::Database()->update('extensions')
         ->values(['installed' => 1])
         ->condition('name', $extension);
     } else {
-      $ext = Nick::Database()->insert('extensions')
+      $ext = \Nick::Database()->insert('extensions')
         ->values([
           'type' => $type,
           'name' => $extension,
@@ -112,12 +112,12 @@ class ExtensionManager {
         try {
           $installObject->doInstall();
         } catch(\Exception $e) {
-          Nick::Logger()->add($e->getMessage());
+          \Nick::Logger()->add($e->getMessage());
         }
       }
     }
 
-    Nick::Logger()->add('Installed extension ' . $extension, Nick::Logger()::TYPE_SUCCESS, 'Extensions');
+    \Nick::Logger()->add('Installed extension ' . $extension, \Nick::Logger()::TYPE_SUCCESS, 'Extensions');
     return TRUE;
   }
 
@@ -138,7 +138,7 @@ class ExtensionManager {
         try {
           $installObject->doInstall();
         } catch(\Exception $e) {
-          Nick::Logger()->add($e->getMessage());
+          \Nick::Logger()->add($e->getMessage());
         }
       }
     }

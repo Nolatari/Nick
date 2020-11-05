@@ -20,7 +20,7 @@ class Login extends Page {
     $this->setParameters([
       'title' => $this->translate('Login'),
       'summary' => $this->translate('Login to :sitename.', [
-        ':sitename' => Nick::Config()->get('site.name'),
+        ':sitename' => \Nick::Config()->get('site.name'),
       ]),
     ]);
     parent::__construct();
@@ -44,7 +44,7 @@ class Login extends Page {
    */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType()
       ->setTemplate('login')
       ->render();

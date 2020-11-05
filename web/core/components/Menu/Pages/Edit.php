@@ -75,7 +75,7 @@ class Edit extends Page {
     if (!isset($parameters[2])) {
       return NULL;
     }
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType()
       ->setTemplate('menu')
       ->render([

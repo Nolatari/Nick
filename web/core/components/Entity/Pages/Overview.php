@@ -43,7 +43,7 @@ class Overview extends Page {
    * {@inheritDoc}
    */
   public function install() {
-    $pageManager = Nick::PageManager();
+    $pageManager = \Nick::PageManager();
     return $pageManager->createPage([
       'id' => $this->get('id'),
       'controller' => '\\Nick\\Entity\\Pages\\Overview',
@@ -57,7 +57,7 @@ class Overview extends Page {
     parent::render($parameters, $route);
 
     $content = NULL;
-    $manifest = Nick::Manifest($parameters[1])->fields([
+    $manifest = \Nick::Manifest($parameters[1])->fields([
       'id', 'title', 'status', 'owner'
     ]);
     $manifestRenderer = new ManifestRenderer($manifest);
@@ -68,7 +68,7 @@ class Overview extends Page {
       ->addActionLinks('entity')
       ->render(TRUE);
 
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType('core.Entity')
       ->setTemplate('overview')
       ->render([

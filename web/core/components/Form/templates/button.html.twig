@@ -1,0 +1,5 @@
+<div class="form-group row">
+    <div class="col-sm-8">
+        <button id="{{ formId }}-{{ key }}" class="btn{% if classes %}{% for class in classes %} {{ class }}{% endfor %}{% endif %}"{% for key,value in attributes %} {{ key }}="{{ value|raw }}"{% endfor %}>{{ text }}</button>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="form-group row">
+    {% if title %}
+    <label for="{{ formId }}-{{ key }}" class="col-sm-4 col-form-label">{{ title }}</label>
+    {% endif %}
+    <div class="col-sm-8">
+        <select id="{{ formId }}-{{ key }}" class="form-control{% if classes %}{% for class in classes %} {{ class }}{% endfor %}{% endif %}"{% for key,value in attributes %} {{ key }}="{{ value|raw }}"{% endfor %}>
+            {% for value,label in options %}
+            <option value="{{ value }}"{% if attributes.value is same as(value) %} selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

@@ -43,7 +43,7 @@ class Entity implements EntityInterface {
    * @param array|NULL $values
    */
   public function __construct($values = NULL) {
-    $this->database = Nick::Database();
+    $this->database = \Nick::Database();
     $this->values = $values;
   }
 
@@ -59,7 +59,7 @@ class Entity implements EntityInterface {
     if ($id === 0 && $type !== 'person') {
       return FALSE;
     }
-    return Nick::EntityManager()->loadByProperties(
+    return \Nick::EntityManager()->loadByProperties(
       ['type' => $type, 'id' => $id],
       FALSE,
       $massage
@@ -73,7 +73,7 @@ class Entity implements EntityInterface {
    * @return array|bool
    */
   protected static function loadMultipleEntities(string $type) {
-    $entityClass = Nick::EntityManager()::getEntityClassFromType($type);
+    $entityClass = \Nick::EntityManager()::getEntityClassFromType($type);
     $entityClass = new $entityClass;
     return $entityClass->loadByProperties([], TRUE);
   }
@@ -87,14 +87,14 @@ class Entity implements EntityInterface {
     if (EntityManager::entityInstalled($type)) {
       return FALSE;
     }
-    $database = Nick::Database();
+    $database = \Nick::Database();
     $results = [];
     $auto_increment = FALSE;
     $fields_storage = Entity::fields() + static::initialFields();
     $fields = '';
     foreach ($fields_storage as $field => $options) {
       if (!in_array(strtoupper($options['type']), Database::getFieldTypes())) {
-        Nick::Logger()->add('[Entity][createEntity]: Field type /' . $options['type'] . '/ does not comply to possible field types.', Logger::TYPE_WARNING, 'Entity');
+        \Nick::Logger()->add('[Entity][createEntity]: Field type /' . $options['type'] . '/ does not comply to possible field types.', Logger::TYPE_WARNING, 'Entity');
       }
       if ($fields !== '') {
         $fields .= ',' . PHP_EOL;
@@ -120,7 +120,7 @@ class Entity implements EntityInterface {
 ' . $fields . '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
     if (!$results[] = $query) {
-      Nick::Logger()->add('[Entity][createEntity]: Something went wrong while querying the create function.', Logger::TYPE_WARNING, 'Entity');
+      \Nick::Logger()->add('[Entity][createEntity]: Something went wrong while querying the create function.', Logger::TYPE_WARNING, 'Entity');
     }
 
     if ($auto_increment !== FALSE) {
@@ -321,7 +321,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
       $check = $this->database->select($table)
         ->condition('id', $this->id());
       if (!$result = $check->execute()) {
-        Nick::Logger()->add('[Entity][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
+        \Nick::Logger()->add('[Entity][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
         return FALSE;
       }
       if (!$result->fetchAllAssoc()) {
@@ -330,11 +330,11 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
           $check_existing->condition($field, $this->getValue($field));
         }
         if (!$result_existing = $check_existing->execute()) {
-          Nick::Logger()->add('Something went wrong trying to execute Entity Save query', Logger::TYPE_FAILURE, 'Entity');
+          \Nick::Logger()->add('Something went wrong trying to execute Entity Save query', Logger::TYPE_FAILURE, 'Entity');
           return FALSE;
         }
         if ($result = $result_existing->fetchAllAssoc()) {
-          Nick::Logger()->add('Some field already exists during Entity Save Query.', Logger::TYPE_FAILURE, 'Entity');
+          \Nick::Logger()->add('Some field already exists during Entity Save Query.', Logger::TYPE_FAILURE, 'Entity');
           return FALSE;
         }
 
@@ -356,7 +356,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
       }
     } else {
       if (!$this->addEntity($this->getType())) {
-        Nick::Logger()->add('Something went wrong trying to execute Entity Save query', Logger::TYPE_FAILURE, 'Entity');
+        \Nick::Logger()->add('Something went wrong trying to execute Entity Save query', Logger::TYPE_FAILURE, 'Entity');
         return FALSE;
       }
       $id = $this->database->select('INFORMATION_SCHEMA.TABLES')
@@ -364,7 +364,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
         ->condition('TABLE_SCHEMA', $this->database->getDatabaseName())
         ->condition('TABLE_NAME', 'entity');
       if (!$id_result = $id->execute()) {
-        Nick::Logger()->add('Something went wrong trying to execute Entity Save query', Logger::TYPE_FAILURE, 'Entity');
+        \Nick::Logger()->add('Something went wrong trying to execute Entity Save query', Logger::TYPE_FAILURE, 'Entity');
         return FALSE;
       }
       $result = $id_result->fetchAllAssoc();
@@ -461,19 +461,19 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
       ->fire($this);
 
     if ($this->id() == NULL) {
-      Nick::Logger()->add('Cannot remove Entity without ID', Logger::TYPE_FAILURE, 'Entity');
+      \Nick::Logger()->add('Cannot remove Entity without ID', Logger::TYPE_FAILURE, 'Entity');
       return FALSE;
     }
 
-    $query = Nick::Database()
+    $query = \Nick::Database()
       ->delete('entity__' . $this->getType())
       ->condition('id', $this->id());
-    $query_entity = Nick::Database()
+    $query_entity = \Nick::Database()
       ->delete('entity')
       ->condition('id', $this->id());
 
     if (!$query->execute() || !$query_entity->execute()) {
-      Nick::Logger()->add('Something went wrong trying to remove Entity ' . $this->getType() . ' [' . $this->id() . ']', Logger::TYPE_FAILURE, 'Entity');
+      \Nick::Logger()->add('Something went wrong trying to remove Entity ' . $this->getType() . ' [' . $this->id() . ']', Logger::TYPE_FAILURE, 'Entity');
       return FALSE;
     }
 

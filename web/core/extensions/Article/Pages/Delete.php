@@ -70,7 +70,7 @@ class Delete extends Page {
       $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(\Nick::Route()->load('article.view')->setValue('id', $parameters['id'])) . '">No, take me back</a>';
     }
 
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType('core.Article')
       ->setTemplate('delete')
       ->render([

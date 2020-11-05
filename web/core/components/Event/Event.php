@@ -40,17 +40,17 @@ class Event implements EventInterface {
       /** @var EventListenerInterface $class */
       $class = new $listener['class']();
       if (!$class instanceof EventListenerInterface) {
-        Nick::Logger()->add('EventListener ' . $listener['class'] . ' must be instance of \Nick\Event\EventListenerInterface', Logger::TYPE_ERROR, 'Event');
+        \Nick::Logger()->add('EventListener ' . $listener['class'] . ' must be instance of \Nick\Event\EventListenerInterface', Logger::TYPE_ERROR, 'Event');
         return FALSE;
       }
       try {
         if (!is_array($otherArgs)) {
-          Nick::Logger()->add('The other arguments have to be of the array format.', Logger::TYPE_ERROR, 'Event');
+          \Nick::Logger()->add('The other arguments have to be of the array format.', Logger::TYPE_ERROR, 'Event');
           return FALSE;
         }
 
         if (!method_exists($class, $this->getEventName())) {
-          Nick::Logger()->add(
+          \Nick::Logger()->add(
             $this->translate(':eventName method does not exist in :extension listener class.',
               [
                 ':eventName' => $this->getEventName(),
@@ -63,7 +63,7 @@ class Event implements EventInterface {
         // Call the listener class' method
         $class->{$this->getEventName()}($variables, ...$otherArgs);
       } catch (Exception $exception) {
-        Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'Event');
+        \Nick::Logger()->add($exception->getMessage(), Logger::TYPE_ERROR, 'Event');
         return FALSE;
       }
     }
@@ -77,11 +77,11 @@ class Event implements EventInterface {
    * @return array
    */
   protected function getListeners(): array {
-    $extensions = Nick::ExtensionManager()::getInstalledExtensions();
+    $extensions = \Nick::ExtensionManager()::getInstalledExtensions();
     $listeners = [];
     foreach ($extensions as $extension) {
       // Skip if this extension has no info file.
-      if (!$extInfo = Nick::ExtensionManager()::getExtensionInfo($extension['name'])) {
+      if (!$extInfo = \Nick::ExtensionManager()::getExtensionInfo($extension['name'])) {
         continue;
       }
 

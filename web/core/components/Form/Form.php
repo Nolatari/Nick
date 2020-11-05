@@ -70,7 +70,7 @@ class Form extends FormBuilder implements FormInterface {
       // Attempt to call the submit handler
       $handlerClass->{$handler[1]}($form, $_POST);
     } catch (Exception $e) {
-      Nick::Logger()->add($e->getMessage(), Logger::TYPE_ERROR, 'Form Submit');
+      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_ERROR, 'Form Submit');
     }
 
     // Fire FormPostSubmitAlter event

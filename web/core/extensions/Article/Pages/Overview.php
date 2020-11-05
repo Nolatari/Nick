@@ -46,7 +46,7 @@ class Overview extends Page {
     parent::render($parameters, $route);
 
     $content = NULL;
-    $manifest = Nick::Manifest('article')->fields([
+    $manifest = \Nick::Manifest('article')->fields([
       'id', 'title', 'status', 'owner'
     ]);
     $manifestRenderer = new ManifestRenderer($manifest);
@@ -57,7 +57,7 @@ class Overview extends Page {
       ->addActionLinks('article')
       ->render(TRUE);
 
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType('core.Article')
       ->setTemplate('overview')
       ->render([

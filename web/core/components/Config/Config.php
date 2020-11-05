@@ -27,7 +27,7 @@ class Config {
    */
   public function import() {
     if (!Nick::Database()->query('TRUNCATE TABLE config')) {
-      Nick::Logger()->add('Something went wrong trying to truncate the config table.', Logger::TYPE_FAILURE, 'Config');
+      \Nick::Logger()->add('Something went wrong trying to truncate the config table.', Logger::TYPE_FAILURE, 'Config');
       return FALSE;
     }
 
@@ -35,11 +35,11 @@ class Config {
     foreach ($staged as $key => $value) {
       if ($key === 'extensions') {
         foreach ($value as $extension) {
-          Nick::ExtensionManager()::installExtension($extension['name'], $extension['type']);
+          \Nick::ExtensionManager()::installExtension($extension['name'], $extension['type']);
         }
       } else {
         if (!$this->set($key, $value)) {
-          Nick::Logger()->add(
+          \Nick::Logger()->add(
             $this->translate('Something went wrong trying to import the following config: :key', [':key' => $key]), Logger::TYPE_FAILURE, 'Config');
           return FALSE;
         }
@@ -61,7 +61,7 @@ class Config {
     } else {
       $folder = Settings::get('config.folder');
       if (!is_dir($folder)) {
-        Nick::Logger()->add($this->translate('Config directory does not exist. Please create this folder, and give it write rights.'), Logger::TYPE_ERROR, 'Config');
+        \Nick::Logger()->add($this->translate('Config directory does not exist. Please create this folder, and give it write rights.'), Logger::TYPE_ERROR, 'Config');
         return $config;
       }
       $files = scandir($folder);
@@ -88,7 +88,7 @@ class Config {
   public function export() {
     $config_folder = Settings::get('config.folder');
     if (!is_dir(Settings::get('config.folder'))) {
-      Nick::Logger()->add($this->translate('Config directory does not exist. Please create this folder, and give it writing rights.'), Logger::TYPE_ERROR, 'Config');
+      \Nick::Logger()->add($this->translate('Config directory does not exist. Please create this folder, and give it writing rights.'), Logger::TYPE_ERROR, 'Config');
     }
     $di = new RecursiveDirectoryIterator($config_folder, FilesystemIterator::SKIP_DOTS);
     $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
@@ -106,7 +106,7 @@ class Config {
         fwrite($config_file, $config);
         fclose($config_file);
       } catch (Exception $e) {
-        Nick::Logger()->add(
+        \Nick::Logger()->add(
           $this->translate('Something went wrong trying to write config to file. [:field.yml]', [':field' => $item['field']]),
           Logger::TYPE_ERROR,
           'Config'
@@ -122,7 +122,7 @@ class Config {
    * @return array|bool
    */
   public function getConfig() {
-    $config_storage = Nick::Database()
+    $config_storage = \Nick::Database()
       ->select('config')
       ->execute();
     if (!$config_storage instanceof Result) {
@@ -159,7 +159,7 @@ class Config {
       $key = $items[0];
       unset($items[0]);
     }
-    $config_storage = Nick::Database()
+    $config_storage = \Nick::Database()
       ->select('config')
       ->fields(NULL, ['value'])
       ->condition('field', $key);
@@ -197,7 +197,7 @@ class Config {
       $item = $items[1];
     }
 
-    $config_storage = Nick::Database()
+    $config_storage = \Nick::Database()
       ->select('config')
       ->fields(NULL, ['value'])
       ->condition('field', $key)
@@ -214,7 +214,7 @@ class Config {
       }
 
       $value = serialize($value);
-      $config_query = Nick::Database()
+      $config_query = \Nick::Database()
         ->update('config')
         ->values(['value' => $value])
         ->condition('field', $key)
@@ -226,7 +226,7 @@ class Config {
       }
 
       $value = serialize($value);
-      $config_query = Nick::Database()
+      $config_query = \Nick::Database()
         ->insert('config')
         ->values([$key, $value])
         ->execute();

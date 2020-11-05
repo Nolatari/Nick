@@ -25,7 +25,7 @@ class Events extends EventListener {
     }
 
     // Load menu items
-    $menus = Nick::Manifest('menu')
+    $menus = \Nick::Manifest('menu')
       ->fields(['id', 'title', 'description', 'route', 'type', 'parent'])
       ->condition('status', 1)
       ->order('structure', 'ASC')
@@ -33,7 +33,7 @@ class Events extends EventListener {
 
     // Loop over menus and add to array
     foreach ($menus as $key => $menu) {
-      $children = Nick::EntityManager()->loadByProperties(['type' => 'menu', 'parent' => $menus[$key]['id']]);
+      $children = \Nick::EntityManager()->loadByProperties(['type' => 'menu', 'parent' => $menus[$key]['id']]);
       if ($children !== FALSE) {
         foreach ($children as &$child) {
           $child = $child->getValues();

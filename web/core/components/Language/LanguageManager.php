@@ -45,9 +45,9 @@ class LanguageManager {
   public function setCurrentLanguage(string $langcode) {
     $this->currentLangcode = $langcode;
     try {
-      Nick::CurrentPerson()->setValue('language', $langcode)->save();
+      \Nick::CurrentPerson()->setValue('language', $langcode)->save();
     } catch (Exception $exception) {
-      Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'LanguageManager');
+      \Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'LanguageManager');
     }
   }
 
@@ -68,9 +68,9 @@ class LanguageManager {
   public function setDefaultLanguage(string $langcode) {
     $this->defaultLangcode = $langcode;
     try {
-      Nick::Config()->set('site.default_langcode', $langcode);
+      \Nick::Config()->set('site.default_langcode', $langcode);
     } catch (Exception $exception) {
-      Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'LanguageManager');
+      \Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'LanguageManager');
     }
   }
 
@@ -91,7 +91,7 @@ class LanguageManager {
    * @return array|bool
    */
   public function getAvailableLanguages() {
-    $query = Nick::Database()
+    $query = \Nick::Database()
       ->select('languages')
       ->fields(NULL, ['langcode', 'language', 'country'])
       ->execute();

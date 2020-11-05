@@ -78,7 +78,7 @@ class Database {
    * @return Database
    */
   protected function connect() {
-    $this->database = Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
+    $this->database = \Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
       Settings::get('database.hostname'),
       Settings::get('database.username'),
       Settings::get('database.password'),

@@ -60,7 +60,7 @@ class Appearance extends Page {
     parent::render($parameters, $route);
     $form = $this->appearanceForm()->result();
 
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType()
       ->setTemplate('config')
       ->render([

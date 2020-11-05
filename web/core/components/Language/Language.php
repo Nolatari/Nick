@@ -37,7 +37,7 @@ class Language implements LanguageInterface {
    */
   public function __construct($langcode = 'en') {
     if (!$this->setValues($langcode)) {
-      Nick::Logger()->add('Something went wrong trying to set language object.', Logger::TYPE_ERROR, 'Language');
+      \Nick::Logger()->add('Something went wrong trying to set language object.', Logger::TYPE_ERROR, 'Language');
     }
   }
 
@@ -93,7 +93,7 @@ class Language implements LanguageInterface {
     $this->language = $properties['language'];
     $this->fallbackLanguage = $properties['fallback'] ?? 'en';
     $this->country = $properties['country'];
-    $this->default = Nick::Config()->get('site.default_langcode') === $langcode;
+    $this->default = \Nick::Config()->get('site.default_langcode') === $langcode;
 
     return TRUE;
   }
@@ -104,7 +104,7 @@ class Language implements LanguageInterface {
    * @return array|bool
    */
   protected function getProperties() {
-    $query = Nick::Database()
+    $query = \Nick::Database()
       ->select('languages')
       ->fields(NULL, ['language', 'country'])
       ->condition('langcode', $this->getLangcode())

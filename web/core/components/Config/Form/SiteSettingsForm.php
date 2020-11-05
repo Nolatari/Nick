@@ -21,8 +21,8 @@ class SiteSettingsForm extends Form implements FormInterface {
    */
   public function __construct(EntityInterface $entity = NULL) {
     parent::__construct($entity);
-    $siteValues = Nick::Config()->get('site');
-    $languages = Nick::LanguageManager()->getAvailableLanguages();
+    $siteValues = \Nick::Config()->get('site');
+    $languages = \Nick::LanguageManager()->getAvailableLanguages();
     $options = [];
     foreach ($languages as $langcode => $language) {
       $options[$langcode] = '[' . $langcode . '] ' . $language['language'] . ' - ' . $language['country'];
@@ -33,7 +33,7 @@ class SiteSettingsForm extends Form implements FormInterface {
         'form' => [
           'type' => 'textbox',
           'title' => $this->translate('Website name'),
-          'default_value' => $siteValues['name'],
+          'default_value' => $siteValues['name'] ?? 'Default website name',
           'attributes' => [
             'type' => 'text',
             'placeholder' => 'My Website',
@@ -44,8 +44,15 @@ class SiteSettingsForm extends Form implements FormInterface {
         'form' => [
           'type' => 'select',
           'title' => $this->translate('Default langcode'),
-          'default_value' => $siteValues['default_langcode'],
+          'default_value' => $siteValues['default_langcode'] ?? 'en',
           'options' => $options,
+        ],
+      ],
+      'log-page-not-found' => [
+        'form' => [
+          'type' => 'checkbox',
+          'title' => $this->translate('Log 404 errors'),
+          'default_value' => $siteValues['log-page-not-found'] ?? FALSE,
         ],
       ],
       'submit' => [

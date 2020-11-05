@@ -16,7 +16,7 @@ class Button implements FormElement {
    * {@inheritDoc}
    */
   public function render($variables = []) {
-    return Nick::Renderer()->setType('form_elements')
+    return \Nick::Renderer()->setType('core.Form')
       ->setTemplate('button')
       ->render($variables);
   }

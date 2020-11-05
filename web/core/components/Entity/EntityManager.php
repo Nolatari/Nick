@@ -66,11 +66,11 @@ class EntityManager {
    */
   protected static function getAllEntities() {
     $entities = [];
-    $extensions = Nick::ExtensionManager()::getInstalledExtensions();
+    $extensions = \Nick::ExtensionManager()::getInstalledExtensions();
     foreach ($extensions as $extension) {
       $extensionInfo = YamlReader::readExtension($extension['name']);
       if (!is_array($extensionInfo)) {
-        Nick::Logger()->add($extension['name'] . ' entry exists in database but no extension info file is found.', Logger::TYPE_FAILURE, 'EntityManager');
+        \Nick::Logger()->add($extension['name'] . ' entry exists in database but no extension info file is found.', Logger::TYPE_FAILURE, 'EntityManager');
         continue;
       }
       if (!isset($extensionInfo['entities'])) {
@@ -93,7 +93,7 @@ class EntityManager {
    * @return bool
    */
   public static function entityInstalled(string $type) {
-    $database = Nick::Database();
+    $database = \Nick::Database();
     $type = strtolower($type);
     $entity = $database
       ->select('entity__' . $type)
@@ -150,7 +150,7 @@ class EntityManager {
     }
     $entity->setType($type);
     unset($properties['type']);
-    $query = Nick::Database()
+    $query = \Nick::Database()
       ->select('entity__' . $type)
       ->orderBy('id', 'ASC');
     foreach ($properties as $field => $value) {
@@ -163,7 +163,7 @@ class EntityManager {
       /** @var Result $result */
       $result = $query->execute();
     } catch (Exception $exception) {
-      Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'Entity');
+      \Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'Entity');
       return FALSE;
     }
     if (!$results = $result->fetchAllAssoc('id')) {

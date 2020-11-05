@@ -44,7 +44,7 @@ class Search extends Page {
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
     $query = $_GET['q'] ?? NULL;
-    $results = Nick::Search($query)->getSearchResults();
+    $results = \Nick::Search($query)->getSearchResults();
 
     foreach ($results as $category => &$items) {
       if (!is_array($items)) {
@@ -56,7 +56,7 @@ class Search extends Page {
       }
     }
 
-    return Nick::Renderer()
+    return \Nick::Renderer()
       ->setType('core.Search')
       ->setTemplate('search')
       ->render([
