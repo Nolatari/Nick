@@ -44,7 +44,7 @@ class Cache extends Page {
    */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
-    if (isset($parameters[2]) && $parameters[2] === 'clear') {
+    if (isset($parameters[1]) && $parameters[1] === 'clear') {
       if (Nick::Cache()->clearAllCaches() !== FALSE) {
         \Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');
       } else {
