@@ -4,6 +4,9 @@ use Nick\Cache\CacheInterface;
 use Nick\Config\Config;
 use Nick\Core;
 use Nick\Database\Database;
+use Nick\Entity\Entity;
+use Nick\Entity\EntityInterface;
+use Nick\Entity\EntityManager;
 use Nick\Entity\EntityRenderer;
 use Nick\Event\Event;
 use Nick\Event\EventInterface;
@@ -17,9 +20,6 @@ use Nick\Logger;
 use Nick\Manifest\Manifest;
 use Nick\Manifest\ManifestInterface;
 use Nick\Manifest\ManifestRenderer;
-use Nick\Entity\Entity;
-use Nick\Entity\EntityInterface;
-use Nick\Entity\EntityManager;
 use Nick\Page\PageManager;
 use Nick\Person\Entity\Person;
 use Nick\Person\Entity\PersonInterface;
@@ -124,31 +124,12 @@ class Nick {
   }
 
   /**
-   * Returns Cache object
-   *
-   * @return CacheInterface
-   */
-  public static function Cache(): CacheInterface {
-    global $cache;
-    return $cache ?? Core::getCacheClass();
-  }
-
-  /**
    * Returns Person object
    *
    * @return PersonInterface
    */
   public static function CurrentPerson(): PersonInterface {
     return Person::load(Person::getCurrentPerson());
-  }
-
-  /**
-   * Returns ExtensionManager object
-   *
-   * @return ExtensionManager
-   */
-  public static function ExtensionManager(): ExtensionManager {
-    return new ExtensionManager();
   }
 
   /**
@@ -208,21 +189,13 @@ class Nick {
   }
 
   /**
-   * Returns EntityManager object.
+   * Returns Cache object
    *
-   * @return EntityManager
+   * @return CacheInterface
    */
-  public static function EntityManager(): EntityManager {
-    return new EntityManager();
-  }
-
-  /**
-   * Returns PageManager object
-   *
-   * @return PageManager
-   */
-  public static function PageManager(): PageManager {
-    return new PageManager();
+  public static function Cache(): CacheInterface {
+    global $cache;
+    return $cache ?? Core::getCacheClass();
   }
 
   /**
@@ -248,21 +221,30 @@ class Nick {
   }
 
   /**
-   * Returns Logger object
+   * Returns Session object.
    *
-   * @return Logger
+   * @return SessionInterface
    */
-  public static function Logger(): Logger {
-    return new Logger();
+  public static function Session(): SessionInterface {
+    return new Session();
   }
 
   /**
-   * Returns Route object.
+   * Returns ExtensionManager object
    *
-   * @return RouteInterface
+   * @return ExtensionManager
    */
-  public static function Route(): RouteInterface {
-    return new Route();
+  public static function ExtensionManager(): ExtensionManager {
+    return new ExtensionManager();
+  }
+
+  /**
+   * Returns EntityManager object.
+   *
+   * @return EntityManager
+   */
+  public static function EntityManager(): EntityManager {
+    return new EntityManager();
   }
 
   /**
@@ -275,12 +257,30 @@ class Nick {
   }
 
   /**
-   * Returns Session object.
+   * Returns Route object.
    *
-   * @return SessionInterface
+   * @return RouteInterface
    */
-  public static function Session(): SessionInterface {
-    return new Session();
+  public static function Route(): RouteInterface {
+    return new Route();
+  }
+
+  /**
+   * Returns Logger object
+   *
+   * @return Logger
+   */
+  public static function Logger(): Logger {
+    return new Logger();
+  }
+
+  /**
+   * Returns PageManager object
+   *
+   * @return PageManager
+   */
+  public static function PageManager(): PageManager {
+    return new PageManager();
   }
 
   /**
@@ -306,8 +306,8 @@ class Nick {
       $variables['logs'] = ['render' => static::Logger()->render()];
       $variables['current_route'] = $route->getRoute();
       $variables['page'] = [
-        'title'   => $route->getPageObject()->get('title') ?? NULL,
-        'author'  => $route->getPageObject()->get('author') ?? NULL,
+        'title' => $route->getPageObject()->get('title') ?? NULL,
+        'author' => $route->getPageObject()->get('author') ?? NULL,
         'summary' => $route->getPageObject()->get('summary') ?? NULL,
       ];
       $header = static::PageManager()->getPageRender('header', $variables, $route);

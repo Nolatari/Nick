@@ -47,7 +47,7 @@ class Logs extends Page {
 
     if ($route->getRoute() === 'logs.clear') {
       \Nick::Logger()->clear();
-      header('Location: ' . Url::fromRoute(Nick::Route()->load('logs')));
+      header('Location: ' . Url::fromRoute(\Nick::Route()->load('logs')));
     }
 
     $logs = \Nick::Logger()->getLogs(TRUE);

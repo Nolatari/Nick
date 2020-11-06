@@ -5,7 +5,6 @@ namespace Nick\Form;
 use Exception;
 use Nick;
 use Nick\Entity\EntityInterface;
-use Nick\Event\Event;
 use Nick\Logger;
 use Nick\Translation\StringTranslation;
 
@@ -57,7 +56,7 @@ class Form extends FormBuilder implements FormInterface {
    */
   public function submit(array &$form, string $formId): bool {
     // Fire FormPreSubmitAlter event
-    \Nick::Event('FormPreSubmitAlter')
+    Nick::Event('FormPreSubmitAlter')
       ->fire($form, [$formId]);
 
     // Fire submit handler
@@ -70,11 +69,11 @@ class Form extends FormBuilder implements FormInterface {
       // Attempt to call the submit handler
       $handlerClass->{$handler[1]}($form, $_POST);
     } catch (Exception $e) {
-      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_ERROR, 'Form Submit');
+      Nick::Logger()->add($e->getMessage(), Logger::TYPE_ERROR, 'Form Submit');
     }
 
     // Fire FormPostSubmitAlter event
-    \Nick::Event('FormPostSubmitAlter')
+    Nick::Event('FormPostSubmitAlter')
       ->fire($form, [$formId]);
     return TRUE;
   }

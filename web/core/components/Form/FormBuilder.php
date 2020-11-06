@@ -26,7 +26,7 @@ class FormBuilder {
     $build = $this->build();
     \Nick::Event('FormAlter')
       ->fire($build, ['form-' . $this->getId()]);
-    $render = '<form method="post" action="' . Url::fromRoute(Nick::Route()->load('form.submit')) . '" name="form-' . $this->getId() . '">';
+    $render = '<form method="post" action="' . Url::fromRoute(\Nick::Route()->load('form.submit')) . '" name="form-' . $this->getId() . '">';
     $formIdElement = new Hidden();
     $render .= $formIdElement->render([
       'formId' => $this->getId(),

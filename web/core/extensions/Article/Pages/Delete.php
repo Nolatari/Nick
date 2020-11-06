@@ -62,7 +62,7 @@ class Delete extends Page {
 
       if (isset($parameters[3]) && StringManipulation::contains($parameters[3], 'confirm')) {
         $article->delete();
-        header('Location: ' . Url::fromRoute(Nick::Route()->load('article.overview')));
+        header('Location: ' . Url::fromRoute(\Nick::Route()->load('article.overview')));
       }
 
       $content = 'Are you sure you wish to delete this ' . $article->getTitle() . '? <br />';

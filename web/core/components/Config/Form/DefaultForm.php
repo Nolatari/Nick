@@ -29,7 +29,7 @@ class DefaultForm extends Form implements FormInterface {
           'type' => 'button',
           'text' => 'Import',
           'attributes' => [
-            'onclick' => 'window.location.href = \'' . Url::fromRoute(Nick::Route()->load('config.import')) . '\';',
+            'onclick' => 'window.location.href = \'' . Url::fromRoute(\Nick::Route()->load('config.import')) . '\';',
           ],
           'classes' => ['btn-success'],
         ],
@@ -39,7 +39,7 @@ class DefaultForm extends Form implements FormInterface {
           'type' => 'button',
           'text' => 'Export',
           'attributes' => [
-            'onclick' => 'window.location.href = \'' . Url::fromRoute(Nick::Route()->load('config.export')) . '\';',
+            'onclick' => 'window.location.href = \'' . Url::fromRoute(\Nick::Route()->load('config.export')) . '\';',
           ],
           'classes' => ['btn-success'],
         ],
@@ -49,7 +49,7 @@ class DefaultForm extends Form implements FormInterface {
           'type' => 'button',
           'text' => 'Difference',
           'attributes' => [
-            'onclick' => 'window.location.href = \'' . Url::fromRoute(Nick::Route()->load('config.import')) . '\';',
+            'onclick' => 'window.location.href = \'' . Url::fromRoute(\Nick::Route()->load('config.import')) . '\';',
           ],
           'classes' => ['btn-success'],
         ],

@@ -131,7 +131,7 @@ class Config {
       $returnArray = $config_storage->fetchAllAssoc();
     }
 
-    $returnArray[] = ['field' => 'extensions', 'value' => serialize(Nick::ExtensionManager()::getInstalledExtensions())];
+    $returnArray[] = ['field' => 'extensions', 'value' => serialize(\Nick::ExtensionManager()::getInstalledExtensions())];
 
     return $returnArray;
   }
