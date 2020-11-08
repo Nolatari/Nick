@@ -7,6 +7,7 @@ use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 use Nick\StringManipulation;
 use Nick\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class Dashboard
@@ -74,14 +75,14 @@ class Extensions extends Page {
         if ($parameters[2] == 'uninstall') {
           if (isset($parameters[3]) && StringManipulation::contains($parameters[3], 'confirm')) { // @TODO: Change this to POST parameters.
             $extensionManager::uninstallExtension($parameters['ext']);
-            $redirect = Url::fromRoute(\Nick::Route()->load('extension.view')->setValue('ext', $parameters['ext']));
-            header('Location: ' . $redirect);
+            $response = new RedirectResponse(Url::fromRoute(\Nick::Route()->load('extension.view')->setValue('ext', $parameters['ext'])));
+            $response->send();
           }
         } elseif ($parameters[2] == 'install') {
           if (isset($parameters[3]) && StringManipulation::contains($parameters[3], 'confirm')) { // @TODO: Change this to POST parameters.
             $extensionManager::installExtension($parameters['ext'], $extension['type']);
-            $redirect = Url::fromRoute(\Nick::Route()->load('extension.view')->setValue('ext', $parameters['ext']));
-            header('Location: ' . $redirect);
+            $response = new RedirectResponse(Url::fromRoute(\Nick::Route()->load('extension.view')->setValue('ext', $parameters['ext'])));
+            $response->send();
           }
         }
       }

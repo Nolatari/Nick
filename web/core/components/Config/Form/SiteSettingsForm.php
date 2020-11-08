@@ -22,6 +22,7 @@ class SiteSettingsForm extends Form implements FormInterface {
   public function __construct(EntityInterface $entity = NULL) {
     parent::__construct($entity);
     $siteValues = \Nick::Config()->get('site');
+    d($siteValues);
     $languages = \Nick::LanguageManager()->getAvailableLanguages();
     $options = [];
     foreach ($languages as $langcode => $language) {
@@ -52,7 +53,7 @@ class SiteSettingsForm extends Form implements FormInterface {
         'form' => [
           'type' => 'checkbox',
           'title' => $this->translate('Log 404 errors'),
-          'default_value' => $siteValues['log-page-not-found'] ?? FALSE,
+          'default_value' => $siteValues['log_404'] ?? FALSE,
         ],
       ],
       'submit' => [

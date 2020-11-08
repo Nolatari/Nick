@@ -8,6 +8,7 @@ use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 use Nick\StringManipulation;
 use Nick\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class Delete
@@ -62,7 +63,8 @@ class Delete extends Page {
 
       if (isset($parameters[3]) && StringManipulation::contains($parameters[3], 'confirm')) {
         $article->delete();
-        header('Location: ' . Url::fromRoute(\Nick::Route()->load('article.overview')));
+        $response = new RedirectResponse(Url::fromRoute(\Nick::Route()->load('article.overview')));
+        $response->send();
       }
 
       $content = 'Are you sure you wish to delete this ' . $article->getTitle() . '? <br />';
