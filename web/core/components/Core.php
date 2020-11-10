@@ -79,12 +79,13 @@ class Core {
    * Returns environment variable
    *
    * @param string $key
+   * @param bool $allow_all
    *
    * @return mixed
    */
   public static function getEnv(string $key, $allow_all = TRUE) {
     if (!$allow_all) {
-      if (!in_array($key, static::$disallowedEnvironmentKeys)) {
+      if (in_array($key, static::$disallowedEnvironmentKeys)) {
         return FALSE;
       }
     }
