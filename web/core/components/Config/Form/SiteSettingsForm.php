@@ -22,7 +22,6 @@ class SiteSettingsForm extends Form implements FormInterface {
   public function __construct(EntityInterface $entity = NULL) {
     parent::__construct($entity);
     $siteValues = \Nick::Config()->get('site');
-    d($siteValues);
     $languages = \Nick::LanguageManager()->getAvailableLanguages();
     $options = [];
     foreach ($languages as $langcode => $language) {

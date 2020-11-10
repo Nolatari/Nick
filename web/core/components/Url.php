@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Url {
 
+  /** @var string $url */
+  protected string $url;
+
   /**
    * Returns URL based on route, there is no validation in this because routes are not set in stone.
    * Any validation requirements will have to be done while calling the functionality.
@@ -87,7 +90,11 @@ class Url {
    * @return string
    */
   public function getUrl(): string {
-    return $this->getBaseUrl() . $_SERVER['REQUEST_URI'];
+    return $this->getBaseUrl() . StringManipulation::replace(
+        $_SERVER['REQUEST_URI'],
+        Settings::get('root.web.root'),
+        ''
+      );
   }
 
   /**
@@ -96,7 +103,11 @@ class Url {
    * @return string
    */
   public function getUrlWithoutParameters(): string {
-    return $this->getBaseUrl() . $_SERVER['SCRIPT_NAME'];
+    return $this->getBaseUrl() . StringManipulation::replace(
+        $_SERVER['SCRIPT_NAME'],
+        Settings::get('root.web.root'),
+        ''
+      );
   }
 
   /**
