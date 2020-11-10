@@ -456,14 +456,14 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
    * {@inheritDoc}
    */
   public function delete() {
-    // Fire predelete event
-    \Nick::Event('EntityPreDelete')
-      ->fire($this);
-
     if ($this->id() == NULL) {
       \Nick::Logger()->add('Cannot remove Entity without ID', Logger::TYPE_FAILURE, 'Entity');
       return FALSE;
     }
+
+    // Fire predelete event
+    \Nick::Event('EntityPreDelete')
+      ->fire($this);
 
     $query = \Nick::Database()
       ->delete('entity__' . $this->getType())
