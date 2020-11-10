@@ -41,7 +41,7 @@ class Renderer {
    * Renderer constructor.
    */
   public function __construct() {
-    $this->setThemeFolder(Nick::Theme()->getThemeFolder());
+    $this->setThemeFolder(\Nick::Theme()->getThemeFolder());
   }
 
   /**

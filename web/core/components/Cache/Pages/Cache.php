@@ -7,6 +7,9 @@ use Nick\Logger;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 use Nick\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Cache
@@ -45,13 +48,14 @@ class Cache extends Page {
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
     if (isset($parameters[1]) && $parameters[1] === 'clear') {
-      if (Nick::Cache()->clearAllCaches() !== FALSE) {
+      if (\Nick::Cache()->clearAllCaches() !== FALSE) {
         \Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');
       } else {
         \Nick::Logger()->add('Could not clear caches.', Logger::TYPE_FAILURE, 'Cache');
       }
 
-      header('Location: ' . Url::fromRoute(Nick::Route()->load('dashboard')));
+      $response = new RedirectResponse(Url::fromRoute(\Nick::Route()->load('dashboard')));
+      $response->send();
     }
   }
 

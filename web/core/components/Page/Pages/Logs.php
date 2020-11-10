@@ -6,6 +6,7 @@ use Nick;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 use Nick\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class Logs
@@ -47,7 +48,8 @@ class Logs extends Page {
 
     if ($route->getRoute() === 'logs.clear') {
       \Nick::Logger()->clear();
-      header('Location: ' . Url::fromRoute(Nick::Route()->load('logs')));
+      $response = new RedirectResponse(Url::fromRoute(\Nick::Route()->load('logs')));
+      $response->send();
     }
 
     $logs = \Nick::Logger()->getLogs(TRUE);

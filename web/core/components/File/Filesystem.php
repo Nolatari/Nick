@@ -6,6 +6,7 @@ use Nick\Settings;
 
 /**
  * Class Filesystem
+ *
  * @package Nick\File
  */
 class Filesystem {
@@ -41,6 +42,18 @@ class Filesystem {
   }
 
   /**
+   * Sets the available filesystems
+   *
+   * @param array $available
+   *
+   * @return Filesystem
+   */
+  protected function setAvailable(array $available): self {
+    $this->available = $available;
+    return $this;
+  }
+
+  /**
    * @param string $filesystem
    *
    * @return false|string
@@ -64,18 +77,6 @@ class Filesystem {
     }
 
     return $this->available[$filesystem]['url'];
-  }
-
-  /**
-   * Sets the available filesystems
-   *
-   * @param array $available
-   *
-   * @return Filesystem
-   */
-  protected function setAvailable(array $available): self {
-    $this->available = $available;
-    return $this;
   }
 
 }

@@ -68,15 +68,16 @@ class Route implements RouteInterface {
    * @return null|PageInterface
    */
   public function getPageObject() {
-    if (!class_exists($this->controller)) {
+    $controller = $this->getController();
+    if (!class_exists($controller)) {
       return NULL;
     }
-    $controller = new $this->controller;
-    if (!$controller instanceof PageInterface) {
+    $object = new $controller;
+    if (!$object instanceof PageInterface) {
       return NULL;
     }
 
-    return $controller;
+    return $object;
   }
 
   /**

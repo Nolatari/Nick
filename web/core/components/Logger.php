@@ -40,11 +40,10 @@ class Logger {
 
   /**
    * Truncates logs table.
-   *
-   * @return Query
    */
   public function clear() {
-    return \Nick::Database()->query('TRUNCATE TABLE logs');
+    \Nick::Database()->query('TRUNCATE TABLE logs');
+    \Nick::Logger()->add('Cleared all logs', Logger::TYPE_INFO, 'Logger');
   }
 
   /**
