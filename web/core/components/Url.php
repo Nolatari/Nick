@@ -36,7 +36,6 @@ class Url {
   public function addParamsToUrl($key, $value = NULL, $url = NULL, ?array $current_params = NULL): string {
     $current_params = is_array($current_params) ? $current_params : $_GET;
     $url = $url ?? $this->getUrlWithoutParameters();
-    $baseUrl = $url ?? $this->getUrlWithoutParameters();
 
     if (is_array($key)) {
       foreach ($key as $param_key => $param_value) {
@@ -61,7 +60,6 @@ class Url {
   public function removeParamsFromUrl($key, $url = NULL, ?array $current_params = NULL): string {
     $current_params = is_array($current_params) ? $current_params : $_GET;
     $url = $url ?? $this->getUrlWithoutParameters();
-    $baseUrl = $url ?? $this->getUrlWithoutParameters();
 
     if (is_array($key)) {
       foreach ($key as $param_key => $param_value) {
