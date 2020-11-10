@@ -46,16 +46,7 @@ class Url {
       $current_params[$key] = $value;
     }
 
-    foreach ($current_params as $param_key => $param_value) {
-      if ($url === $baseUrl) {
-        $url .= '?';
-      } else {
-        $url .= '&';
-      }
-      $url .= $param_key . '=' . $param_value;
-    }
-
-    return $url;
+    return $url . '?' . http_build_query($current_params, '', '&');
   }
 
   /**
@@ -82,16 +73,7 @@ class Url {
       unset($current_params[$key]);
     }
 
-    foreach ($current_params as $param_key => $param_value) {
-      if ($url === $baseUrl) {
-        $url .= '?';
-      } else {
-        $url .= '&';
-      }
-      $url .= $param_key . '=' . $param_value;
-    }
-
-    return $url;
+    return $url . '?' . http_build_query($current_params, '', '&');
   }
 
   /**
