@@ -2,8 +2,6 @@
 
 namespace Nick\Search;
 
-use Nick\Event\Event;
-
 /**
  * Class Search
  *

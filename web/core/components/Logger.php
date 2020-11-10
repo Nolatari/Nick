@@ -42,8 +42,8 @@ class Logger {
    * Truncates logs table.
    */
   public function clear() {
-    \Nick::Database()->query('TRUNCATE TABLE logs');
-    \Nick::Logger()->add('Cleared all logs', Logger::TYPE_INFO, 'Logger');
+    $this->database->query('TRUNCATE TABLE logs');
+    $this->add('Cleared all logs', Logger::TYPE_INFO, 'Logger');
   }
 
   /**
