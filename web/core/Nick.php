@@ -33,6 +33,7 @@ use Nick\StringManipulation;
 use Nick\Theme;
 use Nick\Translation\Translation;
 use Nick\Translation\TranslationInterface;
+use Nick\Url;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -281,6 +282,15 @@ class Nick {
    */
   public static function PageManager(): PageManager {
     return new PageManager();
+  }
+
+  /**
+   * Returns Url object
+   *
+   * @return Url
+   */
+  public static function Url(): Url {
+    return new Url();
   }
 
   /**
