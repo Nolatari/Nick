@@ -74,7 +74,7 @@ class Url {
     // If a URL with parameters was given, remove them
     if (StringManipulation::contains($url, '?')) {
       $url_pieces = StringManipulation::explode($url, '?');
-      $url = $url_pieces[0];
+      $url = reset($url_pieces);
     }
 
     if (is_array($key)) {
@@ -107,7 +107,7 @@ class Url {
     // If a URL with parameters was given, remove them
     if (StringManipulation::contains($url, '?')) {
       $url_pieces = StringManipulation::explode($url, '?');
-      $url = $url_pieces[0];
+      $url = reset($url_pieces);
     }
 
     if (is_array($key)) {
