@@ -42,7 +42,7 @@ class Entity implements EntityInterface {
    *
    */
   protected static function load(int $id, $massage = FALSE) {
-    $entityClassName = get_called_class();
+    $entityClassName = static::class;
     /** @var EntityInterface $entity */
     $entity = new $entityClassName;
 
@@ -63,19 +63,17 @@ class Entity implements EntityInterface {
    * @return array|bool
    */
   protected static function loadMultiple() {
-    $entityClassName = get_called_class();
+    $entityClassName = static::class;
     /** @var EntityInterface $entity */
     $entity = new $entityClassName;
     return \Nick::EntityManager()->loadByProperties(['type' => $entity->getType()], TRUE);
   }
 
   /**
-   * @param $type
-   *
    * @return bool
    */
   protected static function create() {
-    $entityClassName = get_called_class();
+    $entityClassName = static::class;
     /** @var EntityInterface $entity */
     $entity = new $entityClassName;
     $type = $entity->getType();
@@ -101,7 +99,7 @@ class Entity implements EntityInterface {
       }
     }
 
-    $fullClassName = StringManipulation::explode(static::class, '\\');
+    $fullClassName = StringManipulation::explode($entityClassName, '\\');
     $className = array_pop($fullClassName);
     $database->insert('entity_storage')
       ->values([
