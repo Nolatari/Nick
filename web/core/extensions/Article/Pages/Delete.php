@@ -68,7 +68,7 @@ class Delete extends Page {
       }
 
       $content = 'Are you sure you wish to delete this ' . $article->getTitle() . '? <br />';
-      $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(\Nick::Route()->load('article.delete')->setValue('id', $parameters['id'])->setValue('confirm', NULL)) . '">Yes, I\'m sure</a> ';
+      $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(\Nick::Route()->load('article.delete')->setValue('id', $parameters['id'])->setValue('confirm', '')) . '">Yes, I\'m sure</a> ';
       $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(\Nick::Route()->load('article.view')->setValue('id', $parameters['id'])) . '">No, take me back</a>';
     }
 

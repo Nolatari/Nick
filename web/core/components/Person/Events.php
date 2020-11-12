@@ -3,23 +3,20 @@
 namespace Nick\Person;
 
 use Nick\Database\Result;
+use Nick\Event\EventListener;
+use Nick\Person\Entity\Person;
 
 /**
  * Class Events
  *
  * @package Nick\Person
  */
-class Events {
+class Events extends EventListener {
 
   /**
-   * preSearchRender event listener
-   *
-   * @param array  $results
-   * @param string $keyword
-   *
-   * @return bool
+   * {@inheritDoc}
    */
-  public function preSearchRender(array &$results, string $keyword) {
+  public function preSearchRender(?array &$results, string $keyword) {
     $results['People'] = [];
 
     $query = \Nick::Database()

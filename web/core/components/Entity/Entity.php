@@ -41,7 +41,7 @@ class Entity implements EntityInterface {
    * @return EntityInterface|bool
    *
    */
-  protected static function load(int $id, $massage = FALSE) {
+  public static function load(int $id, $massage = FALSE) {
     $entityClassName = static::class;
     /** @var EntityInterface $entity */
     $entity = new $entityClassName;
@@ -62,7 +62,7 @@ class Entity implements EntityInterface {
    *
    * @return array|bool
    */
-  protected static function loadMultiple() {
+  public static function loadMultiple() {
     $entityClassName = static::class;
     /** @var EntityInterface $entity */
     $entity = new $entityClassName;
@@ -72,7 +72,7 @@ class Entity implements EntityInterface {
   /**
    * @return bool
    */
-  protected static function create() {
+  public static function create() {
     $entityClassName = static::class;
     /** @var EntityInterface $entity */
     $entity = new $entityClassName;
@@ -283,9 +283,9 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
   }
 
   /**
-   * @param array $values
+   * @param array|null $values
    */
-  protected function setValues(array $values) {
+  protected function setValues(?array $values) {
     $this->values = $values;
   }
 

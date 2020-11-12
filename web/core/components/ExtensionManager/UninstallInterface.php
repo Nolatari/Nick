@@ -11,6 +11,7 @@ interface UninstallInterface {
 
   /**
    * Checks whether the doUninstall function should be used.
+   * If it returns FALSE, then doUninstall() will be used.
    *
    * @return bool
    */

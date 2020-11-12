@@ -12,7 +12,7 @@
         <div class="row">
             {% if showButtons %}
                 {% for key, name in buttons %}
-                    {% set url = route('dummycontent.' ~ key, {'confirm': null}) %}
+                    {% set url = route('dummycontent.' ~ key, {confirm: ''}) %}
                 <p>
                     {{ formElement('button', {
                         text: name,

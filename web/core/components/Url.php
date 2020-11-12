@@ -30,9 +30,13 @@ class Url {
    * Adds a GET parameter to the current url
    *
    * @param string|array $key
+   *                         Key of the parameter
    * @param string|null  $value
+   *                         Value of the parameter
    * @param string|null  $url
+   *                         Url should be clean without parameters!
    * @param array|null   $current_params
+   *                         The parameters already on the URL (if a clean URL is given)
    *
    * @return string
    */
