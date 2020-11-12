@@ -14,11 +14,38 @@ class Url {
   protected string $url;
 
   /**
+   * Alternative for 'http_build_query()' because this function doesn't like NULL values.
+   *
+   * @param array       $params
+   *                      Array of parameters.
+   * @param string      $separator
+   *                      Separator for the parameters, default: &
+   * @param string|null $prefix
+   *                      Prefix for the parameters, default: ?
+   *
+   * @return string
+   */
+  public static function buildQuery(array $params, string $separator = '&', ?string $prefix = '?'): string {
+    $query = $prefix ?? '';
+    foreach ($params as $key => $param) {
+      if ($query !== $prefix) {
+        $query .= $separator;
+      }
+      if ($param === NULL) {
+        $query .= $key;
+      } else {
+        $query .= $key . '=' . $param;
+      }
+    }
+    return $query;
+  }
+
+  /**
    * Returns URL based on route, there is no validation in this because routes are not set in stone.
    * Any validation requirements will have to be done while calling the functionality.
    *
    * @param RouteInterface $route
-   *                  RouteInterface to grab URL from
+   *                          RouteInterface to grab URL from
    *
    * @return string
    */
@@ -44,6 +71,12 @@ class Url {
     $current_params = is_array($current_params) ? $current_params : $_GET;
     $url = $url ?? $this->getUrlWithoutParameters();
 
+    // If a URL with parameters was given, remove them
+    if (StringManipulation::contains($url, '?')) {
+      $url_pieces = StringManipulation::explode($url, '?');
+      $url = $url_pieces[0];
+    }
+
     if (is_array($key)) {
       foreach ($key as $param_key => $param_value) {
         $current_params[$param_key] = $param_value;
@@ -52,21 +85,30 @@ class Url {
       $current_params[$key] = $value;
     }
 
-    return $url . '?' . http_build_query($current_params, '', '&');
+    return $url . static::buildQuery($current_params, '&', '?');
   }
 
   /**
    * Adds a GET parameter to the current url
    *
    * @param string|array $key
-   * @param null         $url
+   *                         String or array of strings that serve as the key of the parameter
+   * @param string|null  $url
+   *                         Url should be clean without parameters!
    * @param array|null   $current_params
+   *                         The parameters already on the URL (if a clean URL is given)
    *
    * @return string
    */
   public function removeParamsFromUrl($key, $url = NULL, ?array $current_params = NULL): string {
     $current_params = is_array($current_params) ? $current_params : $_GET;
     $url = $url ?? $this->getUrlWithoutParameters();
+
+    // If a URL with parameters was given, remove them
+    if (StringManipulation::contains($url, '?')) {
+      $url_pieces = StringManipulation::explode($url, '?');
+      $url = $url_pieces[0];
+    }
 
     if (is_array($key)) {
       foreach ($key as $param_key => $param_value) {
@@ -78,7 +120,7 @@ class Url {
       unset($current_params[$key]);
     }
 
-    return $url . '?' . http_build_query($current_params, '', '&');
+    return $url . static::buildQuery($current_params, '&', '?');
   }
 
   /**
