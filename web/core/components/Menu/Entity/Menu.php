@@ -18,22 +18,8 @@ class Menu extends Entity implements MenuInterface {
    * @param null|array $values
    */
   public function __construct($values = NULL) {
-    parent::__construct($values);
+    $this->setValues($values);
     $this->setType('menu');
-  }
-
-  /**
-   * @return array
-   */
-  public static function loadMultiple() {
-    return parent::loadMultipleEntities('menu');
-  }
-
-  /**
-   * @return string|null
-   */
-  public static function create() {
-    return parent::createEntity('menu');
   }
 
   /**
@@ -191,16 +177,6 @@ class Menu extends Entity implements MenuInterface {
       return Menu::load($parentId);
     }
     return FALSE;
-  }
-
-  /**
-   * @param int  $id
-   * @param bool $massage
-   *
-   * @return EntityInterface|NULL
-   */
-  public static function load(int $id, $massage = TRUE) {
-    return parent::loadEntity($id, 'menu', $massage);
   }
 
   /**

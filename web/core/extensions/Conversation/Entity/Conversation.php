@@ -20,33 +20,8 @@ class Conversation Extends Entity implements ConversationInterface {
    * @param null|array $values
    */
   public function __construct($values = NULL) {
-    parent::__construct($values);
+    $this->setValues($values);
     $this->setType('conversation');
-  }
-
-  /**
-   * @param int $id
-   *
-   * @return EntityInterface|NULL
-   *
-   * @throws \Exception
-   */
-  public static function load(int $id) {
-    return parent::loadEntity($id, 'conversation');
-  }
-
-  /**
-   * @return array
-   */
-  public static function loadMultiple() {
-    return parent::loadMultipleEntities('conversation');
-  }
-
-  /**
-   * @return string|null
-   */
-  public static function create() {
-    return parent::createEntity('conversation');
   }
 
   /**

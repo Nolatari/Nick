@@ -25,9 +25,6 @@ class Entity implements EntityInterface {
   const CARDINALITY_UNLIMITED = 0;
   const CARDINALITY_DEFAULT = 25;
 
-  /** @var Database $database */
-  protected Database $database;
-
   /** @var string $type */
   protected string $type;
 
@@ -38,44 +35,38 @@ class Entity implements EntityInterface {
   protected $fields = FALSE;
 
   /**
-   * Card constructor.
-   *
-   * @param array|NULL $values
-   */
-  public function __construct($values = NULL) {
-    $this->database = \Nick::Database();
-    $this->values = $values;
-  }
-
-  /**
    * @param int    $id
-   * @param string $type
    * @param bool   $massage
    *
    * @return EntityInterface|bool
    *
    */
-  protected static function loadEntity(int $id, string $type, $massage = FALSE) {
-    if ($id === 0 && $type !== 'person') {
+  protected static function load(int $id, $massage = FALSE) {
+    $entityClassName = get_called_class();
+    /** @var EntityInterface $entity */
+    $entity = new $entityClassName;
+
+    if ($id === 0 && $entity->getType() !== 'person') {
       return FALSE;
     }
+
     return \Nick::EntityManager()->loadByProperties(
-      ['type' => $type, 'id' => $id],
+      ['type' => $entity->getType(), 'id' => $id],
       FALSE,
       $massage
     );
   }
 
   /**
-   * @param string $type
-   *          Type of Entity
+   * Loads all entities of entity type
    *
    * @return array|bool
    */
-  protected static function loadMultipleEntities(string $type) {
-    $entityClass = \Nick::EntityManager()::getEntityClassFromType($type);
-    $entityClass = new $entityClass;
-    return $entityClass->loadByProperties([], TRUE);
+  protected static function loadMultiple() {
+    $entityClassName = get_called_class();
+    /** @var EntityInterface $entity */
+    $entity = new $entityClassName;
+    return \Nick::EntityManager()->loadByProperties(['type' => $entity->getType()], TRUE);
   }
 
   /**
@@ -83,7 +74,11 @@ class Entity implements EntityInterface {
    *
    * @return bool
    */
-  protected static function createEntity($type) {
+  protected static function create() {
+    $entityClassName = get_called_class();
+    /** @var EntityInterface $entity */
+    $entity = new $entityClassName;
+    $type = $entity->getType();
     if (EntityManager::entityInstalled($type)) {
       return FALSE;
     }
@@ -264,7 +259,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
       return FALSE;
     }
 
-    $fields_storage = $this->database
+    $fields_storage = \Nick::Database()
       ->select('entity_storage')
       ->fields(NULL, ['fields'])
       ->condition('type', $this->getType());
@@ -287,6 +282,13 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
     }
     $entityClass = new $entityClass($values);
     return $entityClass;
+  }
+
+  /**
+   * @param array $values
+   */
+  protected function setValues(array $values) {
+    $this->values = $values;
   }
 
   /**
@@ -318,14 +320,14 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
     $table = 'entity__' . $this->type;
     // Check if item exists, update existing item or insert new item.
     if ($this->id() !== NULL) {
-      $check = $this->database->select($table)
+      $check = \Nick::Database()->select($table)
         ->condition('id', $this->id());
       if (!$result = $check->execute()) {
         \Nick::Logger()->add('[Entity][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
         return FALSE;
       }
       if (!$result->fetchAllAssoc()) {
-        $check_existing = $this->database->select($table);
+        $check_existing = \Nick::Database()->select($table);
         foreach ($this->getUniqueFields() as $field) {
           $check_existing->condition($field, $this->getValue($field));
         }
@@ -339,7 +341,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
         }
 
         $values = ['id' => 0] + $this->massageValueArray();
-        $query = $this->database->insert($table)
+        $query = \Nick::Database()->insert($table)
           ->values($values);
       } else {
         $values = $this->getValues();
@@ -350,7 +352,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
         }
         // ID is not supposed to be changed manually!
         unset($values['id']);
-        $query = $this->database->update($table)
+        $query = \Nick::Database()->update($table)
           ->condition('id', $this->id())
           ->values($values);
       }
@@ -359,9 +361,9 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
         \Nick::Logger()->add('Something went wrong trying to execute Entity Save query', Logger::TYPE_FAILURE, 'Entity');
         return FALSE;
       }
-      $id = $this->database->select('INFORMATION_SCHEMA.TABLES')
+      $id = \Nick::Database()->select('INFORMATION_SCHEMA.TABLES')
         ->fields(NULL, ['AUTO_INCREMENT'])
-        ->condition('TABLE_SCHEMA', $this->database->getDatabaseName())
+        ->condition('TABLE_SCHEMA', \Nick::Database()->getDatabaseName())
         ->condition('TABLE_NAME', 'entity');
       if (!$id_result = $id->execute()) {
         \Nick::Logger()->add('Something went wrong trying to execute Entity Save query', Logger::TYPE_FAILURE, 'Entity');
@@ -371,7 +373,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
       // Autoincrement ID (next ID) => current ID
       $id = reset($result)['AUTO_INCREMENT'] - 1;
       $values = ['id' => $id] + $this->massageValueArray();
-      $query = $this->database->insert($table)
+      $query = \Nick::Database()->insert($table)
         ->values($values);
     }
 
@@ -444,7 +446,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
    * @return bool
    */
   protected function addEntity(string $type) {
-    $query = $this->database->insert('entity')
+    $query = \Nick::Database()->insert('entity')
       ->values([
         'id' => 0,
         'type' => $type,

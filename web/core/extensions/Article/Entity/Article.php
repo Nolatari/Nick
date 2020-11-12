@@ -18,31 +18,8 @@ class Article Extends Entity implements ArticleInterface {
    * @param null|array $values
    */
   public function __construct($values = NULL) {
-    parent::__construct($values);
+    $this->setValues($values);
     $this->setType('article');
-  }
-
-  /**
-   * @param int $id
-   *
-   * @return EntityInterface|NULL
-   */
-  public static function load(int $id) {
-    return parent::loadEntity($id, 'article');
-  }
-
-  /**
-   * @return array
-   */
-  public static function loadMultiple() {
-    return parent::loadMultipleEntities('article');
-  }
-
-  /**
-   * @return string|null
-   */
-  public static function create() {
-    return parent::createEntity('article');
   }
 
   /**

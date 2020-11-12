@@ -23,31 +23,8 @@ class File extends Entity implements FileInterface {
    * @param null|array $values
    */
   public function __construct($values = NULL) {
-    parent::__construct($values);
+    $this->setValues($values);
     $this->setType('file');
-  }
-
-  /**
-   * @param int $id
-   *
-   * @return Entity|EntityInterface|null
-   */
-  public static function load(int $id) {
-    return parent::loadEntity($id, 'file');
-  }
-
-  /**
-   * @return array
-   */
-  public static function loadMultiple() {
-    return parent::loadMultipleEntities('file');
-  }
-
-  /**
-   * @return string|null
-   */
-  public static function create() {
-    return parent::createEntity('file');
   }
 
   /**

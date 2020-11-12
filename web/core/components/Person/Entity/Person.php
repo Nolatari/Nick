@@ -19,7 +19,7 @@ class Person extends Entity implements PersonInterface {
    * @param null|array $values
    */
   public function __construct($values = NULL) {
-    parent::__construct($values);
+    $this->setValues($values);
     $this->setType('person');
   }
 
@@ -47,29 +47,6 @@ class Person extends Entity implements PersonInterface {
    */
   public static function getCurrentPerson() {
     return \Nick::Session()->get('NPersonID', 0);
-  }
-
-  /**
-   * @param int $id
-   *
-   * @return Entity|EntityInterface|NULL
-   */
-  public static function load(int $id) {
-    return parent::loadEntity($id, 'person');
-  }
-
-  /**
-   * @return array
-   */
-  public static function loadMultiple() {
-    return parent::loadMultipleEntities('person');
-  }
-
-  /**
-   * @return string|null
-   */
-  public static function create() {
-    return parent::createEntity('person');
   }
 
   /**
