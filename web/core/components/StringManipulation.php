@@ -10,6 +10,8 @@ namespace Nick;
 class StringManipulation {
 
   /**
+   * Checks whether string contains a given needle
+   *
    * @param string       $haystack
    *                         Haystack to search for given needle(s) in.
    * @param string|array $needle
@@ -19,15 +21,10 @@ class StringManipulation {
    */
   public static function contains(string $haystack, $needle): bool {
     if (is_string($needle)) {
-      if (strpos($haystack, $needle) !== FALSE) {
-        return TRUE;
-      }
-      return FALSE;
+      return strpos($haystack, $needle) !== FALSE;
     } elseif (is_array($needle)) {
-      foreach ($needle as $item) {
-        if (strpos($haystack, $item) !== FALSE) {
-          return TRUE;
-        }
+      foreach ($needle as $key => $value) {
+        return strpos($haystack, $value) !== FALSE || strpos($haystack, $key) !== FALSE;
       }
       return FALSE;
     } else {
@@ -73,6 +70,8 @@ class StringManipulation {
   }
 
   /**
+   * Explodes string into parts by given delimiter.
+   *
    * @param string $haystack
    *                  Haystack to search for given needle in.
    * @param string $needle
@@ -84,6 +83,17 @@ class StringManipulation {
    */
   public static function explode(string $haystack, string $needle, int $limit = 99999): array {
     return explode($needle, $haystack, $limit);
+  }
+
+  /**
+   * Capitalizes first letter of a given string.
+   *
+   * @param string $text
+   *
+   * @return string
+   */
+  public static function capitalize(string $text) {
+    return ucfirst($text);
   }
 
 }

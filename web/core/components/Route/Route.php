@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Route implements RouteInterface {
 
+  /** @var RouteInterface $current */
+  protected static RouteInterface $current;
+
   /** @var string $route */
   protected string $route;
 
@@ -62,6 +65,24 @@ class Route implements RouteInterface {
       return FALSE;
     }
     return $this->setValues($route, $result['controller'], unserialize($result['parameters']), $result['url']);
+  }
+
+  /**
+   * Sets static current property
+   *
+   * @param RouteInterface $route
+   */
+  public static function setCurrent(RouteInterface $route) {
+    static::$current = $route;
+  }
+
+  /**
+   * Returns current route
+   *
+   * @return RouteInterface
+   */
+  public static function getCurrent(): RouteInterface {
+    return static::$current;
   }
 
   /**

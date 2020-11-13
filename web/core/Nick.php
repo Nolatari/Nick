@@ -267,6 +267,15 @@ class Nick {
   }
 
   /**
+   * Returns the current route object.
+   *
+   * @return RouteInterface
+   */
+  public static function CurrentRoute(): RouteInterface {
+    return Route::getCurrent();
+  }
+
+  /**
    * Returns Logger object
    *
    * @return Logger
@@ -310,6 +319,7 @@ class Nick {
     if (!$route) {
       $route = static::Route()->load('dashboard');
     }
+    static::Route()::setCurrent($route);
 
     try {
       $variables = [];
