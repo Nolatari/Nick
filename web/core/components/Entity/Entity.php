@@ -41,7 +41,7 @@ class Entity implements EntityInterface {
    * @return EntityInterface|bool
    *
    */
-  public static function load(int $id, $massage = FALSE) {
+  public static function load(int $id, bool $massage = FALSE) {
     $entityClassName = static::class;
     /** @var EntityInterface $entity */
     $entity = new $entityClassName;
@@ -60,16 +60,20 @@ class Entity implements EntityInterface {
   /**
    * Loads all entities of entity type
    *
+   * @param bool $massage
+   *
    * @return array|bool
    */
-  public static function loadMultiple() {
+  public static function loadMultiple(bool $massage = FALSE) {
     $entityClassName = static::class;
     /** @var EntityInterface $entity */
     $entity = new $entityClassName;
-    return \Nick::EntityManager()->loadByProperties(['type' => $entity->getType()], TRUE);
+    return \Nick::EntityManager()->loadByProperties(['type' => $entity->getType()], $massage);
   }
 
   /**
+   * Creates the entity type in database
+   *
    * @return bool
    */
   public static function create() {
@@ -171,8 +175,10 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
     switch ($int) {
       case 0:
         return translate('Unpublished');
-      default:
+      case 1:
         return translate('Published');
+      default:
+        return translate('Undefined');
     }
   }
 

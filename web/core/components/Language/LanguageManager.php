@@ -24,8 +24,8 @@ class LanguageManager {
    * LanguageManager constructor.
    */
   public function __construct() {
-    $this->defaultLangcode = \Nick::Config()->get('site.default_langcode') ?: 'en';
-    $this->currentLangcode = \Nick::CurrentPerson()->getLanguage() ?: $this->defaultLangcode;
+    $this->setLangcode('default', \Nick::Config()->get('site.default_langcode') ?: 'en');
+    $this->setLangcode('current', \Nick::CurrentPerson()->getLanguage() ?: $this->getLangcode('default'));
   }
 
   /**
@@ -34,7 +34,7 @@ class LanguageManager {
    * @return LanguageInterface
    */
   public function getCurrentLanguage(): LanguageInterface {
-    return $this->getLanguageByLangcode($this->currentLangcode);
+    return $this->getLanguageByLangcode($this->getLangcode('current'));
   }
 
   /**
@@ -43,7 +43,7 @@ class LanguageManager {
    * @param string $langcode
    */
   public function setCurrentLanguage(string $langcode) {
-    $this->currentLangcode = $langcode;
+    $this->setLangcode('current', $langcode);
     try {
       \Nick::CurrentPerson()->setValue('language', $langcode)->save();
     } catch (Exception $exception) {
@@ -52,12 +52,51 @@ class LanguageManager {
   }
 
   /**
+   * Returns langcode of either default or current type
+   *
+   * @param string $type
+   *
+   * @return array|false|string|null
+   */
+  public function getLangcode(string $type) {
+    switch ($type) {
+      case 'default':
+        return $this->defaultLangcode;
+      case 'current':
+        return $this->currentLangcode;
+    }
+
+    return NULL;
+  }
+
+  /**
+   * Sets langcode of either default or current type
+   *
+   * @param string $type
+   * @param string $langcode
+   *
+   * @return array|false|string|null
+   */
+  public function setLangcode(string $type, string $langcode) {
+    switch ($type) {
+      case 'default':
+        $this->defaultLangcode = $langcode;
+        break;
+      case 'current':
+        $this->currentLangcode = $langcode;
+        break;
+    }
+
+    return $this;
+  }
+
+  /**
    * Returns the website's default language
    *
    * @return LanguageInterface
    */
   public function getDefaultLanguage(): LanguageInterface {
-    return $this->getLanguageByLangcode($this->defaultLangcode);
+    return $this->getLanguageByLangcode($this->getLangcode('default'));
   }
 
   /**
@@ -66,11 +105,11 @@ class LanguageManager {
    * @param string $langcode
    */
   public function setDefaultLanguage(string $langcode) {
-    $this->defaultLangcode = $langcode;
+    $this->setLangcode('default', $langcode);
     try {
       \Nick::Config()->set('site.default_langcode', $langcode);
     } catch (Exception $exception) {
-      \Nick::Logger()->add($exception, Logger::TYPE_FAILURE, 'LanguageManager');
+      \Nick::Logger()->add($exception->getMessage(), Logger::TYPE_FAILURE, 'LanguageManager');
     }
   }
 
