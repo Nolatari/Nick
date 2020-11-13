@@ -36,6 +36,24 @@ class StringManipulation {
   }
 
   /**
+   * Copy of preg_replace
+   *
+   * @param string $haystack
+   *                         Haystack to search for given needle(s) in.
+   * @param string $pattern
+   *                         Regex pattern in string format
+   * @param string $replacement
+   *                         The replacement for the needle(s) given.
+   *
+   * @return string|string[]
+   */
+  public static function preg_replace(string $haystack, string $pattern, string $replacement) {
+    return preg_replace($pattern, $replacement, $haystack);
+  }
+
+  /**
+   * Copy of str_replace
+   *
    * @param string       $haystack
    *                         Haystack to search for given needle(s) in.
    * @param string|array $needle

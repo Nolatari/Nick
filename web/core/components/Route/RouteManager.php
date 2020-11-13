@@ -82,6 +82,8 @@ class RouteManager {
   }
 
   /**
+   * Matches given URL with route, parameters are stripped away in this method.
+   *
    * @param string              $url
    *                              Url should not contain the base url, filter this out!
    *
@@ -100,7 +102,7 @@ class RouteManager {
     }
 
     // Remove query parameters from URL
-    $url = preg_replace('/\?(.*$)/', '', $url);
+    $url = StringManipulation::preg_replace($url, '/\?(.*$)/', '');
 
     $results = $query->fetchAllAssoc();
     foreach ($results as $result) {

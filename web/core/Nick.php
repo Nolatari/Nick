@@ -125,11 +125,11 @@ class Nick {
   }
 
   /**
-   * Returns Person object
+   * Returns current Person object
    *
-   * @return PersonInterface
+   * @return EntityInterface
    */
-  public static function CurrentPerson(): PersonInterface {
+  public static function CurrentPerson(): EntityInterface {
     return Person::load(Person::getCurrentPerson());
   }
 
