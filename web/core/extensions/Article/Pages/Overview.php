@@ -33,7 +33,7 @@ class Overview extends Page {
     $this->caching = [
       'key' => 'page.article.overview',
       'context' => 'page',
-      'max-age' => 300,
+      'max-age' => 0,
     ];
 
     return $this;

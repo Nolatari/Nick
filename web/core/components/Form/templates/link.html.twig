@@ -1,0 +1,5 @@
+<div class="form-group row">
+    <div class="col-sm-12">
+        <a id="{{ formId }}-{{ key }}" href="{{ url }}" class="{% if classes %}{% for class in classes %} {{ class }}{% endfor %}{% endif %}"{% for key,value in attributes %} {{ key }}="{{ value|raw }}"{% endfor %}>{{ text }}</a>
+    </div>
+</div>

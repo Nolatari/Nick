@@ -1,5 +1,6 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center flex-start mb-4">
     <h1 class="h3 mb-0 text-gray-800">{{ trans('Articles overview') }}</h1>&nbsp;
+    {{ formElement('link', {formId: 'article', key: 'add', url: route('entity.add', {type: 'article'}), text: trans('Add article'), classes: ['btn', 'btn-primary']})|raw }}
 </div>
 {{ article.content|raw }}

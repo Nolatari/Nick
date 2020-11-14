@@ -96,4 +96,48 @@ class StringManipulation {
     return ucfirst($text);
   }
 
+  /**
+   * Capitalizes first letter of each word in given string.
+   *
+   * @param string $text
+   *
+   * @return string
+   */
+  public static function capitalizeWords(string $text) {
+    return ucwords($text);
+  }
+
+  /**
+   * Uncapitalizes first letter of a given string.
+   *
+   * @param string $text
+   *
+   * @return string
+   */
+  public static function uncapitalize(string $text) {
+    return lcfirst($text);
+  }
+
+  /**
+   * Turns string into uppercase
+   *
+   * @param string $text
+   *
+   * @return string
+   */
+  public static function uppercase(string $text) {
+    return strtoupper($text);
+  }
+
+  /**
+   * Turns string into lowercase
+   *
+   * @param string $text
+   *
+   * @return string
+   */
+  public static function lowercase(string $text) {
+    return strtolower($text);
+  }
+
 }
