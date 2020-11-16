@@ -2,6 +2,7 @@
 
 namespace Nick\Manifest;
 
+use Nick\Form\FormElements\Link;
 use Nick\Renderer;
 use Nick\Translation\StringTranslation;
 
@@ -155,8 +156,22 @@ class ManifestRenderer {
       foreach ($results as &$result) {
         $editRoute = \Nick::Route()->load('entity.edit')->setValue('type', $manifest->getType())->setValue('id', $result['id']);
         $deleteRoute = \Nick::Route()->load('entity.delete')->setValue('type', $manifest->getType())->setValue('id', $result['id']);
-        $result['edit-link'] = '<a href="' . \Nick::Url()::fromRoute($editRoute) . '">' . $this->translate('Edit') . '</a>';
-        $result['delete-link'] = '<a href="' . \Nick::Url()::fromRoute($deleteRoute) . '">' . $this->translate('Delete') . '</a>';
+
+        $result['edit-link'] = new Link();
+        $result['edit-link']->render([
+          'formId' => $manifest->getType() . '-overview',
+          'key' => 'edit',
+          'url' => \Nick::Url()::fromRoute($editRoute),
+          'text' => $this->translate('Edit'),
+        ]);
+
+        $result['edit-link'] = new Link();
+        $result['delete-link']->render([
+          'formId' => $manifest->getType() . '-overview',
+          'key' => 'delete',
+          'url' => \Nick::Url()::fromRoute($deleteRoute),
+          'text' => $this->translate('Delete'),
+        ]);
       }
     }
 
