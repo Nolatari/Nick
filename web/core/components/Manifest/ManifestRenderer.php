@@ -153,8 +153,10 @@ class ManifestRenderer {
       $fields[] = 'edit-link';
       $fields[] = 'delete-link';
       foreach ($results as &$result) {
-        //$result['edit-link'] = '<a href="' . Url::fromRoute([$this->actionLinks, 'edit', $result['id']]) . '">' . $this->translate('Edit') . '</a>';
-        //$result['delete-link'] = '<a href="' . Url::fromRoute([$this->actionLinks, 'delete', $result['id']]) . '">' . $this->translate('Delete') . '</a>';
+        $editRoute = \Nick::Route()->load('entity.edit')->setValue('type', 'article')->setValue('id', $result['id']);
+        $deleteRoute = \Nick::Route()->load('entity.delete')->setValue('type', 'article')->setValue('id', $result['id']);
+        $result['edit-link'] = '<a href="' . \Nick::Url()::fromRoute($editRoute) . '">' . $this->translate('Edit') . '</a>';
+        $result['delete-link'] = '<a href="' . \Nick::Url()::fromRoute($deleteRoute) . '">' . $this->translate('Delete') . '</a>';
       }
     }
 

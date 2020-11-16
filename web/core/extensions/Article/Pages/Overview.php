@@ -49,8 +49,7 @@ class Overview extends Page {
     $manifest = \Nick::Manifest('article')->fields([
       'id', 'title', 'status', 'owner'
     ]);
-    $manifestRenderer = new ManifestRenderer($manifest);
-    $content = $manifestRenderer
+    $content = \Nick::ManifestRenderer($manifest)
       ->setViewMode($parameters['viewmode'] ?? 'table')
       ->hideField('id')
       ->noLink('owner')
