@@ -168,7 +168,7 @@ class Logger {
     $renders = [];
     foreach ($results as $result) {
       if (!$render = $this->renderer->setType('logger')->setTemplate($types[$result['type']] ?? 'info')) {
-        self::add('[Logger][render]: Something went wrong trying to find the log render template file.');
+        self::add('Something went wrong trying to find the log render template file.');
         continue;
       }
       $variables = [

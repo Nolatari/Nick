@@ -91,7 +91,7 @@ class Entity implements EntityInterface {
     $fields = '';
     foreach ($fields_storage as $field => $options) {
       if (!in_array(strtoupper($options['type']), Database::getFieldTypes())) {
-        \Nick::Logger()->add('[Entity][createEntity]: Field type /' . $options['type'] . '/ does not comply to possible field types.', Logger::TYPE_WARNING, 'Entity');
+        \Nick::Logger()->add('Field type /' . $options['type'] . '/ does not comply to possible field types.', Logger::TYPE_WARNING, 'Entity');
       }
       if ($fields !== '') {
         $fields .= ',' . PHP_EOL;
@@ -117,7 +117,7 @@ class Entity implements EntityInterface {
 ' . $fields . '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
     if (!$results[] = $query) {
-      \Nick::Logger()->add('[Entity][createEntity]: Something went wrong while querying the create function.', Logger::TYPE_WARNING, 'Entity');
+      \Nick::Logger()->add('Something went wrong while querying the create function.', Logger::TYPE_WARNING, 'Entity');
     }
 
     if ($auto_increment !== FALSE) {
@@ -327,7 +327,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
       $check = \Nick::Database()->select($table)
         ->condition('id', $this->id());
       if (!$result = $check->execute()) {
-        \Nick::Logger()->add('[Entity][save]: Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
+        \Nick::Logger()->add('Something went wrong trying to execute query', Logger::TYPE_FAILURE, 'Entity');
         return FALSE;
       }
       if (!$result->fetchAllAssoc()) {

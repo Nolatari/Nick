@@ -113,7 +113,7 @@ class Renderer {
       } elseif (StringManipulation::contains($type, 'core')) {
         $path = 'core/components/' . StringManipulation::replace($type, 'core.', '') . '/templates/';
       } else {
-        \Nick::Logger()->add('[setType]: Folder not found.', Logger::TYPE_WARNING, 'Renderer');
+        \Nick::Logger()->add('Folder not found.', Logger::TYPE_WARNING, 'Renderer');
         return NULL;
       }
     }
