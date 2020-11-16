@@ -22,7 +22,6 @@ use Nick\Manifest\ManifestInterface;
 use Nick\Manifest\ManifestRenderer;
 use Nick\Page\PageManager;
 use Nick\Person\Entity\Person;
-use Nick\Person\Entity\PersonInterface;
 use Nick\Renderer;
 use Nick\Route\Route;
 use Nick\Route\RouteInterface;
