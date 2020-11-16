@@ -43,12 +43,12 @@ class Install implements InstallInterface {
     \Nick::Logger()->add('Added menu item', Logger::TYPE_INFO, 'Article');
 
     $article = new Article([
-      'id' => 0,
       'owner' => 1,
       'status' => 1,
       'title' => 'Make Your Life Better by Saying Thank You in These 7 Situations',
-      'body' => file_get_contents('core/extensions/Article/tests/example_article_body.txt'),
+      'body' => htmlspecialchars(file_get_contents('core/extensions/Article/tests/example_article_body.txt')),
     ]);
+
     if (!$article->save()) {
       return FALSE;
     }

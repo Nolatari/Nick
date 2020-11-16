@@ -37,9 +37,9 @@ class View extends Page {
       'max-age' => 300,
     ];
 
-    if (isset($parameters['id']) && !empty($parameters['id'])) {
+    if (isset($parameters[1]) && !empty($parameters[1])) {
       /** @var Article $article */
-      $article = Article::load($parameters['id']);
+      $article = Article::load($parameters[1]);
       $this->setParameter('title', $article->getTitle());
       $this->caching['key'] = $this->caching['key'] . '.' . $article->id();
       $this->caching['max-age'] = 1800;

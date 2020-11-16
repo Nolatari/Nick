@@ -80,6 +80,11 @@ class EntityRenderer {
     $viewMode = $viewMode ?? 'default';
     $values = $entity->getValues();
     $values = array_merge($values, $variables);
+
+    foreach ($values as $key => $value) {
+      $values[$key] = htmlspecialchars_decode($value);
+    }
+    d($values);
     return $this
       ->getRenderer()
       ->setType('entity/' . $entity->getType())

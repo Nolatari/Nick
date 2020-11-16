@@ -8,8 +8,6 @@ entity.view:
 entity.add:
   url: '/entity/{type}/add'
   controller: '\Nick\Entity\Pages\Add'
-  parameters:
-    type: 1
 
 entity.edit:
   url: '/entity/{type}/{id}/edit'
