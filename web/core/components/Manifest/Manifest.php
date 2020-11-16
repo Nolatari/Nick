@@ -118,7 +118,7 @@ class Manifest implements ManifestInterface {
    *
    * @return string
    */
-  protected function getType() {
+  public function getType() {
     return $this->type ?? FALSE;
   }
 
