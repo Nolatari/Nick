@@ -23,8 +23,7 @@ class EntityRenderer {
    * @param EntityInterface $entity
    */
   public function __construct(EntityInterface $entity) {
-    $this->setEntity($entity);
-    $this->setRenderer();
+    $this->setEntity($entity)->setRenderer();
   }
 
   /**
