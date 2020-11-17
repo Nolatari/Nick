@@ -14,7 +14,7 @@ $nick_settings['database'] = [
 $nick_settings['root'] = [
   'folder' => __DIR__,
   'url' => 'http://headless_cms.lndo.site',
-  'webroot' => '/web/', // With trailing slash
+  'webroot' => '/web/', // With heading and trailing slash
 ];
 
 $nick_settings['config'] = [
