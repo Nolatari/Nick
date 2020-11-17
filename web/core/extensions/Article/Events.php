@@ -35,10 +35,10 @@ class Events extends EventListener {
       foreach($authors_results as $item) {
         $ids[] = $item['id'];
       }
-      $articles = $articles->condition('owner', $ids, 'IN');
+      $articles->condition('owner', $ids, 'IN');
     }
 
-    $articles = $articles->condition('title', $keyword, 'LIKE')
+    $articles->condition('title', $keyword, 'LIKE')
       ->condition('body', $keyword, 'LIKE')
       ->execute();
 
