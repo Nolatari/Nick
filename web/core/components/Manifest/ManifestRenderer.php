@@ -156,17 +156,16 @@ class ManifestRenderer {
       foreach ($results as &$result) {
         $editRoute = \Nick::Route()->load('entity.edit')->setValue('type', $manifest->getType())->setValue('id', $result['id']);
         $deleteRoute = \Nick::Route()->load('entity.delete')->setValue('type', $manifest->getType())->setValue('id', $result['id']);
+        $link = new Link();
 
-        $result['edit-link'] = new Link();
-        $result['edit-link']->render([
+        $result['edit-link'] = $link->render([
           'formId' => $manifest->getType() . '-overview',
           'key' => 'edit',
           'url' => \Nick::Url()::fromRoute($editRoute),
           'text' => $this->translate('Edit'),
         ]);
 
-        $result['edit-link'] = new Link();
-        $result['delete-link']->render([
+        $result['delete-link'] = $link->render([
           'formId' => $manifest->getType() . '-overview',
           'key' => 'delete',
           'url' => \Nick::Url()::fromRoute($deleteRoute),

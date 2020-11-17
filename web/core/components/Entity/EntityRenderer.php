@@ -83,7 +83,6 @@ class EntityRenderer {
     foreach ($values as $key => $value) {
       $values[$key] = htmlspecialchars_decode($value);
     }
-    d($values);
     return $this
       ->getRenderer()
       ->setType('entity/' . $entity->getType())

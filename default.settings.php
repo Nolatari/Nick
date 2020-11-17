@@ -4,17 +4,23 @@ $nick_settings = [];
 
 $nick_settings['database'] = [
   'type' => 'mysql',
-  'hostname' => 'hostname',
-  'username' => 'username',
-  'database' => 'database',
-  'password' => 'password',
-  'port' => 'port',
+  'hostname' => 'localhost',
+  'username' => 'nick-db',
+  'database' => 'nick-db',
+  'password' => 'nick-db',
+  'port' => '3306',
 ];
 
 $nick_settings['root'] = [
   'folder' => __DIR__,
-  'url' => 'http://headless_cms.lndo.site',
-  'webroot' => '/web/', // With heading and trailing slash
+  'web' => [
+    'url' => 'http://localhost/web',
+    'root' => '/web/',
+  ],
+  'project' => [
+    'url' => 'http://localhost/',
+    'root' => '/',
+  ],
 ];
 
 $nick_settings['config'] = [
@@ -22,17 +28,13 @@ $nick_settings['config'] = [
 ];
 
 $nick_settings['themes'] = [
-  'folder' => __DIR__ . '/web/themes',
+  'folder' => 'themes',
+  'url' => $nick_settings['root']['web']['url'] . '/themes',
 ];
 
 $nick_settings['files'] = [
-  'public' => [
-    'folder' => __DIR__ . '/web/files/public',
-    'url' => $nick_settings['root']['url'] . $nick_settings['root']['webroot'] . 'files/public',
-  ],
-  'private' => [
-    'folder' => __DIR__ . '/files/private'
-  ],
+  'public' => $nick_settings['root']['project']['url'] . '/files/public',
+  'private' => $nick_settings['root']['project']['url'] . '/files/private',
 ];
 
 //$nick_settings['debugging'] = TRUE;
