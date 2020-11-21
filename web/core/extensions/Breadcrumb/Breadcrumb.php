@@ -23,14 +23,20 @@ class Breadcrumb extends EventListener {
       return;
     }
 
-    $items_raw = StringManipulation::explode(\Nick::CurrentRoute()->getUri(), '/');
-    $items_raw = ArrayManipulation::removeEmptyEntries($items_raw);
+    $current_route = \Nick::CurrentRoute();
+
+    $items_raw = StringManipulation::explode($current_route->getUri(), '/');
+    $items_raw = ['Home'] + ArrayManipulation::removeEmptyEntries($items_raw);
+    $last_item = end($items_raw);
     $items = [];
 
     $url = '';
     foreach ($items_raw as $item) {
       $url = $url . '/' . $item;
-      $items[StringManipulation::capitalize($item)] = Settings::get('root.web.url') . $url;
+      $items[StringManipulation::capitalize($item)] = [
+        'url' => $item === 'Home' ? Settings::get('root.web.url') . '/' : Settings::get('root.web.url') . $url,
+        'link' => $item !== $last_item && !($item === 'Home' && $current_route->getRoute() === 'dashboard'),
+      ];
     }
 
     $variables['breadcrumb'] = \Nick::Renderer()

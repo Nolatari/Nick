@@ -1,8 +1,11 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-        {% for item, url in items %}
-            <li class="breadcrumb-item"><a href="{{ url }}">{{ item }}</a></li>
+        {% for label, info in items %}
+            {% if info.link %}
+            <li class="breadcrumb-item"><a href="{{ info.url }}">{{ label }}</a></li>
+            {% else %}
+                <li class="breadcrumb-item">{{ label }}</li>
+            {% endif %}
         {% endfor %}
     </ol>
 </nav>
