@@ -63,6 +63,7 @@ class Person extends Entity implements PersonInterface {
         'length' => 255,
         'unique' => TRUE,
         'form' => [
+          'title' => 'Name',
           'type' => 'textbox',
           'attributes' => [
             'type' => 'username',
@@ -73,6 +74,7 @@ class Person extends Entity implements PersonInterface {
         'type' => 'varchar',
         'length' => '255',
         'form' => [
+          'title' => 'Password',
           'type' => 'textbox',
           'attributes' => [
             'type' => 'password',
@@ -83,6 +85,7 @@ class Person extends Entity implements PersonInterface {
         'type' => 'varchar',
         'length' => '10',
         'form' => [
+          'title' => 'Language',
           'type' => 'select',
           'options' => $language_options,
         ],
@@ -99,6 +102,13 @@ class Person extends Entity implements PersonInterface {
     $values = parent::getValues();
     unset($values['password']);
     return $values;
+  }
+
+  /**
+   * @return string
+   */
+  public function getTitle(): string {
+    return $this->getName();
   }
 
   /**

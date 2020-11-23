@@ -445,6 +445,15 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
   }
 
   /**
+   * Default function to return title, to be overwritten in entities
+   *
+   * @return null
+   */
+  public function getTitle() {
+    return NULL;
+  }
+
+  /**
    * @param string $type
    *
    * @return bool

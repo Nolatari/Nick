@@ -26,7 +26,7 @@ class Breadcrumb extends EventListener {
     $current_route = \Nick::CurrentRoute();
 
     $items_raw = StringManipulation::explode($current_route->getUri(), '/');
-    $items_raw = ['Home'] + ArrayManipulation::removeEmptyEntries($items_raw);
+    $items_raw = [translate('Home')] + ArrayManipulation::removeEmptyEntries($items_raw);
     $last_item = end($items_raw);
     $items = [];
 

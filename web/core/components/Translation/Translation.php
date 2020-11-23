@@ -74,7 +74,7 @@ class Translation implements TranslationInterface {
     \Nick::Event('stringTranslationPresave')
       ->fire($translation, [$string, $from_langcode, $to_langcode]);
 
-    if ($this->get($string) == '') {
+    if ($this->get($string, [], FALSE) == '') {
       $query = \Nick::Database()
         ->insert('translations')
         ->values([
