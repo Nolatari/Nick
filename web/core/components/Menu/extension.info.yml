@@ -1,6 +1,6 @@
 name: Menu
 version: 1.0a
-type: entity
+type: component
 required: true
 entities:
   menu:
