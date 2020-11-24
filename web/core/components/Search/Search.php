@@ -50,7 +50,7 @@ class Search {
   public function getSearchResults(): array {
     $results = [];
 
-    \Nick::Event('preSearchRender')
+    \Nick::Event('addSearchResults')
       ->fire($results, [$this->getKeyword()]);
 
     return $results;

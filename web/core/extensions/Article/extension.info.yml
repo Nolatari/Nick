@@ -6,5 +6,5 @@ entities:
     label: 'Article'
     class: '\Nick\Article\Entity\Article'
 event_listeners:
-  preSearchRender:
+  addSearchResults:
     class: '\Nick\Article\Events'
