@@ -1,25 +1,3 @@
-article.view:
-  url: '/article/{id}'
-  controller: '\Nick\Article\Pages\View'
-  parameters:
-    id: 1
-
-article.edit:
-  url: '/article/{id}/edit'
-  controller: '\Nick\Article\Pages\Edit'
-  parameters:
-    id: 1
-
-article.add:
-  url: '/article/add'
-  controller: '\Nick\Article\Pages\Add'
-
-article.delete:
-  url: '/article/{id}/delete'
-  controller: '\Nick\Article\Pages\Delete'
-  parameters:
-    id: 1
-
 article.overview:
-  url: '/article'
+  url: '/articles'
   controller: '\Nick\Article\Pages\Overview'

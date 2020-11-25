@@ -65,8 +65,7 @@ class Overview extends Page {
           'title' => $this->get('title'),
           'summary' => $this->get('summary'),
         ],
-        'article' => [
-          'id' => $parameters['id'] ?? NULL,
+        'articles' => [
           'content' => $content,
         ],
       ]);

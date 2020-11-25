@@ -175,7 +175,17 @@ class Cache implements CacheInterface {
   public function clearAllCaches() {
     $this->cacheableData = [];
     $this->initializeCache();
-    return \Nick::Database()->query('TRUNCATE TABLE cache_content');
+
+    $caches = [];
+    $caches[] = \Nick::Database()->query('TRUNCATE TABLE cache_content');
+    $caches[] = \Nick::Database()->query('TRUNCATE TABLE routes');
+
+    foreach ($caches as $cache) {
+      if (!$cache) {
+        return FALSE;
+      }
+    }
+    return TRUE;
   }
 
   /**

@@ -301,18 +301,21 @@ class Nick {
     return new Url();
   }
 
+  public static function Init() {
+    $core = new Core();
+    $core->setSystemSpecifics();
+    static::ExtensionManager()->installExtensions();
+    static::EntityManager()->createEntities();
+    static::RouteManager()->installRoutes();
+  }
+
   /**
    * Bootstraps Nick
    *
    * @param Request $request
    */
   public static function Bootstrap(Request $request) {
-    $core = new Core();
-    $core->setSystemSpecifics();
-    static::ExtensionManager()->installExtensions();
-    static::EntityManager()->createEntities();
-    static::RouteManager()->installRoutes();
-
+    static::Init();
     $uri = StringManipulation::replace($request->getUri(), Settings::get('root.web.url'), '');
     $route = static::RouteManager()->routeMatch($uri);
     if (!$route) {

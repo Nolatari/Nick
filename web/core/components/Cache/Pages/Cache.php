@@ -54,6 +54,8 @@ class Cache extends Page {
         \Nick::Logger()->add('Could not clear caches.', Logger::TYPE_FAILURE, 'Cache');
       }
 
+      \Nick::Init();
+
       $response = new RedirectResponse(Url::fromRoute(\Nick::Route()->load('dashboard')));
       $response->send();
     }

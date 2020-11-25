@@ -100,6 +100,7 @@ class View extends Page {
           ],
           'entity' => [
             'id' => $id ?? NULL,
+            'type' => isset($entity) ? $entity->getType() : NULL,
             'content' => $content,
           ],
         ]);
