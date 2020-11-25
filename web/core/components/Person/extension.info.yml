@@ -7,5 +7,5 @@ entities:
     label: 'Person'
     class: '\Nick\Person\Entity\Person'
 event_listeners:
-  preSearchRender:
+  addSearchResults:
     class: '\Nick\Person\Events'

@@ -22,14 +22,14 @@ interface EventListenerInterface {
   public function pagePreRender(?array &$variables, string $page_id);
 
   /**
-   * preSearchRender event
+   * addSearchResults event
    *
    * @param array|null $results
    * @param string     $keyword
    *
    * @return mixed
    */
-  public function preSearchRender(?array &$results, string $keyword);
+  public function addSearchResults(?array &$results, string $keyword);
 
   /**
    * preRender event

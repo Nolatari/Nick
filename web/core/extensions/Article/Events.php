@@ -16,7 +16,7 @@ class Events extends EventListener {
   /**
    * {@inheritDoc}
    */
-  public function preSearchRender(?array &$results, string $keyword) {
+  public function addSearchResults(?array &$results, string $keyword) {
     $results['Articles'] = [];
 
     $articles = \Nick::Database('OR')

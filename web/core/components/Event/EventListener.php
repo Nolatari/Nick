@@ -21,7 +21,7 @@ class EventListener implements EventListenerInterface {
   /**
    * {@inheritDoc}
    */
-  public function preSearchRender(?array &$results, string $keyword) {}
+  public function addSearchResults(?array &$results, string $keyword) {}
 
   /**
    * {@inheritDoc}
