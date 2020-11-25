@@ -12,13 +12,7 @@ use Nick\Logger;
  *
  * @package Nick\Cache
  */
-class Cache implements CacheInterface {
-
-  /** @var array $cacheableData */
-  protected array $cacheableData;
-
-  /** @var array $cacheStats */
-  protected array $cacheStats;
+class Cache extends CacheBase {
 
   /**
    * {@inheritDoc}
@@ -158,20 +152,6 @@ class Cache implements CacheInterface {
   /**
    * {@inheritDoc}
    */
-  public function returnCache() {
-    return $this->cacheableData;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function returnCacheStats() {
-    return $this->cacheStats;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public function clearAllCaches() {
     $this->cacheableData = [];
     $this->initializeCache();
@@ -186,16 +166,6 @@ class Cache implements CacheInterface {
       }
     }
     return TRUE;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function initializeCache() {
-    $this->cacheableData['NICK_VERSION'] = '1';
-    $this->cacheableData['NICK_VERSION_RELEASE'] = '0';
-    $this->cacheableData['NICK_VERSION_RELEASE_MINOR'] = '0';
-    $this->cacheableData['NICK_VERSION_STATUS'] = 'alpha';
   }
 
 }

@@ -7,14 +7,7 @@ namespace Nick\Cache;
  *
  * @package Nick\Cache
  */
-class Redis implements CacheInterface {
-
-  /**
-   * @inheritDoc
-   */
-  public function initializeCache() {
-    // TODO: Implement initializeCache() method.
-  }
+class Redis extends CacheBase {
 
   /**
    * @inheritDoc
