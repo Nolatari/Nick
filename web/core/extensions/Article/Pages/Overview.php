@@ -45,7 +45,6 @@ class Overview extends Page {
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
 
-    $content = NULL;
     $manifest = \Nick::Manifest('article')->fields([
       'id', 'title', 'status', 'owner'
     ]);

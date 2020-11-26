@@ -178,6 +178,7 @@ class ManifestRenderer {
       ->setType('core.Manifest')
       ->setTemplate($viewMode)
       ->render([
+        'type' => $manifest->getType(),
         'fields' => $fields,
         'values' => $results,
         'hidden' => $this->hiddenFields,
