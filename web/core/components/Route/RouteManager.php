@@ -39,13 +39,13 @@ class RouteManager {
         if ($this->routeExists($route)) {
           $routeStorage = \Nick::Route()
             ->load($route)
-            ->setValues($route, $options['controller'], $options['parameters'] ?? [], $options['url']);
+            ->setValues($route, $options['controller'], $options['parameters'] ?? [], $options['url'], $options['rest'] ?? FALSE);
           if (!$routeStorage->save()) {
             \Nick::Logger()->add($this->translate('Something went wrong trying to save a route [:route]', [':route', $route]), Logger::TYPE_FAILURE, 'RouteManager');
           }
         } else {
           $routeStorage = \Nick::Route()
-            ->setValues($route, $options['controller'], $options['parameters'] ?? [], $options['url']);
+            ->setValues($route, $options['controller'], $options['parameters'] ?? [], $options['url'], $options['rest'] ?? FALSE);
           if (!$routeStorage->save()) {
             \Nick::Logger()->add($this->translate('Something went wrong trying to add a route [:route]', [':route', $route]), Logger::TYPE_FAILURE, 'RouteManager');
           }
