@@ -1,0 +1,6 @@
+rest.retrieve:
+  url: '/rest/retrieve/{param}'
+  controller: '\Nick\Rest\Pages\Retrieve'
+  rest: true
+  parameters:
+    param: 3

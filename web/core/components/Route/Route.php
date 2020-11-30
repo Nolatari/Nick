@@ -28,6 +28,9 @@ class Route implements RouteInterface {
   /** @var string $url */
   protected string $url;
 
+  /** @var bool $rest */
+  protected bool $rest = FALSE;
+
   /** @var array $parameters */
   protected array $parameters;
 
@@ -64,7 +67,7 @@ class Route implements RouteInterface {
     if (!is_array($result)) {
       return FALSE;
     }
-    return $this->setValues($route, $result['controller'], unserialize($result['parameters']), $result['url']);
+    return $this->setValues($route, $result['controller'], unserialize($result['parameters']), $result['url'], $result['rest'] ?? FALSE);
   }
 
   /**
@@ -137,6 +140,9 @@ class Route implements RouteInterface {
       case 'url':
         $this->url = $value;
         break;
+      case 'rest':
+        $this->rest = $value;
+        break;
       default:
         $this->values[$key] = $value;
         break;
@@ -159,14 +165,17 @@ class Route implements RouteInterface {
    * @param string $url
    *                  The URL the route should link to.
    *                  Use reusable URLs here, e.g: /person/{id}/edit
+   * @param bool   $rest
+   *                  Whether this is a call to the rest API or not (handles bootstrap differently)
    *
    * @return self
    */
-  public function setValues(string $route, string $controller, array $parameters, string $url): self {
+  public function setValues(string $route, string $controller, array $parameters, string $url, bool $rest = FALSE): self {
     $this->route = $route;
     $this->controller = $controller;
     $this->parameters = $parameters;
     $this->url = $url;
+    $this->rest = $rest;
 
     return $this;
   }
@@ -196,6 +205,15 @@ class Route implements RouteInterface {
    */
   public function getRoute() {
     return $this->route;
+  }
+
+  /**
+   * Returns whether route is a rest call
+   *
+   * @return bool
+   */
+  public function isRest() {
+    return $this->rest;
   }
 
   /**

@@ -23,7 +23,7 @@ logs.view:
   parameters:
     id: 3
 
-# Logs
+# Cache
 cache.clear:
   url: '/cache/clear'
   controller: '\Nick\Cache\Pages\Cache'

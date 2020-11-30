@@ -336,6 +336,12 @@ class Nick {
     }
     static::Route()::setCurrent($route);
 
+    // Render rest api calls without rendering everything else
+    if ($route->isRest()) {
+      $route->render();
+      exit;
+    }
+
     try {
       $variables = [];
       $variables['logs'] = ['render' => static::Logger()->render()];

@@ -37,6 +37,7 @@ class Page implements PageInterface {
    */
   protected function setCacheOptions($parameters = []) {
     $this->caching = [
+      'key' => '',
       'tags' => [],
       'context' => [],
       'max-age' => -1,
