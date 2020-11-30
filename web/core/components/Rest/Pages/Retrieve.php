@@ -2,11 +2,9 @@
 
 namespace Nick\Rest\Pages;
 
-use http\Client\Response;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
 
 /**
  * Class Retrieve

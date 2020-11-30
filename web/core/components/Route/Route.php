@@ -187,7 +187,7 @@ class Route implements RouteInterface {
    * @return bool
    */
   public function isRest() {
-    return $this->rest;
+    return $this->rest ?? FALSE;
   }
 
   /**

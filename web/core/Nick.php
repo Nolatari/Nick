@@ -313,6 +313,9 @@ class Nick {
     return new Url();
   }
 
+  /**
+   * Initialize Nick's dependencies
+   */
   public static function Init() {
     $core = new Core();
     $core->setSystemSpecifics();
@@ -355,15 +358,14 @@ class Nick {
       $page = $route->render();
       $footer = static::PageManager()->getPageRender('footer', $variables, $route);
 
-      $response = new Response(
-        $header . $page . $footer,
-        Response::HTTP_OK,
-        ['content-type' => 'text/html']
-      );
+      $response = new Response();
+      $response->headers->set('Content-Type', 'text/html');
+      $response->setContent($header . $page . $footer);
+      $response->setStatusCode(Response::HTTP_OK);
       $response->prepare($request);
       $response->send();
     } catch (Exception $exception) {
-      static::Logger()->add('Could not render Nick!' . PHP_EOL . $exception->getMessage(), Logger::TYPE_FAILURE, 'Bootstrap');
+      static::Logger()->add('Could not render Nick.' . PHP_EOL . $exception->getMessage(), Logger::TYPE_FAILURE, 'Bootstrap');
     }
   }
 

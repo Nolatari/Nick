@@ -73,7 +73,8 @@ class RouteManager {
     if (count($results) > 1) {
       \Nick::Logger()->add(
         $this->translate('More than one routes with name :route found.', [':route' => $route]),
-        Logger::TYPE_ERROR, 'RouteManager'
+        Logger::TYPE_ERROR,
+        'RouteManager'
       );
       return FALSE;
     }
