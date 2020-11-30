@@ -3,4 +3,4 @@
     <h1 class="h3 mb-0 text-gray-800">{{ trans('Articles overview') }}</h1>&nbsp;
     {{ formElement('link', {formId: 'article', key: 'add', url: route('entity.add', {type: 'article'}), text: trans('Add article'), classes: ['btn', 'btn-primary']})|raw }}
 </div>
-{{ article.content|raw }}
+{{ articles.content|raw }}

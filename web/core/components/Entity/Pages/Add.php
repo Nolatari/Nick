@@ -58,6 +58,7 @@ class Add extends Page {
           'summary' => $this->get('summary'),
         ],
         'entity' => [
+          'type' => $entity->getType(),
           'content' => $content,
         ],
       ]);

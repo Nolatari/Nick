@@ -45,7 +45,6 @@ class Overview extends Page {
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
 
-    $content = NULL;
     $manifest = \Nick::Manifest('article')->fields([
       'id', 'title', 'status', 'owner'
     ]);
@@ -65,8 +64,7 @@ class Overview extends Page {
           'title' => $this->get('title'),
           'summary' => $this->get('summary'),
         ],
-        'article' => [
-          'id' => $parameters['id'] ?? NULL,
+        'articles' => [
           'content' => $content,
         ],
       ]);

@@ -94,6 +94,7 @@ class Delete extends Page {
         ],
         'entity' => [
           'id' => $parameters[2] ?? NULL,
+          'type' => isset($entity) ? $entity->getType() : NULL,
           'content' => $content,
         ],
       ]);
