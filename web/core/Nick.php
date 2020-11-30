@@ -43,6 +43,9 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  */
 class Nick {
 
+  /** @var Request $request */
+  protected static Request $request;
+
   /**
    * Returns Entity object
    *
@@ -248,6 +251,15 @@ class Nick {
   }
 
   /**
+   * Returns Request object.
+   *
+   * @return Request
+   */
+  public static function Request(): Request {
+    return static::$request;
+  }
+
+  /**
    * Returns Route object.
    *
    * @return RouteManager
@@ -304,6 +316,7 @@ class Nick {
   public static function Init() {
     $core = new Core();
     $core->setSystemSpecifics();
+    static::$request = Request::createFromGlobals();
     static::ExtensionManager()->installExtensions();
     static::EntityManager()->createEntities();
     static::RouteManager()->installRoutes();
