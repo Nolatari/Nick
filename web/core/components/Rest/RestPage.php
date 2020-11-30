@@ -10,4 +10,12 @@ use Nick\Page\Page;
  */
 class RestPage extends Page {
 
+  /**
+   * RestPage constructor.
+   */
+  public function __construct() {
+    parent::__construct();
+    \Nick::Request()->headers->set('Content-Type', 'application/json');
+  }
+
 }
