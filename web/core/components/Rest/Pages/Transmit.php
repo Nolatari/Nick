@@ -8,17 +8,17 @@ use Nick\Route\RouteInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
- * Class Retrieve
+ * Class Transmit
  * @package Nick\Rest\Pages
  */
-class Retrieve extends Page {
+class Transmit extends Page {
 
   /**
    * {@inheritDoc}
    */
   public function setCacheOptions($parameters = []) {
     $this->caching = [
-      'key' => 'rest.retrieve',
+      'key' => 'rest.transmit',
       'context' => 'page',
       'max-age' => 0,
     ];
@@ -28,7 +28,7 @@ class Retrieve extends Page {
     parent::render($parameters, $route);
 
     $response = new JsonResponse();
-    $response->setContent(json_encode(Rest::Retrieve($parameters)));
+    $response->setContent(json_encode(Rest::Transmit($parameters)));
     $response->send();
   }
 
