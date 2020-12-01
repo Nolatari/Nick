@@ -1,6 +1,9 @@
 rest.retrieve:
-  url: '/rest/retrieve/{param}'
+  url: '/rest/retrieve'
   controller: '\Nick\Rest\Pages\Retrieve'
   rest: true
-  parameters:
-    param: 3
+
+rest.transmit:
+  url: '/rest/transmit'
+  controller: '\Nick\Rest\Pages\Transmit'
+  rest: true
