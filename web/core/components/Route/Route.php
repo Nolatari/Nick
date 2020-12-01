@@ -223,7 +223,7 @@ class Route implements RouteInterface {
     $current_params = [];
     foreach ($this->values as $param => $value) {
       if (isset($this->parameters[$param])) {
-        $url = StringManipulation::replace($url, '{' . $param . '}', $this->values[$param]);
+        $url = StringManipulation::replace($url, '{' . $param . '}', $this->values[$param] ?? NULL);
       } else {
         $url = \Nick::Url()->addParamsToUrl($param, $value, $url, $current_params);
         $current_params[$param] = $value;

@@ -28,7 +28,7 @@ class Url {
   public static function buildQuery(array $params, string $separator = '&', ?string $prefix = '?'): string {
     $query = $prefix ?? '';
     foreach ($params as $key => $param) {
-      if ($query !== $prefix) {
+      if ($query !== $prefix && $query !== '') {
         $query .= $separator;
       }
       if ($param === NULL) {
