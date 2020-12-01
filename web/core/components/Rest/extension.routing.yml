@@ -2,7 +2,6 @@ rest.retrieve:
   url: '/rest/retrieve'
   controller: '\Nick\Rest\Pages\Retrieve'
   rest: true
-
 rest.transmit:
   url: '/rest/transmit'
   controller: '\Nick\Rest\Pages\Transmit'
