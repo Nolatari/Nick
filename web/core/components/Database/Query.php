@@ -2,6 +2,8 @@
 
 namespace Nick\Database;
 
+use Nick\Settings;
+
 /**
  * Class Query
  *
@@ -27,7 +29,7 @@ class Query extends Database {
    * @return Query
    */
   protected function execute($query) {
-    if (isset($this->settings['debugging']) && $this->settings['debugging']) {
+    if (Settings::get('debugging')) {
       d($query);
     }
     if ($result = $this->database->query($query)) {
