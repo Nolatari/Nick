@@ -27,7 +27,7 @@ class Retrieve extends Page {
     parent::render($parameters, $route);
 
     $response = new JsonResponse();
-    $response->setContent(json_encode(['test' => 'myJsonResponse']));
+    $response->setContent(json_encode(['parameters' => $parameters['param']]));
     $response->send();
   }
 
