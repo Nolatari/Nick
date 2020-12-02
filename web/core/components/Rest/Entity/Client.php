@@ -78,6 +78,22 @@ class Client extends Entity implements ClientInterface {
   }
 
   /**
+   * @return array|mixed|string|NULL
+   */
+  public function getUuid() {
+    return $this->getValue('uuid');
+  }
+
+  /**
+   * @param string $uuid
+   *
+   * @return array|mixed|string|NULL
+   */
+  public function setUuid(string $uuid) {
+    return $this->setValue('uuid', $uuid);
+  }
+
+  /**
    * @return string
    */
   public function getPermissions(): string {
