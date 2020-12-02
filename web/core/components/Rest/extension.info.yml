@@ -2,3 +2,7 @@ name: Rest
 version: 1.0a
 type: component
 required: true
+entities:
+  client:
+    label: 'Client'
+    class: '\Nick\Rest\Entity\Client'

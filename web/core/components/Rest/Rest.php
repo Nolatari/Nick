@@ -17,6 +17,8 @@ class Rest {
     if (!$information['entity']) {
       return ['message' => 'No entity was given'];
     }
+
+    return [];
   }
 
   /**
@@ -28,6 +30,8 @@ class Rest {
     if (!$information['entity']) {
       return ['message' => 'No entity was given'];
     }
+
+    return [];
   }
 
 
