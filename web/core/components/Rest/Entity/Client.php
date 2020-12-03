@@ -11,6 +11,12 @@ use Symfony\Component\Uid\Uuid;
  */
 class Client extends Entity implements ClientInterface {
 
+  public static array $permissions = [
+    'retrieve' => 'Retrieve',
+    'transmit' => 'Transmit',
+    'all' => 'All',
+  ];
+
   /**
    * Person constructor.
    *
@@ -25,11 +31,6 @@ class Client extends Entity implements ClientInterface {
    * @return array
    */
   public static function initialFields(): array {
-    $permissions = [
-      'retrieve' => 'Retrieve',
-      'transmit' => 'Transmit',
-      'all' => 'All',
-    ];
     return [
       'title' => [
         'type' => 'varchar',
@@ -55,7 +56,7 @@ class Client extends Entity implements ClientInterface {
         'form' => [
           'title' => 'Permissions',
           'type' => 'select',
-          'options' => $permissions,
+          'options' => static::$permissions,
         ],
       ],
     ];
@@ -94,19 +95,37 @@ class Client extends Entity implements ClientInterface {
   }
 
   /**
-   * @return string
+   * @return array
    */
-  public function getPermissions(): string {
-    return $this->getValue('permissions');
+  public function getPermissions(): array {
+    return unserialize($this->getValue('permissions'));
   }
 
   /**
-   * @param string $permissions
+   * @param array $permissions
    *
    * @return self
    */
-  public function setPermissions(string $permissions): self {
-    return $this->setValue('permissions', $permissions);
+  public function setPermissions(array $permissions): self {
+    return $this->setValue('permissions', serialize($permissions));
+  }
+
+  /**
+   * Checks if client has permission
+   *
+   * @param $permission
+   *
+   * @return bool
+   */
+  public function hasPermission($permission) {
+    $permissions = $this->getPermissions();
+
+    foreach ($permissions as $item) {
+      if ($item === $permission || $item === 'all') {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
 }
