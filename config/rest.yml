@@ -1,7 +1,0 @@
-transmit-client:
-  uuid: 478d21aa-7b1c-443c-bca7-50ea31e0babc
-  access: transmit
-
-retrieve-client:
-  uuid: 18b7769f-c70a-4a43-a9e6-9f3d6ccf2ff1
-  access: retrieve
