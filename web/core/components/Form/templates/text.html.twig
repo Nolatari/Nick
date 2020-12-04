@@ -1,0 +1,12 @@
+<div class="form-group row">
+    <label for="{{ formId }}-{{ key }}" class="col-sm-4 col-form-label">{{ title }}</label>
+    <div class="col-sm-8">
+        <input type="hidden" class="form-control{% if classes %}{% for class in classes %} {{ class }}{% endfor %}{% endif %}"
+               id="{{ formId }}-{{ key }}"{% for key,value in attributes %} {{ key }}="{{ value|raw }}"{% endfor %}
+        aria-describedby="{{ formId }}-{{ key }}-description">
+        <span>{{ default_value }}</span>
+        {% if description %}
+            <small id="{{ formId }}-{{ key }}-description" class="form-text text-muted">{{ description }}</small>
+        {% endif %}
+    </div>
+</div>

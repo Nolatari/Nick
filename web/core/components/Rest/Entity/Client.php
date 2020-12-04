@@ -37,16 +37,16 @@ class Client extends Entity implements ClientInterface {
         'length' => 255,
         'unique' => TRUE,
         'form' => [
-          'title' => 'Title',
           'type' => 'textbox',
+          'title' => 'Title',
         ],
       ],
       'uuid' => [
         'type' => 'varchar',
         'length' => '255',
         'form' => [
+          'type' => 'text',
           'title' => 'UUID',
-          'type' => 'uuid',
           'default_value' => Uuid::v4(),
         ],
       ],
@@ -54,9 +54,12 @@ class Client extends Entity implements ClientInterface {
         'type' => 'varchar',
         'length' => '100',
         'form' => [
-          'title' => 'Permissions',
           'type' => 'select',
+          'title' => 'Permissions',
           'options' => static::$permissions,
+          'attributes' => [
+            'multiple' => TRUE,
+          ],
         ],
       ],
     ];
@@ -113,11 +116,11 @@ class Client extends Entity implements ClientInterface {
   /**
    * Checks if client has permission
    *
-   * @param $permission
+   * @param string $permission
    *
    * @return bool
    */
-  public function hasPermission($permission) {
+  public function hasPermission(string $permission): bool {
     $permissions = $this->getPermissions();
 
     foreach ($permissions as $item) {

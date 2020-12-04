@@ -110,7 +110,12 @@ class RouteManager {
       $result['parameters'] = unserialize($result['parameters']);
       if ($result['url'] === $url) {
         return \Nick::Route()->load($result['route']);
-      } elseif (count($result['parameters']) > 0) {
+      }
+    }
+
+    foreach ($results as $result) {
+      $result['parameters'] = unserialize($result['parameters']);
+      if (count($result['parameters']) > 0) {
         $exploded_route_url = ArrayManipulation::removeEmptyEntries(StringManipulation::explode($result['url'], '/'), TRUE, TRUE);
         $exploded_url = ArrayManipulation::removeEmptyEntries(StringManipulation::explode($url, '/'), TRUE, TRUE);
         $reworked_parameters = [];

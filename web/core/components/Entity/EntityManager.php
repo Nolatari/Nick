@@ -37,7 +37,7 @@ class EntityManager {
   }
 
   /**
-   * Creates content items on bootstrapping Nick
+   * Creates entities on bootstrapping Nick
    */
   public function createEntities() {
     // Create tables for Entities.
@@ -49,16 +49,40 @@ class EntityManager {
     }
 
     foreach ($entities as $entity => $info) {
-      $entity_object = new $info['class'];
-      if (!$entity_object instanceof EntityInterface) {
+      $object = new $info['class'];
+      if (!$object instanceof EntityInterface) {
         continue;
       }
 
-      if (!method_exists($entity_object, 'create')) {
+      if (!method_exists($object, 'create')) {
         continue;
       }
 
-      $entity_object::create();
+      $object::create();
+    }
+  }
+
+  /**
+   * Updates entity fields with initial ones.
+   */
+  public function updateEntities() {
+    $entities = self::getAllEntities();
+    foreach ($entities as $entity => $info) {
+      if (!self::entityInstalled($entity)) {
+        continue;
+      }
+
+      $object = new $info['class'];
+      if (!$object instanceof EntityInterface) {
+        continue;
+      }
+
+      \Nick::Database()->update('entity_storage')
+        ->condition('type', $object->getType())
+        ->values([
+          'fields' => serialize($object::initialFields()),
+        ])
+        ->execute();
     }
   }
 

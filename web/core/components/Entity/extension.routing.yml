@@ -1,32 +1,34 @@
+## Specific entity ones
 entity.view:
   url: '/entity/{type}/{id}'
   controller: '\Nick\Entity\Pages\View'
   parameters:
     type: 1
     id: 2
-
 entity.add:
   url: '/entity/{type}/add'
   controller: '\Nick\Entity\Pages\Add'
   parameters:
     type: 1
-
 entity.edit:
   url: '/entity/{type}/{id}/edit'
   controller: '\Nick\Entity\Pages\Edit'
   parameters:
     type: 1
     id: 2
-
 entity.delete:
   url: '/entity/{type}/{id}/delete'
   controller: '\Nick\Entity\Pages\Delete'
   parameters:
     type: 1
     id: 2
-
 entity.overview:
   url: '/entity/{type}'
   controller: '\Nick\Entity\Pages\Overview'
   parameters:
     type: 1
+
+## General Entity ones
+entity.update:
+  url: '/entity/update'
+  controller: '\Nick\Entity\Pages\Update'

@@ -80,12 +80,12 @@ class Nick {
   /**
    * Returns Form object
    *
-   * @param EntityInterface|null $matter
+   * @param EntityInterface|null $entity
    *
    * @return Form
    */
-  public static function Form(EntityInterface $matter = NULL): Form {
-    return new Form($matter);
+  public static function Form(EntityInterface $entity = NULL): Form {
+    return new Form($entity);
   }
 
   /**
