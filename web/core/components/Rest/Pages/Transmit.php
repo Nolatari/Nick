@@ -26,10 +26,7 @@ class Transmit extends Page {
 
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
-
-    $response = new JsonResponse();
-    $response->setContent(json_encode(Rest::Transmit($parameters)));
-    $response->send();
+    Rest::Transmit($parameters);
   }
 
 }

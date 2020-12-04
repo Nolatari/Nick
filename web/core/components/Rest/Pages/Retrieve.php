@@ -27,9 +27,7 @@ class Retrieve extends Page {
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
 
-    $response = new JsonResponse();
-    $response->setContent(json_encode(Rest::Retrieve($parameters)));
-    $response->send();
+    Rest::Retrieve($parameters);
   }
 
 }
