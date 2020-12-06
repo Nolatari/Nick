@@ -6,6 +6,7 @@ use Nick\Event\Event;
 use Nick\Route\RouteInterface;
 use Nick\Translation\StringTranslation;
 use Nick\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class Dashboard
@@ -21,11 +22,35 @@ class Page implements PageInterface {
   /** @var array $parameters */
   protected array $parameters = [];
 
+  /** @var array $permissions */
+  protected array $permissions = [];
+
   /**
    * Dashboard constructor.
    */
   public function __construct() {;
     $this->setCacheOptions(Url::getParameters());
+  }
+
+  /**
+   * Returns permissions required to view this page
+   *
+   * @return array
+   */
+  public function getPermissions(): array {
+    return $this->permissions;
+  }
+
+  /**
+   * Sets permissions required to view this page
+   *
+   * @param array $permissions
+   *
+   * @return Page
+   */
+  protected function setPermissions(array $permissions): self {
+    $this->permissions = $permissions;
+    return $this;
   }
 
   /**
@@ -35,7 +60,7 @@ class Page implements PageInterface {
    *
    * @return self
    */
-  protected function setCacheOptions($parameters = []) {
+  protected function setCacheOptions($parameters = []): Page {
     $this->caching = [
       'key' => '',
       'tags' => [],
@@ -59,6 +84,16 @@ class Page implements PageInterface {
   public function render(array &$parameters, RouteInterface $route) {
     \Nick::Event('pagePreRender')
       ->fire($parameters, [$this->get('id')]);
+
+    foreach ($this->getPermissions() as $permission) {
+      if (!\Nick::CurrentPerson()->hasPermission($permission)) {
+        /** @var RouteInterface $dashboard */
+        $dashboard = \Nick::Route()->load('dashboard');
+        $redirect = new RedirectResponse($dashboard);
+        $redirect->setStatusCode(401);
+        $redirect->send();
+      }
+    }
   }
 
   /**

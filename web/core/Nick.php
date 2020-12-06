@@ -21,6 +21,7 @@ use Nick\Manifest\Manifest;
 use Nick\Manifest\ManifestInterface;
 use Nick\Manifest\ManifestRenderer;
 use Nick\Page\PageManager;
+use Nick\Permission\PermissionManager;
 use Nick\Person\Entity\Person;
 use Nick\Renderer;
 use Nick\Route\Route;
@@ -47,74 +48,13 @@ class Nick {
   protected static Request $request;
 
   /**
-   * Returns Entity object
+   * Returns Cache object
    *
-   * @return EntityInterface
+   * @return CacheInterface
    */
-  public static function Entity(): EntityInterface {
-    return new Entity();
-  }
-
-  /**
-   * Returns Event object
-   *
-   * @param string $eventName
-   *
-   * @return EventInterface
-   */
-  public static function Event(string $eventName): EventInterface {
-    return new Event($eventName);
-  }
-
-  /**
-   * Returns EntityRenderer object
-   *
-   * @param EntityInterface $entity
-   *
-   * @return EntityRenderer
-   */
-  public static function EntityRenderer(EntityInterface $entity): EntityRenderer {
-    return new EntityRenderer($entity);
-  }
-
-  /**
-   * Returns Form object
-   *
-   * @param EntityInterface|null $entity
-   *
-   * @return Form
-   */
-  public static function Form(EntityInterface $entity = NULL): Form {
-    return new Form($entity);
-  }
-
-  /**
-   * Returns Search object
-   *
-   * @param $query
-   *
-   * @return Search
-   */
-  public static function Search($query): Search {
-    return new Search($query);
-  }
-
-  /**
-   * Returns Renderer object.
-   *
-   * @return Renderer
-   */
-  public static function Renderer(): Renderer {
-    return new Renderer();
-  }
-
-  /**
-   * Returns Translation object
-   *
-   * @return TranslationInterface
-   */
-  public static function Translation(): TranslationInterface {
-    return new Translation();
+  public static function Cache(): CacheInterface {
+    global $cache;
+    return $cache ?? Core::getCacheClass();
   }
 
   /**
@@ -136,43 +76,12 @@ class Nick {
   }
 
   /**
-   * Returns Filesystem object
+   * Returns the current route object.
    *
-   * @param array|null $available
-   *
-   * @return Filesystem
+   * @return RouteInterface
    */
-  public static function Filesystem(?array $available = NULL): Filesystem {
-    return new Filesystem($available);
-  }
-
-  /**
-   * Returns LanguageManager object
-   *
-   * @return LanguageManager
-   */
-  public static function LanguageManager(): LanguageManager {
-    return new LanguageManager();
-  }
-
-  /**
-   * Returns Language object
-   *
-   * @param string $langcode
-   *
-   * @return LanguageInterface
-   */
-  public static function Language(string $langcode = 'en'): LanguageInterface {
-    return new Language($langcode);
-  }
-
-  /**
-   * Returns Theme object
-   *
-   * @return Theme
-   */
-  public static function Theme(): Theme {
-    return new Theme();
+  public static function CurrentRoute(): RouteInterface {
+    return Route::getCurrent();
   }
 
   /**
@@ -192,13 +101,103 @@ class Nick {
   }
 
   /**
-   * Returns Cache object
+   * Returns Entity object
    *
-   * @return CacheInterface
+   * @return EntityInterface
    */
-  public static function Cache(): CacheInterface {
-    global $cache;
-    return $cache ?? Core::getCacheClass();
+  public static function Entity(): EntityInterface {
+    return new Entity();
+  }
+
+  /**
+   * Returns EntityManager object.
+   *
+   * @return EntityManager
+   */
+  public static function EntityManager(): EntityManager {
+    return new EntityManager();
+  }
+
+  /**
+   * Returns EntityRenderer object
+   *
+   * @param EntityInterface $entity
+   *
+   * @return EntityRenderer
+   */
+  public static function EntityRenderer(EntityInterface $entity): EntityRenderer {
+    return new EntityRenderer($entity);
+  }
+
+  /**
+   * Returns Event object
+   *
+   * @param string $eventName
+   *
+   * @return EventInterface
+   */
+  public static function Event(string $eventName): EventInterface {
+    return new Event($eventName);
+  }
+
+  /**
+   * Returns ExtensionManager object
+   *
+   * @return ExtensionManager
+   */
+  public static function ExtensionManager(): ExtensionManager {
+    return new ExtensionManager();
+  }
+
+  /**
+   * Returns Filesystem object
+   *
+   * @param array|null $available
+   *
+   * @return Filesystem
+   */
+  public static function Filesystem(?array $available = NULL): Filesystem {
+    return new Filesystem($available);
+  }
+
+  /**
+   * Returns Form object
+   *
+   * @param EntityInterface|null $entity
+   *
+   * @return Form
+   */
+  public static function Form(EntityInterface $entity = NULL): Form {
+    return new Form($entity);
+  }
+
+  /**
+   * Returns Language object
+   *
+   * @param string $langcode
+   *
+   * @return LanguageInterface
+   */
+  public static function Language(string $langcode = 'en'): LanguageInterface {
+    return new Language($langcode);
+  }
+
+  /**
+   * Returns LanguageManager object
+   *
+   * @return LanguageManager
+   */
+  public static function LanguageManager(): LanguageManager {
+    return new LanguageManager();
+  }
+
+  /**
+   * Returns Logger object
+   *
+   * @return Logger
+   */
+  public static function Logger(): Logger {
+    return new Logger();
   }
 
   /**
@@ -224,30 +223,30 @@ class Nick {
   }
 
   /**
-   * Returns Session object.
+   * Returns PageManager object
    *
-   * @return SessionInterface
+   * @return PageManager
    */
-  public static function Session(): SessionInterface {
-    return new Session();
+  public static function PageManager(): PageManager {
+    return new PageManager();
   }
 
   /**
-   * Returns ExtensionManager object
+   * Returns PermissionManager object
    *
-   * @return ExtensionManager
+   * @return PermissionManager
    */
-  public static function ExtensionManager(): ExtensionManager {
-    return new ExtensionManager();
+  public static function PermissionManager(): PermissionManager {
+    return new PermissionManager();
   }
 
   /**
-   * Returns EntityManager object.
+   * Returns Renderer object.
    *
-   * @return EntityManager
+   * @return Renderer
    */
-  public static function EntityManager(): EntityManager {
-    return new EntityManager();
+  public static function Renderer(): Renderer {
+    return new Renderer();
   }
 
   /**
@@ -262,15 +261,6 @@ class Nick {
   /**
    * Returns Route object.
    *
-   * @return RouteManager
-   */
-  public static function RouteManager(): RouteManager {
-    return new RouteManager();
-  }
-
-  /**
-   * Returns Route object.
-   *
    * @return RouteInterface
    */
   public static function Route(): RouteInterface {
@@ -278,30 +268,50 @@ class Nick {
   }
 
   /**
-   * Returns the current route object.
+   * Returns Route object.
    *
-   * @return RouteInterface
+   * @return RouteManager
    */
-  public static function CurrentRoute(): RouteInterface {
-    return Route::getCurrent();
+  public static function RouteManager(): RouteManager {
+    return new RouteManager();
   }
 
   /**
-   * Returns Logger object
+   * Returns Search object
    *
-   * @return Logger
+   * @param $query
+   *
+   * @return Search
    */
-  public static function Logger(): Logger {
-    return new Logger();
+  public static function Search($query): Search {
+    return new Search($query);
   }
 
   /**
-   * Returns PageManager object
+   * Returns Session object.
    *
-   * @return PageManager
+   * @return SessionInterface
    */
-  public static function PageManager(): PageManager {
-    return new PageManager();
+  public static function Session(): SessionInterface {
+    return new Session();
+  }
+
+  /**
+   * Returns Theme object
+   *
+   * @return Theme
+   */
+  public static function Theme(): Theme {
+    return new Theme();
+  }
+
+  /**
+   * Returns Translation object
+   *
+   * @return TranslationInterface
+   */
+  public static function Translation(): TranslationInterface {
+    return new Translation();
   }
 
   /**

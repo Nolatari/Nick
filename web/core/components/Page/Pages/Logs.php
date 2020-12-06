@@ -30,7 +30,7 @@ class Logs extends Page {
   /**
    * {@inheritDoc}
    */
-  protected function setCacheOptions($parameters = []) {
+  protected function setCacheOptions($parameters = []): self {
     $this->caching = [
       'key' => 'page.logs',
       'context' => 'page',

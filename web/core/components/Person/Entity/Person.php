@@ -57,6 +57,10 @@ class Person extends Entity implements PersonInterface {
     foreach ($language_options as $langcode => $language) {
       $language_options[$langcode] = '[' . $langcode . '] ' . $language['language'] . ' - ' . $language['country'];
     }
+
+    $permissions = array_map(function($item) {
+      return [$item['permission'] => $item['permission']];
+    }, \Nick::PermissionManager()->getAllPermissions());
     return [
       'name' => [
         'type' => 'varchar',
@@ -88,6 +92,17 @@ class Person extends Entity implements PersonInterface {
           'title' => 'Language',
           'type' => 'select',
           'options' => $language_options,
+        ],
+      ],
+      'permissions' => [
+        'type' => 'blob',
+        'form' => [
+          'title' => 'Permissions',
+          'type' => 'select',
+          'options' => $permissions,
+          'attributes' => [
+            'multiple' => TRUE,
+          ],
         ],
       ],
     ];

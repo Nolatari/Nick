@@ -21,5 +21,3 @@ $request = Request::createFromGlobals();
 
 /** Bootstrap Nick. */
 \Nick::Bootstrap($request);
-
-d(Nick\Database\Database::createFieldQuery('new_field', ['type' => 'VARCHAR', 'length' => 255]));
