@@ -58,4 +58,24 @@ class EventListener implements EventListenerInterface {
    */
   public function EntityPostSave(?EntityInterface $entity) {}
 
+  /**
+   * {@inheritDoc}
+   */
+  public function preRetrieve(?array $information = []) {}
+
+  /**
+   * {@inheritDoc}
+   */
+  public function postRetrieve(?EntityInterface $data) {}
+
+  /**
+   * {@inheritDoc}
+   */
+  public function preTransmit(?array $information = []) {}
+
+  /**
+   * {@inheritDoc}
+   */
+  public function postTransmit(?EntityInterface $data) {}
+
 }

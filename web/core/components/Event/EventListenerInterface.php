@@ -85,4 +85,42 @@ interface EventListenerInterface {
    * @param EntityInterface|null $entity
    */
   public function EntityPostSave(?EntityInterface $entity);
+
+  /**
+   * preRetrieve event
+   *
+   * @param array|null $information
+   *
+   * @return mixed
+   */
+  public function preRetrieve(?array $information = []);
+
+  /**
+   * postRetrieve event
+   *
+   * @param EntityInterface|null $data
+   *
+   * @return mixed
+   */
+  public function postRetrieve(?EntityInterface $data);
+
+  /**
+   * preRetrieve event
+   *
+   * @param array|null $information
+   *
+   * @return mixed
+   */
+  public function preTransmit(?array $information = []);
+
+  /**
+   * postRetrieve event
+   * Gets fired before saving the entity to Nick
+   *
+   * @param EntityInterface|null $data
+   *
+   * @return mixed
+   */
+  public function postTransmit(?EntityInterface $data);
+
 }

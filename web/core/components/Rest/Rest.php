@@ -85,12 +85,20 @@ class Rest {
       static::message('No entity was given.', 400);
     }
 
+    // Fire preRetrieve event
+    \Nick::Event('preRetrieve')
+      ->fire($information);
+
     /** @var EntityInterface $data */
     $data = \Nick::EntityManager()
       ->loadByProperties($information['entity']);
     if (!$data instanceof EntityInterface) {
       static::message('Requested entity does not exist or is corrupt.', 404);
     }
+
+    // Fire postRetrieve event
+    \Nick::Event('postRetrieve')
+      ->fire($data);
 
     static::data($data->getValues(), 200, 'Data was successfully retrieved.');
   }
@@ -111,6 +119,10 @@ class Rest {
       static::message('No new values were given, can\'t save entity. [usage: add data key "new-values" with array of values]', 412);
     }
 
+    // Fire preTransmit event
+    \Nick::Event('preTransmit')
+      ->fire($information);
+
     /** @var EntityInterface $data */
     $data = \Nick::EntityManager()
       ->loadByProperties($information['entity']);
@@ -121,6 +133,11 @@ class Rest {
     foreach ($information['new-values'] as $key => $value) {
       $data->setValue($key, $value);
     }
+
+    // Fire postTransmit event (Before saving!)
+    \Nick::Event('postTransmit')
+      ->fire($data);
+
     if (!$data->save()) {
       static::message('Something went wrong trying to save the entity', 400);
     }
