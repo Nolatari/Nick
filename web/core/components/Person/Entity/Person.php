@@ -59,7 +59,7 @@ class Person extends Entity implements PersonInterface {
     }
 
     $permissions = array_map(function($item) {
-      return [$item['permission'] => $item['permission']];
+      return [$item->getPermission() => $item->getPermission()];
     }, \Nick::PermissionManager()->getAllPermissions());
     return [
       'name' => [

@@ -31,7 +31,7 @@ class Update extends Page {
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []) {
+  public function setCacheOptions($parameters = []): self {
     $this->caching = [
       'key' => 'page.entity.update',
       'context' => 'page',

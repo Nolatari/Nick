@@ -16,7 +16,7 @@ class Clients extends Page {
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []) {
+  public function setCacheOptions($parameters = []): self {
     $this->caching = [
       'key' => 'rest.clients',
       'context' => 'page',

@@ -32,7 +32,7 @@ class Cache extends Page {
   /**
    * {@inheritDoc}
    */
-  protected function setCacheOptions($parameters = []) {
+  public function setCacheOptions($parameters = []): self {
     $this->caching = [
       'key' => 'page.cache',
       'context' => 'page',

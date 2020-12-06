@@ -28,7 +28,7 @@ class Add extends Page {
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []) {
+  public function setCacheOptions($parameters = []): self {
     $this->caching = [
       'key' => 'page.entity.add',
       'context' => 'page',

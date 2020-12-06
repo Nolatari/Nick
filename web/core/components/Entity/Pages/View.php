@@ -30,7 +30,7 @@ class View extends Page {
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []) {
+  public function setCacheOptions($parameters = []): self {
     $this->caching = [
       'key' => 'page.entity.view',
       'context' => 'page',
