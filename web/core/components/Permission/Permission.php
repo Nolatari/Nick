@@ -23,17 +23,17 @@ class Permission {
    * @param string|null $permission
    */
   public function __construct(?string $permission = NULL) {
-    if (!empty($permission)) {
+    if (!is_null($permission)) {
       $this->setPermission($permission);
     }
   }
 
   /**
-   * @param $permission
+   * @param string $permission
    *
    * @return bool|self
    */
-  public function load($permission) {
+  public function load(string $permission) {
     $storage = \Nick::Database()
       ->select('permissions')
       ->condition('permission', $permission)
@@ -43,7 +43,40 @@ class Permission {
     }
 
     $result = $storage->fetchAllAssoc();
-    return $this->setPermission($result['permission'])->setUsage($result['usage']);
+    $result = reset($result);
+    if (!$result) {
+      return FALSE;
+    }
+    return $this->setPermission($result['permission'])->setUsage(unserialize($result['usage']));
+  }
+
+  /**
+   * Adds or saves permission
+   *
+   * @return bool
+   */
+  public function save(): bool {
+    if (!$this->load($this->getPermission())) {
+      $query = \Nick::Database()
+        ->insert('permissions')
+        ->values([
+          'permission' => $this->getPermission(),
+          'usage' => serialize($this->getUsage()),
+        ])
+        ->execute();
+    } else {
+      $query = \Nick::Database()
+        ->update('permissions')
+        ->values([
+          'usage' => serialize($this->getUsage()),
+        ])
+        ->condition('permission', $this->getPermission())
+        ->execute();
+    }
+    if (!$query instanceof Result) {
+      return FALSE;
+    }
+    return TRUE;
   }
 
   /**
@@ -62,7 +95,7 @@ class Permission {
    *
    * @return Permission
    */
-  protected function setPermission(string $permission): self {
+  public function setPermission(string $permission): self {
     $this->permission = $permission;
     return $this;
   }
