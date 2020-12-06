@@ -24,15 +24,18 @@ class Breadcrumb extends EventListener {
     }
 
     $current_route = \Nick::CurrentRoute();
+    $home = translate('Home');
 
     $items_raw = StringManipulation::explode($current_route->getUri(), '/');
-    $items_raw = [translate('Home')] + ArrayManipulation::removeEmptyEntries($items_raw);
+    $items_raw = [$home] + ArrayManipulation::removeEmptyEntries($items_raw);
     $last_item = end($items_raw);
     $items = [];
 
     $url = '';
     foreach ($items_raw as $item) {
-      $url = $url . '/' . $item;
+      if ($item !== $home) {
+        $url = $url . '/' . $item;
+      }
       $items[StringManipulation::capitalize($item)] = [
         'url' => $item === 'Home' ? Settings::get('root.web.url') . '/' : Settings::get('root.web.url') . $url,
         'link' => $item !== $last_item && !($item === 'Home' && $current_route->getRoute() === 'dashboard'),

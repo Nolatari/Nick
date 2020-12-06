@@ -102,8 +102,10 @@ class RouteManager {
       return $fallback ?? \Nick::Route()->load('error')->setValue('key', '404');
     }
 
-    // Remove query parameters from URL
+    // Remove query parameters, https and http from URL
     $url = StringManipulation::preg_replace($url, '/\?(.*$)/', '');
+    $url = StringManipulation::replace($url, 'https://', '');
+    $url = StringManipulation::replace($url, 'http://', '');
 
     $results = $query->fetchAllAssoc();
     foreach ($results as $result) {
