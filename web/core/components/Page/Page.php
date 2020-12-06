@@ -89,7 +89,7 @@ class Page implements PageInterface {
       if (!\Nick::CurrentPerson()->hasPermission($permission)) {
         /** @var RouteInterface $dashboard */
         $dashboard = \Nick::Route()->load('dashboard');
-        $redirect = new RedirectResponse($dashboard);
+        $redirect = new RedirectResponse($dashboard->getUrl());
         $redirect->setStatusCode(401);
         $redirect->send();
       }

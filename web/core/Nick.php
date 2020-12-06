@@ -241,6 +241,15 @@ class Nick {
   }
 
   /**
+   * Returns Person object
+   *
+   * @return Person
+   */
+  public static function Person(): Person {
+    return new Person();
+  }
+
+  /**
    * Returns Renderer object.
    *
    * @return Renderer

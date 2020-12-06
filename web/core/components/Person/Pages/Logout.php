@@ -1,25 +1,27 @@
 <?php
 
-namespace Nick\Page\Pages;
+namespace Nick\Person\Pages;
 
 use Nick;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
- * Class Error
+ * Class Logout
  *
- * @package Nick\Login
+ * @package Nick\Person
  */
-class Login extends Page {
+class Logout extends Page {
 
   /**
    * Login constructor.
    */
   public function __construct() {
     $this->setParameters([
-      'title' => $this->translate('Login'),
-      'summary' => $this->translate('Login to :sitename.', [
+      'id' => 'logout',
+      'title' => $this->translate('Logout'),
+      'summary' => $this->translate('Logout from :sitename.', [
         ':sitename' => \Nick::Config()->get('site.name'),
       ]),
     ]);
@@ -31,9 +33,9 @@ class Login extends Page {
    */
   protected function setCacheOptions($parameters = []): self {
     $this->caching = [
-      'key' => 'page.login',
+      'key' => 'page.logout',
       'context' => 'page',
-      'max-age' => 3600,
+      'max-age' => 0,
     ];
 
     return $this;
@@ -44,10 +46,12 @@ class Login extends Page {
    */
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
-    return \Nick::Renderer()
-      ->setType()
-      ->setTemplate('login')
-      ->render();
+
+    \Nick::Person()::logout();
+
+    $dashboard = \Nick::Route()->load('dashboard');
+    $redirect = new RedirectResponse($dashboard->getUrl());
+    $redirect->send();
   }
 
 }

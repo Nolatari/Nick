@@ -23,6 +23,14 @@ logs.view:
   parameters:
     id: 3
 
+# Login
+login:
+  url: '/person/login'
+  controller: '\Nick\Person\Pages\Login'
+logout:
+  url: '/person/logout'
+  controller: '\Nick\Person\Pages\Logout'
+
 # Cache
 cache.clear:
   url: '/cache/clear'

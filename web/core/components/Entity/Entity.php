@@ -395,7 +395,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
    * {@inheritDoc}
    */
   public function id() {
-    return $this->getValue('id');
+    return (int) $this->getValue('id');
   }
 
   /**

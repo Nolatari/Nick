@@ -5,6 +5,7 @@ namespace Nick\Route;
 use Nick;
 use Nick\Database\Result;
 use Nick\Page\PageInterface;
+use Nick\Settings;
 use Nick\StringManipulation;
 use Nick\Url;
 use Symfony\Component\HttpFoundation\Request;
@@ -206,6 +207,30 @@ class Route implements RouteInterface {
    */
   public function getParameters() {
     return $this->parameters;
+  }
+
+  /**
+   * Returns URI from Request and current Route
+   *
+   * @param bool $replaceParams
+   *
+   * @return string|string[]
+   */
+  public function getUrl($replaceParams = true) {
+    $url = Settings::get('root.web.url') . $this->url;
+    if (!$replaceParams) {
+      return $url;
+    }
+    $current_params = [];
+    foreach ($this->values as $param => $value) {
+      if (isset($this->parameters[$param])) {
+        $url = StringManipulation::replace($url, '{' . $param . '}', $this->values[$param] ?? NULL);
+      } else {
+        $url = \Nick::Url()->addParamsToUrl($param, $value, $url, $current_params);
+        $current_params[$param] = $value;
+      }
+    }
+    return $url;
   }
 
   /**

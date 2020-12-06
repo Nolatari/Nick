@@ -95,6 +95,11 @@ class RouteManager {
    * @return bool|null|RouteInterface
    */
   public function routeMatch(string $url, ?RouteInterface $fallback = NULL) {
+    $person = \Nick::CurrentPerson()->id();
+    if ($person === 0) {
+      return \Nick::Route()->load('login');
+    }
+
     $query = \Nick::Database()
       ->select('routes')
       ->execute();
