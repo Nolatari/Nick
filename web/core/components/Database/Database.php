@@ -77,7 +77,7 @@ class Database {
    *
    * @return Database
    */
-  protected function connect() {
+  protected function connect(): Database {
     $this->database = \Nick::Cache()->getData('connection', '\\mysqli', NULL, [], [
       Settings::get('database.hostname'),
       Settings::get('database.username'),
@@ -110,7 +110,7 @@ class Database {
    *
    * @return string
    */
-  public static function Cleanse(mysqli $connection, $value) {
+  public static function Cleanse(mysqli $connection, $value): string {
     if (!$escaped_string = mysqli_real_escape_string($connection, $value)) {
       return $value;
     }
@@ -138,7 +138,7 @@ class Database {
   /**
    * @return array
    */
-  public static function getFieldTypes() {
+  public static function getFieldTypes(): array {
     return [
       'INT', 'TINYINT', 'SMALLINT', 'MEDIUMINT', 'BIGINT', 'DECIMAL', 'FLOAT', 'DOUBLE', 'BIT',
       'CHAR', 'VARCHAR', 'BINARY', 'VARBINARY', 'TINYBLOB', 'BLOB', 'MEDIUMBLOB', 'LONGBLOB', 'TINYTEXT', 'TEXT', 'MEDIUMTEXT', 'LONGTEXT', 'ENUM', 'SET',
@@ -154,7 +154,7 @@ class Database {
    *
    * @return Select
    */
-  public function select(string $table, $alias = NULL, $options = NULL) {
+  public function select(string $table, $alias = NULL, $options = NULL): Select {
     return new Select($table, $alias, $options, $this->condition_delimiter, $this->getDatabaseName());
   }
 
@@ -165,7 +165,7 @@ class Database {
    *
    * @return Update
    */
-  public function update($table, $alias = NULL, $options = NULL) {
+  public function update(string $table, $alias = NULL, $options = NULL): Update {
     return new Update($table, $alias, $options);
   }
 
@@ -176,7 +176,7 @@ class Database {
    *
    * @return Insert
    */
-  public function insert($table, $alias = NULL, $options = NULL) {
+  public function insert(string $table, $alias = NULL, $options = NULL): Insert {
     return new Insert($table, $alias, $options);
   }
 
@@ -187,16 +187,16 @@ class Database {
    *
    * @return Delete
    */
-  public function delete($table, $alias = NULL, $options = NULL) {
+  public function delete(string $table, $alias = NULL, $options = NULL): Delete {
     return new Delete($table, $alias, $options);
   }
 
   /**
-   * @param string query
+   * @param string $query
    *
    * @return Query
    */
-  public function query($query) {
+  public function query(string $query): Query {
     return new Query($query);
   }
 
@@ -206,7 +206,7 @@ class Database {
    *
    * @return string
    */
-  public static function createFieldQuery($field_name, array $options) {
+  public static function createFieldQuery(string $field_name, array $options): string {
     if (isset($options['type']) && strpos($options['type'], 'text') !== FALSE && !isset($options['length'])) {
       $field = '`' . $field_name . '` ' . $options['type'] . ' ';
     } else {
