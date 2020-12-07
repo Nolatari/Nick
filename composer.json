@@ -1,25 +1,39 @@
 {
-    "require": {
-        "ext-mysqli": "*",
-        "ext-json": "*",
-        "symfony/symfony": "^5.1",
-        "symfony/yaml": "^5.1",
-        "doctrine/annotations": "^1.10",
-        "symfony/http-foundation": "^5.1",
-        "snc/redis-bundle": "^3.2",
-        "kint-php/kint-twig": "^3.0",
-        "ext-http": "*"
-    },
-    "autoload": {
-      "psr-4": {
-        "Nick\\": [
-          "web/core/extensions/",
-          "web/core/components/",
-          "web/extensions/"
-        ]
-      }
-    },
-    "require-dev": {
-      "kint-php/kint": "^3.3"
+  "name": "nick/nick",
+  "type": "project",
+  "description": "Headless CMS",
+  "keywords": ["CMS", "headless"],
+  "homepage": "https://github.com/Nolatari/Nick",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Randal Vanheede",
+      "email": "randal@foldhost.be",
+      "homepage": "https://www.foldhost.be",
+      "role": "Developer"
     }
+  ],
+  "require": {
+      "ext-mysqli": "*",
+      "ext-json": "*",
+      "symfony/symfony": "^5.1",
+      "symfony/yaml": "^5.1",
+      "doctrine/annotations": "^1.10",
+      "symfony/http-foundation": "^5.1",
+      "snc/redis-bundle": "^3.2",
+      "kint-php/kint-twig": "^3.0",
+      "ext-http": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Nick\\": [
+        "web/core/extensions/",
+        "web/core/components/",
+        "web/extensions/"
+      ]
+    }
+  },
+  "require-dev": {
+    "kint-php/kint": "^3.3"
+  }
 }
