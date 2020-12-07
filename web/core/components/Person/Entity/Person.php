@@ -58,9 +58,10 @@ class Person extends Entity implements PersonInterface {
       $language_options[$langcode] = '[' . $langcode . '] ' . $language['language'] . ' - ' . $language['country'];
     }
 
-    $permissions = array_map(function($item) {
-      return [$item->getPermission() => $item->getPermission()];
-    }, \Nick::PermissionManager()->getAllPermissions());
+    $permissions = [];
+    foreach (\Nick::PermissionManager()->getAllPermissions() as $permission) {
+      $permissions[$permission->getPermission()] = $permission->getPermission();
+    }
     return [
       'name' => [
         'type' => 'varchar',

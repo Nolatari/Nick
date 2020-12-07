@@ -36,6 +36,7 @@ class Cache extends Page {
     $this->caching = [
       'key' => 'page.cache',
       'context' => 'page',
+      'tags' => ['cache'],
       'max-age' => 0,
     ];
 

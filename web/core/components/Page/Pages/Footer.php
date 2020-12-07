@@ -40,6 +40,7 @@ class Footer extends Page {
     $this->caching = [
       'key' => 'page.footer',
       'context' => 'page',
+      'tags' => ['footer'],
       'max-age' => 3600,
     ];
 

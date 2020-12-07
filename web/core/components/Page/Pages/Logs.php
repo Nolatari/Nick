@@ -34,6 +34,7 @@ class Logs extends Page {
     $this->caching = [
       'key' => 'page.logs',
       'context' => 'page',
+      'tags' => ['logs'],
       'max-age' => 0,
     ];
 

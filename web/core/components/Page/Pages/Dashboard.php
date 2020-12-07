@@ -32,6 +32,7 @@ class Dashboard extends Page {
     $this->caching = [
       'key' => 'page.dashboard',
       'context' => 'page',
+      'tags' => ['dashboard'],
       'max-age' => 1800,
     ];
 

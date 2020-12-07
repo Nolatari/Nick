@@ -30,6 +30,7 @@ class Header extends Page {
     $this->caching = [
       'key' => 'page.header',
       'context' => 'page',
+      'tags' => ['header'],
       'max-age' => 0,
     ];
 

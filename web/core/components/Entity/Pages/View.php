@@ -54,6 +54,7 @@ class View extends Page {
       }
       $this->setParameter('title', $title);
       $this->caching['key'] = $this->caching['key'] . '.' . $entity->id();
+      $this->caching['tags'] = ['entity:' . $entity->getType() . ':' . $entity->id()];
       $this->caching['max-age'] = 1800;
     }
 
