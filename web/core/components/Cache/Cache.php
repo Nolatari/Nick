@@ -110,7 +110,7 @@ class Cache extends CacheBase {
       ->values([
         'field' => $cacheOptions['key'],
         'value' => serialize($value),
-        'tags' => $cacheOptions['tags'] ?? '',
+        'tags' => serialize($cacheOptions['tags']) ?? '',
         'context' => $cacheOptions['context'] ?? '',
         'maxage' => $cacheOptions['max-age'] ?? 0,
         'created' => time(),
@@ -153,7 +153,7 @@ class Cache extends CacheBase {
   /**
    * {@inheritDoc}
    */
-  public function clearAllCaches() {
+  public function clearAllCaches(): bool {
     $this->cacheableData = [];
     $this->initializeCache();
 
@@ -187,11 +187,12 @@ class Cache extends CacheBase {
     }
 
     foreach ($cache as $item) {
-      if (!isset($item['tags']) || !is_array($item['tags'])) {
+      $cur_tags = unserialize($item['tags']);
+      if (!isset($cur_tags) || !is_array($cur_tags)) {
         continue;
       }
 
-      foreach ($item['tags'] as $tag) {
+      foreach ($cur_tags as $tag) {
         if (!ArrayManipulation::contains($tags, $tag)) {
           continue;
         }
