@@ -37,6 +37,14 @@ class CacheBase implements CacheInterface {
   }
 
   /**
+   * {@inheritDoc}
+   */
+  public function invalidateTags(array $tags): bool {
+    // Method stub
+    return TRUE;
+  }
+
+  /**
    * @param array $cacheOptions
    * @param mixed $value
    *
@@ -61,7 +69,7 @@ class CacheBase implements CacheInterface {
   /**
    * {@inheritDoc}
    */
-  public function clearAllCaches() {
+  public function clearAllCaches(): bool {
     // Method stub
     return TRUE;
   }

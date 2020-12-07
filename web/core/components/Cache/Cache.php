@@ -3,6 +3,7 @@
 namespace Nick\Cache;
 
 use Nick;
+use Nick\ArrayManipulation;
 use Nick\Database\Result;
 use Nick\Event\Event;
 use Nick\Logger;
@@ -165,6 +166,47 @@ class Cache extends CacheBase {
         return FALSE;
       }
     }
+    return TRUE;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function invalidateTags(array $tags): bool {
+    $cache_storage = \Nick::Database()
+      ->select('cache_content')
+      ->fields(['field', 'tags'])
+      ->execute();
+    if (!$cache_storage instanceof Result) {
+      return FALSE;
+    }
+
+    $cache = $cache_storage->fetchAllAssoc();
+    if (!$cache || count($cache) === 0) {
+      return FALSE;
+    }
+
+    foreach ($cache as $item) {
+      if (!isset($item['tags']) || !is_array($item['tags'])) {
+        continue;
+      }
+
+      foreach ($item['tags'] as $tag) {
+        if (!ArrayManipulation::contains($tags, $tag)) {
+          continue;
+        }
+
+        $deletion = \Nick::Database()
+          ->delete('cache_content')
+          ->condition('field', $item['field'])
+          ->execute();
+
+        if (!$deletion) {
+          return FALSE;
+        }
+      }
+    }
+
     return TRUE;
   }
 

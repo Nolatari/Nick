@@ -61,5 +61,15 @@ interface CacheInterface {
    *
    * @return bool
    */
-  public function clearAllCaches();
+  public function clearAllCaches(): bool;
+
+  /**
+   * Invalidates tags
+   *
+   * @param array $tags
+   *
+   * @return bool
+   */
+  public function invalidateTags(array $tags): bool;
+
 }
