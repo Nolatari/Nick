@@ -184,7 +184,11 @@ class Renderer {
     unset($render_settings['database']);
     $variables = $variables + [
         'settings' => $render_settings,
-        'active_user' => Person::getCurrentPerson(),
+        'current' => [
+          'person' => [
+            'name' => \Nick::CurrentPerson()->getName(),
+          ],
+        ],
         'site' => [
           'name' => \Nick::Config()->get('site.name') ?? 'Nick',
           'version' => \Nick::Cache()->getData('NICK_VERSION') . '.'
