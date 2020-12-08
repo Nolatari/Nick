@@ -2,41 +2,36 @@
 
 $nick_settings = [];
 
-$nick_settings['database'] = [
-  'type' => 'mysql',
-  'hostname' => 'localhost',
-  'username' => 'nick-db',
-  'database' => 'nick-db',
-  'password' => 'nick-db',
-  'port' => '3306',
-];
-
-$nick_settings['root'] = [
-  'folder' => __DIR__,
-  'web' => [
-    'url' => 'http://localhost/web',
-    'root' => '/web/',
+// Default subsite
+$nick_settings['default'] = [
+  'url' => 'localhost',
+  'database' => [
+    'type' => 'mysql',
+    'hostname' => 'hostname',
+    'username' => 'username',
+    'database' => 'database',
+    'password' => 'password',
+    'port' => '3306',
   ],
-  'project' => [
-    'url' => 'http://localhost/',
-    'root' => '/',
+  'root' => [
+    'folder' => __DIR__,
+    'web' => [
+      'url' => 'http://localhost',
+      'root' => '/',
+    ],
   ],
+  'config' => [
+    'folder' => __DIR__ . '/config',
+  ],
+  'themes' => [
+    'folder' => 'themes',
+    'url' => $nick_settings['root']['web']['url'] . '/themes',
+  ],
+  'files' => [
+    'public' => $nick_settings['root']['web']['url'] . '/files/default/public',
+    'private' => $nick_settings['root']['web']['url'] . '/files/default/private',
+  ],
+  'debugging' => FALSE,
+  'twig_debugging' => FALSE,
+  'development' => FALSE,
 ];
-
-$nick_settings['config'] = [
-  'folder' => __DIR__ . '/config',
-];
-
-$nick_settings['themes'] = [
-  'folder' => 'themes',
-  'url' => $nick_settings['root']['web']['url'] . '/themes',
-];
-
-$nick_settings['files'] = [
-  'public' => $nick_settings['root']['project']['url'] . '/files/public',
-  'private' => $nick_settings['root']['project']['url'] . '/files/private',
-];
-
-//$nick_settings['debugging'] = TRUE;
-//$nick_settings['twig_debugging'] = TRUE;
-//$nick_settings['development'] = TRUE;

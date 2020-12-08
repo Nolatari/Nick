@@ -207,13 +207,4 @@ class Url {
     return $parameters;
   }
 
-  /**
-   * @return RouteInterface|bool
-   */
-  public static function getCurrentRoute() {
-    $request = Request::createFromGlobals();
-    $uri = StringManipulation::replace($request->getUri(), Settings::get('root.web.url'), '');
-    return \Nick::RouteManager()->routeMatch(StringManipulation::replace($uri, Settings::get('root.web.url')));
-  }
-
 }

@@ -12,13 +12,23 @@ class Settings {
   /** @var array $settings */
   public static array $settings = [];
 
+  /** @var string $subsite */
+  public static string $subsite = '';
+
   /**
    * Sets setting array
    *
    * @param array|null $settings
    */
   public static function setSettings(?array &$settings = NULL) {
-    static::$settings = $settings ?? $GLOBALS['nick_settings'];
+    if (!is_array($settings)) {
+      foreach ($GLOBALS['nick_settings'] as $subsite => $values) {
+        if (StringManipulation::contains($_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], $values['url'])) {
+          static::$subsite = $subsite;
+        }
+      }
+    }
+    static::$settings = $settings ?? $GLOBALS['nick_settings'][static::$subsite];
   }
 
   /**
