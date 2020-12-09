@@ -202,6 +202,30 @@ class Database {
   }
 
   /**
+   * @param $table
+   * @param $field
+   * @param $options
+   *
+   * @return Nick\Database\Query
+   */
+  public function field($table, $field, $options) {
+    $result = \Nick::Database()->query("SHOW COLUMNS FROM `" . $table . "` LIKE '" . $field . "'");
+    $exists = $result->count() > 0;
+
+    if ($exists) {
+      // If it exists, modify column
+      $query = \Nick::Database()->query('ALTER TABLE ' . $table
+        . ' MODIFY COLUMN ' .  \Nick::Database()::createFieldQuery($field, $options));
+    } else {
+      // If it doesn't exist, add column
+      $query = \Nick::Database()->query('ALTER TABLE ' . $table
+        . ' ADD ' .  \Nick::Database()::createFieldQuery($field, $options));
+    }
+
+    return $query;
+  }
+
+  /**
    * @param string $field_name
    * @param array  $options
    *

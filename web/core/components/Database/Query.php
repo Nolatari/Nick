@@ -27,7 +27,7 @@ class Query extends Database {
    * @return int
    */
   public function count(): int {
-    return count($this->result);
+    return $this->result->num_rows;
   }
 
   /**

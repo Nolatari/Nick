@@ -35,7 +35,6 @@ class Client extends Entity implements ClientInterface {
       'title' => [
         'type' => 'varchar',
         'length' => 255,
-        'unique' => TRUE,
         'form' => [
           'type' => 'textbox',
           'title' => 'Title',
@@ -47,7 +46,7 @@ class Client extends Entity implements ClientInterface {
         'form' => [
           'type' => 'text',
           'title' => 'UUID',
-          'default_value' => Uuid::v4(),
+          'default_value' => 'nick:uuid',
         ],
       ],
       'permissions' => [

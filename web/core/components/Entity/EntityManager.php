@@ -6,6 +6,7 @@ use Exception;
 use Nick;
 use Nick\Database\Result;
 use Nick\Logger;
+use Nick\Translation\StringTranslation;
 use Nick\YamlReader;
 
 /**
@@ -14,6 +15,7 @@ use Nick\YamlReader;
  * @package Nick\Entity
  */
 class EntityManager {
+  use StringTranslation;
 
   /**
    * @param $type
@@ -67,6 +69,7 @@ class EntityManager {
    */
   public function updateEntities() {
     $entities = self::getAllEntities();
+    $updated_entities = [];
     foreach ($entities as $entity => $info) {
       if (!self::entityInstalled($entity)) {
         continue;
@@ -77,27 +80,49 @@ class EntityManager {
         continue;
       }
 
-      foreach ($object::initialFields() as $field => $options) {
-        $result = \Nick::Database()->query("SHOW COLUMNS FROM `entity__" . $object->getType() . "` LIKE '" . $field . "'");
-        $exists = $result->count() > 0;
+      $serialized_fields = serialize($object::initialFields());
+      $stored_fields_storage = \Nick::Database()->select('entity_storage')
+        ->condition('type', $entity)
+        ->fields(['fields'])
+        ->execute();
+      if (!$stored_fields_storage instanceof Result) {
+        \Nick::Logger()->add($this->translate('Could not retrieve fields storage information for :entity', [':entity' => $entity]), Logger::TYPE_ERROR, 'EntityManager');
+        continue;
+      }
+      $results = $stored_fields_storage->fetchAllAssoc();
+      $result = reset($results);
+      if (isset($result['fields']) && $result['fields'] === $serialized_fields) {
+        continue;
+      }
 
-        if ($exists) {
-          // If it exists, modify column
-          \Nick::Database()->query('ALTER TABLE entity__' . $object->getType()
-            . 'MODIFY COLUMN' .  \Nick::Database()::createFieldQuery($field, $options));
-        } else {
-          // If it exists, modify column
-          \Nick::Database()->query('ALTER TABLE entity__' . $object->getType()
-            . 'ADD COLUMN' .  \Nick::Database()::createFieldQuery($field, $options));
+      d($result);
+      d($serialized_fields);
+
+      foreach ($object::initialFields() as $field => $options) {
+        $field_storage = \Nick::Database()->field('entity__' . $entity, $field, $options);
+        if (!$field_storage) {
+          \Nick::Logger()->add($this->translate('Something went wrong trying to add/modify field [:field]', [':field' => $field]), Logger::TYPE_ERROR, 'EntityManager');
+          continue;
         }
       }
 
-      \Nick::Database()->update('entity_storage')
-        ->condition('type', $object->getType())
+      $storage_query = \Nick::Database()->update('entity_storage')
+        ->condition('type', $entity)
         ->values([
           'fields' => serialize($object::initialFields()),
         ])
         ->execute();
+      if (!$storage_query) {
+        \Nick::Logger()->add($this->translate('Something went wrong trying to add/modify field [:field] to entity_storage', [':field' => $field]), Logger::TYPE_ERROR, 'EntityManager');
+        continue;
+      }
+
+      \Nick::Logger()->add($this->translate('Updated entity storage for entity :entity', [':entity' => $entity]), Logger::TYPE_INFO, 'EntityManager');
+      $updated_entities[] = $entity;
+    }
+
+    if (count($updated_entities) === 0) {
+      \Nick::Logger()->add($this->translate('No entities in need of an update.'), Logger::TYPE_INFO, 'EntityManager');
     }
   }
 
