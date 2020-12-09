@@ -33,7 +33,7 @@ class EntityManager {
       ->condition('type', $type)
       ->execute();
     \Nick::Database()->query('DROP TABLE entity__' . $type);
-    \Nick::Logger()->add('Removed ' . ucfirst($type) . ' entity type and entities', Logger::TYPE_INFO, ucfirst($type));
+    \Nick::Logger()->add('Uninstalled ' . ucfirst($type) . ' entity type and entities', Logger::TYPE_INFO, ucfirst($type));
 
     return TRUE;
   }
@@ -52,6 +52,7 @@ class EntityManager {
 
     foreach ($entities as $entity => $info) {
       $object = new $info['class'];
+      \Nick::Logger()->add($this->translate(':entity is not an instance of EntityInterface', [':entity' => $entity]), Logger::TYPE_INFO, 'EntityManager');
       if (!$object instanceof EntityInterface) {
         continue;
       }
@@ -61,6 +62,7 @@ class EntityManager {
       }
 
       $object::create();
+      \Nick::Logger()->add($this->translate('Created entity :entity', [':entity' => $entity]), Logger::TYPE_INFO, 'EntityManager');
     }
   }
 
@@ -94,9 +96,6 @@ class EntityManager {
       if (isset($result['fields']) && $result['fields'] === $serialized_fields) {
         continue;
       }
-
-      d($result);
-      d($serialized_fields);
 
       foreach ($object::initialFields() as $field => $options) {
         $field_storage = \Nick::Database()->field('entity__' . $entity, $field, $options);
@@ -219,7 +218,7 @@ class EntityManager {
       ->select('entity__' . $type)
       ->orderBy('id', 'ASC');
     foreach ($properties as $field => $value) {
-      if ($properties === 'type') {
+      if ($field === 'type') {
         continue;
       }
       $query->condition($field, $value);
