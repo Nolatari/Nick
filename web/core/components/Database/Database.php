@@ -6,6 +6,7 @@ use mysqli;
 use Nick;
 use Nick\Settings;
 use Nick\SqlFormatter;
+use Nick\StringManipulation;
 
 /**
  * Class Database
@@ -207,7 +208,10 @@ class Database {
    * @return string
    */
   public static function createFieldQuery(string $field_name, array $options): string {
-    if (isset($options['type']) && strpos($options['type'], 'text') !== FALSE && !isset($options['length'])) {
+    if (isset($options['type'])
+      && StringManipulation::contains($options['type'], 'text')
+      && StringManipulation::contains($options['type'], 'blob')
+      && !isset($options['length'])) {
       $field = '`' . $field_name . '` ' . $options['type'] . ' ';
     } else {
       $field = '`' . $field_name . '` ' . $options['type'] . '(' . ($options['length'] ?? 255) . ') ';

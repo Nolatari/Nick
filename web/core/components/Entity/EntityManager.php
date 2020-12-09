@@ -77,6 +77,21 @@ class EntityManager {
         continue;
       }
 
+      foreach ($object::initialFields() as $field => $options) {
+        $result = \Nick::Database()->query("SHOW COLUMNS FROM `entity__" . $object->getType() . "` LIKE '" . $field . "'");
+        $exists = $result->count() > 0;
+
+        if ($exists) {
+          // If it exists, modify column
+          \Nick::Database()->query('ALTER TABLE entity__' . $object->getType()
+            . 'MODIFY COLUMN' .  \Nick::Database()::createFieldQuery($field, $options));
+        } else {
+          // If it exists, modify column
+          \Nick::Database()->query('ALTER TABLE entity__' . $object->getType()
+            . 'ADD COLUMN' .  \Nick::Database()::createFieldQuery($field, $options));
+        }
+      }
+
       \Nick::Database()->update('entity_storage')
         ->condition('type', $object->getType())
         ->values([

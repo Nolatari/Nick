@@ -22,6 +22,15 @@ class Query extends Database {
   }
 
   /**
+   * Returns the amount of rows
+   *
+   * @return int
+   */
+  public function count(): int {
+    return count($this->result);
+  }
+
+  /**
    * Executes the query.
    *
    * @param $query
