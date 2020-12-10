@@ -4,7 +4,7 @@ namespace Nick\Config\Pages;
 
 use Nick;
 use Nick\Config\Form\AppearanceSettingsForm;
-use Nick\Config\Form\DefaultForm;
+use Nick\Config\Form\ConfigForm;
 use Nick\Config\Form\SiteSettingsForm;
 use Nick\Form\Form;
 use Nick\Form\FormInterface;
@@ -51,36 +51,10 @@ class Config extends Page {
   }
 
   /**
-   * {@inheritDoc}
-   */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
-    if (isset($parameters['export']) && isset($parameters['confirm'])) {
-      \Nick::Config()->export();
-    } elseif (isset($parameters['import']) && isset($parameters['confirm'])) {
-      \Nick::Config()->import();
-    } elseif (isset($paremeters['difference'])) {
-      // TODO
-    } else {
-      $form = $this->defaultForm()->result();
-
-      return \Nick::Renderer()
-        ->setType()
-        ->setTemplate('config')
-        ->render([
-          'title' => isset($parameters['t']) ? ucfirst($parameters['t']) . ' settings' : 'Settings',
-          'form' => $form,
-        ]);
-    }
-
-    return NULL;
-  }
-
-  /**
    * @return FormInterface
    */
-  protected function defaultForm() {
-    return new DefaultForm();
+  protected function configForm() {
+    return new ConfigForm();
   }
 
   /**
@@ -94,6 +68,32 @@ class Config extends Page {
     ];
 
     return $this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function render(array &$parameters, RouteInterface $route) {
+    parent::render($parameters, $route);
+    if (isset($parameters['export']) && isset($parameters['confirm'])) {
+      \Nick::Config()->export();
+    } elseif (isset($parameters['import']) && isset($parameters['confirm'])) {
+      \Nick::Config()->import();
+    } elseif (isset($paremeters['difference'])) {
+      // TODO
+    } else {
+      $form = $this->configForm()->result();
+
+      return \Nick::Renderer()
+        ->setType()
+        ->setTemplate('config')
+        ->render([
+          'title' => isset($parameters['t']) ? ucfirst($parameters['t']) . ' settings' : 'Settings',
+          'form' => $form,
+        ]);
+    }
+
+    return NULL;
   }
 
 }

@@ -33,10 +33,10 @@ class Form extends FormBuilder implements FormInterface {
    *
    * @param EntityInterface|null $entity
    */
-  public function __construct(EntityInterface $entity = NULL) {
+  public function __construct(?EntityInterface $entity = NULL) {
     if (!is_null($entity)) {
       $this->entity = $entity;
-      $this->setFields($entity->getAllFields());
+      $this->setFields($this->getEntity()->getAllFields());
       if ($entity->getValues() !== []) {
         $this->setId($entity->getType() . '-edit-form');
         $this->setValues($entity->getValues() ?: []);

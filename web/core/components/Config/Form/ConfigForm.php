@@ -13,16 +13,16 @@ use Nick\Url;
  *
  * @package Nick\Config\Form
  */
-class DefaultForm extends Form implements FormInterface {
+class ConfigForm extends Form implements FormInterface {
 
   /**
    * SiteSettingsForm constructor.
    *
    * @param EntityInterface|null $entity
    */
-  public function __construct(EntityInterface $entity = NULL) {
+  public function __construct(?EntityInterface $entity = NULL) {
     parent::__construct($entity);
-    $this->setId('default-settings-form');
+    $this->setId('config-settings-form');
     $this->setFields([
       'import' => [
         'form' => [

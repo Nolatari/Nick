@@ -2,3 +2,13 @@ name: Config
 version: 1.0a
 type: component
 required: true
+forms:
+  appearance-settings-form:
+    title: 'Appearance'
+    class: '\Nick\Config\Form\AppearanceSettingsForm'
+  site-settings-form:
+    title: 'Site settings'
+    class: '\Nick\Config\Form\SiteSettingsForm'
+  config-settings-form:
+    title: 'Config'
+    class: '\Nick\Config\Form\ConfigForm'

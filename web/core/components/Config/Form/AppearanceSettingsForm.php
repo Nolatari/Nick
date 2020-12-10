@@ -19,7 +19,7 @@ class AppearanceSettingsForm extends Form implements FormInterface {
    *
    * @param EntityInterface|null $entity
    */
-  public function __construct(EntityInterface $entity = NULL) {
+  public function __construct(?EntityInterface $entity = NULL) {
     parent::__construct($entity);
     $themes = \Nick::Theme()->getAvailableThemes();
     $options = [];

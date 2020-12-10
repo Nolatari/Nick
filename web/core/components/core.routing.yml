@@ -45,7 +45,7 @@ config.appearance:
   controller: '\Nick\Config\Pages\Appearance'
 config.import:
   url: '/config/import'
-  controller: '\Nick\Config\Pages\Import'
+  controller: '\Nick\Config\Pages\Config'
 config.export:
   url: '/config/export'
-  controller: '\Nick\Config\Pages\Export'
+  controller: '\Nick\Config\Pages\Config'

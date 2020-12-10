@@ -26,7 +26,7 @@ class Redis extends CacheBase {
   /**
    * @inheritDoc
    */
-  public function clearAllCaches() {
+  public function clearAllCaches(): bool {
     // TODO: Implement clearAllCaches() method.
   }
 }
