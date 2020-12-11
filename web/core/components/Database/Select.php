@@ -37,12 +37,16 @@ class Select extends Database {
   /**
    * fields method
    *
-   * @param string $table_alias
-   * @param array  $fields
+   * @param mixed $table_alias
+   * @param array $fields
    *
    * @return self
    */
   public function fields($table_alias = NULL, array $fields = []) {
+    if (is_array($table_alias)) {
+      $fields = $table_alias;
+      $table_alias = NULL;
+    }
     $this->fields[] = ['table_alias' => $table_alias, 'fields' => $fields];
     return $this;
   }

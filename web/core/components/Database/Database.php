@@ -202,13 +202,15 @@ class Database {
   }
 
   /**
-   * @param $table
-   * @param $field
-   * @param $options
+   * Adds a new, or modifies an existing, field in a given table with given options.
+   *
+   * @param string $table
+   * @param string $field
+   * @param array  $options
    *
    * @return Nick\Database\Query
    */
-  public function field($table, $field, $options) {
+  public function field(string $table, string $field, array $options): Query {
     $result = \Nick::Database()->query("SHOW COLUMNS FROM `" . $table . "` LIKE '" . $field . "'");
     $exists = $result->count() > 0;
 
@@ -223,6 +225,19 @@ class Database {
     }
 
     return $query;
+  }
+
+  /**
+   * Removes a given field from given table.
+   *
+   * @param string $table
+   * @param string $field
+   *
+   * @return Query
+   */
+  public function removeField(string $table, string $field): Query {
+    return \Nick::Database()->query('ALTER TABLE ' . $table
+    . ' DROP COLUMN' . $field);
   }
 
   /**

@@ -175,7 +175,7 @@ class Cache extends CacheBase {
   public function invalidateTags(array $tags): bool {
     $cache_storage = \Nick::Database()
       ->select('cache_content')
-      ->fields(['field', 'tags'])
+      ->fields(NULL, ['field', 'tags'])
       ->execute();
     if (!$cache_storage instanceof Result) {
       return FALSE;

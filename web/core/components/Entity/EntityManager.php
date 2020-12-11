@@ -67,6 +67,27 @@ class EntityManager {
   }
 
   /**
+   * Removes field from entity
+   *
+   * @param EntityInterface $entity
+   * @param string          $field
+   */
+  public function removeEntityField(EntityInterface $entity, string $field) {
+    $type = $entity->getType();
+    $type_storage = \Nick::Database()->removeField('entity__' . $type, $field);
+    $entity_storage_fields = \Nick::Database()
+      ->select('entity_storage')
+      ->condition('entity', $type)
+      ->fields(NULL, ['fields']);
+
+    if (!$type_storage) {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  /**
    * Updates entity fields with initial ones.
    */
   public function updateEntities() {
@@ -85,7 +106,7 @@ class EntityManager {
       $serialized_fields = serialize($object::initialFields());
       $stored_fields_storage = \Nick::Database()->select('entity_storage')
         ->condition('type', $entity)
-        ->fields(['fields'])
+        ->fields(NULL, ['fields'])
         ->execute();
       if (!$stored_fields_storage instanceof Result) {
         \Nick::Logger()->add($this->translate('Could not retrieve fields storage information for :entity', [':entity' => $entity]), Logger::TYPE_ERROR, 'EntityManager');

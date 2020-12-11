@@ -31,7 +31,7 @@ class PermissionManager {
   public function getAllPermissions() {
     $storage = \Nick::Database()
       ->select('permissions')
-      ->fields(['permission'])
+      ->fields(NULL, ['permission'])
       ->execute();
     if (!$storage instanceof Result) {
       return FALSE;
