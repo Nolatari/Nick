@@ -167,20 +167,22 @@ class EntityManager {
   /**
    * @return array
    */
-  protected static function getAllEntities() {
+  protected static function getAllEntities(): array {
     $entities = [];
     $extensions = \Nick::ExtensionManager()::getInstalledExtensions();
     foreach ($extensions as $extension) {
       $extensionInfo = YamlReader::readExtension($extension['name']);
-      if (!is_array($extensionInfo)) {
+      $componentInfo = YamlReader::readComponent($extension['name']);
+      if (!is_array($extensionInfo) && !is_array($componentInfo)) {
         \Nick::Logger()->add($extension['name'] . ' entry exists in database but no extension info file is found.', Logger::TYPE_FAILURE, 'EntityManager');
         continue;
       }
-      if (!isset($extensionInfo['entities'])) {
+      $info = is_array($extensionInfo) ? $extensionInfo : $componentInfo;
+      if (!isset($info['entities'])) {
         continue;
       }
 
-      foreach ($extensionInfo['entities'] as $entity => $info) {
+      foreach ($info['entities'] as $entity => $info) {
         $entities[$entity] = $info;
       }
     }

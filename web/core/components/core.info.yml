@@ -1,3 +1,4 @@
 name: core
 required: true
+version: 1.0a
 type: component

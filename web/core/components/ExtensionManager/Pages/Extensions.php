@@ -58,7 +58,7 @@ class Extensions extends Page {
   public function render(array &$parameters, RouteInterface $route) {
     parent::render($parameters, $route);
     $extensionManager = \Nick::ExtensionManager();
-    $extensionList = array_merge($extensionManager::getContribExtensions(), $extensionManager::getCoreExtensions(), $extensionManager::getCoreComponents());
+    $extensionList = array_merge($extensionManager::getContribExtensions(), $extensionManager::getCoreExtensions());
     $extensions = [];
     foreach ($extensionList as $extension) {
       $extensions[$extension] = $extensionManager::getExtensionInfo($extension);

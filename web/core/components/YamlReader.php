@@ -24,17 +24,32 @@ class YamlReader {
   public static function readExtension(string $extension, string $type = 'info') {
     $contrib_extension = __DIR__ . '/../../extensions/' . $extension . '/extension.' . $type . '.yml';
     $core_extension = __DIR__ . '/../extensions/' . $extension . '/extension.' . $type . '.yml';
-    $core_component = __DIR__ . '/' . $extension . '/extension.' . $type . '.yml';
     if (is_file($contrib_extension)) {
       $file = $contrib_extension;
     } elseif (is_file($core_extension)) {
       $file = $core_extension;
-    } elseif (is_file($core_component)) {
-      $file = $core_component;
     } else {
       return FALSE;
     }
     return self::fromYamlFile($file);
+  }
+
+  /**
+   * Reads yml files from the component, default will be 'info'
+   *
+   * @param string $component
+   *                  The component to be read
+   * @param string $type
+   *                  The type of file (info, routing, services)
+   *
+   * @return array|false|mixed|string[]
+   */
+  public static function readComponent(string $component, string $type = 'info') {
+    $core_component = __DIR__ . '/' . $component . '/extension.' . $type . '.yml';
+    if (is_file($core_component)) {
+      self::fromYamlFile($core_component);
+    }
+    return FALSE;
   }
 
   /**
