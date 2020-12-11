@@ -78,9 +78,27 @@ class EntityManager {
     $entity_storage_fields = \Nick::Database()
       ->select('entity_storage')
       ->condition('entity', $type)
-      ->fields(NULL, ['fields']);
+      ->fields(NULL, ['fields'])
+      ->execute();
+    if (!$entity_storage_fields instanceof Result) {
+      return FALSE;
+    }
 
-    if (!$type_storage) {
+    $results = $entity_storage_fields->fetchAllAssoc();
+    $result = reset($results);
+    $result['fields'] = unserialize($result['fields']);
+    if (isset($result['fields'][$field])) {
+      unset($result['fields'][$field]);
+    }
+    $result['fields'] = serialize($result['fields']);
+
+    $update_storage_fields = \Nick::Database()
+      ->update('entity_storage')
+      ->condition('entity', $type)
+      ->values(['fields' => $result['fields']])
+      ->execute();
+
+    if (!$type_storage || $update_storage_fields) {
       return FALSE;
     }
 
