@@ -110,7 +110,7 @@ class Cache extends CacheBase {
       ->values([
         'field' => $cacheOptions['key'],
         'value' => serialize($value),
-        'tags' => serialize($cacheOptions['tags']) ?? '',
+        'tags' => serialize($cacheOptions['tags'] ?? []),
         'context' => $cacheOptions['context'] ?? '',
         'maxage' => $cacheOptions['max-age'] ?? 0,
         'created' => time(),

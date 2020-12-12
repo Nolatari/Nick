@@ -334,11 +334,13 @@ class Nick {
 
   /**
    * Initialize Nick's dependencies
+   *
+   * @param Request $request
    */
-  public static function Init() {
+  public static function Init(Request $request) {
     $core = new Core();
     $core->setSystemSpecifics();
-    static::$request = Request::createFromGlobals();
+    static::$request = $request;
     static::ExtensionManager()->installExtensions();
     static::EntityManager()->createEntities();
     static::RouteManager()->installRoutes();
@@ -346,11 +348,10 @@ class Nick {
 
   /**
    * Bootstraps Nick
-   *
-   * @param Request $request
    */
-  public static function Bootstrap(Request $request) {
-    static::Init();
+  public static function Bootstrap() {
+    $request = Request::createFromGlobals();
+    static::Init($request);
     $uri = StringManipulation::replace($request->getUri(), Settings::get('root.web.url'), '');
     $route = static::RouteManager()->routeMatch($uri);
     if (!$route) {
