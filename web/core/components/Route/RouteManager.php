@@ -5,6 +5,7 @@ namespace Nick\Route;
 use Nick\ArrayManipulation;
 use Nick\Database\Result;
 use Nick\Logger;
+use Nick\Person\Entity\Person;
 use Nick\StringManipulation;
 use Nick\Translation\StringTranslation;
 use Nick\YamlReader;
@@ -95,7 +96,7 @@ class RouteManager {
    * @return bool|null|RouteInterface
    */
   public function routeMatch(string $url, ?RouteInterface $fallback = NULL) {
-    $person = \Nick::CurrentPerson()->id();
+    $person = Person::getCurrentPerson();
     if ($person === 0) {
       return \Nick::Route()->load('login');
     }

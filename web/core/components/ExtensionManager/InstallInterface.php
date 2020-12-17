@@ -11,7 +11,7 @@ interface InstallInterface {
 
   /**
    * Checks whether the doInstall function has already been used.
-   * If it returns FALSE, then doInstall() will be used.
+   * If it returns FALSE, then the conditions for this extension are NOT met and doInstall() will be used.
    *
    * @return bool
    */

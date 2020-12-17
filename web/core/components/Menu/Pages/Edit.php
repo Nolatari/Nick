@@ -5,8 +5,7 @@ namespace Nick\Menu\Pages;
 use Exception;
 use Nick;
 use Nick\Form\Form;
-use Nick\Form\FormInterface;
-use Nick\Menu\Menu;
+use Nick\Menu\Entity\Menu;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 

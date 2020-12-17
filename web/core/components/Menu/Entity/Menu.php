@@ -109,6 +109,18 @@ class Menu extends Entity implements MenuInterface {
           'required' => TRUE,
         ],
       ],
+      'icon' => [
+        'type' => 'varchar',
+        'length' => 55,
+        'form' => [
+          'type' => 'textbox',
+          'title' => 'Font-Awesome Icon',
+          'attributes' => [
+            'name' => 'fa-icon',
+          ],
+          'required' => TRUE,
+        ],
+      ],
     ];
   }
 
