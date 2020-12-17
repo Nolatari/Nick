@@ -246,11 +246,13 @@ class EntityManager {
    */
   public function loadByProperties($properties = [], $multiple = FALSE, $massage = TRUE) {
     if (!isset($properties['type'])) {
+      \Nick::Logger()->add('No entity type given.', Logger::TYPE_FAILURE, 'EntityManager');
       return FALSE;
     }
     $type = $properties['type'];
     $entity = static::getEntityClassFromType($type);
     if (!$entity instanceof EntityInterface) {
+      \Nick::Logger()->add('Entity object not an instance of EntityInterface', Logger::TYPE_ERROR, 'EntityManager');
       return FALSE;
     }
     $entity->setType($type);

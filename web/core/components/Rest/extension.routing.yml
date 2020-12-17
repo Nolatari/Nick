@@ -6,3 +6,6 @@ rest.transmit:
   url: '/rest/transmit'
   controller: '\Nick\Rest\Pages\Transmit'
   rest: true
+rest.clients:
+  url: '/rest/clients'
+  controller: '\Nick\Rest\Pages\Clients'

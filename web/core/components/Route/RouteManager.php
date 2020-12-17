@@ -32,6 +32,9 @@ class RouteManager {
         $routing = YamlReader::readCore('routing');
       } else {
         $routing = YamlReader::readExtension($extension['name'], 'routing');
+        if (!$routing) {
+          $routing = YamlReader::readComponent($extension['name'], 'routing');
+        }
       }
       if (!$routing) {
         continue;

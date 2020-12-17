@@ -28,7 +28,8 @@ class Page implements PageInterface {
   /**
    * Dashboard constructor.
    */
-  public function __construct() {;
+  public function __construct() {
+    // Set fallback parameters
     $this->setCacheOptions(Url::getParameters());
   }
 
@@ -60,7 +61,7 @@ class Page implements PageInterface {
    *
    * @return self
    */
-  protected function setCacheOptions($parameters = []): Page {
+  protected function setCacheOptions($parameters = []): self {
     $this->caching = [
       'key' => '',
       'tags' => [],
