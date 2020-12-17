@@ -55,5 +55,5 @@ class Install implements InstallInterface {
     \Nick::Logger()->add('Added example article item', Logger::TYPE_INFO, 'Article');
     return TRUE;
   }
-  
+
 }
