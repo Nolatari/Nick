@@ -46,10 +46,10 @@ class YamlReader {
    */
   public static function readComponent(string $component, string $type = 'info') {
     $core_component = __DIR__ . '/' . $component . '/extension.' . $type . '.yml';
-    if (is_file($core_component)) {
-      return self::fromYamlFile($core_component);
+    if (!is_file($core_component)) {
+      return FALSE;
     }
-    return FALSE;
+    return self::fromYamlFile($core_component);
   }
 
   /**
