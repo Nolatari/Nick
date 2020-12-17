@@ -42,11 +42,6 @@ class Install implements InstallInterface {
     }
     \Nick::Logger()->add('Added menu item', Logger::TYPE_INFO, 'Article');
 
-    $articles = \Nick::EntityManager()->loadByProperties([
-      'type' => 'article',
-      'title' => 'Make Your Life Better by Saying Thank You in These 7 Situations',
-    ]);
-    d($articles);exit;
     $article = new Article([
       'owner' => 1,
       'status' => 1,
