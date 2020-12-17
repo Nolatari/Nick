@@ -167,11 +167,13 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
   }
 
   /**
-   * @param $int
+   * @param string|int $int
    *
    * @return string
    */
   public static function intToStatus($int) {
+    // Cast to int
+    $int = (int) $int;
     switch ($int) {
       case 0:
         return translate('Unpublished');

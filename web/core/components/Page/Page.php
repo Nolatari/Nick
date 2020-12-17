@@ -60,7 +60,7 @@ class Page implements PageInterface {
    *
    * @return self
    */
-  protected function setCacheOptions($parameters = []): Page {
+  protected function setCacheOptions($parameters = []): self {
     $this->caching = [
       'key' => '',
       'tags' => [],

@@ -19,8 +19,8 @@ class Person extends Entity implements PersonInterface {
    * @param null|array $values
    */
   public function __construct($values = NULL) {
-    $this->setValues($values);
     $this->setType('person');
+    $this->setValues($values);
   }
 
   /**
