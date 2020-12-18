@@ -113,9 +113,9 @@ class Database {
    */
   public static function Cleanse(mysqli $connection, $value): string {
     if (!$escaped_string = mysqli_real_escape_string($connection, $value)) {
-      return $value;
+      return (string) $value;
     }
-    return $escaped_string;
+    return (string) $escaped_string;
   }
 
   /**

@@ -46,6 +46,8 @@ class Entity implements EntityInterface {
     /** @var EntityInterface $entity */
     $entity = new $entityClassName;
 
+    // Sometimes ID could be 0, and the type not equal to person
+    // This is an invalid entity and can't be returned.
     if ($id === 0 && $entity->getType() !== 'person') {
       return FALSE;
     }
@@ -68,7 +70,11 @@ class Entity implements EntityInterface {
     $entityClassName = static::class;
     /** @var EntityInterface $entity */
     $entity = new $entityClassName;
-    return \Nick::EntityManager()->loadByProperties(['type' => $entity->getType()], $massage);
+    return \Nick::EntityManager()->loadByProperties(
+      ['type' => $entity->getType()],
+      TRUE,
+      $massage
+    );
   }
 
   /**
