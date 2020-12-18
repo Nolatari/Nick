@@ -21,15 +21,28 @@ class CacheBase implements CacheInterface {
   protected array $cacheStats;
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function getData(string $cacheKey, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
-    // Method stub
-    return TRUE;
+    if (!isset($this->cacheStats[$cacheKey])) {
+      $this->cacheStats[$cacheKey]['created'] = 0;
+      $this->cacheStats[$cacheKey]['called'] = 0;
+    }
+    if (!isset($this->cacheableData[$cacheKey])) {
+      $class = new $fallbackClass(...$classData);
+      if (!empty($fallbackMethod)) {
+        $this->cacheableData[$cacheKey] = $class->{$fallbackMethod}(...$methodData);
+      } else {
+        $this->cacheableData[$cacheKey] = $class;
+      }
+      $this->cacheStats[$cacheKey]['created']++;
+    }
+    $this->cacheStats[$cacheKey]['called']++;
+    return $this->cacheableData[$cacheKey];
   }
 
   /**
-   * @inheritDoc
+   * {@inheritDoc}
    */
   public function getContentData(array $cacheOptions, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
     // Method stub

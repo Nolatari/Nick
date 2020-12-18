@@ -18,27 +18,6 @@ class Cache extends CacheBase {
   /**
    * {@inheritDoc}
    */
-  public function getData(string $cacheKey, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
-    if (!isset($this->cacheStats[$cacheKey])) {
-      $this->cacheStats[$cacheKey]['created'] = 0;
-      $this->cacheStats[$cacheKey]['called'] = 0;
-    }
-    if (!isset($this->cacheableData[$cacheKey])) {
-      $class = new $fallbackClass(...$classData);
-      if (!empty($fallbackMethod)) {
-        $this->cacheableData[$cacheKey] = $class->{$fallbackMethod}(...$methodData);
-      } else {
-        $this->cacheableData[$cacheKey] = $class;
-      }
-      $this->cacheStats[$cacheKey]['created']++;
-    }
-    $this->cacheStats[$cacheKey]['called']++;
-    return $this->cacheableData[$cacheKey];
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public function getContentData(array $cacheOptions, $fallbackClass = '', $fallbackMethod = '', array $methodData = [], array $classData = []) {
     // Fires an event to alter cache options before being sent to DB.
     \Nick::Event('cacheContentAlter')
