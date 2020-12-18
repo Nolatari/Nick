@@ -2,18 +2,17 @@
 
 namespace Nick\Page;
 
-use Nick\Event\Event;
 use Nick\Route\RouteInterface;
 use Nick\Translation\StringTranslation;
 use Nick\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
- * Class Dashboard
+ * Class Element
  *
  * @package Nick\Page
  */
-class Page implements PageInterface {
+class Element implements ElementInterface {
   use StringTranslation;
 
   /** @var array $caching */
@@ -25,11 +24,8 @@ class Page implements PageInterface {
   /** @var array $permissions */
   protected array $permissions = [];
 
-  /** @var array $elements */
-  protected array $elements = [];
-
   /**
-   * Page constructor.
+   * Element constructor.
    */
   public function __construct() {
     // TODO: Set fallback parameters
@@ -44,44 +40,7 @@ class Page implements PageInterface {
   }
 
   /**
-   * Adds Element to list of elements.
-   *
-   * @param ElementInterface $element
-   *
-   * @return self
-   */
-  protected function addElement(ElementInterface $element): self {
-    $this->elements[] = $element;
-    return $this;
-  }
-
-  /**
-   * @return array
-   */
-  public function getElements(): array {
-    return $this->elements;
-  }
-
-  /**
-   * Returns rendered string of elements
-   *
-   * @param array          $parameters
-   * @param RouteInterface $route
-   *
-   * @return string
-   */
-  protected function getRenderedElements(array &$parameters, RouteInterface $route): string {
-    $elements = '';
-    /** @var ElementInterface $element */
-    foreach ($this->getElements() as $element) {
-      $elements .= $element->render($parameters, $route);
-    }
-
-    return $elements;
-  }
-
-  /**
-   * Sets permissions required to view this page
+   * Sets permissions required to view this element
    *
    * @param array $permissions
    *
@@ -93,7 +52,7 @@ class Page implements PageInterface {
   }
 
   /**
-   * Sets caching for page.
+   * Sets caching for element.
    *
    * @param array|null $parameters
    *
@@ -101,9 +60,9 @@ class Page implements PageInterface {
    */
   protected function setCacheOptions($parameters = []): self {
     $this->caching = [
-      'key' => 'page',
-      'tags' => ['page'],
-      'context' => ['page'],
+      'key' => 'element',
+      'tags' => ['element'],
+      'context' => ['element'],
       'max-age' => -1,
     ];
 
@@ -121,7 +80,7 @@ class Page implements PageInterface {
    * {@inheritDoc}
    */
   public function render(array &$parameters, RouteInterface $route) {
-    \Nick::Event('pagePreRender')
+    \Nick::Event('elementPreRender')
       ->fire($parameters, [$this->get('id')]);
 
     foreach ($this->getPermissions() as $permission) {
@@ -154,7 +113,7 @@ class Page implements PageInterface {
   }
 
   /**
-   * Sets page parameters
+   * Sets element parameters
    *
    * @param array $parameters
    */

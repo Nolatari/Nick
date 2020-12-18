@@ -5,28 +5,28 @@ namespace Nick\Page;
 use Nick\Route\RouteInterface;
 
 /**
- * Interface PageInterface
+ * Interface ElementInterface
  *
  * @package Nick\Page
  */
-interface PageInterface {
+interface ElementInterface {
 
   /**
-   * Returns permissions required to view this page
+   * Returns permissions required to view this element
    *
    * @return array
    */
   public function getPermissions();
 
   /**
-   * Returns caching options for this page.
+   * Returns caching options for this element.
    *
    * @return array
    */
   public function getCacheOptions();
 
   /**
-   * Returns page parameter
+   * Returns element parameter
    *
    * @param string $parameter
    *
@@ -35,8 +35,8 @@ interface PageInterface {
   public function get(string $parameter);
 
   /**
-   * Returns the twig render of the current page.
-   * To be overwritten in the page's class.
+   * Returns the twig render of the current element.
+   * To be overwritten in the element's class.
    *
    * @param array          $parameters
    * @param RouteInterface $route

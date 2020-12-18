@@ -2,8 +2,8 @@
     Options -Indexes
     RewriteEngine On
 
-    RewriteCond %{HTTP_HOST} ^orgnix.be
-    RewriteRule (.*) https://www.orgnix.be/$1 [R=301,L]
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

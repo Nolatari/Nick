@@ -144,7 +144,6 @@ class ManifestRenderer {
    * @return string|NULL
    */
   public function render(bool $massage = FALSE): ?string {
-    $viewMode = $this->getViewMode();
     $manifest = $this->getManifest();
 
     $fields = $manifest->getFields();
@@ -176,7 +175,7 @@ class ManifestRenderer {
 
     return $this->getRenderer()
       ->setType('core.Manifest')
-      ->setTemplate($viewMode)
+      ->setTemplate($this->getViewMode())
       ->render([
         'type' => $manifest->getType(),
         'fields' => $fields,
