@@ -32,8 +32,8 @@ class Clients extends Page {
     $this->caching = [
       'key' => 'rest.clients',
       'context' => 'page',
-      'tags' => ['clients.overview'],
-      'max-age' => 300,
+      'tags' => ['entity:client:overview'],
+      'max-age' => 900,
     ];
 
     return $this;
@@ -49,7 +49,9 @@ class Clients extends Page {
     parent::render($parameters, $route);
 
     $clients = Client::loadMultiple();
-    d($clients);exit;
+    d($clients);
+
+    return NULL;
   }
 
 }

@@ -396,6 +396,9 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
     // Fire postsave event
     \Nick::Event('EntityPostSave')
       ->fire($this);
+
+    \Nick::Cache()->invalidateTags(['entity:' . $this->type . ':overview']);
+
     return TRUE;
   }
 

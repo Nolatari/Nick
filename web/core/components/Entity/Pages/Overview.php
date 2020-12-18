@@ -33,8 +33,15 @@ class Overview extends Page {
     $this->caching = [
       'key' => 'page.entity.overview',
       'context' => 'page',
-      'max-age' => 300,
+      'tags' => [],
+      'max-age' => 900,
     ];
+
+    if (isset($parameters[1])) {
+      $type = $parameters[1];
+      $this->caching['key'] = 'page.entity.' . $type . '.overview';
+      $this->caching['tags'] = ['entity:' . $type . ':overview'];
+    }
 
     return $this;
   }
