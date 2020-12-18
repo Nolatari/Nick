@@ -53,8 +53,7 @@ class Nick {
    * @return CacheInterface
    */
   public static function Cache(): CacheInterface {
-    global $cache;
-    return $cache ?? Core::getCacheClass();
+    return $GLOBALS['cache'];
   }
 
   /**
@@ -340,6 +339,8 @@ class Nick {
   public static function Init(Request $request) {
     $core = new Core();
     $core->setSystemSpecifics();
+    $GLOBALS['cache'] = Core::getCacheClass();
+    $GLOBALS['cache']->initializeCache();
     static::$request = $request;
     static::ExtensionManager()->installExtensions();
     static::EntityManager()->createEntities();

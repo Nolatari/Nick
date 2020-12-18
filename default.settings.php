@@ -7,6 +7,26 @@ $nick_settings = [];
 // ---------------------------------------- //
 $nick_settings['default'] = [];
 $nick_settings['default']['url'] = 'localhost';
+$nick_settings['default']['cache_backend'] = '\Nick\Cache\Cache';
+/**
+ * Example of REDIS cache backend:
+ *
+ * $nick_settings['default']['cache_backend'] = '\Nick\Cache\Redis';
+ * $nick_settings['default']['redis'] = [
+ *   'host' => 'localhost',
+ *   'port' => '6379',
+ *   'config' => [
+ *     'compression' => true,
+ *     'lazy' => false,
+ *     'persistent' => 0,
+ *     'persistent_id' => null,
+ *     'tcp_keepalive' => 0,
+ *     'timeout' => 30,
+ *     'read_timeout' => 0,
+ *     'retry_interval' => 0,
+ *   ],
+ * ];
+ */
 $nick_settings['default']['database'] = [
   'type' => 'mysql',
   'hostname' => 'hostname',

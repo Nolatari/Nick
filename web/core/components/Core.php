@@ -66,8 +66,8 @@ class Core {
    * @return CacheInterface
    */
   public static function getCacheClass() {
-    // @TODO: dynamically return the currently active cache class!
-    $cacheClass = new Cache;
+    $cacheClass = Settings::get('cache_backend');
+    $cacheClass = new $cacheClass;
     if (!$cacheClass instanceof CacheInterface) {
       // Return default Cache class in case the custom one is not an instance of Cacheinterface.
       return new Cache;

@@ -31,6 +31,7 @@ class Install implements InstallInterface {
       'title' => 'Articles',
       'description' => 'Overview of all articles',
       'structure' => 0,
+      'icon' => 'newspaper',
       'type' => 'link',
       'translatable' => TRUE,
       'parent' => 0,

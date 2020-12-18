@@ -22,7 +22,7 @@
       "symfony/http-foundation": "^5.1",
       "snc/redis-bundle": "^3.2",
       "kint-php/kint-twig": "^3.0",
-      "ext-http": "*"
+    "predis/predis": "^1.1"
   },
   "autoload": {
     "psr-4": {

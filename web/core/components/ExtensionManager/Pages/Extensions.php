@@ -61,23 +61,24 @@ class Extensions extends Page {
     $componentList = $extensionManager::getCoreComponents();
     $extensionList = array_merge($extensionManager::getContribExtensions(), $extensionManager::getCoreExtensions());
     $extensions = [];
-    $extensions['core'] = [
-      'type' => 'core',
-      'name' => 'Nick Core',
-      'version' => \Nick::Cache()->getData('NICK_VERSION') . '.'
-      . \Nick::Cache()->getData('NICK_VERSION_RELEASE') . '.'
-      . \Nick::Cache()->getData('NICK_VERSION_RELEASE_MINOR'). ' '
-      . \Nick::Cache()->getData('NICK_VERSION_STATUS'),
-      'installed' => TRUE,
-      'required' => TRUE,
-      'description' => "Includes the following components: \n" . implode("\n", $componentList),
-    ];
     foreach ($extensionList as $extension) {
       $extensions[$extension] = $extensionManager::getExtensionInfo($extension);
       $extensions[$extension]['installed'] = $extensionManager::extensionInstalled($extension);
       $extensions[$extension]['latest'] = $extensionManager::isLatestVersion($extension); // TODO!
     }
     ksort($extensions);
+    $extensions = ['core' => [
+      'type' => 'core',
+      'name' => 'Nick Core',
+      'version' => \Nick::Cache()->getData('NICK_VERSION') . '.'
+        . \Nick::Cache()->getData('NICK_VERSION_RELEASE') . '.'
+        . \Nick::Cache()->getData('NICK_VERSION_RELEASE_MINOR'). ' '
+        . \Nick::Cache()->getData('NICK_VERSION_STATUS'),
+      'latest' => $extensionManager::isLatestVersion('core'),
+      'installed' => TRUE,
+      'required' => TRUE,
+      'description' => "Includes the following components: \n" . implode("\n", $componentList),
+    ]] + $extensions;
 
     $action = NULL;
     if (isset($parameters['ext'])) {

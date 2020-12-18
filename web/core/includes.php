@@ -12,10 +12,6 @@ require_once __DIR__ . '/components/Settings.php';
 /** Require Nick component */
 require_once 'Nick.php';
 
-/** @var CacheInterface $cache */
-$cache = Core::getCacheClass();
-$cache->initializeCache();
-
 /**
  * Translation service, correct usage would be to enter a literal string, for example:
  *       $color = 'brown'; $itemColor = 'yellow'; $item = 'fence';

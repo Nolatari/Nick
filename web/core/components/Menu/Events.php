@@ -26,9 +26,9 @@ class Events extends EventListener {
 
     // Load menu items
     $menus = \Nick::Manifest('menu')
-      ->fields(['id', 'title', 'description', 'route', 'type', 'parent'])
+      ->fields(['id', 'title', 'description', 'route', 'type', 'parent', 'icon'])
       ->condition('status', 1)
-      ->order('structure', 'ASC')
+      ->order('structure')
       ->result();
 
     // Loop over menus and add to array
