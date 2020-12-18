@@ -111,23 +111,25 @@ class Database {
    *
    * @return string
    */
-  public static function Cleanse(mysqli $connection, $value): string {
+  public static function Cleanse(mysqli $connection, $value) {
     if (!$escaped_string = mysqli_real_escape_string($connection, $value)) {
-      return (string) $value;
+      return $value;
     }
-    return (string) $escaped_string;
+    return $escaped_string;
   }
 
   /**
    * Static function to add single quotation marks in case
    * this was not done when building the query.
    *
-   * @param string $value
+   * @param $value
    *
    * @return string
    */
-  public static function addQuotationMarks(string $value): string {
+  public static function addQuotationMarks($value): string {
     if (!is_null($value)) {
+      // Cast value to string first, as integers could be passed
+      $value = (string) $value;
       if (substr($value, 0, 1) !== "'" && substr($value, -1, 1) !== "'") {
         return "'" . $value . "'";
       }
