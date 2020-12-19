@@ -16,19 +16,19 @@ class Add extends Page {
   /**
    * Edit constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'entity.add',
       'title' => $this->translate('Add entity'),
       'summary' => $this->translate('Add page for an entity'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.entity.add',
       'context' => 'page',
@@ -41,10 +41,10 @@ class Add extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
 
-    $entity = \Nick::EntityManager()::getEntityClassFromType($parameters['type']);
+    $entity = \Nick::EntityManager()::getEntityClassFromType($this->get('type'));
     $form = \Nick::Form($entity);
     $content = $form->result();
 

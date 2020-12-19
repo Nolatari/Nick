@@ -234,10 +234,15 @@ class Nick {
   /**
    * Returns PageManager object
    *
+   * @param array|null          $parameters
+   * @param RouteInterface|null $route
+   *
    * @return PageManager
    */
-  public static function PageManager(): PageManager {
-    return new PageManager();
+  public static function PageManager(?array $parameters = NULL, ?RouteInterface $route = NULL): PageManager {
+    $parameters = $parameters ?? [];
+    $route = $route ?? self::CurrentRoute();
+    return new PageManager($parameters, $route);
   }
 
   /**
@@ -385,9 +390,9 @@ class Nick {
         'author' => $route->getPageObject()->get('author') ?? NULL,
         'summary' => $route->getPageObject()->get('summary') ?? NULL,
       ];
-      $header = static::PageManager()->getPageRender('header', $variables, $route);
+      $header = static::PageManager($variables, $route)->getPageRender('header');
       $page = $route->render();
-      $footer = static::PageManager()->getPageRender('footer', $variables, $route);
+      $footer = static::PageManager($variables, $route)->getPageRender('footer');
 
       $response = new Response();
       $response->headers->set('Content-Type', 'text/html');

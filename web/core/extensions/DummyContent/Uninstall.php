@@ -21,7 +21,7 @@ class Uninstall implements UninstallInterface {
    * @return bool
    */
   public function condition(): bool {
-    $pageObject = \Nick::PageManager()->getPageObject('dummycontent');
+    $pageObject = \Nick::PageManager()->getPageObject('dummycontent', [], \Nick::CurrentRoute());
     if ($pageObject instanceof DummyContent) {
       return FALSE;
     }

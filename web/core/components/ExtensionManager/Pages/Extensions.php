@@ -19,13 +19,13 @@ class Extensions extends Page {
   /**
    * Dashboard constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'extensions',
       'title' => $this->translate('Extensions'),
       'summary' => $this->translate('Welcome to your Nick Dashboard!'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
@@ -42,7 +42,7 @@ class Extensions extends Page {
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.extensions',
       'context' => 'page',
@@ -55,8 +55,11 @@ class Extensions extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
+
+    d($this->getParameters());exit;
+
     $extensionManager = \Nick::ExtensionManager();
     $componentList = $extensionManager::getCoreComponents();
     $extensionList = array_merge($extensionManager::getContribExtensions(), $extensionManager::getCoreExtensions());
@@ -81,20 +84,20 @@ class Extensions extends Page {
     ]] + $extensions;
 
     $action = NULL;
-    if (isset($parameters['ext'])) {
-      $extension = $extensionManager::getExtensionInfo($parameters['ext']);
-      if (isset($parameters[2])) {
-        $action = $parameters[2];
-        if ($parameters[2] == 'uninstall') {
-          if (isset($parameters[3]) && StringManipulation::contains($parameters[3], 'confirm')) { // @TODO: Change this to POST parameters.
-            $extensionManager::uninstallExtension($parameters['ext']);
-            $response = new RedirectResponse(Url::fromRoute(\Nick::Route()->load('extension.view')->setValue('ext', $parameters['ext'])));
+    if ($this->hasParameter('ext')) {
+      $extension = $extensionManager::getExtensionInfo($this->get('ext'));
+      if ($this->hasParameter('action')) {
+        $action = $this->get(2);
+        if ($this->get(2) == 'uninstall') {
+          if ($this->hasParameter(3) && StringManipulation::contains($this->get(3), 'confirm')) {
+            $extensionManager::uninstallExtension($this->get('ext'));
+            $response = new RedirectResponse(Url::fromRoute(\Nick::Route()->load('extension.view')->setValue('ext', $this->get('ext'))));
             $response->send();
           }
-        } elseif ($parameters[2] == 'install') {
-          if (isset($parameters[3]) && StringManipulation::contains($parameters[3], 'confirm')) { // @TODO: Change this to POST parameters.
-            $extensionManager::installExtension($parameters['ext'], $extension['type']);
-            $response = new RedirectResponse(Url::fromRoute(\Nick::Route()->load('extension.view')->setValue('ext', $parameters['ext'])));
+        } elseif ($this->get(2) == 'install') {
+          if ($this->hasParameter(3) && StringManipulation::contains($this->get(3), 'confirm')) {
+            $extensionManager::installExtension($this->get('ext'), $extension['type']);
+            $response = new RedirectResponse(Url::fromRoute(\Nick::Route()->load('extension.view')->setValue('ext', $this->get('ext'))));
             $response->send();
           }
         }
@@ -111,7 +114,7 @@ class Extensions extends Page {
           'summary' => $this->get('summary'),
         ],
         'extensions' => $extensions,
-        'active' => $parameters['ext'] ?? FALSE,
+        'active' => $this->get('ext') ?? FALSE,
         'action' => $action,
       ]);
   }

@@ -17,19 +17,19 @@ class Overview extends Page {
   /**
    * Overview constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'article.overview',
       'title' => $this->translate('Article overview'),
       'summary' => $this->translate('List of existing articles.'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.article.overview',
       'context' => 'page',
@@ -42,8 +42,8 @@ class Overview extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
 
     $manifest = \Nick::Manifest('article')->fields([
       'id', 'title', 'status', 'owner'

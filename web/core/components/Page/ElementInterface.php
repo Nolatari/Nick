@@ -43,6 +43,6 @@ interface ElementInterface {
    *
    * @return NULL|string
    */
-  public function render(array &$parameters, RouteInterface $route);
+  public function render();
 
 }

@@ -9,13 +9,8 @@ extension.view:
     ext: 1
 
 extension.install:
-  url: '/extension/{ext}/install'
+  url: '/extension/{ext}/{action}'
   controller: '\Nick\ExtensionManager\Pages\Extensions'
   parameters:
     ext: 1
-
-extension.uninstall:
-  url: '/extension/{ext}/uninstall'
-  controller: '\Nick\ExtensionManager\Pages\Extensions'
-  parameters:
-    ext: 1
+    action: 2

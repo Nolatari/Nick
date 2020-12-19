@@ -16,15 +16,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class Logs extends Page {
 
   /**
-   * Config constructor.
+   * {@inheritDoc}
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'logs',
       'title' => $this->translate('Logs'),
       'summary' => $this->translate('Shows recent logs'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
@@ -44,8 +44,8 @@ class Logs extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
 
     if ($route->getRoute() === 'logs.clear') {
       \Nick::Logger()->clear();

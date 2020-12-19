@@ -14,23 +14,13 @@ use Nick\Route\RouteInterface;
 class Footer extends Page {
 
   /**
-   * Footer constructor.
+   * {@inheritDoc}
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'footer',
     ]);
-    parent::__construct();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public function render(array &$parameters, RouteInterface $route) {
-    return \Nick::Renderer()
-      ->setType()
-      ->setTemplate('footer')
-      ->render();
+    parent::__construct($parameters, $route);
   }
 
   /**
@@ -45,6 +35,16 @@ class Footer extends Page {
     ];
 
     return $this;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function render() {
+    return \Nick::Renderer()
+      ->setType()
+      ->setTemplate('footer')
+      ->render($this->getParameters());
   }
 
 }

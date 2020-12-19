@@ -16,7 +16,7 @@ class Transmit extends Page {
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'rest.transmit',
       'context' => 'page',
@@ -24,8 +24,8 @@ class Transmit extends Page {
     ];
   }
 
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
     Rest::Transmit($parameters);
   }
 

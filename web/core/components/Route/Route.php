@@ -97,7 +97,9 @@ class Route implements RouteInterface {
     if (!class_exists($controller)) {
       return NULL;
     }
-    $object = new $controller;
+    $parameters = Url::getRefactoredParameters($this);
+    /** @var PageInterface $object */
+    $object = new $controller($parameters, $this);
     if (!$object instanceof PageInterface) {
       return NULL;
     }
@@ -112,7 +114,7 @@ class Route implements RouteInterface {
    */
   public function render() {
     $parameters = Url::getRefactoredParameters($this);
-    return \Nick::Cache()->getContentData($this->getPageObject()->getCacheOptions(), $this->controller, 'render', [$parameters, $this]);
+    return \Nick::Cache()->getContentData($this->getPageObject()->getCacheOptions(), $this->controller, 'render', [], [$parameters, $this]);
   }
 
   /**

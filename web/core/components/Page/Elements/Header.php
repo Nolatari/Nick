@@ -1,26 +1,26 @@
 <?php
 
-namespace Nick\Page\Pages;
+namespace Nick\Page\Elements;
 
 use Nick;
 use Nick\Page\Element;
 use Nick\Route\RouteInterface;
 
 /**
- * Class Header_Element
+ * Class Header
  *
- * @package Nick\Page
+ * @package Nick\Elements
  */
-class Header_Element extends Element {
+class Header extends Element {
 
   /**
-   * Header_Element constructor.
+   * Header constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'header',
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
@@ -31,7 +31,7 @@ class Header_Element extends Element {
       'key' => 'element.header',
       'context' => 'element',
       'tags' => ['element:header'],
-      'max-age' => 0,
+      'max-age' => 900,
     ];
 
     return $this;
@@ -40,8 +40,8 @@ class Header_Element extends Element {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
     return \Nick::Renderer()
       ->setType()
       ->setTemplate('header')

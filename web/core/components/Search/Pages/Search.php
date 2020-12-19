@@ -16,19 +16,19 @@ class Search extends Page {
   /**
    * Search constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'search',
       'title' => $this->translate('Search'),
       'summary' => $this->translate('Search results for :keyword', [':keyword' => 'undefined']),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.' . $this->get('id'),
       'context' => 'page',
@@ -41,8 +41,8 @@ class Search extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
     $query = $_GET['q'] ?? NULL;
     $results = \Nick::Search($query)->getSearchResults();
 

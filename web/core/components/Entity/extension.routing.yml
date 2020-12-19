@@ -1,27 +1,27 @@
 ## Specific entity ones
 entity.view:
-  url: '/entity/{type}/{id}'
+  url: '/entity/{type}/{eid}'
   controller: '\Nick\Entity\Pages\View'
   parameters:
     type: 1
-    id: 2
+    eid: 2
 entity.add:
   url: '/entity/{type}/add'
   controller: '\Nick\Entity\Pages\Add'
   parameters:
     type: 1
 entity.edit:
-  url: '/entity/{type}/{id}/edit'
+  url: '/entity/{type}/{eid}/edit'
   controller: '\Nick\Entity\Pages\Edit'
   parameters:
     type: 1
-    id: 2
+    eid: 2
 entity.delete:
-  url: '/entity/{type}/{id}/delete'
+  url: '/entity/{type}/{eid}/delete'
   controller: '\Nick\Entity\Pages\Delete'
   parameters:
     type: 1
-    id: 2
+    eid: 2
 entity.overview:
   url: '/entity/{type}'
   controller: '\Nick\Entity\Pages\Overview'

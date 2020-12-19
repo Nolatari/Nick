@@ -79,7 +79,7 @@ class Element implements ElementInterface {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
+  public function render() {
     \Nick::Event('elementPreRender')
       ->fire($parameters, [$this->get('id')]);
 

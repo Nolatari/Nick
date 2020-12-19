@@ -28,7 +28,7 @@ class Config extends Page {
   /**
    * Config constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->form = new Form();
     $this->language = new Language();
     $this->setParameters([
@@ -36,7 +36,7 @@ class Config extends Page {
       'title' => $this->translate('Config'),
       'summary' => $this->translate('Configuration options'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
@@ -59,7 +59,7 @@ class Config extends Page {
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.' . $this->get('id'),
       'context' => 'page',
@@ -72,8 +72,8 @@ class Config extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
     if (isset($parameters['export']) && isset($parameters['confirm'])) {
       \Nick::Config()->export();
     } elseif (isset($parameters['import']) && isset($parameters['confirm'])) {

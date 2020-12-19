@@ -16,19 +16,19 @@ class Submit extends Page {
   /**
    * View constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'form.submit',
       'title' => $this->translate('Form submit'),
       'summary' => $this->translate('The view page of an article.'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.form.submit',
       'context' => 'page',
@@ -41,8 +41,8 @@ class Submit extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
     d($_POST);
     d(unserialize(htmlspecialchars_decode($_POST['form-array'])));
 

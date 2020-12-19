@@ -18,19 +18,19 @@ class Delete extends Page {
   /**
    * Entity constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'entity.delete',
       'title' => $this->translate('Entity Delete'),
       'summary' => $this->translate('Delete page for an entity'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.entity.delete',
       'context' => 'page',
@@ -66,8 +66,8 @@ class Delete extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
 
     $content = NULL;
     if (isset($parameters[2]) && !empty($parameters[2])) {

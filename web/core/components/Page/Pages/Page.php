@@ -7,23 +7,22 @@ use Nick\Page\Page as PageBase;
 use Nick\Route\RouteInterface;
 
 /**
- * Class Dashboard
+ * Class Page
  *
- * @package Nick\Page
+ * @package Nick\Page\Pages
  */
 class Page extends PageBase {
 
   /**
-   * Dashboard constructor.
+   * {@inheritDoc}
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
-      'id' => 'dashboard',
-      'title' => $this->translate('Dashboard'),
+      'id' => 'page',
+      'title' => $this->translate('page'),
       'summary' => $this->translate('Welcome to your Nick Dashboard!'),
     ]);
-
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
@@ -31,9 +30,9 @@ class Page extends PageBase {
    */
   protected function setCacheOptions($parameters = []): self {
     $this->caching = [
-      'key' => 'page.dashboard',
+      'key' => 'page',
       'context' => 'page',
-      'tags' => ['dashboard'],
+      'tags' => ['page'],
       'max-age' => 1800,
     ];
 
@@ -43,12 +42,17 @@ class Page extends PageBase {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
 
-    $this->addElement(\Nick::ElementManager()->getElementObject('header'));
-    $this->addElement(\Nick::ElementManager()->getElementObject('header'));
-    $this->addElement(\Nick::ElementManager()->getElementObject('footer'));
+    $elementManager = \Nick::ElementManager();
+    $this->addElement($elementManager->getElementObject('header'));
+    // TODO: Turn this into the current route's element
+    //$this->addElement($elementManager->getElementObject('header'));
+    $this->addElement($elementManager->getElementObject('footer'));
+
+    d($this->getElements());
+    d($this->getRenderedElements());
 
     return \Nick::Renderer()
       ->setType()
@@ -59,7 +63,8 @@ class Page extends PageBase {
           'title' => $this->get('title'),
           'summary' => $this->get('summary'),
         ],
-        'elements' => [
+        'elements' => $this->getRenderedElements(),
+        'dashboard' => [
           'installedExtensions' => count(\Nick::ExtensionManager()::getInstalledExtensions()),
         ],
       ]);

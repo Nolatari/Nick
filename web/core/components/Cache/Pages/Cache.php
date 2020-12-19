@@ -21,18 +21,18 @@ class Cache extends Page {
   /**
    * Cache constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'cache',
       'title' => 'Cache',
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.cache',
       'context' => 'page',
@@ -46,9 +46,9 @@ class Cache extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
-    if (isset($parameters[1]) && $parameters[1] === 'clear') {
+  public function render() {
+    parent::render();
+    if ($this->hasParameter(1) && $this->get(1) === 'clear') {
       if (\Nick::Cache()->clearAllCaches() !== FALSE) {
         \Nick::Logger()->add('Successfully cleared all caches.', Logger::TYPE_SUCCESS, 'Cache');
       } else {

@@ -153,8 +153,8 @@ class ManifestRenderer {
       $fields[] = 'edit-link';
       $fields[] = 'delete-link';
       foreach ($results as &$result) {
-        $editRoute = \Nick::Route()->load('entity.edit')->setValue('type', $manifest->getType())->setValue('id', $result['id']);
-        $deleteRoute = \Nick::Route()->load('entity.delete')->setValue('type', $manifest->getType())->setValue('id', $result['id']);
+        $editRoute = \Nick::Route()->load('entity.edit')->setValue('type', $manifest->getType())->setValue('eid', $result['id']);
+        $deleteRoute = \Nick::Route()->load('entity.delete')->setValue('type', $manifest->getType())->setValue('eid', $result['id']);
         $link = new Link();
 
         $result['edit-link'] = $link->render([

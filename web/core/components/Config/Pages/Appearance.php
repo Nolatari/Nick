@@ -23,20 +23,20 @@ class Appearance extends Page {
   /**
    * Config constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->form = new Form();
     $this->setParameters([
       'id' => 'config.appearance',
       'title' => $this->translate('Appearance settings'),
       'summary' => $this->translate('Configuration options'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.config.appearance',
       'context' => 'page',
@@ -56,8 +56,8 @@ class Appearance extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
     $form = $this->appearanceForm()->result();
 
     return \Nick::Renderer()

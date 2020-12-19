@@ -18,33 +18,33 @@ class View extends Page {
   /**
    * View constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'entity.view',
       'title' => $this->translate('Entity'),
       'summary' => $this->translate('The view page of an entity.'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.entity.view',
       'context' => 'page',
       'max-age' => 0,
     ];
 
-    if (isset($parameters[2]) && !empty($parameters[2])) {
+    if ($this->hasParameter('eid') && !empty($this->get('eid'))) {
       /** @var EntityInterface $entityObject */
-      $entityObject = \Nick::EntityManager()::getEntityClassFromType($parameters[1]);
+      $entityObject = \Nick::EntityManager()::getEntityClassFromType($this->get('type'));
       if (!$entityObject instanceof EntityInterface) {
         return $this;
       }
       /** @var EntityInterface $entity */
-      $entity = $entityObject::load($parameters[2]);
+      $entity = $entityObject::load($this->get('eid'));
       if (method_exists($entity, 'getTitle')) {
         $title = $entity->getTitle();
       } elseif (method_exists($entity, 'getName')) {
@@ -75,18 +75,17 @@ class View extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
 
     $content = NULL;
-    if (isset($parameters['id']) && !empty($parameters['id'])) {
-      $id = $parameters['id'];
+    if ($this->hasParameter('eid') && !empty($this->get('eid'))) {
       /** @var EntityInterface $entityObject */
-      $entityObject = \Nick::EntityManager()::getEntityClassFromType($parameters['type']);
+      $entityObject = \Nick::EntityManager()::getEntityClassFromType($this->get('type'));
       if (!$entityObject instanceof EntityInterface) {
         return $this;
       }
-      $entity = $entityObject::load($id);
+      $entity = $entityObject::load($this->get('eid'));
       $entityRenderer = new EntityRenderer($entity);
       $content = $entityRenderer->render();
 
@@ -100,7 +99,7 @@ class View extends Page {
             'summary' => $this->get('summary'),
           ],
           'entity' => [
-            'id' => $id ?? NULL,
+            'id' => $this->hasParameter('eid') ? $this->get('eid') : NULL,
             'type' => isset($entity) ? $entity->getType() : NULL,
             'content' => $content,
           ],

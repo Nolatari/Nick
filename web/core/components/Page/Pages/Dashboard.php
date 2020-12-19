@@ -14,15 +14,15 @@ use Nick\Route\RouteInterface;
 class Dashboard extends Page {
 
   /**
-   * Dashboard constructor.
+   * {@inheritDoc}
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'dashboard',
       'title' => $this->translate('Dashboard'),
       'summary' => $this->translate('Welcome to your Nick Dashboard!'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
@@ -42,8 +42,8 @@ class Dashboard extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
     return \Nick::Renderer()
       ->setType()
       ->setTemplate('dashboard')

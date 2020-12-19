@@ -1,24 +1,24 @@
 <?php
 
-namespace Nick\Page\Pages;
+namespace Nick\Page\Elements;
 
 use Nick;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 
 /**
- * Class Header
+ * Class Footer
  *
- * @package Nick\Page
+ * @package Nick\Elements
  */
-class Header extends Page {
+class Footer extends Page {
 
   /**
-   * {@inheritDoc}
+   * Footer constructor.
    */
   public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
-      'id' => 'header',
+      'id' => 'footer',
     ]);
     parent::__construct($parameters, $route);
   }
@@ -28,10 +28,10 @@ class Header extends Page {
    */
   protected function setCacheOptions($parameters = []): self {
     $this->caching = [
-      'key' => 'page.header',
-      'context' => 'page',
-      'tags' => ['header'],
-      'max-age' => 0,
+      'key' => 'element.footer',
+      'context' => 'element',
+      'tags' => ['element:footer'],
+      'max-age' => 3600,
     ];
 
     return $this;
@@ -41,11 +41,10 @@ class Header extends Page {
    * {@inheritDoc}
    */
   public function render() {
-    parent::render();
     return \Nick::Renderer()
       ->setType()
-      ->setTemplate('header')
-      ->render($this->getParameters() ?? []);
+      ->setTemplate('footer')
+      ->render();
   }
 
 }

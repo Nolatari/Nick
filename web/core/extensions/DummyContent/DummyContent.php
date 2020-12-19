@@ -65,7 +65,7 @@ class DummyContent extends Page {
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.' . $this->get('id'),
       'context' => 'page',
@@ -79,7 +79,7 @@ class DummyContent extends Page {
    * {@inheritDoc}
    */
   public function render(&$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+    parent::render();
 
     $defaultMessage = 'Do you wish to create dummy content?';
     $message = $defaultMessage;

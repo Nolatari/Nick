@@ -16,13 +16,13 @@ class Error extends Page {
   /**
    * Error constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'error',
       'title' => $this->translate('Error'),
       'summary' => $this->translate('There was an error trying to reach a certain page.'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
@@ -35,8 +35,8 @@ class Error extends Page {
       'max-age' => 0,
     ];
 
-    if (isset($parameters['key'])) {
-      $this->caching['key'] = $this->caching['key'] . '.' . $parameters['key'];
+    if ($this->hasParameter('key')) {
+      $this->caching['key'] .= '.' . $this->get('key');
     }
 
     return $this;
@@ -45,9 +45,9 @@ class Error extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
-    switch ($parameters['key']) {
+  public function render() {
+    parent::render();
+    switch ($this->get('key')) {
       case '404':
         $title = 'Page not found';
         break;
@@ -58,16 +58,16 @@ class Error extends Page {
         $title = 'Moved permanently';
         break;
       default:
-        $parameters['key'] = '500';
+        $this->setParameter('key', 500);
         $title = 'Internal server error';
         break;
     }
 
-    $parameters['page']['title'] = $title;
+    $this->setParameter('page.title', $title);
     return \Nick::Renderer()
       ->setType('error')
-      ->setTemplate($parameters['key'])
-      ->render($parameters);
+      ->setTemplate($this->get('key'))
+      ->render($this->getParameters());
   }
 
 }

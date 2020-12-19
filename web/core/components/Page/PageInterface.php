@@ -26,6 +26,11 @@ interface PageInterface {
   public function getCacheOptions();
 
   /**
+   * @return array
+   */
+  public function getParameters();
+
+  /**
    * Returns page parameter
    *
    * @param string $parameter
@@ -38,11 +43,8 @@ interface PageInterface {
    * Returns the twig render of the current page.
    * To be overwritten in the page's class.
    *
-   * @param array          $parameters
-   * @param RouteInterface $route
-   *
    * @return NULL|string
    */
-  public function render(array &$parameters, RouteInterface $route);
+  public function render();
 
 }

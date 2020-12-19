@@ -19,7 +19,7 @@ class Login extends Page {
   /**
    * Login constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'login',
       'title' => $this->translate('Login'),
@@ -27,7 +27,7 @@ class Login extends Page {
         ':sitename' => \Nick::Config()->get('site.name'),
       ]),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
@@ -46,8 +46,8 @@ class Login extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
 
     $request = \Nick::Request();
     if ($request->request->has('person-name') && $request->request->has('person-password')) {

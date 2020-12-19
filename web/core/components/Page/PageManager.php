@@ -14,39 +14,53 @@ use Nick\Route\RouteInterface;
  */
 class PageManager {
 
+  /** @var array $parameters */
+  protected array $parameters = [];
+
+  /** @var RouteInterface $route */
+  protected RouteInterface $route;
+
+  /**
+   * PageManager constructor.
+   *
+   * @param array          $parameters
+   * @param RouteInterface $route
+   */
+  public function __construct(array &$parameters, RouteInterface $route) {
+    $this->parameters = $parameters;
+    $this->route = $route;
+  }
+
   /**
    * Returns cached/fresh page content.
    *
    * @param string         $page_id
-   * @param array          $parameters
-   * @param RouteInterface $route
    *
    * @return mixed
    */
-  public function getPageRender(string $page_id, array $parameters, RouteInterface $route) {
+  public function getPageRender(string $page_id) {
     $page = $this->getPage($page_id);
     if (!is_array($page)) {
       return $page;
     }
-    $pageObject = new $page['controller'];
+    $pageObject = new $page['controller']($this->parameters, $this->route);
     if (!$pageObject instanceof PageInterface) {
       return FALSE;
     }
-    return \Nick::Cache()->getContentData($pageObject->getCacheOptions(), $page['controller'], 'render', [$parameters, $route]);
+    return \Nick::Cache()->getContentData($pageObject->getCacheOptions(), $page['controller'], 'render', [], [$this->parameters, $this->route]);
   }
 
   /**
    * @param string $page_id
-   * @param array  $parameters
    *
    * @return bool|PageInterface
    */
-  public function getPageObject(string $page_id, $parameters = []) {
+  public function getPageObject(string $page_id) {
     $page = $this->getPage($page_id);
     if (!is_array($page)) {
       return $this->getPageObject('error');
     }
-    $pageObject = new $page['controller'];
+    $pageObject = new $page['controller']($this->parameters, $this->route);
     if (!$pageObject instanceof PageInterface) {
       return FALSE;
     }
@@ -78,21 +92,20 @@ class PageManager {
    */
   protected function get404(string $page_id) {
     $page = $this->getPage('error');
-    $pageObject = new $page['controller'];
+    $pageObject = new $page['controller']($this->parameters, $this->route);
     if (!$pageObject instanceof PageInterface) {
       return FALSE;
     }
 
-    return \Nick::Cache()->getContentData($pageObject->getCacheOptions(), $page['controller'], 'render', [['e' => '404', 'page' => $page_id]]);
+    return \Nick::Cache()->getContentData($pageObject->getCacheOptions(), $page['controller'], 'render', [], [['e' => '404', 'page' => $page_id], $this->route]);
   }
 
   /**
-   * @param      $page_id
-   * @param bool $object
+   * @param string $page_id
    *
    * @return array|bool|mixed
    */
-  public function getPage($page_id, $object = FALSE) {
+  public function getPage(string $page_id) {
     $page = \Nick::Database()
       ->select('pages')
       ->condition('id', $page_id)

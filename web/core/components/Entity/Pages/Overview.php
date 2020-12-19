@@ -17,19 +17,19 @@ class Overview extends Page {
   /**
    * Overview constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'entity.overview',
       'title' => $this->translate('Entity overview'),
-      'summary' => $this->translate('List of existing entitys.'),
+      'summary' => $this->translate('List of existing entities.'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'page.entity.overview',
       'context' => 'page',
@@ -37,10 +37,9 @@ class Overview extends Page {
       'max-age' => 900,
     ];
 
-    if (isset($parameters[1])) {
-      $type = $parameters[1];
-      $this->caching['key'] = 'page.entity.' . $type . '.overview';
-      $this->caching['tags'] = ['entity:' . $type . ':overview'];
+    if ($this->hasParameter('type')) {
+      $this->caching['key'] = 'page.entity.' . $this->get('type') . '.overview';
+      $this->caching['tags'] = ['entity:' . $this->get('type') . ':overview'];
     }
 
     return $this;
@@ -49,11 +48,11 @@ class Overview extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
 
     $content = NULL;
-    $manifest = \Nick::Manifest($parameters[1])->fields([
+    $manifest = \Nick::Manifest($this->get('type'))->fields([
       'id', 'title', 'status', 'owner'
     ]);
     $manifestRenderer = new ManifestRenderer($manifest);
@@ -74,7 +73,6 @@ class Overview extends Page {
           'summary' => $this->get('summary'),
         ],
         'entity' => [
-          'id' => $parameters['id'] ?? NULL,
           'content' => $content,
         ],
       ]);

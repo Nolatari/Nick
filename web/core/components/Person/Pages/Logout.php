@@ -17,7 +17,7 @@ class Logout extends Page {
   /**
    * Login constructor.
    */
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'logout',
       'title' => $this->translate('Logout'),
@@ -25,7 +25,7 @@ class Logout extends Page {
         ':sitename' => \Nick::Config()->get('site.name'),
       ]),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
@@ -44,8 +44,8 @@ class Logout extends Page {
   /**
    * {@inheritDoc}
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
 
     \Nick::Person()::logout();
 

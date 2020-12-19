@@ -16,19 +16,19 @@ use Symfony\Component\Uid\Uuid;
  */
 class Clients extends Page {
 
-  public function __construct() {
+  public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
       'id' => 'rest.clients',
       'title' => $this->translate('Rest Clients'),
       'summary' => $this->translate('Welcome to your Nick Dashboard!'),
     ]);
-    parent::__construct();
+    parent::__construct($parameters, $route);
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setCacheOptions($parameters = []): self {
+  public function setCacheOptions(): self {
     $this->caching = [
       'key' => 'rest.clients',
       'context' => 'page',
@@ -45,8 +45,8 @@ class Clients extends Page {
    *
    * @return string|void|NULL
    */
-  public function render(array &$parameters, RouteInterface $route) {
-    parent::render($parameters, $route);
+  public function render() {
+    parent::render();
 
     $clients = Client::loadMultiple();
     d($clients);
