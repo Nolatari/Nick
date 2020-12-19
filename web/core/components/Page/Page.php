@@ -68,13 +68,13 @@ class Page implements PageInterface {
    * @param array          $parameters
    * @param RouteInterface $route
    *
-   * @return string
+   * @return array
    */
-  protected function getRenderedElements(array &$parameters, RouteInterface $route): string {
-    $elements = '';
+  protected function getRenderedElements(array &$parameters, RouteInterface $route): array {
+    $elements = [];
     /** @var ElementInterface $element */
     foreach ($this->getElements() as $element) {
-      $elements .= $element->render($parameters, $route);
+      $elements[$element->get('id')] = $element->render($parameters, $route);
     }
 
     return $elements;

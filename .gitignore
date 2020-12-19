@@ -1,5 +1,6 @@
 /vendor/
 /web/sites/*/files/
+/web/.htaccess
 /settings.php
 /.idea/
 .DS_Store

@@ -101,8 +101,8 @@ class Renderer {
    */
   public function setType($type = NULL, $skip = FALSE) {
     $this->type = $type;
-    $path = is_null($type) ? $this->getThemeFolder() :
-      $this->getThemeFolder() . StringManipulation::replace($type, ['core.', 'extension.'], '') . '/';
+    $path = is_null($type) ? $this->getThemeFolder() . '/templates/' :
+      $this->getThemeFolder() . '/templates/' . StringManipulation::replace($type, ['core.', 'extension.'], '') . '/';
 
     if (!is_dir($path) || $skip) {
       if (StringManipulation::contains($type, 'extension')) {
