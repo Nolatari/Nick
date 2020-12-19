@@ -30,7 +30,7 @@ class Header_Element extends Element {
     $this->caching = [
       'key' => 'element.header',
       'context' => 'element',
-      'tags' => ['header'],
+      'tags' => ['element:header'],
       'max-age' => 0,
     ];
 

@@ -43,8 +43,7 @@ class Config extends Page {
    * {@inheritDoc}
    */
   public function install() {
-    $pageManager = \Nick::PageManager();
-    return $pageManager->createPage([
+    return \Nick::PageManager()->createPage([
       'id' => $this->get('id'),
       'controller' => '\\Nick\\Page\\Pages\\Config',
     ]);

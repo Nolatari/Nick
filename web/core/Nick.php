@@ -20,6 +20,7 @@ use Nick\Logger;
 use Nick\Manifest\Manifest;
 use Nick\Manifest\ManifestInterface;
 use Nick\Manifest\ManifestRenderer;
+use Nick\Page\ElementManager;
 use Nick\Page\PageManager;
 use Nick\Permission\PermissionManager;
 use Nick\Person\Entity\Person;
@@ -97,6 +98,15 @@ class Nick {
     } else {
       return self::Cache()->getData('database.default.' . $condition_delimiter, '\\Nick\\Database\\Database', NULL, [], [$condition_delimiter]);
     }
+  }
+
+  /**
+   * Returns ElementManager object
+   *
+   * @return ElementManager
+   */
+  public static function ElementManager(): ElementManager {
+    return new ElementManager();
   }
 
   /**

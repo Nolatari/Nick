@@ -4,9 +4,7 @@ namespace Nick\DummyContent;
 
 use Nick\ExtensionManager\InstallInterface;
 use Nick\Logger;
-use Nick\Menu\Menu;
-use Nick\Page\Page;
-use Nick\Page\PageManager;
+use Nick\Menu\Entity\Menu;
 
 /**
  * Class Install
