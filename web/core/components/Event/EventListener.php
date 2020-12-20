@@ -16,6 +16,11 @@ class EventListener implements EventListenerInterface {
   /**
    * {@inheritDoc}
    */
+  public function postInit(?array &$cache) {}
+
+  /**
+   * {@inheritDoc}
+   */
   public function pagePreRender(?array &$variables, string $page_id) {}
 
   /**

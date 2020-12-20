@@ -360,6 +360,9 @@ class Nick {
     static::ExtensionManager()->installExtensions();
     static::EntityManager()->createEntities();
     static::RouteManager()->installRoutes();
+
+    $cache = [$GLOBALS['cache']];
+    static::Event('postInit')->fire($cache);
   }
 
   /**

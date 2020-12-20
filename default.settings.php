@@ -7,6 +7,7 @@ $nick_settings = [];
 // ---------------------------------------- //
 $nick_settings['default'] = [];
 $nick_settings['default']['url'] = 'localhost';
+$nick_settings['default']['shield'] = ['nick' => 'nick'];
 $nick_settings['default']['cache_backend'] = '\Nick\Cache\Cache';
 /**
  * Example of REDIS cache backend:

@@ -1,0 +1,7 @@
+name: Shield
+version: 1.0a
+type: extension
+description: "Adds php shield authentication to your website"
+event_listeners:
+  postInit:
+    class: '\Nick\Shield\Events'

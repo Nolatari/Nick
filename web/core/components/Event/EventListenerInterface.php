@@ -12,6 +12,15 @@ use Nick\Entity\EntityInterface;
 interface EventListenerInterface {
 
   /**
+   * postInit event
+   *
+   * @param array|null $cache
+   *
+   * @return mixed
+   */
+  public function postInit(?array &$cache);
+
+  /**
    * pagePreRender event
    *
    * @param array|null $variables
