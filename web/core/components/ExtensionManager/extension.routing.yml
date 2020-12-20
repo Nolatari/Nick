@@ -8,7 +8,7 @@ extension.view:
   parameters:
     ext: 1
 
-extension.install:
+extension.action:
   url: '/extension/{ext}/{action}'
   controller: '\Nick\ExtensionManager\Pages\Extensions'
   parameters:

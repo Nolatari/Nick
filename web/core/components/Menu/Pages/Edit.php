@@ -64,15 +64,15 @@ class Edit extends Page {
   public function render() {
     parent::render();
 
-    $form = $this->defaultForm((int)$parameters[2]);
+    if (!$this->hasParameter(2)) {
+      return NULL;
+    }
+
+    $form = $this->defaultForm((int) $this->get(2));
     if (!$form) {
       $result = '';
     } else {
       $result = $form->result();
-    }
-
-    if (!isset($parameters[2])) {
-      return NULL;
     }
     return \Nick::Renderer()
       ->setType()

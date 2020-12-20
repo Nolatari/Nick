@@ -31,7 +31,7 @@ class Url {
       if ($query !== $prefix && $query !== '') {
         $query .= $separator;
       }
-      if ($param === NULL) {
+      if (empty($param)) {
         $query .= $key;
       } else {
         $query .= $key . '=' . $param;

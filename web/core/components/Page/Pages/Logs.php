@@ -47,7 +47,7 @@ class Logs extends Page {
   public function render() {
     parent::render();
 
-    if ($route->getRoute() === 'logs.clear') {
+    if ($this->getRoute()->getRoute() === 'logs.clear') {
       \Nick::Logger()->clear();
       $response = new RedirectResponse(Url::fromRoute(\Nick::Route()->load('logs')));
       $response->send();

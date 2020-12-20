@@ -28,7 +28,7 @@
                         {% set action_translated = trans(action) %}
                         <div class="tab-pane fade{% if active == extension %} show active{% endif %}" id="list-{{ extension }}" role="tabpanel" aria-labelledby="list-{{ extension }}-list">
                             <p>{{ trans("Are you sure you wish to :action :extension?", {':action': action_translated, ':extension': extension}) }}</p>
-                            <p><a class="btn btn-success" href="{{ route('extension.' ~ action, {ext: extension, confirm: ""}) }}" role="button">{{ trans("I'm sure!") }}</a>
+                            <p><a class="btn btn-success" href="{{ route('extension.action', {ext: extension, action: action, confirm: ""}) }}" role="button">{{ trans("I'm sure!") }}</a>
                             <a class="btn btn-danger" href="{{ route('extension.view', {ext: extension}) }}" role="button">{{ trans("No, take me back!") }}</a></p>
                         </div>
                     {% else %}
@@ -41,9 +41,9 @@
                                 <p>{{ info.description|raw|nl2br }}</p>
                             {% endif %}
                             {% if info.installed and not info.required %}
-                                <p><a class="btn btn-danger" href="{{ route('extension.uninstall', {ext: extension}) }}" role="button">{{ trans('uninstall')|capitalize }}</a></p>
+                                <p><a class="btn btn-danger" href="{{ route('extension.action', {ext: extension, action: 'uninstall'}) }}" role="button">{{ trans('uninstall')|capitalize }}</a></p>
                             {% elseif not info.installed %}
-                                <p><a class="btn btn-primary" href="{{ route('extension.install', {ext: extension}) }}" role="button">{{ trans('install')|capitalize }}</a></p>
+                                <p><a class="btn btn-primary" href="{{ route('extension.action', {ext: extension, action: 'install'}) }}" role="button">{{ trans('install')|capitalize }}</a></p>
                             {% elseif info.required %}
                                 <p>{{ trans("This extension is required and cannot be uninstalled.") }}</p>
                             {% endif %}

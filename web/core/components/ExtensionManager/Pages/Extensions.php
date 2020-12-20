@@ -58,8 +58,6 @@ class Extensions extends Page {
   public function render() {
     parent::render();
 
-    d($this->getParameters());exit;
-
     $extensionManager = \Nick::ExtensionManager();
     $componentList = $extensionManager::getCoreComponents();
     $extensionList = array_merge($extensionManager::getContribExtensions(), $extensionManager::getCoreExtensions());
