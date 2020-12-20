@@ -2,7 +2,9 @@
 
 namespace Nick\Shield;
 
+use Nick\ArrayManipulation;
 use Nick\Event\EventListener;
+use Nick\Logger;
 use Nick\Settings;
 
 /**
@@ -19,15 +21,16 @@ class Events extends EventListener {
     $valid_passwords = Settings::get('shield') ?: ['nick' => 'nick'];
     $valid_users = array_keys($valid_passwords);
 
-    $user = $_SERVER['PHP_AUTH_USER'] ?? NULL;
-    $pass = $_SERVER['PHP_AUTH_PW'] ?? NULL;
+    $user = $_SERVER['PHP_AUTH_USER'] ?? '';
+    $pass = $_SERVER['PHP_AUTH_PW'] ?? '';
 
-    $validated = (in_array($user, $valid_users)) && ($pass == $valid_passwords[$user]);
+    $validated = ArrayManipulation::contains($valid_users, $user) && $pass == $valid_passwords[$user];
 
     if (!$validated) {
       header('WWW-Authenticate: Basic realm="Nick\'s restricted area."');
       header('HTTP/1.0 401 Unauthorized');
-      die ("Not authorized");
+      \Nick::Logger()->add(translate('HTTP Authentication failed.'),Logger::TYPE_WARNING, 'Shield');
+      die(translate('Not authorized'));
     }
   }
 
