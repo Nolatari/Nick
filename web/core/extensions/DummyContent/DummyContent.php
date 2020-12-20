@@ -4,8 +4,8 @@ namespace Nick\DummyContent;
 
 use Nick;
 use Nick\Article\Entity\Article;
-use Nick\ExtensionManager\ExtensionManager;
 use Nick\Entity\Entity;
+use Nick\ExtensionManager\ExtensionManager;
 use Nick\Page\Page;
 use Nick\Person\Entity\Person;
 use Nick\Route\RouteInterface;

@@ -2,16 +2,13 @@
 
 namespace Nick\Rest\Pages;
 
-use Nick\Entity\Entity;
 use Nick\Page\Page;
 use Nick\Rest\Entity\Client;
-use Nick\Rest\Rest;
 use Nick\Route\RouteInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Uid\Uuid;
 
 /**
  * Class Clients
+ *
  * @package Nick\Rest\Pages
  */
 class Clients extends Page {
@@ -40,7 +37,7 @@ class Clients extends Page {
   }
 
   /**
-   * @param array $parameters
+   * @param array          $parameters
    * @param RouteInterface $route
    *
    * @return string|void|NULL

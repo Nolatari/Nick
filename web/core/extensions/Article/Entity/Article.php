@@ -3,14 +3,13 @@
 namespace Nick\Article\Entity;
 
 use Nick\Entity\Entity;
-use Nick\Entity\EntityInterface;
 
 /**
  * Class Article
  *
  * @package Nick\Article
  */
-class Article Extends Entity implements ArticleInterface {
+class Article extends Entity implements ArticleInterface {
 
   /**
    * Article constructor.

@@ -1,8 +1,6 @@
 <?php
 
 use Nick\Language\Language;
-use Nick\Cache\CacheInterface;
-use Nick\Core;
 
 /**
  * Include Settings

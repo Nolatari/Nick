@@ -4,6 +4,7 @@ namespace Nick\Route;
 
 use Nick;
 use Nick\Database\Result;
+use Nick\Page\ElementInterface;
 use Nick\Page\PageInterface;
 use Nick\Settings;
 use Nick\StringManipulation;
@@ -90,9 +91,9 @@ class Route implements RouteInterface {
   }
 
   /**
-   * @return null|PageInterface
+   * @return null|PageInterface|ElementInterface
    */
-  public function getPageObject() {
+  public function getObject() {
     $controller = $this->getController();
     if (!class_exists($controller)) {
       return NULL;
@@ -100,7 +101,7 @@ class Route implements RouteInterface {
     $parameters = Url::getRefactoredParameters($this);
     /** @var PageInterface $object */
     $object = new $controller($parameters, $this);
-    if (!$object instanceof PageInterface) {
+    if (!$object instanceof PageInterface && !$object instanceof ElementInterface) {
       return NULL;
     }
 
@@ -108,13 +109,11 @@ class Route implements RouteInterface {
   }
 
   /**
-   * Renders route object (if it complies with PageInterface).
-   *
-   * @return mixed|null
+   * {@inheritDoc}
    */
   public function render() {
     $parameters = Url::getRefactoredParameters($this);
-    return \Nick::Cache()->getContentData($this->getPageObject()->getCacheOptions(), $this->controller, 'render', [], [$parameters, $this]);
+    return \Nick::Cache()->getContentData($this->getObject()->getCacheOptions(), $this->controller, 'render', [], [$parameters, $this]);
   }
 
   /**
@@ -147,12 +146,15 @@ class Route implements RouteInterface {
   /**
    * {@inheritDoc}
    */
-  public function setValues(string $route, string $controller, array $parameters, string $url, bool $rest = FALSE): self {
+  public function setValues(string $route, string $controller, array $parameters, string $url, bool $rest = FALSE, ?array $values = NULL): self {
     $this->route = $route;
     $this->controller = $controller;
     $this->parameters = $parameters;
     $this->url = $url;
     $this->rest = $rest;
+    if (!is_null($values)) {
+      $this->values = $values;
+    }
 
     return $this;
   }

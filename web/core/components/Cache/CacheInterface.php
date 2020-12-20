@@ -41,7 +41,7 @@ interface CacheInterface {
    * This is mainly for (nearly) permanently storing content data.
    * E.g.: content, user data, ..
    *
-   * @param array $cacheOptions
+   * @param array  $cacheOptions
    *                  The options for the content data (key, max-age, ..)
    * @param string $fallbackClass
    *                  The fallback class to use when there's no stored data yet

@@ -2,14 +2,19 @@
 
 namespace Nick\Page;
 
-use Nick\Route\RouteInterface;
-
 /**
  * Interface PageInterface
  *
  * @package Nick\Page
  */
 interface PageInterface {
+
+  /**
+   * Returns elements array
+   *
+   * @return array
+   */
+  public function getElements();
 
   /**
    * Returns permissions required to view this page

@@ -5,7 +5,6 @@ namespace Nick\Page;
 use Nick;
 use Nick\Database\Result;
 use Nick\Logger;
-use Nick\Page\ElementInterface;
 use Nick\Route\RouteInterface;
 
 /**

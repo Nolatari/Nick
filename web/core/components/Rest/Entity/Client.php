@@ -3,10 +3,10 @@
 namespace Nick\Rest\Entity;
 
 use Nick\Entity\Entity;
-use Symfony\Component\Uid\Uuid;
 
 /**
  * Class Client
+ *
  * @package Nick\Rest\Entity
  */
 class Client extends Entity implements ClientInterface {

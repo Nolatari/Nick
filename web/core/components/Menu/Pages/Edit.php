@@ -68,7 +68,7 @@ class Edit extends Page {
       return NULL;
     }
 
-    $form = $this->defaultForm((int) $this->get(2));
+    $form = $this->defaultForm((int)$this->get(2));
     if (!$form) {
       $result = '';
     } else {

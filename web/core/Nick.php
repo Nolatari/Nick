@@ -389,9 +389,9 @@ class Nick {
       $variables['logs'] = ['render' => static::Logger()->render()];
       $variables['current_route'] = $route->getRoute();
       $variables['page'] = [
-        'title' => $route->getPageObject()->get('title') ?? NULL,
-        'author' => $route->getPageObject()->get('author') ?? NULL,
-        'summary' => $route->getPageObject()->get('summary') ?? NULL,
+        'title' => $route->getObject()->get('title') ?? NULL,
+        'author' => $route->getObject()->get('author') ?? NULL,
+        'summary' => $route->getObject()->get('summary') ?? NULL,
       ];
       $header = static::PageManager($variables, $route)->getPageRender('header');
       $page = $route->render();

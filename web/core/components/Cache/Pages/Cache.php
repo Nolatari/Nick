@@ -9,7 +9,6 @@ use Nick\Route\RouteInterface;
 use Nick\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Cache

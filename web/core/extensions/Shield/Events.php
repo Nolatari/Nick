@@ -29,7 +29,7 @@ class Events extends EventListener {
     if (!$validated) {
       header('WWW-Authenticate: Basic realm="Nick\'s restricted area."');
       header('HTTP/1.0 401 Unauthorized');
-      \Nick::Logger()->add(translate('HTTP Authentication failed.'),Logger::TYPE_WARNING, 'Shield');
+      \Nick::Logger()->add(translate('HTTP Authentication failed.'), Logger::TYPE_WARNING, 'Shield');
       die(translate('Not authorized'));
     }
   }

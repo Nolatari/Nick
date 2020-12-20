@@ -2,11 +2,9 @@
 
 namespace Nick\Entity;
 
-use Exception;
 use Nick;
 use Nick\Database\Database;
 use Nick\Database\Result;
-use Nick\Event\Event;
 use Nick\Logger;
 use Nick\Person\Entity\Person;
 use Nick\StringManipulation;
@@ -35,8 +33,8 @@ class Entity implements EntityInterface {
   protected $fields = FALSE;
 
   /**
-   * @param int    $id
-   * @param bool   $massage
+   * @param int  $id
+   * @param bool $massage
    *
    * @return EntityInterface|bool
    *
@@ -179,7 +177,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
    */
   public static function intToStatus($int) {
     // Cast to int
-    $int = (int) $int;
+    $int = (int)$int;
     switch ($int) {
       case 0:
         return translate('Unpublished');
@@ -406,7 +404,7 @@ ADD PRIMARY KEY (`' . $auto_increment . '`);');
    * {@inheritDoc}
    */
   public function id() {
-    return (int) $this->getValue('id');
+    return (int)$this->getValue('id');
   }
 
   /**

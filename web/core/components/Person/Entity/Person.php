@@ -3,8 +3,6 @@
 namespace Nick\Person\Entity;
 
 use Nick\Entity\Entity;
-use Nick\Entity\EntityInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Class Person

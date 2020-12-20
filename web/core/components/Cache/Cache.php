@@ -5,7 +5,6 @@ namespace Nick\Cache;
 use Nick;
 use Nick\ArrayManipulation;
 use Nick\Database\Result;
-use Nick\Event\Event;
 use Nick\Logger;
 
 /**

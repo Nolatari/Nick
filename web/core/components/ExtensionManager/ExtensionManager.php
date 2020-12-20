@@ -73,8 +73,8 @@ class ExtensionManager {
   /**
    * Installs extension and uses InstallInterface instance class in namespace of extension
    *
-   * @param string     $extension
-   * @param string     $type
+   * @param string $extension
+   * @param string $type
    *
    * @return bool
    */
@@ -111,7 +111,7 @@ class ExtensionManager {
       if (!$installObject->condition()) {
         try {
           $installObject->doInstall();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
           \Nick::Logger()->add($e->getMessage());
         }
       }
@@ -137,7 +137,7 @@ class ExtensionManager {
       if (!$installObject->condition()) {
         try {
           $installObject->doInstall();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
           \Nick::Logger()->add($e->getMessage());
         }
       }

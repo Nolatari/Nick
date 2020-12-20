@@ -3,9 +3,6 @@
 namespace Nick\Cache;
 
 use Nick;
-use Nick\Database\Result;
-use Nick\Event\Event;
-use Nick\Logger;
 
 /**
  * Class Cache => used to store cache in database.

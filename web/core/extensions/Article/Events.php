@@ -32,7 +32,7 @@ class Events extends EventListener {
     if ($authors instanceof Result) {
       $authors_results = $authors->fetchAllAssoc();
       $ids = [];
-      foreach($authors_results as $item) {
+      foreach ($authors_results as $item) {
         $ids[] = $item['id'];
       }
       $articles->condition('owner', $ids, 'IN');

@@ -4,11 +4,10 @@ namespace Nick\Rest\Pages;
 
 use Nick\Page\Page;
 use Nick\Rest\Rest;
-use Nick\Route\RouteInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class Transmit
+ *
  * @package Nick\Rest\Pages
  */
 class Transmit extends Page {

@@ -34,7 +34,7 @@ class PageManager {
   /**
    * Returns cached/fresh page content.
    *
-   * @param string         $page_id
+   * @param string $page_id
    *
    * @return mixed
    */

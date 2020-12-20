@@ -3,7 +3,6 @@
 namespace Nick\Conversation\Entity;
 
 use Nick\Entity\Entity;
-use Nick\Entity\EntityInterface;
 use Nick\Person\Entity\Person;
 use Nick\Person\Entity\PersonInterface;
 
@@ -12,7 +11,7 @@ use Nick\Person\Entity\PersonInterface;
  *
  * @package Nick\Conversation
  */
-class Conversation Extends Entity implements ConversationInterface {
+class Conversation extends Entity implements ConversationInterface {
 
   /**
    * Conversation constructor.

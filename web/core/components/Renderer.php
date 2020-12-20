@@ -2,8 +2,6 @@
 
 namespace Nick;
 
-use Nick;
-use Nick\Person\Entity\Person;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -156,11 +154,7 @@ class Renderer {
   protected function getTemplate() {
     try {
       return $this->getTwig()->load($this->template . '.html.twig');
-    } catch (LoaderError $e) {
-      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
-    } catch (RuntimeError $e) {
-      \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
-    } catch (SyntaxError $e) {
+    } catch (LoaderError | RuntimeError | SyntaxError $e) {
       \Nick::Logger()->add($e->getMessage(), Logger::TYPE_FAILURE, 'Renderer');
     }
     return FALSE;

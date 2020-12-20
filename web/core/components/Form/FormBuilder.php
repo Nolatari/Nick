@@ -3,7 +3,6 @@
 namespace Nick\Form;
 
 use Nick;
-use Nick\Event\Event;
 use Nick\Form\FormElements\Hidden;
 use Nick\Url;
 

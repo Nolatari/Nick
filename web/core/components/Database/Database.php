@@ -107,7 +107,7 @@ class Database {
    * Static escape function
    *
    * @param mysqli $connection
-   * @param mixed $value
+   * @param mixed  $value
    *
    * @return string
    */
@@ -129,7 +129,7 @@ class Database {
   public static function addQuotationMarks($value): string {
     if (!is_null($value)) {
       // Cast value to string first, as integers could be passed
-      $value = (string) $value;
+      $value = (string)$value;
       if (substr($value, 0, 1) !== "'" && substr($value, -1, 1) !== "'") {
         return "'" . $value . "'";
       }
@@ -219,11 +219,11 @@ class Database {
     if ($exists) {
       // If it exists, modify column
       $query = \Nick::Database()->query('ALTER TABLE ' . $table
-        . ' MODIFY COLUMN ' .  \Nick::Database()::createFieldQuery($field, $options));
+        . ' MODIFY COLUMN ' . \Nick::Database()::createFieldQuery($field, $options));
     } else {
       // If it doesn't exist, add column
       $query = \Nick::Database()->query('ALTER TABLE ' . $table
-        . ' ADD ' .  \Nick::Database()::createFieldQuery($field, $options));
+        . ' ADD ' . \Nick::Database()::createFieldQuery($field, $options));
     }
 
     return $query;
@@ -239,7 +239,7 @@ class Database {
    */
   public function removeField(string $table, string $field): Query {
     return \Nick::Database()->query('ALTER TABLE ' . $table
-    . ' DROP COLUMN' . $field);
+      . ' DROP COLUMN' . $field);
   }
 
   /**

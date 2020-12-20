@@ -54,9 +54,9 @@ class Select extends Database {
   /**
    * condition method
    *
-   * @param string        $field
-   * @param null|string   $value
-   * @param string        $operator
+   * @param string      $field
+   * @param null|string $value
+   * @param string      $operator
    *
    * @return self
    */
@@ -154,7 +154,7 @@ class Select extends Database {
       }
       if (strtoupper($condition['operator']) === 'LIKE') {
         $conditions .= $condition['field'] . ' ' . $condition['operator'] . ' ' . self::addQuotationMarks(self::Cleanse($this->database, '%' . $condition['value'] . '%'));
-      } elseif(strtoupper($condition['operator']) === 'IN') {
+      } elseif (strtoupper($condition['operator']) === 'IN') {
         $conditions .= $condition['field'] . ' ' . $condition['operator'] . ' (' . implode(',', $condition['value']) . ')';
       } else {
         $conditions .= $condition['field'] . ' ' . $condition['operator'] . ' ' . self::addQuotationMarks(self::Cleanse($this->database, $condition['value']));

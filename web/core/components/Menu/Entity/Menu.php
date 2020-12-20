@@ -3,7 +3,6 @@
 namespace Nick\Menu\Entity;
 
 use Nick\Entity\Entity;
-use Nick\Entity\EntityInterface;
 
 /**
  * Class Article

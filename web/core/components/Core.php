@@ -3,7 +3,6 @@
 namespace Nick;
 
 use Exception;
-use Nick;
 use Nick\Cache\Cache;
 use Nick\Cache\CacheInterface;
 
@@ -79,7 +78,7 @@ class Core {
    * Returns environment variable
    *
    * @param string $key
-   * @param bool $allow_all
+   * @param bool   $allow_all
    *
    * @return mixed
    */

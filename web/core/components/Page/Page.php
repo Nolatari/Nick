@@ -2,11 +2,9 @@
 
 namespace Nick\Page;
 
-use Nick\Event\Event;
 use Nick\Route\RouteInterface;
 use Nick\StringManipulation;
 use Nick\Translation\StringTranslation;
-use Nick\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -52,7 +50,7 @@ class Page implements PageInterface {
   }
 
   /**
-   * @return array
+   * {@inheritDoc}
    */
   public function getElements(): array {
     return $this->elements;
@@ -133,6 +131,8 @@ class Page implements PageInterface {
   }
 
   /**
+   * Sets parameter
+   *
    * @param string $key
    * @param string $value
    *
@@ -156,6 +156,8 @@ class Page implements PageInterface {
   }
 
   /**
+   * Sets route object
+   *
    * @param RouteInterface $route
    *
    * @return self
@@ -166,6 +168,8 @@ class Page implements PageInterface {
   }
 
   /**
+   * Returns route object
+   *
    * @return RouteInterface
    */
   protected function getRoute(): RouteInterface {

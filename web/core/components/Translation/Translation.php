@@ -4,7 +4,6 @@ namespace Nick\Translation;
 
 use Nick;
 use Nick\Database\Result;
-use Nick\Event\Event;
 use Nick\Language\LanguageManager;
 use Nick\StringManipulation;
 

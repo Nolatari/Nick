@@ -2,8 +2,6 @@
 
 namespace Nick;
 
-use Nick;
-
 /**
  * Class Theme
  *

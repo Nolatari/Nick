@@ -3,7 +3,6 @@
 namespace Nick\File\Entity;
 
 use Nick\Entity\Entity;
-use Nick\Entity\EntityInterface;
 
 /**
  * Class File

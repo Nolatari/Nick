@@ -45,10 +45,7 @@ class Content extends Page {
       return '';
     }
 
-    return \Nick::Renderer()
-      ->setType()
-      ->setTemplate('content')
-      ->render($this->getParameters());
+    return $this->getRoute()->render();
   }
 
 }

@@ -3,7 +3,6 @@
 namespace Nick\Config\Pages;
 
 use Nick;
-use Nick\Config\Form\AppearanceSettingsForm;
 use Nick\Config\Form\SiteSettingsForm;
 use Nick\Form\Form;
 use Nick\Form\FormInterface;

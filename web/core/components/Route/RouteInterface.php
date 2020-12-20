@@ -2,6 +2,8 @@
 
 namespace Nick\Route;
 
+use Nick\Page\PageInterface;
+
 /**
  * Interface RouteInterface
  *
@@ -60,5 +62,19 @@ interface RouteInterface {
    * @return string|string[]
    */
   public function getUri();
+
+  /**
+   * Renders route object (if it complies with PageInterface).
+   *
+   * @return mixed|null
+   */
+  public function render();
+
+  /**
+   * Returns the page/element object
+   *
+   * @return null|PageInterface
+   */
+  public function getObject();
 
 }

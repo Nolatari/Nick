@@ -27,7 +27,8 @@ class Redis extends CacheBase {
     }
     $client = RedisAdapter::createConnection('redis://' . $settings['redis']['host'] . ':' . $settings['redis']['port'], $settings['redis']['config']);
     $this->redis = new RedisTagAwareAdapter($client);
-    d($this->redis);exit;
+    d($this->redis);
+    exit;
   }
 
   /**

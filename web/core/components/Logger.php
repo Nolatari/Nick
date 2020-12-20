@@ -4,7 +4,6 @@ namespace Nick;
 
 use Nick;
 use Nick\Database\Database;
-use Nick\Database\Query;
 use Nick\Person\Entity\Person;
 use Nick\Translation\StringTranslation;
 
@@ -47,11 +46,11 @@ class Logger {
   }
 
   /**
-   * @param        $message
+   * @param             $message
    *    The message the log should include, should be translated beforehand!
-   * @param int    $type
+   * @param int         $type
    *    The type of this log (constants in Logger class)
-   * @param string $category
+   * @param string      $category
    *    The category this log belongs to
    * @param string|null $trace
    *    The backtrace in string format.
@@ -119,7 +118,7 @@ class Logger {
    */
   public function getLogs($massage = FALSE) {
     $logs = $this->database->select('logs')
-                            ->orderBy('id', 'DESC');
+      ->orderBy('id', 'DESC');
 
     if (!$logs_result = $logs->execute()) {
       return FALSE;
@@ -129,7 +128,7 @@ class Logger {
       $logs = $logs_result->fetchAllAssoc();
       foreach ($logs as &$log) {
         /** @var Nick\Person\Entity\PersonInterface $owner */
-        $owner = Person::load((int) $log['owner']);
+        $owner = Person::load((int)$log['owner']);
         if ($owner !== FALSE) {
           $owner = $owner->getName();
         } else {

@@ -3,7 +3,6 @@
 namespace Nick\Entity\Pages;
 
 use Nick;
-use Nick\Manifest\ManifestRenderer;
 use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 use Nick\Url;

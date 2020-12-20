@@ -3,14 +3,13 @@
 namespace Nick\Conversation\Entity;
 
 use Nick\Entity\Entity;
-use Nick\Entity\EntityInterface;
 
 /**
  * Class Message
  *
  * @package Nick\Message
  */
-class Message Extends Entity implements MessageInterface {
+class Message extends Entity implements MessageInterface {
 
   /**
    * Message constructor.

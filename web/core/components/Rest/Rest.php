@@ -145,6 +145,4 @@ class Rest {
     static::data($data->getValues(), 200, 'Data was saved to the database');
   }
 
-
-
 }

@@ -3,10 +3,8 @@
 namespace Nick\DummyContent;
 
 use Nick;
-use Nick\ExtensionManager\InstallInterface;
 use Nick\ExtensionManager\UninstallInterface;
 use Nick\Menu\MenuInterface;
-use Nick\Page\PageManager;
 
 /**
  * Class Uninstall
