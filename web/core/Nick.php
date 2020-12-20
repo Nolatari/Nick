@@ -386,7 +386,10 @@ class Nick {
 
     try {
       $variables = [];
-      $variables['logs'] = ['render' => static::Logger()->render()];
+      $variables['elements'] = [];
+      $variables['elements']['navbar'] = [];
+      $variables['elements']['page_top'] = [];
+      $variables['elements']['page_top']['logs'] = static::Logger()->render();
       $variables['current_route'] = $route->getRoute();
       $variables['page'] = [
         'title' => $route->getObject()->get('title') ?? NULL,

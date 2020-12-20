@@ -1,4 +1,4 @@
-## Specific entity ones
+## Specific entity routes
 entity.view:
   url: '/entity/{type}/{eid}'
   controller: '\Nick\Entity\Pages\View'
@@ -28,7 +28,7 @@ entity.overview:
   parameters:
     type: 1
 
-## General Entity ones
+## General Entity routes
 entity.update:
   url: '/entity/update'
   controller: '\Nick\Entity\Pages\Update'

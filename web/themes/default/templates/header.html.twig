@@ -88,8 +88,9 @@
                                 </form>
                             </div>
                         </li>
-                        {{ languages|raw }}
-                        {{ conversations|raw }}
+                        {% for element in elements.navbar %}
+                            {{ element(element) }}
+                        {% endfor %}
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
@@ -174,5 +175,6 @@
                 </nav>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    {{ breadcrumb|raw }}
-                    {{ logs.render|raw }}
+                    {% for element in elements.page_top %}
+                        {{ element(element) }}
+                    {% endfor %}

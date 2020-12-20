@@ -1,5 +1,5 @@
 menu.edit:
-  url: '/menu/{id}/edit'
+  url: '/menu/{eid}/edit'
   controller: '\Nick\Menu\Pages\Edit'
   parameters:
-    id: 1
+    eid: 1

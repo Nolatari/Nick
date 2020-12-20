@@ -18,10 +18,10 @@ logs.clear:
   url: '/logs/clear'
   controller: '\Nick\Page\Pages\Logs'
 logs.view:
-  url: '/logs/view/{id}'
+  url: '/logs/view/{eid}'
   controller: '\Nick\Page\Pages\Log'
   parameters:
-    id: 3
+    eid: 3
 
 # Login
 login:

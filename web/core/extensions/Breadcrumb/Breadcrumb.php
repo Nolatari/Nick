@@ -42,7 +42,7 @@ class Breadcrumb extends EventListener {
       ];
     }
 
-    $variables['breadcrumb'] = \Nick::Renderer()
+    $variables['elements']['page_top']['breadcrumb'] = \Nick::Renderer()
       ->setType('extension.Breadcrumb')
       ->setTemplate('breadcrumb')
       ->render(['items' => $items]);

@@ -79,8 +79,8 @@ class Delete extends Page {
       $entity = $entityObject::load($parameters[2]);
 
       $content = 'Are you sure you wish to delete this ' . $entity->getTitle() . '? <br />';
-      $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(\Nick::Route()->load('entity.delete')->setValue('id', $parameters[2])->setValue('confirm', '')) . '">Yes, I\'m sure</a> ';
-      $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(\Nick::Route()->load('entity.view')->setValue('id', $parameters[2])) . '">No, take me back</a>';
+      $content .= '<a class="btn btn-primary" href="' . Url::fromRoute(\Nick::Route()->load('entity.delete')->setValue('eid', $parameters[2])->setValue('confirm', '')) . '">Yes, I\'m sure</a> ';
+      $content .= '<a class="btn btn-danger" href="' . Url::fromRoute(\Nick::Route()->load('entity.view')->setValue('eid', $parameters[2])) . '">No, take me back</a>';
     }
 
     return \Nick::Renderer()

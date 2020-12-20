@@ -18,7 +18,7 @@
                         {% for field in fields %}
                             {% if not hidden[field] %}
                                 {% if field == 'title' %}
-                                    <td><a href="{{ route('entity.view', {'id': data.id, 'type': type}) }}">{{ data[field]|raw }}</a></td>
+                                    <td><a href="{{ route('entity.view', {eid: data.id, type: type}) }}">{{ data[field]|raw }}</a></td>
                                 {% else %}
                                     <td>{{ data[field]|raw }}</td>
                                 {% endif %}

@@ -21,7 +21,7 @@ class Events extends EventListener {
 
     $languages = \Nick::LanguageManager()->getAvailableLanguages();
 
-    $variables['languages'] = \Nick::Renderer()
+    $variables['elements']['navbar']['languages'] = \Nick::Renderer()
       ->setType('core.Language')
       ->setTemplate('language-picker')
       ->render([

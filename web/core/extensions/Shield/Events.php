@@ -26,6 +26,10 @@ class Events extends EventListener {
 
     $validated = ArrayManipulation::contains($valid_users, $user) && $pass == $valid_passwords[$user];
 
+    if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
+      return;
+    }
+
     if (!$validated) {
       header('WWW-Authenticate: Basic realm="Nick\'s restricted area."');
       header('HTTP/1.0 401 Unauthorized');
