@@ -3,22 +3,22 @@
 namespace Nick\Page\Elements;
 
 use Nick;
-use Nick\Page\Element;
+use Nick\Page\Page;
 use Nick\Route\RouteInterface;
 
 /**
- * Class Header
+ * Class Content
  *
  * @package Nick\Page\Elements
  */
-class Header extends Element {
+class Content extends Page {
 
   /**
-   * Header constructor.
+   * Content constructor.
    */
   public function __construct(array &$parameters, RouteInterface $route) {
     $this->setParameters([
-      'id' => 'header',
+      'id' => 'content',
     ]);
     parent::__construct($parameters, $route);
   }
@@ -28,10 +28,10 @@ class Header extends Element {
    */
   protected function setCacheOptions($parameters = []): self {
     $this->caching = [
-      'key' => 'element.header',
+      'key' => 'element.content',
       'context' => 'element',
-      'tags' => ['element:header'],
-      'max-age' => 900,
+      'tags' => ['element:content'],
+      'max-age' => 3600,
     ];
 
     return $this;
@@ -47,8 +47,8 @@ class Header extends Element {
 
     return \Nick::Renderer()
       ->setType()
-      ->setTemplate('header')
-      ->render($parameters ?? NULL);
+      ->setTemplate('content')
+      ->render($this->getParameters());
   }
 
 }

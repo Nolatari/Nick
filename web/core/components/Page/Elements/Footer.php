@@ -9,7 +9,7 @@ use Nick\Route\RouteInterface;
 /**
  * Class Footer
  *
- * @package Nick\Elements
+ * @package Nick\Page\Elements
  */
 class Footer extends Page {
 
@@ -41,10 +41,14 @@ class Footer extends Page {
    * {@inheritDoc}
    */
   public function render() {
+    if (parent::render() === NULL) {
+      return '';
+    }
+
     return \Nick::Renderer()
       ->setType()
       ->setTemplate('footer')
-      ->render();
+      ->render($this->getParameters());
   }
 
 }

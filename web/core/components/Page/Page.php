@@ -10,7 +10,7 @@ use Nick\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
- * Class Dashboard
+ * Class Page
  *
  * @package Nick\Page
  */

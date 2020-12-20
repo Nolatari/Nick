@@ -23,6 +23,11 @@ class Page extends PageBase {
       'summary' => $this->translate('Welcome to your Nick Dashboard!'),
     ]);
     parent::__construct($parameters, $route);
+
+    $elementManager = \Nick::ElementManager();
+    $this->addElement($elementManager->getElementObject('header'));
+    //$this->addElement($elementManager->getElementObject('content'));
+    $this->addElement($elementManager->getElementObject('footer'));
   }
 
   /**
@@ -44,12 +49,6 @@ class Page extends PageBase {
    */
   public function render() {
     parent::render();
-
-    $elementManager = \Nick::ElementManager();
-    $this->addElement($elementManager->getElementObject('header'));
-    // TODO: Turn this into the current route's element
-    //$this->addElement($elementManager->getElementObject('header'));
-    $this->addElement($elementManager->getElementObject('footer'));
 
     d($this->getElements());
     d($this->getRenderedElements());
